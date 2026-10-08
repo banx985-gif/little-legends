@@ -340,7 +340,8 @@ export class PipController {
     const item=this.cosmetic;if(!item)return;
     if(onArt){const id=artMap()?.cosmetics?.[item.id];const slot=id?(artMap()?.cosmeticSlots?.[id]??'head'):null;
       if(slot==='head'&&drawArt(ctx,id,0,-62,220,170,{anchor:'bottom'}))return;
-      if(slot==='eyes'&&drawArt(ctx,id,0,12,210,90))return;}
+      if(slot==='eyes'&&drawArt(ctx,id,0,12,210,90))return;
+      if(slot==='none')return;} // outfits, scarves, boots: shown beside Pip in the Collection, not drawn on him
     const map={red:'#e94d55',blue:'#4d8ee8',yellow:'#f7cf4f',green:'#66bd62',orange:'#f39a45',purple:'#8b69db',pink:'#ec7ea2',cream:'#fff3dc'};
     const color=map[item.color]??item.color??'#ffd56f';const style=Number(item.style)||0;
     ctx.save();ctx.fillStyle=color;ctx.strokeStyle='#4d365f';ctx.lineWidth=6;

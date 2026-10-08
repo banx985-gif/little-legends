@@ -3,9 +3,9 @@ import { PipController } from '../characters/PipController.js';
 import { drawArt, lookupArt, fxArt, hatchTheme, hatchArtIds } from '../core/art.js';
 import { HatchSequence } from '../fx/HatchSequence.js';
 
-const TABS=[['creatures','FRIENDS'],['cosmetics','PIP LOOKS'],['decorations','DECOR'],['vehicles','RIDES'],['dragons','DRAGONS']];
-// Five tabs above the card grid (which ends at x≈1405; the side panel starts at 1450).
-const tabX=i=>260+i*238,TAB_W=224;
+// Tabs above the card grid (which ends at x≈1405; the side panel starts at 1450). Seasons are decorations with season set.
+const TABS=[['creatures','FRIENDS'],['cosmetics','LOOKS'],['decorations','DECOR'],['buildings','HOUSES'],['seasons','SEASONS'],['vehicles','RIDES'],['dragons','DRAGONS']];
+const tabX=i=>250+i*172,TAB_W=164;
 const COLORS={red:'#e94d55',blue:'#4d8ee8',yellow:'#f7cf4f',green:'#66bd62',orange:'#f39a45',purple:'#8b69db',pink:'#ec7ea2',cream:'#fff3dc'};
 
 export class CollectionScene {
@@ -14,22 +14,31 @@ export class CollectionScene {
   makePip(){const state=this.game.save?.getProfileState?.();const id=state?.pip?.outfit?.cosmeticId;const cosmetic=id?this.game.rewards?.get?.(id):null;this.pip=new PipController({x:1665,y:410,scale:.48,cosmetic});}
   update(dt){this.t=(this.t??0)+dt;this.pip?.update(dt);this.hatch?.update(dt);if(this.hatch?.finished&&this.hatch.t>4.2)this.hatch=null;this.bumpT=Math.max(0,this.bumpT-dt);this.noticeT=Math.max(0,this.noticeT-dt);}
   // Dragons are rare: earned by finishing a whole world, never bought with stars.
-  items(){if(this.tab==='dragons')return (this.game.rewards?.list?.()??[]).filter(r=>r.rare);return this.game.rewards?.listCatalog?.(this.tab)??[];}
+  items(){
+    if(this.tab==='dragons')return (this.game.rewards?.list?.()??[]).filter(r=>r.rare);
+    if(this.tab==='seasons')return (this.game.rewards?.listCatalog?.('decorations')??[]).filter(r=>r.season);
+    const list=this.game.rewards?.listCatalog?.(this.tab)??[];return this.tab==='decorations'?list.filter(r=>!r.season):list;
+  }
   unlocked(id){return this.game.rewards?.isUnlocked?.(id)??false;}
   cards(){const items=this.items();const pages=Math.max(1,Math.ceil(items.length/8));this.page=Math.min(this.page,pages-1);return{items:items.slice(this.page*8,this.page*8+8),pages};}
   render(ctx){ctx.fillStyle='#6dd6ff';ctx.fillRect(0,0,1920,1080);ctx.fillStyle='#5b3b72';ctx.textAlign='center';ctx.font='900 58px system-ui';ctx.fillText('Discovery Collection',960,75);drawCandyButton(ctx,45,35,210,88,'BACK',this.pressed==='back','back');const stars=this.game.save?.getProfileState?.()?.discoveryStars??0;ctx.fillStyle='#fff7d0';ctx.beginPath();ctx.roundRect(1420,35,300,80,32);ctx.fill();const starIcon=drawArt(ctx,lookupArt('ui','star'),1462,75,58,58);ctx.fillStyle='#5b3b72';ctx.font='900 28px system-ui';ctx.fillText(starIcon?`${stars} STARS`:`★ ${stars} STARS`,starIcon?1590:1570,86);
-    TABS.forEach(([id,label],i)=>{const x=tabX(i);ctx.fillStyle=this.tab===id?'#fff2a8':'#ffffffbb';ctx.beginPath();ctx.roundRect(x,135,TAB_W,70,28);ctx.fill();const tabIcon=drawArt(ctx,lookupArt('ui',`tab_${id}`),x+38,170,54,54);ctx.fillStyle='#5b3b72';ctx.font='900 21px system-ui';ctx.fillText(label,tabIcon?x+138:x+TAB_W/2,179,tabIcon?150:TAB_W-16);});
+    TABS.forEach(([id,label],i)=>{const x=tabX(i);ctx.fillStyle=this.tab===id?'#fff2a8':'#ffffffbb';ctx.beginPath();ctx.roundRect(x,135,TAB_W,70,28);ctx.fill();const tabIcon=drawArt(ctx,lookupArt('ui',`tab_${id}`),x+30,170,44,44);ctx.fillStyle='#5b3b72';ctx.font='900 18px system-ui';ctx.fillText(label,tabIcon?x+100:x+TAB_W/2,177,tabIcon?104:TAB_W-12);});
     const {items,pages}=this.cards();items.forEach((item,i)=>this.renderCard(ctx,item,i));
     if(pages>1){drawCandyButton(ctx,690,930,220,82,'PREV',this.pressed==='prev','prev');drawCandyButton(ctx,1010,930,220,82,'NEXT',this.pressed==='next','next');ctx.fillStyle='#5b3b72';ctx.font='800 22px system-ui';ctx.fillText(`${this.page+1} / ${pages}`,960,980);}
-    ctx.fillStyle='#ffffffcc';ctx.beginPath();ctx.roundRect(1450,205,410,650,50);ctx.fill();if(!this.hatch?.render(ctx,1655,690,320))this.pip?.render(ctx);ctx.fillStyle='#5b3b72';ctx.font='900 27px system-ui';ctx.fillText(this.tab==='cosmetics'?'Tap an owned look to wear it':this.tab==='dragons'?'Rare dragons hatch when':'Earn stars in Little Missions',1655,760);ctx.font='700 21px system-ui';ctx.fillText(this.tab==='dragons'?'you finish a whole world.':'No purchases. Just play rewards.',1655,800);
+    ctx.fillStyle='#ffffffcc';ctx.beginPath();ctx.roundRect(1450,205,410,650,50);ctx.fill();if(!this.hatch?.render(ctx,1655,690,320)){drawArt(ctx,lookupArt('ui','podium'),1660,500,240,176);this.pip?.render(ctx);this.drawOutfitBadge(ctx);}ctx.fillStyle='#5b3b72';ctx.font='900 27px system-ui';ctx.fillText(this.tab==='cosmetics'?'Tap an owned look to wear it':this.tab==='dragons'?'Rare dragons hatch when':'Earn stars in Little Missions',1655,760);ctx.font='700 21px system-ui';ctx.fillText(this.tab==='dragons'?'you finish a whole world.':'No purchases. Just play rewards.',1655,800);
     if(this.notice&&this.noticeT>0){ctx.fillStyle='#fff7d0';ctx.beginPath();ctx.roundRect(560,840,800,70,30);ctx.fill();ctx.fillStyle='#5b3b72';ctx.font='800 24px system-ui';ctx.fillText(this.notice,960,885);}}
   renderCard(ctx,item,i){if(item.rare){this.renderDragonCard(ctx,item,i);return;}const col=i%4,row=Math.floor(i/4),x=260+col*295,y=270+row*275,w=250,h=235;const unlocked=this.unlocked(item.id),active=this.bump===item.id&&this.bumpT>0;ctx.save();ctx.translate(x+w/2,y+h/2);if(active)ctx.scale(1+Math.sin(this.bumpT*24)*.04,1+Math.sin(this.bumpT*24)*.04);ctx.translate(-x-w/2,-y-h/2);ctx.fillStyle=unlocked?'#fffdf0':'#d8d0e2';ctx.beginPath();ctx.roundRect(x,y,w,h,38);ctx.fill();const pictured=drawArt(ctx,lookupArt('rewards',item.id),x+w/2,y+90,190,135,{alpha:unlocked?1:.4});if(pictured&&!unlocked)drawArt(ctx,lookupArt('ui','lock'),x+w-40,y+38,54,54);
     const c=COLORS[item.color]??'#8b69db';if(!pictured){ctx.fillStyle=unlocked?c:'#9a91a3';ctx.beginPath();if(item.type==='creatures'){ctx.ellipse(x+w/2,y+82,55,42,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(x+w/2+38,y+48,30,0,Math.PI*2);ctx.fill();}else if(item.type==='vehicles'){ctx.roundRect(x+55,y+55,140,68,24);ctx.fill();ctx.fillStyle='#5b3b72';for(const dx of [75,175]){ctx.beginPath();ctx.arc(x+dx,y+132,20,0,Math.PI*2);ctx.fill();}}else if(item.type==='decorations'){ctx.beginPath();ctx.moveTo(x+125,y+38);ctx.lineTo(x+168,y+123);ctx.lineTo(x+82,y+123);ctx.closePath();ctx.fill();}else{ctx.beginPath();ctx.arc(x+125,y+86,54,Math.PI,Math.PI*2);ctx.lineTo(x+179,y+98);ctx.lineTo(x+71,y+98);ctx.closePath();ctx.fill();}}ctx.fillStyle='#5b3b72';ctx.textAlign='center';ctx.font='900 18px system-ui';ctx.fillText(item.name.slice(0,22),x+w/2,y+174);ctx.font='700 16px system-ui';if(unlocked){const equipped=this.game.save?.getProfileState?.()?.pip?.outfit?.cosmeticId===item.id;ctx.fillText(item.type==='cosmetics'?(equipped?'WEARING':'TAP TO WEAR'):'OWNED • TAP ME',x+w/2,y+207);}else ctx.fillText(`${item.starCost??2} ★ TO DISCOVER`,x+w/2,y+207);ctx.restore();}
+  // Outfits Pip can't wear on his drawn body (data/art_map.json cosmeticSlots 'none') show beside him instead.
+  drawOutfitBadge(ctx){const id=this.game.save?.getProfileState?.()?.pip?.outfit?.cosmeticId;const pic=lookupArt('cosmetics',id);if(!pic||(lookupArt('cosmeticSlots',pic)??'head')!=='none')return;
+    ctx.fillStyle='#fffdf0';ctx.beginPath();ctx.arc(1790,300,62,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#f2b632';ctx.lineWidth=6;ctx.stroke();drawArt(ctx,pic,1790,300,96,96);}
   // Rare dragon: gold frame and a slow, soft star glow (no flashing). Not yet found: a faint shadow and how to earn it.
   renderDragonCard(ctx,item,i){const col=i%4,row=Math.floor(i/4),x=260+col*295,y=270+row*275,w=250,h=235;const unlocked=this.unlocked(item.id),calm=globalThis.__LL_REDUCED_MOTION;
     ctx.save();ctx.fillStyle=unlocked?'#fff8dc':'#e2dbea';ctx.beginPath();ctx.roundRect(x,y,w,h,38);ctx.fill();ctx.strokeStyle=unlocked?'#f2b632':'#c2b6cf';ctx.lineWidth=unlocked?9:5;ctx.stroke();
     if(unlocked){const glow=fxArt('rareGlow');drawArt(ctx,glow?.id,x+w/2,y+92,200,170,{alpha:calm?.55:.45+Math.sin((this.t??0)*1.1+i)*.15,blend:glow?.blend});}
-    const pictured=drawArt(ctx,lookupArt('rewards',item.id),x+w/2,y+92,180,140,{alpha:unlocked?1:.22});if(!unlocked)drawArt(ctx,lookupArt('ui','lock'),x+w-40,y+38,50,50);
+    // Not found yet: its mystery egg (data/art_map.json dragonEggs), or a faint shadow of the dragon.
+    const egg=!unlocked&&drawArt(ctx,lookupArt('dragonEggs',item.id),x+w/2,y+92,120,140);
+    const pictured=egg||drawArt(ctx,lookupArt('rewards',item.id),x+w/2,y+92,180,140,{alpha:unlocked?1:.22});if(!unlocked)drawArt(ctx,lookupArt('ui','lock'),x+w-40,y+38,50,50);
     if(!pictured){ctx.fillStyle=unlocked?'#f2b632':'#b7aac4';ctx.beginPath();ctx.ellipse(x+w/2,y+90,62,48,0,0,Math.PI*2);ctx.fill();}
     ctx.fillStyle='#5b3b72';ctx.textAlign='center';ctx.font='900 19px system-ui';ctx.fillText(item.name,x+w/2,y+180,w-20);ctx.font='700 15px system-ui';ctx.fillText(unlocked?'RARE • TAP ME':(item.unlockHint??'Finish a whole world'),x+w/2,y+210,w-24);ctx.restore();}
   controlAt(e){if(e.x>=45&&e.x<=255&&e.y>=35&&e.y<=123)return'back';for(let i=0;i<TABS.length;i++){const x=tabX(i);if(e.x>=x&&e.x<=x+TAB_W&&e.y>=135&&e.y<=205)return`tab:${TABS[i][0]}`;}const {items,pages}=this.cards();for(let i=0;i<items.length;i++){const x=260+(i%4)*295,y=270+Math.floor(i/4)*275;if(e.x>=x&&e.x<=x+250&&e.y>=y&&e.y<=y+235)return`item:${items[i].id}`;}if(pages>1&&e.y>=930&&e.y<=1012){if(e.x>=690&&e.x<=910)return'prev';if(e.x>=1010&&e.x<=1230)return'next';}return null;}

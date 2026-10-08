@@ -168,7 +168,13 @@ async function artIdsForScene(game, name, data = {}) {
   if (!map) return [];
   const ids = [...(map.preload?.starter ?? [])];
   for (const id of map.preload?.scenes?.[name] ?? []) {
-    if (id === '@rewards') ids.push(...Object.values(map.rewards ?? {}));
+    // '@rewards': what the child owns, the first page of friends and the dragons. Other pages load as they are viewed.
+    if (id === '@rewards') {
+      const owned = Object.values(game.save?.getProfileState?.()?.unlocks ?? {}).flat();
+      const list = game.rewards?.list?.() ?? [];
+      const firstPage = list.filter(r => r.catalog && r.type === 'creatures').slice(0, 8).map(r => r.id);
+      ids.push(...[...owned, ...firstPage, ...list.filter(r => r.rare).map(r => r.id)].map(r => map.rewards?.[r]).filter(Boolean));
+    }
     else ids.push(id);
   }
   if (name === 'island') {

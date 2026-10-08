@@ -8410,6 +8410,826 @@
           "size": 175
         }
       ]
+    },
+    {
+      "id": "m17_meet_new_animals",
+      "type": "TapRequestedObject",
+      "world": "animal",
+      "theme": "forest",
+      "skills": [
+        "ANIMAL_NAMES"
+      ],
+      "pipBubble": "New friends!",
+      "instructionText": "Find the {target}!",
+      "voiceText": "New animals are visiting! Find the elephant first.",
+      "completeDetail": "New animal friends!",
+      "targets": [
+        {
+          "kind": "animal",
+          "animalType": "elephant"
+        },
+        {
+          "kind": "animal",
+          "animalType": "giraffe"
+        },
+        {
+          "kind": "animal",
+          "animalType": "panda"
+        }
+      ],
+      "objects": [
+        {
+          "kind": "animal",
+          "animalType": "giraffe",
+          "label": "Giraffe",
+          "x": 560,
+          "y": 680,
+          "size": 190,
+          "color": "yellow"
+        },
+        {
+          "kind": "animal",
+          "animalType": "panda",
+          "label": "Panda",
+          "x": 900,
+          "y": 650,
+          "size": 190,
+          "color": "green"
+        },
+        {
+          "kind": "animal",
+          "animalType": "zebra",
+          "label": "Zebra",
+          "x": 1240,
+          "y": 690,
+          "size": 190,
+          "color": "blue"
+        },
+        {
+          "kind": "animal",
+          "animalType": "elephant",
+          "label": "Elephant",
+          "x": 1570,
+          "y": 650,
+          "size": 190,
+          "color": "purple"
+        }
+      ]
+    },
+    {
+      "id": "m17_whose_footprints",
+      "type": "MatchPairs",
+      "world": "animal",
+      "theme": "forest",
+      "skills": [
+        "BODY_FEATURES",
+        "ANIMAL_NAMES"
+      ],
+      "pipBubble": "Whose footprints?",
+      "instructionText": "Whose footprints?",
+      "voiceText": "Tap the footprints, then the animal that made them.",
+      "subtitle": "Tap footprints, then the animal",
+      "completeDetail": "Super tracker!",
+      "pairs": [
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "track_bear",
+              "id": "tb",
+              "size": 170
+            },
+            {
+              "id": "bear",
+              "kind": "animal",
+              "animalType": "bear",
+              "label": "Bear",
+              "size": 170,
+              "color": "orange"
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "track_duck",
+              "id": "td",
+              "size": 170
+            },
+            {
+              "id": "duck",
+              "kind": "animal",
+              "animalType": "duck",
+              "label": "Duck",
+              "size": 170,
+              "color": "yellow"
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "track_fox",
+              "id": "tf",
+              "size": 170
+            },
+            {
+              "id": "fox",
+              "kind": "animal",
+              "animalType": "fox",
+              "label": "Fox",
+              "size": 170,
+              "color": "orange"
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "feather",
+              "id": "fe",
+              "size": 170
+            },
+            {
+              "id": "owl",
+              "kind": "animal",
+              "animalType": "owl",
+              "label": "Owl",
+              "size": 170,
+              "color": "purple"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "m20_name_the_feeling",
+      "type": "TapRequestedObject",
+      "world": "life",
+      "theme": "life",
+      "skills": [
+        "FEELINGS"
+      ],
+      "pipBubble": "Which face?",
+      "instructionText": "Find the {target} face!",
+      "voiceText": "Faces show feelings. Find the happy face first.",
+      "completeDetail": "You know your feelings!",
+      "targets": [
+        {
+          "matchKey": "thing",
+          "matchValue": "face_happy",
+          "value": "happy"
+        },
+        {
+          "matchKey": "thing",
+          "matchValue": "face_sad",
+          "value": "sad"
+        },
+        {
+          "matchKey": "thing",
+          "matchValue": "face_sleepy",
+          "value": "sleepy"
+        }
+      ],
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "face_sleepy",
+          "x": 560,
+          "y": 680,
+          "size": 185
+        },
+        {
+          "kind": "thing",
+          "thing": "face_happy",
+          "x": 880,
+          "y": 650,
+          "size": 185
+        },
+        {
+          "kind": "thing",
+          "thing": "face_thinking",
+          "x": 1200,
+          "y": 690,
+          "size": 185
+        },
+        {
+          "kind": "thing",
+          "thing": "face_sad",
+          "x": 1520,
+          "y": 650,
+          "size": 185
+        }
+      ]
+    },
+    {
+      "id": "m20_bathroom_things",
+      "type": "TapRequestedObject",
+      "world": "life",
+      "theme": "life",
+      "skills": [
+        "HAND_WASHING",
+        "VOCABULARY"
+      ],
+      "pipBubble": "Bathroom time!",
+      "instructionText": "Find the {target}!",
+      "voiceText": "Bella needs her bathroom things. Find the soap first.",
+      "completeDetail": "All ready!",
+      "targets": [
+        {
+          "matchKey": "thing",
+          "matchValue": "soap",
+          "value": "soap"
+        },
+        {
+          "matchKey": "thing",
+          "matchValue": "towel",
+          "value": "towel"
+        },
+        {
+          "matchKey": "thing",
+          "matchValue": "toothpaste",
+          "value": "toothpaste"
+        }
+      ],
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "towel",
+          "x": 560,
+          "y": 680,
+          "size": 180
+        },
+        {
+          "kind": "thing",
+          "thing": "hairbrush",
+          "x": 860,
+          "y": 650,
+          "size": 180
+        },
+        {
+          "kind": "thing",
+          "thing": "soap",
+          "x": 1160,
+          "y": 690,
+          "size": 180
+        },
+        {
+          "kind": "thing",
+          "thing": "toothpaste",
+          "x": 1460,
+          "y": 650,
+          "size": 180
+        },
+        {
+          "kind": "thing",
+          "thing": "sink",
+          "x": 1720,
+          "y": 760,
+          "size": 170
+        }
+      ]
+    },
+    {
+      "id": "m20_weather_snow",
+      "type": "StoryChoice",
+      "world": "life",
+      "theme": "life",
+      "skills": [
+        "WEATHER_CLOTHES"
+      ],
+      "pipBubble": "It is snowing!",
+      "instructionText": "What should Bella wear?",
+      "voiceText": "It is snowy and cold. What should Bella wear on her feet?",
+      "storyText": "It is snowy and cold.",
+      "completeDetail": "Warm feet!",
+      "choices": [
+        {
+          "kind": "thing",
+          "thing": "sunglasses",
+          "id": "sunglasses",
+          "label": "Sunglasses",
+          "x": 620,
+          "y": 700,
+          "size": 185
+        },
+        {
+          "kind": "thing",
+          "thing": "snow_boots",
+          "id": "boots",
+          "label": "Snow boots",
+          "x": 960,
+          "y": 700,
+          "size": 185,
+          "correct": true,
+          "resultText": "Toasty toes!"
+        },
+        {
+          "kind": "thing",
+          "thing": "shorts",
+          "id": "shorts",
+          "label": "Shorts",
+          "x": 1300,
+          "y": 700,
+          "size": 185
+        }
+      ]
+    },
+    {
+      "id": "m20_hot_or_cold",
+      "type": "Categorise",
+      "world": "life",
+      "theme": "life",
+      "skills": [
+        "WEATHER_CLOTHES"
+      ],
+      "pipBubble": "Hot or cold?",
+      "instructionText": "Hot day or cold day?",
+      "voiceText": "Sunny hot things go with the hot sun. Warm things go with the cold.",
+      "subtitle": "Hot or cold?",
+      "completeDetail": "Ready for any weather!",
+      "targets": [
+        {
+          "id": "hot",
+          "thing": "thermo_hot",
+          "label": "HOT",
+          "x": 1300,
+          "y": 620,
+          "w": 300,
+          "h": 300,
+          "accepts": [
+            "hot"
+          ]
+        },
+        {
+          "id": "cold",
+          "thing": "thermo_cold",
+          "label": "COLD",
+          "x": 1650,
+          "y": 620,
+          "w": 300,
+          "h": 300,
+          "accepts": [
+            "cold"
+          ]
+        }
+      ],
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "sunglasses",
+          "category": "hot",
+          "label": "Sunglasses",
+          "x": 460,
+          "y": 540
+        },
+        {
+          "kind": "thing",
+          "thing": "gloves",
+          "category": "cold",
+          "label": "Gloves",
+          "x": 720,
+          "y": 760
+        },
+        {
+          "kind": "thing",
+          "thing": "shorts",
+          "category": "hot",
+          "label": "Shorts",
+          "x": 940,
+          "y": 520
+        },
+        {
+          "kind": "thing",
+          "thing": "snow_boots",
+          "category": "cold",
+          "label": "Snow boots",
+          "x": 1000,
+          "y": 830
+        }
+      ]
+    },
+    {
+      "id": "m20_set_the_table",
+      "type": "TapRequestedObject",
+      "world": "life",
+      "theme": "life",
+      "skills": [
+        "HELPING",
+        "VOCABULARY"
+      ],
+      "pipBubble": "Set the table!",
+      "instructionText": "Find the {target}!",
+      "voiceText": "Let’s help set the table. Find the spoon first.",
+      "completeDetail": "Table ready!",
+      "targets": [
+        {
+          "matchKey": "thing",
+          "matchValue": "spoon",
+          "value": "spoon"
+        },
+        {
+          "matchKey": "thing",
+          "matchValue": "fork",
+          "value": "fork"
+        }
+      ],
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "fork",
+          "x": 640,
+          "y": 680,
+          "size": 180
+        },
+        {
+          "kind": "thing",
+          "thing": "teddy",
+          "x": 960,
+          "y": 660,
+          "size": 180
+        },
+        {
+          "kind": "thing",
+          "thing": "spoon",
+          "x": 1280,
+          "y": 680,
+          "size": 180
+        }
+      ]
+    },
+    {
+      "id": "m20_bedtime_picture",
+      "type": "TapRequestedObject",
+      "world": "life",
+      "theme": "life",
+      "skills": [
+        "ROUTINES"
+      ],
+      "pipBubble": "Bedtime!",
+      "instructionText": "It is night. Tap bedtime!",
+      "voiceText": "The moon is up. It is time for bed. Tap the bedtime picture.",
+      "completeDetail": "Night night!",
+      "request": {
+        "matchKey": "thing",
+        "matchValue": "bedtime",
+        "value": "bedtime"
+      },
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "school_bag",
+          "x": 640,
+          "y": 680,
+          "size": 185
+        },
+        {
+          "kind": "thing",
+          "thing": "bedtime",
+          "x": 960,
+          "y": 660,
+          "size": 185
+        },
+        {
+          "kind": "routine",
+          "symbol": "BREAKFAST",
+          "label": "Breakfast",
+          "x": 1280,
+          "y": 680,
+          "size": 185,
+          "color": "orange"
+        }
+      ]
+    },
+    {
+      "id": "m17_bunny_bowl",
+      "type": "CountAndPlace",
+      "world": "animal",
+      "theme": "forest",
+      "character": "bunny",
+      "object": "carrot",
+      "color": "orange",
+      "targetCount": 3,
+      "skills": [
+        "COUNT_3",
+        "ANIMAL_FOOD"
+      ],
+      "adaptiveSkill": "COUNT_3",
+      "instructionText": "Put 3 carrots in Bunny’s bowl!",
+      "voiceText": "Bunny is hungry. Put three carrots in the bowl.",
+      "pipBubble": "Three carrots!"
+    },
+    {
+      "id": "m19_weather_words",
+      "type": "TapRequestedObject",
+      "world": "storybook",
+      "theme": "storybook",
+      "skills": [
+        "VOCABULARY"
+      ],
+      "pipBubble": "Weather words!",
+      "instructionText": "Find the {target}!",
+      "voiceText": "Luna is reading about the weather. Find the rain cloud first.",
+      "completeDetail": "Weather words!",
+      "targets": [
+        {
+          "matchKey": "thing",
+          "matchValue": "rain_cloud",
+          "value": "rain cloud"
+        },
+        {
+          "matchKey": "thing",
+          "matchValue": "wind",
+          "value": "wind"
+        }
+      ],
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "wind",
+          "x": 640,
+          "y": 680,
+          "size": 185
+        },
+        {
+          "kind": "object",
+          "symbol": "SUN",
+          "label": "Sun",
+          "x": 960,
+          "y": 660,
+          "size": 185,
+          "color": "yellow"
+        },
+        {
+          "kind": "thing",
+          "thing": "rain_cloud",
+          "x": 1280,
+          "y": 680,
+          "size": 185
+        }
+      ]
+    },
+    {
+      "id": "m16_number_stones",
+      "type": "SequenceOrder",
+      "world": "dino",
+      "theme": "dino",
+      "skills": [
+        "NUMERAL_1",
+        "NUMERAL_2",
+        "NUMERAL_3",
+        "SEQUENCE"
+      ],
+      "pipBubble": "1, 2, 3!",
+      "instructionText": "Tap the stones: 1, 2, 3!",
+      "voiceText": "Hop across the number stones. Tap one, two, three.",
+      "completeDetail": "1 • 2 • 3!",
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "number_stone_2",
+          "id": "s2",
+          "x": 640,
+          "y": 780,
+          "size": 170
+        },
+        {
+          "kind": "thing",
+          "thing": "number_stone_3",
+          "id": "s3",
+          "x": 960,
+          "y": 800,
+          "size": 170
+        },
+        {
+          "kind": "thing",
+          "thing": "number_stone_1",
+          "id": "s1",
+          "x": 1280,
+          "y": 780,
+          "size": 170
+        }
+      ],
+      "correctOrder": [
+        "s1",
+        "s2",
+        "s3"
+      ]
+    },
+    {
+      "id": "m19_book_colours",
+      "type": "SortObjects",
+      "world": "storybook",
+      "theme": "storybook",
+      "skills": [
+        "RED",
+        "BLUE",
+        "GREEN"
+      ],
+      "pipBubble": "Sort the books!",
+      "instructionText": "Put each book on its shelf!",
+      "voiceText": "Luna’s books fell down. Red books on the red shelf, blue on blue, green on green.",
+      "subtitle": "Match the colour",
+      "completeDetail": "Tidy shelves!",
+      "targets": [
+        {
+          "id": "red",
+          "label": "RED",
+          "color": "red",
+          "x": 1150,
+          "y": 640,
+          "w": 250,
+          "h": 260,
+          "accepts": [
+            "red"
+          ]
+        },
+        {
+          "id": "blue",
+          "label": "BLUE",
+          "color": "blue",
+          "x": 1420,
+          "y": 640,
+          "w": 250,
+          "h": 260,
+          "accepts": [
+            "blue"
+          ]
+        },
+        {
+          "id": "green",
+          "label": "GREEN",
+          "color": "green",
+          "x": 1690,
+          "y": 640,
+          "w": 250,
+          "h": 260,
+          "accepts": [
+            "green"
+          ]
+        }
+      ],
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "book_red",
+          "color": "red",
+          "x": 480,
+          "y": 540
+        },
+        {
+          "kind": "thing",
+          "thing": "book_blue",
+          "color": "blue",
+          "x": 720,
+          "y": 720
+        },
+        {
+          "kind": "thing",
+          "thing": "book_green",
+          "color": "green",
+          "x": 900,
+          "y": 520
+        },
+        {
+          "kind": "thing",
+          "thing": "book_red",
+          "color": "red",
+          "x": 520,
+          "y": 860
+        }
+      ]
+    },
+    {
+      "id": "rainbow_colour_friends",
+      "type": "TapRequestedObject",
+      "world": "rainbow",
+      "theme": "rainbow",
+      "skills": [
+        "RED",
+        "BLUE",
+        "YELLOW"
+      ],
+      "pipBubble": "Colour friends!",
+      "instructionText": "Find the {target} friend!",
+      "voiceText": "The colour friends are hiding. Find the red friend first.",
+      "completeDetail": "Colour friends found!",
+      "targets": [
+        {
+          "matchKey": "thing",
+          "matchValue": "blob_red",
+          "value": "red"
+        },
+        {
+          "matchKey": "thing",
+          "matchValue": "blob_blue",
+          "value": "blue"
+        },
+        {
+          "matchKey": "thing",
+          "matchValue": "blob_yellow",
+          "value": "yellow"
+        }
+      ],
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "blob_yellow",
+          "x": 560,
+          "y": 690,
+          "size": 180
+        },
+        {
+          "kind": "thing",
+          "thing": "blob_green",
+          "x": 860,
+          "y": 650,
+          "size": 180
+        },
+        {
+          "kind": "thing",
+          "thing": "blob_red",
+          "x": 1160,
+          "y": 690,
+          "size": 180
+        },
+        {
+          "kind": "thing",
+          "thing": "blob_blue",
+          "x": 1460,
+          "y": 650,
+          "size": 180
+        }
+      ]
+    },
+    {
+      "id": "rainbow_shape_friends",
+      "type": "MatchPairs",
+      "world": "rainbow",
+      "theme": "rainbow",
+      "skills": [
+        "CIRCLE",
+        "SQUARE",
+        "TRIANGLE"
+      ],
+      "pipBubble": "Shape friends!",
+      "instructionText": "Match each shape friend to its shape!",
+      "voiceText": "Tap a shape friend, then the shape that looks the same.",
+      "subtitle": "Tap a friend, then its shape",
+      "completeDetail": "Shape friends matched!",
+      "pairs": [
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "friend_circle",
+              "id": "fc",
+              "size": 170
+            },
+            {
+              "id": "c",
+              "kind": "circle",
+              "color": "red",
+              "size": 150
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "friend_square",
+              "id": "fs",
+              "size": 170
+            },
+            {
+              "id": "s",
+              "kind": "square",
+              "color": "blue",
+              "size": 150
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "friend_triangle",
+              "id": "ft",
+              "size": 170
+            },
+            {
+              "id": "t",
+              "kind": "triangle",
+              "color": "yellow",
+              "size": 150
+            }
+          ]
+        }
+      ]
     }
   ]
 }

@@ -14,6 +14,10 @@ const BASE_OBJECTS=[
   {id:'drum',type:'drum',x:1350,y:820,w:150,h:130,zone:'toy'}
 ];
 
+// Where bought (catalogue) things first appear on the grass: a grid that keeps clear of the portal and Pip's house.
+const CATALOG_SPOTS=[];
+for(const y of [470,610,750])for(let x=380;x<=1540;x+=145)if(!(x>780&&x<1140&&y<680)&&!(x>1380&&y<690))CATALOG_SPOTS.push([x,y]);
+
 function contains(o,x,y,extra=25){return x>=o.x-o.w/2-extra&&x<=o.x+o.w/2+extra&&y>=o.y-o.h/2-extra&&y<=o.y+o.h/2+extra;}
 function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
 
@@ -34,6 +38,14 @@ export class WonderIslandScene {
       if(known.has(reward.id)||!reward.island)continue;
       const unlocked=(state?.unlocks?.[reward.type]??[]).includes(reward.id);if(!unlocked)continue;
       this.objects.push({id:reward.id,...reward.island,name:reward.name,...(placements[reward.id]??{})});known.add(reward.id);
+    }
+    // Things bought in the Collection (no fixed island spot) get the next free grid spot; the child can move them.
+    let spot=0;
+    for(const reward of this.game.rewards?.list?.()??[]){
+      if(known.has(reward.id)||reward.island||!reward.catalog||reward.type==='cosmetics')continue;
+      if(!(state?.unlocks?.[reward.type]??[]).includes(reward.id))continue;
+      const [x,y]=CATALOG_SPOTS[spot++%CATALOG_SPOTS.length];
+      this.objects.push({id:reward.id,type:'catalog_item',x,y,w:reward.type==='buildings'?190:140,h:reward.type==='buildings'?170:130,zone:'decoration',name:reward.name,color:reward.color,label:reward.name,...(placements[reward.id]??{})});known.add(reward.id);
     }
     this.hatch=null;this.celebrateT=0;this.startCelebration(this.celebrateQueue.shift()??null);
   }
@@ -69,11 +81,14 @@ export class WonderIslandScene {
     if(!drawArt(ctx,lookupArt('ui','parent'),90,85,118,118)){ctx.fillStyle='#ffffffdd';ctx.beginPath();ctx.arc(90,85,54,0,Math.PI*2);ctx.fill();ctx.fillStyle='#5b3b72';ctx.font='900 46px system-ui';ctx.fillText('⚙',90,101);}drawCandyButton(ctx,1510,42,330,82,'COLLECTION',this.collectionPressed,'collection');
     if(this.placementMode){ctx.strokeStyle='#fff8';ctx.setLineDash?.([18,16]);ctx.lineWidth=8;ctx.beginPath();ctx.roundRect(300,300,1330,565,70);ctx.stroke();ctx.setLineDash?.([]);}
     if(this.hatch?.ready&&this.celebrateT<CELEBRATE_SECONDS){ctx.save();ctx.globalAlpha=Math.min(1,(CELEBRATE_SECONDS-this.celebrateT)/.5)*.7;ctx.fillStyle='#fffdf0';ctx.beginPath();ctx.ellipse(960,620,260,240,0,0,Math.PI*2);ctx.fill();ctx.restore();this.hatch.render(ctx,960,780,340);}
+    // Other wins (decorations, buildings, rides) stand on the reward podium while the banner shows.
+    if(this.celebrateReward&&!this.hatch&&this.celebrateT<CELEBRATE_SECONDS){const fade=Math.min(1,(CELEBRATE_SECONDS-this.celebrateT)/.5,this.celebrateT/.35);const pic=lookupArt('rewards',this.celebrateReward);if(art(pic)){drawArt(ctx,lookupArt('ui','podium'),960,700,330,243,{alpha:fade});drawArt(ctx,pic,960,640,260,230,{anchor:'bottom',alpha:fade});}}
     if(this.celebrateReward&&this.celebrateT<CELEBRATE_SECONDS){const reward=this.game.rewards?.get?.(this.celebrateReward);ctx.fillStyle='#fffdf0ee';ctx.beginPath();ctx.roundRect(500,180,920,140,60);ctx.fill();ctx.fillStyle='#5a3a73';ctx.font='900 41px system-ui';ctx.fillText(reward?`${reward.name} is now yours!`:'New reward unlocked!',960,265);}
   }
 
   drawObject(ctx,o){
     const active=this.interaction===o.id&&this.interactionT>0;ctx.save();ctx.translate(o.x,o.y);if(active&&o.type!=='ball')ctx.scale(1+Math.sin(this.t*16)*.04,1+Math.sin(this.t*16)*.04);
+    if(this.placementMode){ctx.save();ctx.scale(1,.32);drawArt(ctx,lookupArt('ui','placeSpot'),0,(o.h/2-8)/.32,o.w*1.15,o.w*1.15,{alpha:.8,blend:'screen'});ctx.restore();} // soft spot under things you can move
     if(this.drawObjectArt(ctx,o,active)){/* real picture drawn */}else
     if(o.type==='tree'){ctx.fillStyle='#8a5938';ctx.beginPath();ctx.roundRect(-28,-20,56,150,20);ctx.fill();ctx.fillStyle='#5dbb5b';for(const [x,y,r] of [[0,-100,95],[-65,-50,70],[70,-45,72]]){ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();}ctx.fillStyle='#e94d55';for(const [x,y] of [[-55,-70],[30,-115],[75,-35]]){ctx.beginPath();ctx.arc(x,y,15,0,Math.PI*2);ctx.fill();}}
     else if(o.type==='pond'){ctx.fillStyle='#4fc0ee';ctx.beginPath();ctx.ellipse(0,0,180,78,0,0,Math.PI*2);ctx.fill();if(active){ctx.strokeStyle='#fff';ctx.lineWidth=8;ctx.beginPath();ctx.arc(0,0,35+(1-this.interactionT)*80,0,Math.PI*2);ctx.stroke();}}
@@ -89,7 +104,7 @@ export class WonderIslandScene {
     else if(o.type==='creature_dino')this.drawRewardCreature(ctx,o,'dino',active);
     else if(o.type==='creature_animal')this.drawRewardCreature(ctx,o,'animal',active);
     else if(o.type==='reward_vehicle')this.drawRewardVehicle(ctx,o,active);
-    else if(o.type==='reward_badge'||o.type==='creature_dragon')this.drawRewardBadge(ctx,o,active);
+    else if(o.type==='reward_badge'||o.type==='creature_dragon'||o.type==='catalog_item')this.drawRewardBadge(ctx,o,active);
     if(this.placementMode){ctx.strokeStyle='#fff';ctx.lineWidth=6;ctx.setLineDash?.([12,10]);ctx.beginPath();ctx.roundRect(-o.w/2,-o.h/2,o.w,o.h,30);ctx.stroke();ctx.setLineDash?.([]);}ctx.restore();
   }
 

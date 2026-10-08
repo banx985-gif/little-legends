@@ -62,7 +62,7 @@ for (const file of jsFiles) execFileSync(process.execPath, ['--check', file], { 
 
 // The installable/offline build must cache every eagerly imported source module.
 const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v39"), 'Service worker cache version should advance with the real-art build');
+assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v40"), 'Service worker cache version should advance with the real-art build');
 for (const file of walk(path.join(root, 'src')).filter(file => file.endsWith('.js'))) {
   const rel = `./${path.relative(root, file).split(path.sep).join('/')}`;
   assert.ok(serviceWorkerSource.includes(`'${rel}'`), `Offline cache must include ${rel}`);
@@ -650,6 +650,17 @@ const job06Map = JSON.parse(fs.readFileSync(path.join(root,'data/art_map.json'),
 for (const [theme, id] of Object.entries(job06Map.backgrounds).filter(([k]) => k !== 'about')) assert.ok(job06Ids.has(id), `Background for ${theme} must exist`);
 for (const a of activityData.activities.filter(a => a.world === 'space' || a.world === 'town')) assert.ok(String(a.theme).startsWith(a.world), `${a.id} uses a ${a.world} scene`);
 for (const a of activityData.activities.filter(a => a.world === 'space' || a.world === 'town')) for (const o of [...(a.objects ?? []), ...(a.choices ?? []), ...(a.targets ?? []), ...(a.pairs ?? []).flatMap(p => p.items ?? [p]), ...(a.sequence ?? [])]) if (o.thing) assert.ok(job06Map.things.art[o.thing], `${a.id}: picture name '${o.thing}' is in art_map things`);
+
+// Job 06 Part 4: more of the art in use — catalogue friends/decor/houses/seasons/looks, bought things on the island.
+{ const shopSave = new SaveSystem({ indexedDBRef:null, storage:null }); await shopSave.init(); await shopSave.createProfile({ name:'Shop', age:4 }); await shopSave.addDiscoveryStars(20);
+  const sg = { save:shopSave, audio:sceneAudio, scenes:{ last:null, change(name,data){ this.last={name,data}; } } }; sg.rewards = new RewardSystem(sg); sg.rewards.setDefinitions(rewardData);
+  const col = new CollectionScene(sg);
+  for (const tab of ['creatures','cosmetics','decorations','buildings','seasons','vehicles','dragons']) { col.enter({ tab }); assert.ok(col.items().length > 0, `Collection tab ${tab} has things`); col.render(fakeCtx); assert.equal(fakeCtx.depth, 0); }
+  col.enter({ tab:'seasons' }); assert.ok(col.items().every(r => r.season), 'Seasons tab only shows seasonal decorations');
+  const snowman = 'catalog_winter_snowman'; assert.equal((await sg.rewards.unlockWithStars(snowman)).ok, true);
+  const shopIsland = new WonderIslandScene(sg); shopIsland.enter(); assert.ok(shopIsland.objects.some(o => o.id === snowman), 'Bought decorations appear on Wonder Island'); shopIsland.render(fakeCtx); assert.equal(fakeCtx.depth, 0);
+  shopIsland.placementMode = true; shopIsland.render(fakeCtx); assert.equal(fakeCtx.depth, 0); }
+for (const id of ['m17_meet_new_animals','m17_whose_footprints','m20_name_the_feeling','m20_bathroom_things','m20_weather_snow','m20_hot_or_cold','m16_number_stones','rainbow_colour_friends','rainbow_shape_friends']) assert.ok(adventureData.adventures.some(a => a.steps.some(st => st.activityId === id)), `${id} is played inside a Little Mission`);
 
 // World select + generic hub navigation.
 const navGame={adventureEngine,save:contentSave,audio:sceneAudio,scenes:{last:null,change(name,data){this.last={name,data};}}};

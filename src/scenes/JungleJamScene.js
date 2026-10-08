@@ -1,6 +1,6 @@
 import { drawActivityBackground, drawToken } from '../activities/activityDraw.js';
 import { drawCandyButton } from '../utils/draw.js';
-import { drawArt, lookupArt, hatchArtIds, hatchTheme } from '../core/art.js';
+import { artMap, drawArt, lookupArt, hatchArtIds, hatchTheme } from '../core/art.js';
 import { PipController } from '../characters/PipController.js';
 
 // Music Dragon (rare): earned once the child has got each of the four music games right at least once.
@@ -67,6 +67,8 @@ export class JungleJamScene{
     MODES.forEach((m,i)=>{const r=this.modeRect(i);ctx.fillStyle=this.mode===m[0]?'#fff2a8':'#ffffffd8';ctx.beginPath();ctx.roundRect(r.x,r.y,r.w,r.h,38);ctx.fill();ctx.fillStyle='#5a3a73';ctx.font='900 22px system-ui';ctx.fillText(m[1],r.x+r.w/2,r.y+58);});
     for(const slot of this.slots){ctx.fillStyle='#ffffff88';ctx.beginPath();ctx.roundRect(slot.x-slot.w/2,slot.y-slot.h/2,slot.w,slot.h,55);ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=7;ctx.stroke();}
     for(const p of this.performers)drawToken(ctx,{kind:'instrument',symbol:p.symbol,label:p.name,color:p.color,x:p.x,y:p.y,size:p.size},{highlight:p===this.drag});
+    // Friends on stage get a music note that bobs gently with the beat (still when motion is reduced).
+    const notes=artMap()?.jam?.notes;this.performers.forEach((p,i)=>{if(!p.placed||!Array.isArray(notes))return;const bob=globalThis.__LL_REDUCED_MOTION?0:Math.sin(this.t*3+i)*10;drawArt(ctx,notes[i%notes.length],p.x+70,p.y-125+bob,56,66,{alpha:.95});});
     if(this.mode==='tempo'||this.mode==='dynamics'){const a=this.mode==='tempo'?['FAST','SLOW']:['LOUD','QUIET'];ctx.fillStyle='#fff';ctx.font='900 31px system-ui';ctx.fillText(`Can you make it ${String(this.goal).toUpperCase()}?`,960,675);drawCandyButton(ctx,620,720,280,110,a[0],false);drawCandyButton(ctx,1020,720,280,110,a[1],false);}
     if(this.mode==='rhythm'){ctx.fillStyle=this.demoFlash?'#ffd85d':'#ec7ea2';ctx.beginPath();ctx.arc(960,760,145,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='900 80px system-ui';ctx.fillText('DRUM',960,785);ctx.font='700 28px system-ui';ctx.fillText('Tap 3 times with the beat',960,965);}
     if(this.mode==='sound'){ctx.fillStyle='#fff';ctx.font='900 31px system-ui';ctx.fillText(`Which friend makes the ${this.soundGoal.toUpperCase()} sound?`,960,745);}

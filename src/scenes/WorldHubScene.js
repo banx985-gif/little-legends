@@ -27,6 +27,14 @@ export class WorldHubScene{
     if(e.type==='move'&&this.pressed){const now=this.hit(e.x,e.y)?.id??this.controlAt(e.x,e.y);if(now!==this.pressed)this.pressed=null;return;}
     if(e.type==='up'){const chosen=this.pressed;this.pressed=null;if(chosen==='back'){this.game.scenes.change('worldSelect');return;}if(chosen==='prev'){this.page--;return;}if(chosen==='next'){this.page++;return;}if(chosen)this.game.scenes.change('adventure',{adventureId:chosen});}
   }
+  // World progress medal by the title: bronze, silver, gold, then the trophy when every mission is done.
+  drawMedal(ctx){
+    const done=this.game.save?.getProfileState?.()?.adventure?.completed??[],total=this.missions.length;if(!total||!Array.isArray(done))return;
+    const n=this.missions.filter(m=>done.includes(m.id)).length;if(!n)return;
+    const key=n>=total?'trophy':n*3>=total*2?'gold':n*3>=total?'silver':'bronze';
+    if(!drawArt(ctx,lookupArt('medals',key),1500,108,110,110))return;
+    ctx.fillStyle='#fffdf0';ctx.beginPath();ctx.roundRect(1555,118,110,48,22);ctx.fill();ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='900 26px system-ui';ctx.fillText(`${n}/${total}`,1610,152);
+  }
   render(ctx){
     drawActivityBackground(ctx,this.meta.theme);this.pip?.render(ctx);
     // Busy scene pictures get a soft plate so the title stays readable.
@@ -35,6 +43,7 @@ export class WorldHubScene{
     this.visible().forEach((m,i)=>{const r=this.rect(i);const completedList=this.game.save?.getProfileState?.()?.adventure?.completed;const completed=Array.isArray(completedList)&&completedList.includes(m.id);ctx.fillStyle=this.pressed===m.id?'#fff2a8':'#ffffffdf';ctx.beginPath();ctx.roundRect(r.x,r.y,r.w,r.h,52);ctx.fill();const icon=lookupArt('missionIcons',m.id);ctx.fillStyle=icon&&art(icon)?'#fff7e2':this.meta.accent;ctx.beginPath();ctx.arc(r.x+78,r.y+r.h/2,52,0,Math.PI*2);ctx.fill();
       if(drawArt(ctx,icon,r.x+78,r.y+r.h/2,88,88)){if(completed){ctx.fillStyle='#66bd62';ctx.beginPath();ctx.arc(r.x+118,r.y+r.h/2-40,22,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='900 26px system-ui';ctx.fillText('✓',r.x+118,r.y+r.h/2-31);}}
       else{ctx.fillStyle='#fff';ctx.font='900 34px system-ui';ctx.fillText(completed?'✓':String(this.page*6+i+1),r.x+78,r.y+r.h/2+12);}ctx.fillStyle='#5a3a73';ctx.textAlign='left';ctx.font='900 30px system-ui';ctx.fillText(m.title,r.x+150,r.y+76);ctx.fillStyle='#746a7e';ctx.font='700 23px system-ui';ctx.fillText(completed?'Play again':'Tap to start',r.x+150,r.y+118);ctx.textAlign='center';});
+    this.drawMedal(ctx);
     drawCandyButton(ctx,40,40,210,100,'BACK',this.pressed==='back','back');
     if(this.page>0)drawCandyButton(ctx,690,920,220,95,'PREV',this.pressed==='prev','prev');if((this.page+1)*6<this.missions.length)drawCandyButton(ctx,1010,920,220,95,'NEXT',this.pressed==='next','next');
     if(!this.missions.length){ctx.fillStyle='#fff';ctx.font='800 38px system-ui';ctx.fillText('More Little Missions are coming!',960,560);}

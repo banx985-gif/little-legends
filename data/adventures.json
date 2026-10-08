@@ -97,6 +97,11 @@
           "activityId": "rainbow_colour_sort"
         },
         {
+          "id": "rainbow_missing_rainbow_rainbow_colour_friends",
+          "kind": "activity",
+          "activityId": "rainbow_colour_friends"
+        },
+        {
           "id": "rr_done",
           "kind": "story",
           "title": "The Rainbow Is Back!",
@@ -165,6 +170,11 @@
           "id": "house2",
           "kind": "activity",
           "activityId": "rainbow_build_house"
+        },
+        {
+          "id": "rainbow_shape_house_rescue_rainbow_shape_friends",
+          "kind": "activity",
+          "activityId": "rainbow_shape_friends"
         },
         {
           "id": "house_done",
@@ -285,6 +295,11 @@
           "id": "dino_nest_number_hunt_a3",
           "kind": "activity",
           "activityId": "m16_same_amount_1"
+        },
+        {
+          "id": "dino_nest_number_hunt_m16_number_stones",
+          "kind": "activity",
+          "activityId": "m16_number_stones"
         },
         {
           "id": "dino_nest_number_hunt_done",
@@ -647,6 +662,11 @@
           "activityId": "m17_land_water_air"
         },
         {
+          "id": "animal_who_lives_here_m17_meet_new_animals",
+          "kind": "activity",
+          "activityId": "m17_meet_new_animals"
+        },
+        {
           "id": "animal_who_lives_here_done",
           "kind": "story",
           "title": "Great work!",
@@ -722,6 +742,11 @@
           "activityId": "m17_food_duck"
         },
         {
+          "id": "animal_forest_breakfast_m17_bunny_bowl",
+          "kind": "activity",
+          "activityId": "m17_bunny_bowl"
+        },
+        {
           "id": "animal_forest_breakfast_done",
           "kind": "story",
           "title": "Great work!",
@@ -755,6 +780,11 @@
           "id": "animal_feather_fur_scales_a2",
           "kind": "activity",
           "activityId": "m17_classify_covering"
+        },
+        {
+          "id": "animal_feather_fur_scales_m17_whose_footprints",
+          "kind": "activity",
+          "activityId": "m17_whose_footprints"
         },
         {
           "id": "animal_feather_fur_scales_done",
@@ -832,6 +862,11 @@
           "activityId": "m19_letters_2"
         },
         {
+          "id": "storybook_letter_garden_m19_book_colours",
+          "kind": "activity",
+          "activityId": "m19_book_colours"
+        },
+        {
           "id": "storybook_letter_garden_done",
           "kind": "story",
           "title": "Great work!",
@@ -870,6 +905,11 @@
           "id": "storybook_big_little_a3",
           "kind": "activity",
           "activityId": "m19_upper_lower_3"
+        },
+        {
+          "id": "storybook_big_little_m19_weather_words",
+          "kind": "activity",
+          "activityId": "m19_weather_words"
         },
         {
           "id": "storybook_big_little_done",
@@ -1032,6 +1072,11 @@
           "activityId": "m20_routine_morning"
         },
         {
+          "id": "life_bella_gets_ready_m20_bathroom_things",
+          "kind": "activity",
+          "activityId": "m20_bathroom_things"
+        },
+        {
           "id": "life_bella_gets_ready_done",
           "kind": "story",
           "title": "Great work!",
@@ -1072,6 +1117,16 @@
           "activityId": "m20_weather_cold"
         },
         {
+          "id": "life_rainy_dressup_m20_hot_or_cold",
+          "kind": "activity",
+          "activityId": "m20_hot_or_cold"
+        },
+        {
+          "id": "life_rainy_dressup_m20_weather_snow",
+          "kind": "activity",
+          "activityId": "m20_weather_snow"
+        },
+        {
           "id": "life_rainy_dressup_done",
           "kind": "story",
           "title": "Great work!",
@@ -1105,6 +1160,11 @@
           "id": "life_toy_tidy_party_a2",
           "kind": "activity",
           "activityId": "m20_routine_bedtime"
+        },
+        {
+          "id": "life_toy_tidy_party_m20_bedtime_picture",
+          "kind": "activity",
+          "activityId": "m20_bedtime_picture"
         },
         {
           "id": "life_toy_tidy_party_done",
@@ -1147,6 +1207,11 @@
           "activityId": "m20_feeling_excited"
         },
         {
+          "id": "life_feelings_picnic_m20_name_the_feeling",
+          "kind": "activity",
+          "activityId": "m20_name_the_feeling"
+        },
+        {
           "id": "life_feelings_picnic_done",
           "kind": "story",
           "title": "Great work!",
@@ -1185,6 +1250,11 @@
           "id": "life_helping_hands_a3",
           "kind": "activity",
           "activityId": "m20_wash_hands"
+        },
+        {
+          "id": "life_helping_hands_m20_set_the_table",
+          "kind": "activity",
+          "activityId": "m20_set_the_table"
         },
         {
           "id": "life_helping_hands_done",

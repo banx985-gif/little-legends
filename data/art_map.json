@@ -1,29 +1,183 @@
 {
   "about": "Which picture (art id from assets/art_manifest.json) each game thing uses. Anything not listed here keeps its drawn placeholder. Colours: 'strict' kinds only use a picture whose colour matches the token's colour (colour can be the answer); 'soft' kinds may ignore colour where an activity says colour is not the question.",
   "version": 1,
-
   "tokens": {
-    "apple":      { "colour": "strict", "fit": 0.86, "art": [["objects.food.apple_red", "red"], ["objects.food.apple_green", "green"]] },
-    "banana":     { "colour": "strict", "fit": 0.86, "art": [["objects.food.banana", "yellow"]] },
-    "berry":      { "colour": "strict", "fit": 0.80, "art": [["objects.food.blueberry", "blue"]] },
-    "strawberry": { "colour": "strict", "fit": 0.86, "art": [["objects.food.strawberry", "red"]] },
-    "orange":     { "colour": "strict", "fit": 0.80, "art": [["objects.food.orange", "orange"]] },
-    "carrot":     { "colour": "strict", "fit": 0.90, "art": [["objects.food.carrot", "orange"]] },
-
-    "circle":     { "colour": "strict", "fit": 0.78, "art": [["objects.shapes.circle_red", "red"]] },
-    "square":     { "colour": "strict", "fit": 0.78, "art": [["objects.shapes.square_blue", "blue"]] },
-    "triangle":   { "colour": "strict", "fit": 0.82, "art": [["objects.shapes.triangle_yellow", "yellow"]] },
-    "rectangle":  { "colour": "strict", "fit": 0.92, "art": [["objects.shapes.rectangle_green", "green"], ["objects.shapes_candy.rectangle_purple", "purple"]] },
-    "star":       { "colour": "strict", "fit": 0.82, "art": [["objects.shapes.star_yellow", "yellow"], ["objects.shapes.star_purple", "purple"], ["objects.shapes_candy.star_green", "green"]] },
-    "heart":      { "colour": "strict", "fit": 0.80, "art": [["objects.shapes.heart_pink", "pink"]] },
-
-    "egg":        { "colour": "soft", "fit": 0.86, "art": [["objects.dino_egg", "blue"]] },
-    "dinosaur":   { "colour": "soft", "fit": 1.00, "art": [["creatures.dino_orange.dino_orange_stand", "orange"], ["creatures.sea_dino.triceratops", "green"], ["creatures.sea_dino.brachiosaurus", "blue"]] }
+    "apple": {
+      "colour": "strict",
+      "fit": 0.86,
+      "art": [
+        [
+          "objects.food.apple_red",
+          "red"
+        ],
+        [
+          "objects.food.apple_green",
+          "green"
+        ]
+      ]
+    },
+    "banana": {
+      "colour": "strict",
+      "fit": 0.86,
+      "art": [
+        [
+          "objects.food.banana",
+          "yellow"
+        ]
+      ]
+    },
+    "berry": {
+      "colour": "strict",
+      "fit": 0.8,
+      "art": [
+        [
+          "objects.food.blueberry",
+          "blue"
+        ]
+      ]
+    },
+    "strawberry": {
+      "colour": "strict",
+      "fit": 0.86,
+      "art": [
+        [
+          "objects.food.strawberry",
+          "red"
+        ]
+      ]
+    },
+    "orange": {
+      "colour": "strict",
+      "fit": 0.8,
+      "art": [
+        [
+          "objects.food.orange",
+          "orange"
+        ]
+      ]
+    },
+    "carrot": {
+      "colour": "strict",
+      "fit": 0.9,
+      "art": [
+        [
+          "objects.food.carrot",
+          "orange"
+        ]
+      ]
+    },
+    "circle": {
+      "colour": "strict",
+      "fit": 0.78,
+      "art": [
+        [
+          "objects.shapes.circle_red",
+          "red"
+        ]
+      ]
+    },
+    "square": {
+      "colour": "strict",
+      "fit": 0.78,
+      "art": [
+        [
+          "objects.shapes.square_blue",
+          "blue"
+        ]
+      ]
+    },
+    "triangle": {
+      "colour": "strict",
+      "fit": 0.82,
+      "art": [
+        [
+          "objects.shapes.triangle_yellow",
+          "yellow"
+        ]
+      ]
+    },
+    "rectangle": {
+      "colour": "strict",
+      "fit": 0.92,
+      "art": [
+        [
+          "objects.shapes.rectangle_green",
+          "green"
+        ],
+        [
+          "objects.shapes_candy.rectangle_purple",
+          "purple"
+        ]
+      ]
+    },
+    "star": {
+      "colour": "strict",
+      "fit": 0.82,
+      "art": [
+        [
+          "objects.shapes.star_yellow",
+          "yellow"
+        ],
+        [
+          "objects.shapes.star_purple",
+          "purple"
+        ],
+        [
+          "objects.shapes_candy.star_green",
+          "green"
+        ]
+      ]
+    },
+    "heart": {
+      "colour": "strict",
+      "fit": 0.8,
+      "art": [
+        [
+          "objects.shapes.heart_pink",
+          "pink"
+        ]
+      ]
+    },
+    "egg": {
+      "colour": "soft",
+      "fit": 0.86,
+      "art": [
+        [
+          "objects.dino_egg",
+          "blue"
+        ]
+      ]
+    },
+    "dinosaur": {
+      "colour": "soft",
+      "fit": 1,
+      "art": [
+        [
+          "creatures.dino_orange.dino_orange_stand",
+          "orange"
+        ],
+        [
+          "creatures.sea_dino.triceratops",
+          "green"
+        ],
+        [
+          "creatures.sea_dino.brachiosaurus",
+          "blue"
+        ]
+      ]
+    }
   },
-
-  "letters": { "upper": "objects.letters.letter_{l}", "lower": "objects.letters_lower.lower_{l}", "fit": 0.84 },
-  "numerals": { "id": "objects.numbers.num_{n}", "min": 0, "max": 20, "fit": 0.84 },
-
+  "letters": {
+    "upper": "objects.letters.letter_{l}",
+    "lower": "objects.letters_lower.lower_{l}",
+    "fit": 0.84
+  },
+  "numerals": {
+    "id": "objects.numbers.num_{n}",
+    "min": 0,
+    "max": 20,
+    "fit": 0.84
+  },
   "animals": {
     "fit": 0.74,
     "art": {
@@ -40,10 +194,29 @@
       "sheep": "creatures.farm.sheep",
       "chicken": "creatures.farm.chicken",
       "lion": "creatures.safari.lion",
-      "monkey": "creatures.forest.monkey"
+      "monkey": "creatures.forest.monkey",
+      "crocodile": "creatures.safari.crocodile",
+      "elephant": "creatures.safari.elephant",
+      "hippo": "creatures.safari.hippo",
+      "meerkat": "creatures.safari.meerkat",
+      "tiger": "creatures.safari.tiger",
+      "flamingo": "creatures.tropical.flamingo",
+      "lemur": "creatures.tropical.lemur",
+      "peacock": "creatures.tropical.peacock",
+      "red_panda": "creatures.tropical.red_panda",
+      "sloth": "creatures.tropical.sloth",
+      "kangaroo": "creatures.wild.kangaroo",
+      "panda": "creatures.wild.panda",
+      "raccoon": "creatures.wild.raccoon",
+      "dolphin": "creatures.zoo.dolphin",
+      "giraffe": "creatures.zoo.giraffe",
+      "parrot": "creatures.zoo.parrot",
+      "zebra": "creatures.zoo.zebra",
+      "squirrel": "creatures.forest.squirrel",
+      "seahorse": "creatures.sea_dino.seahorse",
+      "parasaurolophus": "creatures.dinos.parasaurolophus"
     }
   },
-
   "symbols": {
     "fit": 0.62,
     "art": {
@@ -80,10 +253,11 @@
       "DRUM": "objects.music_jungle.drum_kit",
       "BASS": "objects.music_jungle.guitar",
       "MELODY": "objects.music.xylophone",
-      "VOICE": "objects.stage.microphone"
+      "VOICE": "objects.stage.microphone",
+      "MITTENS": "objects.clothes.gloves",
+      "FX": "objects.music.tambourine"
     }
   },
-
   "things": {
     "about": "Named pictures for activity tokens and targets: { kind: 'thing', thing: '<name>' }. A word card is the placeholder.",
     "fit": 0.9,
@@ -216,10 +390,53 @@
       "teddy": "objects.daily_life.teddy",
       "toy_car": "objects.picnic.toy_car",
       "storybook": "objects.literacy.storybook_open",
-      "beach_ball": "objects.play.beach_ball"
+      "beach_ball": "objects.play.beach_ball",
+      "track_bear": "objects.tracks.track_bear",
+      "track_deer": "objects.tracks.track_deer",
+      "track_duck": "objects.tracks.track_duck",
+      "track_fox": "objects.tracks.track_fox",
+      "feather": "objects.tracks.feather",
+      "face_happy": "ui.emotions.face_happy",
+      "face_sad": "ui.emotions.face_sad",
+      "face_sleepy": "ui.emotions.face_sleepy",
+      "face_excited": "ui.emotions.face_excited",
+      "face_thinking": "ui.emotions.face_thinking",
+      "soap": "objects.bathroom.soap",
+      "towel": "objects.bathroom.towel",
+      "toothpaste": "objects.bathroom.toothpaste",
+      "hairbrush": "objects.bathroom.hairbrush",
+      "sink": "objects.bathroom.sink",
+      "snow_boots": "objects.clothes.snow_boots",
+      "sunglasses": "objects.clothes.sunglasses",
+      "shorts": "objects.clothes.shorts",
+      "gloves": "objects.clothes.gloves",
+      "thermo_cold": "objects.weather.thermo_cold",
+      "thermo_hot": "objects.weather.thermo_hot",
+      "rain_cloud": "objects.weather.rain_cloud",
+      "wind": "objects.weather.wind",
+      "bedtime": "objects.routine.bedtime",
+      "school_bag": "objects.routine.school_bag",
+      "fork": "objects.daily_life.fork",
+      "spoon": "objects.daily_life.spoon",
+      "number_stone_1": "worlds.dino_valley.number_stone_1",
+      "number_stone_2": "worlds.dino_valley.number_stone_2",
+      "number_stone_3": "worlds.dino_valley.number_stone_3",
+      "bowl_paw": "objects.bowl_paw",
+      "book_red": "rewards.books.book_red",
+      "book_blue": "rewards.books.book_blue",
+      "book_green": "rewards.books.book_green",
+      "blob_red": "creatures.colour_friends.blob_red",
+      "blob_blue": "creatures.colour_friends.blob_blue",
+      "blob_yellow": "creatures.colour_friends.blob_yellow",
+      "blob_green": "creatures.colour_friends.blob_green",
+      "blob_orange": "creatures.colour_friends.blob_orange",
+      "blob_purple": "creatures.colour_friends.blob_purple",
+      "friend_circle": "creatures.shape_friends.circle_blue",
+      "friend_square": "creatures.shape_friends.square_yellow",
+      "friend_triangle": "creatures.shape_friends.triangle_green",
+      "friend_star": "creatures.shape_friends.star_yellow"
     }
   },
-
   "backgrounds": {
     "about": "Full-screen 16:9 scene picture per activity/world theme. Themes not listed keep their drawn background.",
     "space_moon_base": "worlds.backgrounds.space.bg_space_moon_base",
@@ -238,16 +455,38 @@
     "town_hospital": "worlds.backgrounds.town.bg_town_hospital",
     "town_train_station": "worlds.backgrounds.town.bg_town_train_station"
   },
-
   "townStreet": [
-    { "id": "worlds.town.supermarket", "x": 230, "w": 330 },
-    { "id": "worlds.town.cafe", "x": 560, "w": 280 },
-    { "id": "worlds.town.town_hall", "x": 900, "w": 360 },
-    { "id": "worlds.town.toy_shop", "x": 1230, "w": 280 },
-    { "id": "worlds.town.library", "x": 1560, "w": 330 },
-    { "id": "worlds.town.info_pillar", "x": 1810, "w": 120 }
+    {
+      "id": "worlds.town.supermarket",
+      "x": 230,
+      "w": 330
+    },
+    {
+      "id": "worlds.town.cafe",
+      "x": 560,
+      "w": 280
+    },
+    {
+      "id": "worlds.town.town_hall",
+      "x": 900,
+      "w": 360
+    },
+    {
+      "id": "worlds.town.toy_shop",
+      "x": 1230,
+      "w": 280
+    },
+    {
+      "id": "worlds.town.library",
+      "x": 1560,
+      "w": 330
+    },
+    {
+      "id": "worlds.town.info_pillar",
+      "x": 1810,
+      "w": 120
+    }
   ],
-
   "missionIcons": {
     "about": "Picture in each Little Mission's circle on its world hub.",
     "space_build_rocket_mission": "objects.space.rocket",
@@ -267,31 +506,94 @@
     "town_hospital": "objects.vehicles.ambulance",
     "town_building_site": "objects.vehicles.digger"
   },
-
   "countTargets": {
     "about": "Empty container drawn as the drop target in counting activities. Checked first by object, then by helper character. Food/eggs are drawn on top and must stay countable, so only empty containers belong here.",
-    "byActivity": { "space_robot_batteries": "worlds.space_base.landing_pad", "space_stack_crates": "worlds.space_base.landing_pad", "space_lunch_berries": "objects.daily_life.plate" },
-    "byObject": { "egg": "objects.nest" },
-    "byCharacter": { "bunny": "worlds.rainbow_build.basket_rainbow", "rory": "objects.daily_life.plate" },
+    "byActivity": {
+      "space_robot_batteries": "worlds.space_base.landing_pad",
+      "space_stack_crates": "worlds.space_base.landing_pad",
+      "space_lunch_berries": "objects.daily_life.plate",
+      "m17_bunny_bowl": "objects.bowl_paw"
+    },
+    "byObject": {
+      "egg": "objects.nest"
+    },
+    "byCharacter": {
+      "bunny": "worlds.rainbow_build.basket_rainbow",
+      "rory": "objects.daily_life.plate"
+    },
     "default": "worlds.rainbow_build.basket_rainbow",
-    "lift": { "objects.daily_life.plate": 45, "worlds.space_base.landing_pad": 30 }
+    "lift": {
+      "objects.daily_life.plate": 45,
+      "worlds.space_base.landing_pad": 30
+    }
   },
-
   "characters": {
-    "bunny": { "id": "creatures.bunny.bunny_tpose" },
-    "rory":  { "id": "creatures.rory.rory_idle" },
-    "octo":  { "id": "creatures.sea_dino.octopus" }
+    "bunny": {
+      "id": "creatures.bunny.bunny_tpose"
+    },
+    "rory": {
+      "id": "creatures.rory.rory_idle"
+    },
+    "octo": {
+      "id": "creatures.sea_dino.octopus"
+    }
   },
-
   "pip": {
     "about": "Pip's existing animation states -> closest full-body picture. null = keep the drawn placeholder Pip for that state. h = drawn height in Pip's own units (placeholder Pip is about 380 tall, feet at y=30). faces: 'left' pictures are mirrored so Pip still faces where the game points him. head = where a hat sits (x, y, scale).",
     "poses": {
-      "front":  { "id": "characters.pip.pip_front",       "h": 400, "faces": "front", "head": [0, -222, 0.72] },
-      "side":   { "id": "characters.pip.pip_side",        "h": 395, "faces": "left",  "head": [-55, -235, 0.70] },
-      "lookUp": { "id": "characters.pip.pip_look_up",     "h": 340, "faces": "left",  "head": null },
-      "wave":   { "id": "characters.pip.pip_wave",        "h": 410, "faces": "front", "head": [0, -222, 0.72] },
-      "fly":    { "id": "characters.pip.pip_fly_happy",   "h": 330, "faces": "front", "lift": 40, "head": [10, -215, 0.62] },
-      "crouch": { "id": "characters.pip.pip_crouch_play", "h": 250, "faces": "left",  "head": null }
+      "front": {
+        "id": "characters.pip.pip_front",
+        "h": 400,
+        "faces": "front",
+        "head": [
+          0,
+          -222,
+          0.72
+        ]
+      },
+      "side": {
+        "id": "characters.pip.pip_side",
+        "h": 395,
+        "faces": "left",
+        "head": [
+          -55,
+          -235,
+          0.7
+        ]
+      },
+      "lookUp": {
+        "id": "characters.pip.pip_look_up",
+        "h": 340,
+        "faces": "left",
+        "head": null
+      },
+      "wave": {
+        "id": "characters.pip.pip_wave",
+        "h": 410,
+        "faces": "front",
+        "head": [
+          0,
+          -222,
+          0.72
+        ]
+      },
+      "fly": {
+        "id": "characters.pip.pip_fly_happy",
+        "h": 330,
+        "faces": "front",
+        "lift": 40,
+        "head": [
+          10,
+          -215,
+          0.62
+        ]
+      },
+      "crouch": {
+        "id": "characters.pip.pip_crouch_play",
+        "h": 250,
+        "faces": "left",
+        "head": null
+      }
     },
     "states": {
       "idle": "front",
@@ -307,10 +609,12 @@
       "fall": "crouch",
       "wave": "wave"
     },
-    "idleActions": { "lookAround": "side", "inspect": "crouch" },
+    "idleActions": {
+      "lookAround": "side",
+      "inspect": "crouch"
+    },
     "lookUpWhenTargetAbove": "lookUp"
   },
-
   "cosmetics": {
     "dino_cap": "objects.hats.hood_dino",
     "octo_party_hat": "objects.hats.hat_party",
@@ -328,62 +632,310 @@
     "catalog_stripe_scarf": "objects.clothes.scarf",
     "catalog_spotty_scarf": "objects.clothes.scarf",
     "catalog_rainbow_scarf": "objects.clothes.scarf",
-    "catalog_rain_boots": "objects.clothes.rain_boots"
+    "catalog_rain_boots": "objects.clothes.rain_boots",
+    "catalog_hat_chef": "objects.hats.hat_chef",
+    "catalog_hat_firefighter": "objects.hats.hat_firefighter",
+    "catalog_hat_wizard": "objects.hats.hat_wizard",
+    "catalog_outfit_astronaut": "objects.outfits.outfit_astronaut",
+    "catalog_outfit_builder": "objects.outfits.outfit_builder",
+    "catalog_outfit_chef": "objects.outfits.outfit_chef",
+    "catalog_outfit_dino_onesie": "objects.outfits.outfit_dino_onesie",
+    "catalog_outfit_doctor": "objects.outfits.outfit_doctor",
+    "catalog_outfit_pirate": "objects.outfits.outfit_pirate",
+    "catalog_outfit_pyjamas": "objects.outfits.outfit_pyjamas",
+    "catalog_outfit_rainbow": "objects.outfits.outfit_rainbow",
+    "catalog_outfit_raincoat": "objects.outfits.outfit_raincoat",
+    "catalog_outfit_wizard": "objects.outfits.outfit_wizard",
+    "catalog_goggles": "objects.outfits.goggles",
+    "catalog_sunglasses": "objects.clothes.sunglasses",
+    "catalog_spanner": "objects.outfits.spanner",
+    "catalog_gloves": "objects.clothes.gloves",
+    "catalog_snow_boots": "objects.clothes.snow_boots",
+    "catalog_umbrella": "objects.clothes.umbrella",
+    "catalog_tshirt": "objects.clothes.tshirt",
+    "catalog_shorts": "objects.clothes.shorts",
+    "catalog_satchel": "characters.pip.pip_part_satchel"
   },
   "cosmeticSlots": {
     "objects.hats.glasses_star": "eyes",
     "objects.hats.glasses_round": "eyes",
     "objects.clothes.scarf": "none",
-    "objects.clothes.rain_boots": "none"
+    "objects.clothes.rain_boots": "none",
+    "objects.outfits.outfit_astronaut": "none",
+    "objects.outfits.outfit_builder": "none",
+    "objects.outfits.outfit_chef": "none",
+    "objects.outfits.outfit_dino_onesie": "none",
+    "objects.outfits.outfit_doctor": "none",
+    "objects.outfits.outfit_pirate": "none",
+    "objects.outfits.outfit_pyjamas": "none",
+    "objects.outfits.outfit_rainbow": "none",
+    "objects.outfits.outfit_raincoat": "none",
+    "objects.outfits.outfit_wizard": "none",
+    "objects.outfits.goggles": "eyes",
+    "objects.clothes.sunglasses": "eyes",
+    "objects.outfits.spanner": "none",
+    "objects.clothes.gloves": "none",
+    "objects.clothes.snow_boots": "none",
+    "objects.clothes.umbrella": "none",
+    "objects.clothes.tshirt": "none",
+    "objects.clothes.shorts": "none",
+    "characters.pip.pip_part_satchel": "none"
   },
-
   "hatch": {
     "about": "Egg hatch sets in rewards/hatch/<theme>/ (6 frames, same size, bottom-centred). Theme comes from the reward (below) or the adventure's world. baby: true only where the theme's hatched baby IS that reward; otherwise the egg cracks, the burst plays and the reward's own picture appears.",
     "id": "rewards.hatch.{theme}.egg_{theme}_{frame}",
-    "frames": ["1_idle", "2_wobble", "3_crack_small", "4_crack_big", "5_peek", "6_hatched"],
-    "worlds": { "dino": "dino", "animal": "forest", "jungle": "jungle", "rainbow": "rainbow", "storybook": "moon", "life": "farm", "space": "moon", "town": "farm" },
-    "bursts": { "dino": "fx.hatch.burst_dino", "forest": "fx.hatch.burst_forest", "jungle": "fx.hatch.burst_jungle", "rainbow": "fx.hatch.burst_rainbow", "ocean": "fx.hatch.burst_ocean", "farm": "fx.hatch.burst_farm", "moon": "fx.hatch.puff_cloud_stars" },
+    "frames": [
+      "1_idle",
+      "2_wobble",
+      "3_crack_small",
+      "4_crack_big",
+      "5_peek",
+      "6_hatched"
+    ],
+    "worlds": {
+      "dino": "dino",
+      "animal": "forest",
+      "jungle": "jungle",
+      "rainbow": "rainbow",
+      "storybook": "moon",
+      "life": "farm",
+      "space": "moon",
+      "town": "farm"
+    },
+    "bursts": {
+      "dino": "fx.hatch.burst_dino",
+      "forest": "fx.hatch.burst_forest",
+      "jungle": "fx.hatch.burst_jungle",
+      "rainbow": "fx.hatch.burst_rainbow",
+      "ocean": "fx.hatch.burst_ocean",
+      "farm": "fx.hatch.burst_farm",
+      "moon": "fx.hatch.puff_cloud_stars"
+    },
     "pedestal": "fx.magic.pedestal_glow",
     "rewards": {
-      "baby_raptor": { "theme": "dino", "baby": true },
-      "duckling": { "theme": "farm", "baby": true },
-      "catalog_daisy_duck": { "theme": "farm", "baby": true },
-      "catalog_starry_owl": { "theme": "forest", "baby": true },
-      "catalog_sunny_gecko": { "theme": "jungle", "baby": true },
-      "catalog_mossy_turtle": { "theme": "ocean", "baby": true },
-      "catalog_bumble_bunny": { "theme": "farm" },
-      "catalog_tiny_toucan": { "theme": "jungle" },
-      "catalog_cloud_lamb": { "theme": "farm" },
-      "catalog_pebble_penguin": { "theme": "ocean" },
-      "catalog_moon_moth": { "theme": "moon" },
-      "catalog_puddle_otter": { "theme": "ocean" },
-      "catalog_berry_bear": { "theme": "forest" },
-      "catalog_sprout_frog": { "theme": "forest" },
-      "catalog_cocoa_capybara": { "theme": "jungle" },
-      "catalog_twinkle_deer": { "theme": "forest" },
-      "catalog_bubble_seal": { "theme": "ocean" },
-      "catalog_pipkin_pony": { "theme": "farm" },
-      "catalog_mango_monkey": { "theme": "jungle" },
-      "catalog_honey_hedgehog": { "theme": "forest" },
-      "catalog_coral_crab": { "theme": "ocean", "burst": "fx.hatch.burst_shell" },
-      "catalog_noodle_alpaca": { "theme": "farm" },
-      "catalog_comet_koala": { "theme": "moon" },
-      "dragon_number": { "theme": "dino", "burst": "fx.hatch.burst_sparkle_spiral" },
-      "dragon_rainbow": { "theme": "rainbow", "burst": "fx.hatch.burst_light_rays" },
-      "dragon_story": { "theme": "moon", "burst": "fx.hatch.burst_light_rays" },
-      "dragon_music": { "theme": "jungle", "burst": "fx.hatch.burst_music" },
-      "dragon_puzzle": { "theme": "rainbow", "burst": "fx.hatch.burst_crystal_shards" },
-      "dragon_nature": { "theme": "forest", "burst": "fx.hatch.burst_sparkle_spiral" },
-      "dragon_space": { "theme": "moon", "burst": "fx.hatch.burst_sparkle_spiral" }
+      "baby_raptor": {
+        "theme": "dino",
+        "baby": true
+      },
+      "duckling": {
+        "theme": "farm",
+        "baby": true
+      },
+      "catalog_daisy_duck": {
+        "theme": "farm",
+        "baby": true
+      },
+      "catalog_starry_owl": {
+        "theme": "forest",
+        "baby": true
+      },
+      "catalog_sunny_gecko": {
+        "theme": "jungle",
+        "baby": true
+      },
+      "catalog_mossy_turtle": {
+        "theme": "ocean",
+        "baby": true
+      },
+      "catalog_bumble_bunny": {
+        "theme": "farm"
+      },
+      "catalog_tiny_toucan": {
+        "theme": "jungle"
+      },
+      "catalog_cloud_lamb": {
+        "theme": "farm"
+      },
+      "catalog_pebble_penguin": {
+        "theme": "ocean"
+      },
+      "catalog_moon_moth": {
+        "theme": "moon"
+      },
+      "catalog_puddle_otter": {
+        "theme": "ocean"
+      },
+      "catalog_berry_bear": {
+        "theme": "forest"
+      },
+      "catalog_sprout_frog": {
+        "theme": "forest"
+      },
+      "catalog_cocoa_capybara": {
+        "theme": "jungle"
+      },
+      "catalog_twinkle_deer": {
+        "theme": "forest"
+      },
+      "catalog_bubble_seal": {
+        "theme": "ocean"
+      },
+      "catalog_pipkin_pony": {
+        "theme": "farm"
+      },
+      "catalog_mango_monkey": {
+        "theme": "jungle"
+      },
+      "catalog_honey_hedgehog": {
+        "theme": "forest"
+      },
+      "catalog_coral_crab": {
+        "theme": "ocean",
+        "burst": "fx.hatch.burst_shell"
+      },
+      "catalog_noodle_alpaca": {
+        "theme": "farm"
+      },
+      "catalog_comet_koala": {
+        "theme": "moon"
+      },
+      "dragon_number": {
+        "theme": "dino",
+        "burst": "fx.hatch.burst_sparkle_spiral"
+      },
+      "dragon_rainbow": {
+        "theme": "rainbow",
+        "burst": "fx.hatch.burst_light_rays"
+      },
+      "dragon_story": {
+        "theme": "moon",
+        "burst": "fx.hatch.burst_light_rays"
+      },
+      "dragon_music": {
+        "theme": "jungle",
+        "burst": "fx.hatch.burst_music"
+      },
+      "dragon_puzzle": {
+        "theme": "rainbow",
+        "burst": "fx.hatch.burst_crystal_shards"
+      },
+      "dragon_nature": {
+        "theme": "forest",
+        "burst": "fx.hatch.burst_sparkle_spiral"
+      },
+      "dragon_space": {
+        "theme": "moon",
+        "burst": "fx.hatch.burst_sparkle_spiral"
+      },
+      "catalog_crocodile": {
+        "theme": "jungle"
+      },
+      "catalog_elephant": {
+        "theme": "jungle"
+      },
+      "catalog_hippo": {
+        "theme": "jungle"
+      },
+      "catalog_meerkat": {
+        "theme": "jungle"
+      },
+      "catalog_tiger": {
+        "theme": "jungle"
+      },
+      "catalog_flamingo": {
+        "theme": "jungle"
+      },
+      "catalog_lemur": {
+        "theme": "jungle"
+      },
+      "catalog_peacock": {
+        "theme": "jungle"
+      },
+      "catalog_red_panda": {
+        "theme": "jungle"
+      },
+      "catalog_sloth": {
+        "theme": "jungle"
+      },
+      "catalog_kangaroo": {
+        "theme": "forest"
+      },
+      "catalog_panda": {
+        "theme": "forest"
+      },
+      "catalog_raccoon": {
+        "theme": "forest"
+      },
+      "catalog_dolphin": {
+        "theme": "ocean"
+      },
+      "catalog_giraffe": {
+        "theme": "jungle"
+      },
+      "catalog_parrot": {
+        "theme": "jungle"
+      },
+      "catalog_zebra": {
+        "theme": "jungle"
+      },
+      "catalog_squirrel": {
+        "theme": "forest"
+      },
+      "catalog_seahorse": {
+        "theme": "ocean"
+      },
+      "catalog_parasaurolophus": {
+        "theme": "dino"
+      },
+      "catalog_blob_red": {
+        "theme": "rainbow"
+      },
+      "catalog_blob_blue": {
+        "theme": "rainbow"
+      },
+      "catalog_blob_yellow": {
+        "theme": "rainbow"
+      },
+      "catalog_blob_green": {
+        "theme": "rainbow"
+      },
+      "catalog_blob_orange": {
+        "theme": "rainbow"
+      },
+      "catalog_blob_purple": {
+        "theme": "rainbow"
+      },
+      "catalog_circle_blue": {
+        "theme": "rainbow"
+      },
+      "catalog_square_yellow": {
+        "theme": "rainbow"
+      },
+      "catalog_triangle_green": {
+        "theme": "rainbow"
+      },
+      "catalog_rectangle_purple": {
+        "theme": "rainbow"
+      },
+      "catalog_star_yellow": {
+        "theme": "rainbow"
+      },
+      "catalog_heart_red": {
+        "theme": "rainbow"
+      }
     }
   },
-
   "ambient": {
     "about": "Soft magic effects drawn lightly over an activity (light blend). Picked by activity id first, then by theme.",
-    "byActivity": { "m20_weather_rain": "fx.magic.rain_drops", "m20_weather_sun": "fx.magic.sun_rays", "m20_weather_cold": "fx.magic.clouds_soft", "m19_vocab_garden": "fx.magic.petal_swirl" },
-    "byTheme": { "forest": "fx.magic.leaf_wind" }
+    "byActivity": {
+      "m20_weather_rain": "fx.magic.rain_drops",
+      "m20_weather_sun": "fx.magic.sun_rays",
+      "m20_weather_cold": "fx.magic.clouds_soft",
+      "m19_vocab_garden": "fx.magic.petal_swirl",
+      "m20_wash_hands": "fx.fx_bubbles",
+      "m13_wash_swipe": "fx.fx_water_splash",
+      "m13_paint_swipe": "fx.fx_magic_trail",
+      "m20_brush_teeth": "fx.fx_sparkle_blue"
+    },
+    "byTheme": {
+      "forest": "fx.magic.leaf_wind",
+      "storybook": "fx.magic.fireflies",
+      "life": "fx.magic.butterflies_glow",
+      "space_planetarium": "fx.fx_shooting_stars",
+      "space_observatory": "fx.fx_shooting_stars",
+      "space_moon_base": "fx.fx_shooting_stars"
+    }
   },
-
   "rewards": {
     "luna_star": "worlds.decor.star_trophy_happy",
     "catalog_moon_lamp": "worlds.decor.moon_crystal_sleepy",
@@ -411,7 +963,6 @@
     "toy_chest": "objects.bathroom.toy_box",
     "toothbrush_sparkle": "objects.bathroom.toothbrush",
     "kindness_garden": "worlds.flowers.pink_flowers",
-
     "catalog_mossy_turtle": "creatures.wild.turtle",
     "catalog_tiny_toucan": "creatures.tropical.toucan",
     "catalog_cloud_lamb": "creatures.farm.sheep",
@@ -426,7 +977,6 @@
     "catalog_coral_crab": "creatures.sea_dino.crab",
     "catalog_daisy_duck": "creatures.farm.duck",
     "catalog_comet_koala": "creatures.wild.koala",
-
     "catalog_rainbow_cap": "objects.hats.hat_cap",
     "catalog_moon_beanie": "objects.clothes.beanie",
     "catalog_dino_hoodie": "objects.hats.hood_dino",
@@ -442,7 +992,6 @@
     "catalog_spotty_scarf": "objects.clothes.scarf",
     "catalog_rainbow_scarf": "objects.clothes.scarf",
     "catalog_rain_boots": "objects.clothes.rain_boots",
-
     "catalog_rainbow_bench": "objects.play.bench",
     "catalog_dino_fern": "worlds.nature.fern",
     "catalog_bubble_fountain": "worlds.decor.fountain_pond",
@@ -465,7 +1014,6 @@
     "catalog_toothbrush_cup": "objects.bathroom.cup",
     "catalog_routine_clock": "objects.daily_life.alarm_clock",
     "catalog_treasure_basket": "worlds.rainbow_build.basket_rainbow",
-
     "space_toy_rocket": "objects.space.rocket",
     "space_robot_arm": "objects.space_base.robot_arm_base",
     "space_hologram": "objects.space_base.hologram_planets",
@@ -489,11 +1037,224 @@
     "town_bus_shelter": "worlds.town.bus_shelter",
     "town_fountain": "worlds.town.fountain_town",
     "town_toy_shop": "worlds.town.toy_shop",
-
     "catalog_rainbow_wagon": "worlds.rainbow_build.cart_rainbow",
-    "catalog_story_train": "objects.vehicles.train_toy"
+    "catalog_story_train": "objects.vehicles.train_toy",
+    "catalog_crocodile": "creatures.safari.crocodile",
+    "catalog_elephant": "creatures.safari.elephant",
+    "catalog_hippo": "creatures.safari.hippo",
+    "catalog_meerkat": "creatures.safari.meerkat",
+    "catalog_tiger": "creatures.safari.tiger",
+    "catalog_flamingo": "creatures.tropical.flamingo",
+    "catalog_lemur": "creatures.tropical.lemur",
+    "catalog_peacock": "creatures.tropical.peacock",
+    "catalog_red_panda": "creatures.tropical.red_panda",
+    "catalog_sloth": "creatures.tropical.sloth",
+    "catalog_kangaroo": "creatures.wild.kangaroo",
+    "catalog_panda": "creatures.wild.panda",
+    "catalog_raccoon": "creatures.wild.raccoon",
+    "catalog_dolphin": "creatures.zoo.dolphin",
+    "catalog_giraffe": "creatures.zoo.giraffe",
+    "catalog_parrot": "creatures.zoo.parrot",
+    "catalog_zebra": "creatures.zoo.zebra",
+    "catalog_squirrel": "creatures.forest.squirrel",
+    "catalog_seahorse": "creatures.sea_dino.seahorse",
+    "catalog_parasaurolophus": "creatures.dinos.parasaurolophus",
+    "catalog_blob_red": "creatures.colour_friends.blob_red",
+    "catalog_blob_blue": "creatures.colour_friends.blob_blue",
+    "catalog_blob_yellow": "creatures.colour_friends.blob_yellow",
+    "catalog_blob_green": "creatures.colour_friends.blob_green",
+    "catalog_blob_orange": "creatures.colour_friends.blob_orange",
+    "catalog_blob_purple": "creatures.colour_friends.blob_purple",
+    "catalog_circle_blue": "creatures.shape_friends.circle_blue",
+    "catalog_square_yellow": "creatures.shape_friends.square_yellow",
+    "catalog_triangle_green": "creatures.shape_friends.triangle_green",
+    "catalog_rectangle_purple": "creatures.shape_friends.rectangle_purple",
+    "catalog_star_yellow": "creatures.shape_friends.star_yellow",
+    "catalog_heart_red": "creatures.shape_friends.heart_red",
+    "catalog_decor_apple_tree": "worlds.decor.apple_tree",
+    "catalog_decor_balloons_bunch": "worlds.decor.balloons_bunch",
+    "catalog_decor_barrel": "worlds.decor.barrel",
+    "catalog_decor_crate_wood": "worlds.decor.crate_wood",
+    "catalog_decor_flags_trio": "worlds.decor.flags_trio",
+    "catalog_decor_heart_crystal": "worlds.decor.heart_crystal",
+    "catalog_decor_post_banner": "worlds.decor.post_banner",
+    "catalog_decor_rainbow_clouds": "worlds.decor.rainbow_clouds",
+    "catalog_decor_rope_coil": "worlds.decor.rope_coil",
+    "catalog_decor_sandpit": "worlds.decor.sandpit",
+    "catalog_decor_seesaw": "worlds.decor.seesaw",
+    "catalog_decor_sign_arrow_wood": "worlds.decor.sign_arrow_wood",
+    "catalog_decor_sign_compass": "worlds.decor.sign_compass",
+    "catalog_decor_star_monument": "worlds.decor.star_monument",
+    "catalog_decor_statue_dragon": "worlds.decor.statue_dragon",
+    "catalog_decor_trampoline": "worlds.decor.trampoline",
+    "catalog_decor_treasure_chest": "worlds.decor.treasure_chest",
+    "catalog_beach_banner_sun": "worlds.beach.banner_sun",
+    "catalog_beach_beach_ball": "worlds.beach.beach_ball",
+    "catalog_beach_beach_umbrella": "worlds.beach.beach_umbrella",
+    "catalog_beach_sign_picnic": "worlds.beach.sign_picnic",
+    "catalog_beach_tiki_torch_flower": "worlds.beach.tiki_torch_flower",
+    "catalog_nature_bush_flowers": "worlds.nature.bush_flowers",
+    "catalog_nature_flower_rainbow": "worlds.nature.flower_rainbow",
+    "catalog_nature_flowers_glow": "worlds.nature.flowers_glow",
+    "catalog_nature_pebbles": "worlds.nature.pebbles",
+    "catalog_nature_plant_big_leaf": "worlds.nature.plant_big_leaf",
+    "catalog_nature_rock_flat": "worlds.nature.rock_flat",
+    "catalog_nature_rock_mossy": "worlds.nature.rock_mossy",
+    "catalog_nature_tree_blossom": "worlds.nature.tree_blossom",
+    "catalog_nature_tree_palm": "worlds.nature.tree_palm",
+    "catalog_nature_tree_willow": "worlds.nature.tree_willow",
+    "catalog_flowers_bluebells": "worlds.flowers.bluebells",
+    "catalog_flowers_daffodils": "worlds.flowers.daffodils",
+    "catalog_pond_horn_post": "worlds.pond.horn_post",
+    "catalog_pond_piano_stone": "worlds.pond.piano_stone",
+    "catalog_pond_reeds_bubbles": "worlds.pond.reeds_bubbles",
+    "catalog_pond_stepping_stones": "worlds.pond.stepping_stones",
+    "catalog_jungle_stage_flower_garland": "worlds.jungle_stage.flower_garland",
+    "catalog_jungle_stage_leaf_stool": "worlds.jungle_stage.leaf_stool",
+    "catalog_jungle_stage_sign_music": "worlds.jungle_stage.sign_music",
+    "catalog_jungle_stage_speaker_rock": "worlds.jungle_stage.speaker_rock",
+    "catalog_jungle_stage_tiki_torch": "worlds.jungle_stage.tiki_torch",
+    "catalog_jungle_stage_vine_garland": "worlds.jungle_stage.vine_garland",
+    "catalog_rainbow_village_colour_wheel": "worlds.rainbow_village.colour_wheel",
+    "catalog_rainbow_village_paint_splat_rainbow": "worlds.rainbow_village.paint_splat_rainbow",
+    "catalog_rainbow_village_rainbow_fountain": "worlds.rainbow_village.rainbow_fountain",
+    "catalog_rainbow_village_shape_sorter_board": "worlds.rainbow_village.shape_sorter_board",
+    "catalog_rainbow_village_stepping_stones_rainbow": "worlds.rainbow_village.stepping_stones_rainbow",
+    "catalog_rainbow_build_carousel_top": "worlds.rainbow_build.carousel_top",
+    "catalog_dino_valley_lava_rocks": "worlds.dino_valley.lava_rocks",
+    "catalog_dino_valley_log_mossy": "worlds.dino_valley.log_mossy",
+    "catalog_animal_forest_bridge_stream": "worlds.animal_forest.bridge_stream",
+    "catalog_animal_forest_nest_bird_eggs": "worlds.animal_forest.nest_bird_eggs",
+    "catalog_house_parts_flag_rainbow": "worlds.house_parts.flag_rainbow",
+    "catalog_play_swing": "objects.play.swing",
+    "catalog_play_xylophone": "objects.play.xylophone",
+    "catalog_stage_curtain": "objects.stage.curtain",
+    "catalog_stage_dance_pad": "objects.stage.dance_pad",
+    "catalog_stage_music_stand": "objects.stage.music_stand",
+    "catalog_stage_speakers": "objects.stage.speakers",
+    "catalog_stage_spotlight": "objects.stage.spotlight",
+    "catalog_art_crystal_rainbow": "objects.art.crystal_rainbow",
+    "catalog_art_easel_rainbow": "objects.art.easel_rainbow",
+    "catalog_art_paint_bowl_rainbow": "objects.art.paint_bowl_rainbow",
+    "catalog_art_paintbrush_rainbow": "objects.art.paintbrush_rainbow",
+    "catalog_music_handbells": "objects.music.handbells",
+    "catalog_music_maracas": "objects.music.maracas",
+    "catalog_music_tambourine": "objects.music.tambourine",
+    "catalog_music_triangle": "objects.music.triangle",
+    "catalog_music_jungle_trumpet": "objects.music_jungle.trumpet",
+    "catalog_music_jungle_speaker": "objects.music_jungle.speaker",
+    "catalog_picnic_fruit_crate": "objects.picnic.fruit_crate",
+    "catalog_picnic_veg_basket": "objects.picnic.veg_basket",
+    "catalog_picnic_cookies_muffin": "objects.picnic.cookies_muffin",
+    "catalog_picnic_sandwich": "objects.picnic.sandwich",
+    "catalog_dino_nest_leaf": "objects.dino.nest_leaf",
+    "catalog_literacy_book_lectern": "objects.literacy.book_lectern",
+    "catalog_literacy_moon_sleepy_pedestal": "objects.literacy.moon_sleepy_pedestal",
+    "catalog_literacy_star_happy_pedestal": "objects.literacy.star_happy_pedestal",
+    "catalog_books_book_blue": "rewards.books.book_blue",
+    "catalog_books_book_green": "rewards.books.book_green",
+    "catalog_books_book_red": "rewards.books.book_red",
+    "catalog_books_quill_magic": "rewards.books.quill_magic",
+    "catalog_reward_chest_star": "rewards.chest_star",
+    "catalog_reward_star_globe": "rewards.star_globe",
+    "catalog_reward_egg_pedestal": "rewards.egg_pedestal",
+    "catalog_podiums_banner_stars": "rewards.podiums.banner_stars",
+    "catalog_podiums_bow_star_ribbons": "rewards.podiums.bow_star_ribbons",
+    "catalog_podiums_garland_stars": "rewards.podiums.garland_stars",
+    "catalog_space_base_alarm_light": "worlds.space_base.alarm_light",
+    "catalog_space_base_antenna_tower": "worlds.space_base.antenna_tower",
+    "catalog_space_base_dish_satellite": "worlds.space_base.dish_satellite",
+    "catalog_space_base_light_tower": "worlds.space_base.light_tower",
+    "catalog_space_base_radio_tower": "worlds.space_base.radio_tower",
+    "catalog_space_base_solar_panel": "worlds.space_base.solar_panel",
+    "catalog_space_base_landing_pad": "worlds.space_base.landing_pad",
+    "catalog_space_base_charging_pod": "objects.space_base.charging_pod",
+    "catalog_space_base_seat_astronaut": "objects.space_base.seat_astronaut",
+    "catalog_space_base_meteor_glow": "objects.space_base.meteor_glow",
+    "catalog_space_telescope": "objects.space.telescope",
+    "catalog_space_planet_ringed": "objects.space.planet_ringed",
+    "catalog_space_satellite": "objects.space.satellite",
+    "catalog_town_bench_park": "worlds.town.bench_park",
+    "catalog_town_bike_rack": "worlds.town.bike_rack",
+    "catalog_town_bin": "worlds.town.bin",
+    "catalog_town_info_pillar": "worlds.town.info_pillar",
+    "catalog_town_fountain_town": "worlds.town.fountain_town",
+    "catalog_town_street_lamp": "objects.town.street_lamp",
+    "catalog_town_fire_hydrant": "objects.town.fire_hydrant",
+    "catalog_town_post_box": "objects.town.post_box",
+    "catalog_town_traffic_light": "objects.town.traffic_light",
+    "catalog_town_sign_stop": "objects.town.sign_stop",
+    "catalog_number_stone_1": "worlds.dino_valley.number_stone_1",
+    "catalog_number_stone_2": "worlds.dino_valley.number_stone_2",
+    "catalog_number_stone_3": "worlds.dino_valley.number_stone_3",
+    "catalog_house_bakery": "worlds.buildings.bakery",
+    "catalog_house_camp_circle": "worlds.buildings.camp_circle",
+    "catalog_house_castle": "worlds.buildings.castle",
+    "catalog_house_climbing_dome": "worlds.buildings.climbing_dome",
+    "catalog_house_construction_site": "worlds.buildings.construction_site",
+    "catalog_house_dock": "worlds.buildings.dock",
+    "catalog_house_fruit_shop": "worlds.buildings.fruit_shop",
+    "catalog_house_garage": "worlds.buildings.garage",
+    "catalog_house_music_hut": "worlds.buildings.music_hut",
+    "catalog_house_stone_circle": "worlds.buildings.stone_circle",
+    "catalog_house_workshop": "worlds.buildings.workshop",
+    "catalog_bunny_cottage": "worlds.bunny_cottage",
+    "catalog_skull_cave": "worlds.dino_cave_skull",
+    "catalog_waterfall": "worlds.island_waterfall",
+    "catalog_den_cave": "worlds.animal_forest.den_cave",
+    "catalog_burrow": "worlds.animal_forest.burrow",
+    "catalog_stump_home": "worlds.animal_forest.tree_stump_home",
+    "catalog_repair_bay": "worlds.space_base.repair_bay",
+    "catalog_hatch_door": "worlds.space_base.hatch_door",
+    "catalog_cafe": "worlds.town.cafe",
+    "catalog_library": "worlds.town.library",
+    "catalog_town_hall": "worlds.town.town_hall",
+    "catalog_police_station": "worlds.town.police_station",
+    "catalog_hospital": "worlds.town.hospital",
+    "catalog_train_station": "worlds.town.train_station",
+    "catalog_bus_depot": "worlds.town.bus_depot",
+    "catalog_fuel_station": "worlds.town.fuel_station",
+    "catalog_autumn_harvest_basket": "worlds.seasons.autumn.harvest_basket",
+    "catalog_autumn_lantern_acorn": "worlds.seasons.autumn.lantern_acorn",
+    "catalog_autumn_leaf_garland": "worlds.seasons.autumn.leaf_garland",
+    "catalog_autumn_leaf_pile": "worlds.seasons.autumn.leaf_pile",
+    "catalog_autumn_pumpkin": "worlds.seasons.autumn.pumpkin",
+    "catalog_autumn_scarecrow": "worlds.seasons.autumn.scarecrow",
+    "catalog_spring_bunting_pastel": "worlds.seasons.spring.bunting_pastel",
+    "catalog_spring_butterflies": "worlds.seasons.spring.butterflies",
+    "catalog_spring_egg_painted": "worlds.seasons.spring.egg_painted",
+    "catalog_spring_flower_arch": "worlds.seasons.spring.flower_arch",
+    "catalog_spring_lantern_tulip": "worlds.seasons.spring.lantern_tulip",
+    "catalog_spring_wreath_blossom": "worlds.seasons.spring.wreath_blossom",
+    "catalog_winter_arch_candy_cane": "worlds.seasons.winter.arch_candy_cane",
+    "catalog_winter_lantern_snow": "worlds.seasons.winter.lantern_snow",
+    "catalog_winter_presents": "worlds.seasons.winter.presents",
+    "catalog_winter_snowman": "worlds.seasons.winter.snowman",
+    "catalog_winter_tree_snowy": "worlds.seasons.winter.tree_snowy",
+    "catalog_winter_wreath_holly": "worlds.seasons.winter.wreath_holly",
+    "catalog_hat_chef": "objects.hats.hat_chef",
+    "catalog_hat_firefighter": "objects.hats.hat_firefighter",
+    "catalog_hat_wizard": "objects.hats.hat_wizard",
+    "catalog_outfit_astronaut": "objects.outfits.outfit_astronaut",
+    "catalog_outfit_builder": "objects.outfits.outfit_builder",
+    "catalog_outfit_chef": "objects.outfits.outfit_chef",
+    "catalog_outfit_dino_onesie": "objects.outfits.outfit_dino_onesie",
+    "catalog_outfit_doctor": "objects.outfits.outfit_doctor",
+    "catalog_outfit_pirate": "objects.outfits.outfit_pirate",
+    "catalog_outfit_pyjamas": "objects.outfits.outfit_pyjamas",
+    "catalog_outfit_rainbow": "objects.outfits.outfit_rainbow",
+    "catalog_outfit_raincoat": "objects.outfits.outfit_raincoat",
+    "catalog_outfit_wizard": "objects.outfits.outfit_wizard",
+    "catalog_goggles": "objects.outfits.goggles",
+    "catalog_sunglasses": "objects.clothes.sunglasses",
+    "catalog_spanner": "objects.outfits.spanner",
+    "catalog_gloves": "objects.clothes.gloves",
+    "catalog_snow_boots": "objects.clothes.snow_boots",
+    "catalog_umbrella": "objects.clothes.umbrella",
+    "catalog_tshirt": "objects.clothes.tshirt",
+    "catalog_shorts": "objects.clothes.shorts",
+    "catalog_satchel": "characters.pip.pip_part_satchel"
   },
-
   "island": {
     "pipHouse": "worlds.buildings.cottage_blue",
     "portal": "worlds.buildings.portal_gate",
@@ -507,7 +1268,6 @@
     "rainbow_arch": "worlds.rainbow_village.rainbow",
     "portalSwirl": "fx.magic.portal_swirl"
   },
-
   "worlds": {
     "dino": "ui.worlds.world_numbers",
     "rainbow": "ui.worlds.world_colours",
@@ -518,7 +1278,6 @@
     "space": "ui.worlds.world_space",
     "town": "ui.worlds.world_helping"
   },
-
   "rainbowMissions": {
     "rainbow_missing_rainbow": "worlds.rainbow_village.rainbow",
     "rainbow_octo_paint_party": "objects.art.palette",
@@ -526,7 +1285,6 @@
     "rainbow_balloon_sort_mission": "worlds.rainbow_build.balloon_rainbow",
     "rainbow_build_parade_float": "objects.shapes.star_yellow"
   },
-
   "ui": {
     "parent": "ui.icon_parent_area",
     "home": "ui.icon_home",
@@ -538,54 +1296,199 @@
     "next": "objects.town.sign_arrow",
     "prev": "objects.town.sign_arrow",
     "back": "objects.town.sign_arrow",
-    "mirror": ["prev", "back"],
+    "mirror": [
+      "prev",
+      "back"
+    ],
     "toggle_on": "ui.parent.toggle_on",
     "lock": "ui.lock_closed",
     "tab_creatures": "ui.menu.icon_collection",
     "tab_cosmetics": "ui.menu.icon_wardrobe",
-    "tab_decorations": "worlds.flowers.tulips",
+    "tab_decorations": "ui.menu.icon_gift",
     "tab_vehicles": "objects.vehicles.train_toy",
-    "tab_dragons": "creatures.dragons.dragon_rainbow",
+    "tab_dragons": "ui.menu.icon_eggs",
     "parent_dashboard": "ui.parent.icon_progress",
     "parent_settings": "ui.parent.icon_settings",
     "parent_profiles": "ui.parent.profile_card",
     "parent_test": "ui.parent.timer",
     "parent_release": "rewards.medals.badge_check",
     "parent_gate_locked": "ui.lock_closed",
-    "parent_gate_open": "ui.lock_open"
+    "parent_gate_open": "ui.lock_open",
+    "podium": "rewards.podiums.podium_gold",
+    "placeSpot": "ui.build.place_spot_glow",
+    "tab_seasons": "worlds.seasons.autumn.pumpkin",
+    "tab_buildings": "worlds.buildings.castle"
   },
-
   "fx": {
     "about": "blend 'screen' = light blend for glows; omitted = normal.",
-    "hintGlow": { "id": "fx.fx_glow_gold", "blend": "screen" },
-    "correct": { "id": "fx.fx_sparkles_gold", "blend": "screen" },
-    "reward": { "id": "fx.fx_star_burst", "blend": "screen" },
-    "complete": { "id": "fx.fx_confetti" },
-    "ring_correct": { "id": "fx.ring_yellow", "blend": "screen" },
-    "ring_drop": { "id": "fx.ring_blue", "blend": "screen" },
-    "ring_incorrect": { "id": "fx.ring_pink", "blend": "screen" },
-    "place": { "id": "fx.magic.sparkle_orbs", "blend": "screen" },
-    "rareGlow": { "id": "fx.fx_ring_stars_gold", "blend": "screen" }
+    "hintGlow": {
+      "id": "fx.fx_glow_gold",
+      "blend": "screen"
+    },
+    "correct": {
+      "id": "fx.fx_sparkles_gold",
+      "blend": "screen"
+    },
+    "reward": {
+      "id": "fx.fx_star_burst",
+      "blend": "screen"
+    },
+    "complete": {
+      "id": "fx.fx_confetti"
+    },
+    "ring_correct": {
+      "id": "fx.ring_yellow",
+      "blend": "screen"
+    },
+    "ring_drop": {
+      "id": "fx.ring_blue",
+      "blend": "screen"
+    },
+    "ring_incorrect": {
+      "id": "fx.ring_pink",
+      "blend": "screen"
+    },
+    "place": {
+      "id": "fx.magic.sparkle_orbs",
+      "blend": "screen"
+    },
+    "rareGlow": {
+      "id": "fx.fx_ring_stars_gold",
+      "blend": "screen"
+    }
   },
-
   "preload": {
     "about": "Art loaded for each scene (plus pictures for the activities inside an adventure, worked out from data). 'starter' stays loaded and is what the one-file test build embeds.",
     "starter": [
       "art.meadow_picnic_clearing",
-      "characters.pip.pip_front", "characters.pip.pip_side", "characters.pip.pip_look_up", "characters.pip.pip_wave", "characters.pip.pip_fly_happy", "characters.pip.pip_crouch_play",
-      "creatures.bunny.bunny_tpose", "creatures.rory.rory_idle",
-      "ui.icon_parent_area", "ui.icon_home", "objects.town.sign_arrow", "ui.icon_play", "ui.map_pin_star", "ui.menu.icon_collection", "ui.build.move_arrows", "ui.icon_star",
-      "worlds.buildings.cottage_blue", "worlds.buildings.portal_gate", "worlds.nature.tree_big", "worlds.pond.lily_pads", "worlds.bunny_house", "objects.play.slide", "objects.play.beach_ball", "objects.play.drum",
-      "fx.fx_glow_gold", "fx.fx_sparkles_gold", "fx.fx_star_burst", "fx.fx_confetti", "fx.ring_yellow", "fx.ring_blue", "fx.ring_pink", "fx.magic.sparkle_orbs"
+      "characters.pip.pip_front",
+      "characters.pip.pip_side",
+      "characters.pip.pip_look_up",
+      "characters.pip.pip_wave",
+      "characters.pip.pip_fly_happy",
+      "characters.pip.pip_crouch_play",
+      "creatures.bunny.bunny_tpose",
+      "creatures.rory.rory_idle",
+      "ui.icon_parent_area",
+      "ui.icon_home",
+      "objects.town.sign_arrow",
+      "ui.icon_play",
+      "ui.map_pin_star",
+      "ui.menu.icon_collection",
+      "ui.build.move_arrows",
+      "ui.icon_star",
+      "worlds.buildings.cottage_blue",
+      "worlds.buildings.portal_gate",
+      "worlds.nature.tree_big",
+      "worlds.pond.lily_pads",
+      "worlds.bunny_house",
+      "objects.play.slide",
+      "objects.play.beach_ball",
+      "objects.play.drum",
+      "fx.fx_glow_gold",
+      "fx.fx_sparkles_gold",
+      "fx.fx_star_burst",
+      "fx.fx_confetti",
+      "fx.ring_yellow",
+      "fx.ring_blue",
+      "fx.ring_pink",
+      "fx.magic.sparkle_orbs"
     ],
     "scenes": {
-      "island": ["worlds.dino_cave", "worlds.rainbow_village.rainbow", "fx.fx_ring_stars_gold"],
-      "worldSelect": ["ui.worlds.world_numbers", "ui.worlds.world_colours", "ui.worlds.world_animals", "ui.worlds.world_music", "ui.worlds.world_letters", "ui.worlds.world_feelings", "ui.worlds.world_space", "ui.worlds.world_helping"],
-      "rainbowVillage": ["creatures.sea_dino.octopus", "worlds.rainbow_village.rainbow", "objects.art.palette", "objects.shapes.triangle_yellow", "worlds.rainbow_build.balloon_rainbow", "objects.shapes.star_yellow"],
-      "jungleJam": ["objects.music_jungle.drum_kit", "objects.music_jungle.guitar", "objects.music.xylophone", "objects.stage.microphone"],
-      "parentGate": ["ui.parent.toggle_on", "ui.lock_closed", "ui.lock_open", "ui.parent.icon_progress", "ui.parent.icon_settings", "ui.parent.profile_card", "ui.parent.timer", "rewards.medals.badge_check"],
-      "collection": ["@rewards", "fx.fx_ring_stars_gold", "ui.menu.icon_wardrobe", "worlds.flowers.tulips", "objects.vehicles.train_toy", "ui.lock_closed"],
-      "adventure": ["objects.dino_egg", "creatures.sea_dino.octopus"]
+      "island": [
+        "worlds.dino_cave",
+        "worlds.rainbow_village.rainbow",
+        "fx.fx_ring_stars_gold",
+        "rewards.podiums.podium_gold",
+        "ui.build.place_spot_glow"
+      ],
+      "worldSelect": [
+        "ui.worlds.world_numbers",
+        "ui.worlds.world_colours",
+        "ui.worlds.world_animals",
+        "ui.worlds.world_music",
+        "ui.worlds.world_letters",
+        "ui.worlds.world_feelings",
+        "ui.worlds.world_space",
+        "ui.worlds.world_helping"
+      ],
+      "rainbowVillage": [
+        "creatures.sea_dino.octopus",
+        "worlds.rainbow_village.rainbow",
+        "objects.art.palette",
+        "objects.shapes.triangle_yellow",
+        "worlds.rainbow_build.balloon_rainbow",
+        "objects.shapes.star_yellow"
+      ],
+      "jungleJam": [
+        "objects.music_jungle.drum_kit",
+        "objects.music_jungle.guitar",
+        "objects.music.xylophone",
+        "objects.stage.microphone",
+        "fx.note_blue",
+        "fx.note_gold",
+        "fx.note_pink"
+      ],
+      "parentGate": [
+        "ui.parent.toggle_on",
+        "ui.lock_closed",
+        "ui.lock_open",
+        "ui.parent.icon_progress",
+        "ui.parent.icon_settings",
+        "ui.parent.profile_card",
+        "ui.parent.timer",
+        "rewards.medals.badge_check"
+      ],
+      "collection": [
+        "@rewards",
+        "fx.fx_ring_stars_gold",
+        "ui.menu.icon_wardrobe",
+        "worlds.flowers.tulips",
+        "objects.vehicles.train_toy",
+        "ui.lock_closed",
+        "ui.menu.icon_eggs",
+        "ui.menu.icon_gift",
+        "worlds.seasons.autumn.pumpkin",
+        "worlds.buildings.castle",
+        "rewards.podiums.podium_gold",
+        "rewards.hatch.dino.egg_dino_1_idle",
+        "rewards.eggs.egg_rainbow",
+        "rewards.eggs.egg_moon",
+        "rewards.eggs.egg_jungle",
+        "rewards.eggs.egg_forest"
+      ],
+      "adventure": [
+        "objects.dino_egg",
+        "creatures.sea_dino.octopus"
+      ],
+      "worldHub": [
+        "rewards.medals.medal_bronze",
+        "rewards.medals.medal_silver",
+        "rewards.medals.medal_gold",
+        "rewards.medals.trophy"
+      ]
     }
+  },
+  "medals": {
+    "bronze": "rewards.medals.medal_bronze",
+    "silver": "rewards.medals.medal_silver",
+    "gold": "rewards.medals.medal_gold",
+    "trophy": "rewards.medals.trophy"
+  },
+  "dragonEggs": {
+    "dragon_number": "rewards.hatch.dino.egg_dino_1_idle",
+    "dragon_rainbow": "rewards.eggs.egg_rainbow",
+    "dragon_story": "rewards.eggs.egg_moon",
+    "dragon_music": "rewards.eggs.egg_jungle",
+    "dragon_puzzle": "rewards.eggs.egg_rainbow",
+    "dragon_nature": "rewards.eggs.egg_forest",
+    "dragon_space": "rewards.eggs.egg_moon"
+  },
+  "jam": {
+    "notes": [
+      "fx.note_blue",
+      "fx.note_gold",
+      "fx.note_pink"
+    ]
   }
 }

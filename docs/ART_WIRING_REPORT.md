@@ -142,13 +142,13 @@ Testing the live site showed the island preloading every reward picture (~80), n
 ## Job 05 — lighter art for tablets
 
 - **Originals:** every full-size picture is kept in `../../04_ART/MASTERS_FULL_SIZE/` (same folders and names, verified byte-for-byte). It's outside the game folder, so it's never uploaded.
-- **Size:** the 711 pictures went from **123.0 MB to 35.9 MB**. 60 more pictures (space base, town helpers, vehicles, town and space-base worlds) arrived during the job and were shrunk the same way (15.3 → 4.5 MB). All 771 now total **40.1 MB**, versus 138 MB if left full size.
+- **Size:** the 711 pictures went from **123.0 MB to 35.9 MB**. 67 more pictures arrived during the job and were shrunk the same way: 60 space-base/town/vehicle pieces (15.3 → 4.5 MB) and 7 dragons (13.7 → 1.1 MB). All 778 now total **41.3 MB**, versus 152 MB if left full size. The 7 dragons briefly went live full size before being shrunk, so the picture cache was bumped once more.
 - **Resizing:** longest side about 2× the biggest size the game draws it, never upscaled. Icons 256 px, letters and numbers 384, Pip 680, helper characters 680, hatch eggs 800, effects ≤ 1024. 88 of the original 711 were actually resized (mostly icons, letters, numbers, Bunny, Pip waving, two explorer poses). Everything else was already small enough. The meadow background keeps its full size because it fills the screen.
 - **Compression:** most pictures use high-quality palette compression (like pngquant at top quality). Average change is about 3 out of 255 per pixel, invisible at game size. **Effects (all glows) stay lossless**, as does any picture whose colours would change noticeably: the hungry/surprised child faces, the parent sound icon, the rainbow hatch baby, rainbow fountain, spring flower arch / butterflies / tulip lantern, pond reeds, two explorer poses.
 - **What could look slightly different:** only when zoomed in 2×, faint grain on soft fur (Pip's fur, the moon-hatch dragon). At normal size the side-by-side checks show no difference. Glows show no banding.
 - **New art from now on:** file the full-size picture in `04_ART/MASTERS_FULL_SIZE/` and in `assets/` as usual, then run `npm install --no-save sharp@0.34.4` and `node scripts/shrink-art.cjs`. It only processes new or changed pictures. Then bump both cache names in `sw.js`.
-- Offline caches bumped: code `little-legends-m29-playable-fix1-art-v37`, pictures `little-legends-art-v2` (the pictures changed under the same names, so the old offline copies are replaced).
-- **One-file build:** everything now fits, so it embeds all 771 pictures (54.1 MB file).
+- Offline caches bumped: code `little-legends-m29-playable-fix1-art-v37`, pictures `little-legends-art-v3` (the pictures changed under the same names, so the old offline copies are replaced).
+- **One-file build:** everything now fits, so it embeds all 778 pictures.
 
 ## Offline and one-file build
 

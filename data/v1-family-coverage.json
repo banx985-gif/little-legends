@@ -1,0 +1,55 @@
+{
+  "source": "LITTLE_LEGENDS_JS_CANVAS_MILESTONE_BUILD_PLAN.md milestones 15-20",
+  "note": "Architecture coverage matrix for the explicit V1 learning items named in the build plan. It proves expressibility through reusable activity families; it does not claim finished content or child-learning validation.",
+  "items": [
+    {"world":"Rainbow Village","item":"Red","families":["Categorise","SortObjects","TapRequestedObject","PaintSwipe"]},
+    {"world":"Rainbow Village","item":"Blue","families":["Categorise","SortObjects","TapRequestedObject","PaintSwipe"]},
+    {"world":"Rainbow Village","item":"Yellow","families":["Categorise","SortObjects","TapRequestedObject","PaintSwipe"]},
+    {"world":"Rainbow Village","item":"Green","families":["Categorise","SortObjects","TapRequestedObject","PaintSwipe"]},
+    {"world":"Rainbow Village","item":"Orange","families":["Categorise","SortObjects","TapRequestedObject","PaintSwipe"]},
+    {"world":"Rainbow Village","item":"Purple","families":["Categorise","SortObjects","TapRequestedObject","PaintSwipe"]},
+    {"world":"Rainbow Village","item":"Circle","families":["ShapeMatch","MatchPairs","TapRequestedObject"]},
+    {"world":"Rainbow Village","item":"Square","families":["ShapeMatch","MatchPairs","TapRequestedObject"]},
+    {"world":"Rainbow Village","item":"Triangle","families":["ShapeMatch","MatchPairs","TapRequestedObject"]},
+    {"world":"Rainbow Village","item":"Rectangle","families":["ShapeMatch","MatchPairs","TapRequestedObject"]},
+    {"world":"Rainbow Village","item":"Big/small","families":["SizeCompare"]},
+    {"world":"Rainbow Village","item":"Patterns","families":["PatternComplete"]},
+
+    {"world":"Dino Valley","item":"Counting 1-10","families":["CountAndPlace"]},
+    {"world":"Dino Valley","item":"Number recognition 1-10","families":["TapRequestedObject","MatchPairs"]},
+    {"world":"Dino Valley","item":"More/less","families":["SizeCompare","StoryChoice"]},
+    {"world":"Dino Valley","item":"Same amount","families":["MatchPairs","CountAndPlace"]},
+    {"world":"Dino Valley","item":"Size","families":["SizeCompare"]},
+    {"world":"Dino Valley","item":"Basic addition preparation","families":["CountAndPlace","BuildObject"]},
+    {"world":"Dino Valley","item":"Sequences","families":["SequenceOrder","PatternComplete"]},
+
+    {"world":"Animal Forest","item":"Animal names","families":["TapRequestedObject","MatchPairs"]},
+    {"world":"Animal Forest","item":"Sounds","families":["SoundMatch"]},
+    {"world":"Animal Forest","item":"Habitats","families":["Categorise","DragToTarget"]},
+    {"world":"Animal Forest","item":"Baby/parent","families":["MatchPairs"]},
+    {"world":"Animal Forest","item":"Land/water/air","families":["Categorise","SortObjects"]},
+    {"world":"Animal Forest","item":"Food","families":["Categorise","DragToTarget"]},
+    {"world":"Animal Forest","item":"Body features","families":["TapRequestedObject","StoryChoice"]},
+    {"world":"Animal Forest","item":"Classification","families":["Categorise","SortObjects"]},
+
+    {"world":"Jungle Jam","item":"Repeat beat","families":["RhythmRepeat"]},
+    {"world":"Jungle Jam","item":"Fast/slow","families":["RhythmRepeat"]},
+    {"world":"Jungle Jam","item":"Loud/quiet","families":[],"reason":"Needs production audio dynamics support beyond the current generic family implementation."},
+    {"world":"Jungle Jam","item":"Sound recognition","families":["SoundMatch"]},
+
+    {"world":"Storybook","item":"Vocabulary","families":["StoryChoice","TapRequestedObject","MatchPairs"]},
+    {"world":"Storybook","item":"Letter exposure","families":["TapRequestedObject","StoryChoice"]},
+    {"world":"Storybook","item":"A-Z recognition architecture","families":["TapRequestedObject","MatchPairs"]},
+    {"world":"Storybook","item":"Upper/lowercase matching","families":["MatchPairs"]},
+    {"world":"Storybook","item":"First sounds","families":["SoundMatch"]},
+    {"world":"Storybook","item":"Name-letter support","families":["TapRequestedObject","MatchPairs"]},
+
+    {"world":"Life Skills","item":"Hand washing","families":["SequenceOrder","WashSwipe"]},
+    {"world":"Life Skills","item":"Teeth brushing","families":["SequenceOrder","WashSwipe"]},
+    {"world":"Life Skills","item":"Weather clothes","families":["Categorise","StoryChoice"]},
+    {"world":"Life Skills","item":"Toy sorting","families":["Categorise","SortObjects"]},
+    {"world":"Life Skills","item":"Feelings","families":["StoryChoice"]},
+    {"world":"Life Skills","item":"Helping","families":["StoryChoice","SequenceOrder"]},
+    {"world":"Life Skills","item":"Simple routines","families":["SequenceOrder"]}
+  ]
+}

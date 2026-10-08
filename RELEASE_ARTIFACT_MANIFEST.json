@@ -1,0 +1,42 @@
+{
+  "product": "Little Legends: Magic World",
+  "packageVersion": "0.29.0-pre-rc.1",
+  "channel": "PRE-RC",
+  "generatedAt": "2026-08-28T15:24:21.296Z",
+  "buildMarker": "M0-M29 release qualification build — M26/M29 human gates pending",
+  "saveVersion": 2,
+  "serviceWorkerCache": "little-legends-m29-v29",
+  "content": {
+    "activities": 119,
+    "activityFamilies": 25,
+    "littleMissions": 30,
+    "rewards": 149
+  },
+  "artifacts": {
+    "standalone": {
+      "file": "LITTLE_LEGENDS_STANDALONE_M0_M29_PRE_RC.html",
+      "bytes": 3746764,
+      "sha256": "0c8d02f1a3502550a89f18d8d8f2a31bea39520f84f4f3b16b2d7f4086b925d7"
+    },
+    "meadowArt": {
+      "file": "assets/art/meadow_picnic_clearing.png",
+      "bytes": 2488450,
+      "sha256": "4193946ad9a145cfdd5042e61410d22c0a05a76a8ce0b7b2db05eca866d0aa63"
+    },
+    "activities": {
+      "file": "data/activities.json",
+      "bytes": 132204,
+      "sha256": "e6c0a99a1280dc58d0b3ff668d846a93354d76a7c675fda75c853a9c08048826"
+    },
+    "adventures": {
+      "file": "data/adventures.json",
+      "bytes": 31451,
+      "sha256": "8929f34a3b3953a26ad775f6d6609193012b21f601210840f40b549739bc5ee5"
+    },
+    "rewards": {
+      "file": "data/rewards.json",
+      "bytes": 52209,
+      "sha256": "5290461fa0e689697202b40764bad587577f231ecb11e2e4d9b919e22e45181b"
+    }
+  }
+}

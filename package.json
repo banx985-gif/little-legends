@@ -1,0 +1,11 @@
+{
+  "name": "little-legends-magic-world",
+  "private": true,
+  "version": "0.29.1-playable-fix.1",
+  "type": "module",
+  "scripts": {
+    "check": "node ./scripts/check.mjs",
+    "standalone": "node ./scripts/build-standalone.mjs",
+    "rc:check": "node ./scripts/release-candidate-check.mjs"
+  }
+}

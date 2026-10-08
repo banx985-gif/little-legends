@@ -1,0 +1,6074 @@
+{
+  "activities": [
+    {
+      "id": "feed_bunny_3",
+      "type": "CountAndPlace",
+      "skill": "count_1_3",
+      "theme": "meadow",
+      "character": "bunny",
+      "object": "apple",
+      "color": "red",
+      "targetCount": 3,
+      "instruction": "three_apples_for_bunny",
+      "instructionText": "Put 3 apples in Bunny's basket!",
+      "voiceText": "Put three apples in Bunny's basket!",
+      "pipBubble": "Three apples for Bunny!",
+      "successReaction": "celebrate",
+      "completeDetail": "1 • 2 • 3 apples",
+      "adaptiveSkill": "COUNT_3",
+      "adaptive": {
+        "kind": "count",
+        "min": 2,
+        "max": 5
+      }
+    },
+    {
+      "id": "feed_bunny_2_carrots",
+      "type": "CountAndPlace",
+      "skill": "count_1_2",
+      "theme": "meadow",
+      "character": "bunny",
+      "object": "carrot",
+      "color": "orange",
+      "targetCount": 2,
+      "instruction": "two_carrots_for_bunny",
+      "instructionText": "Put 2 carrots in Bunny's basket!",
+      "voiceText": "Put two carrots in Bunny's basket!",
+      "pipBubble": "Two carrots!",
+      "completeDetail": "1 • 2 carrots"
+    },
+    {
+      "id": "drag_yellow_star",
+      "type": "DragToTarget",
+      "skill": "shape_star",
+      "instruction": "star_home",
+      "instructionText": "Put the yellow star in its home!",
+      "voiceText": "Drag the yellow star to the yellow home.",
+      "objects": [
+        {
+          "kind": "star",
+          "color": "yellow",
+          "x": 560,
+          "y": 690,
+          "targetId": "star-home"
+        }
+      ],
+      "targets": [
+        {
+          "id": "star-home",
+          "label": "STAR",
+          "color": "yellow",
+          "x": 1400,
+          "y": 690,
+          "w": 330,
+          "h": 270,
+          "accepts": [
+            "star"
+          ]
+        }
+      ],
+      "completeDetail": "Star matched!",
+      "skills": [
+        "YELLOW"
+      ]
+    },
+    {
+      "id": "drag_blue_circle",
+      "type": "DragToTarget",
+      "skill": "shape_circle",
+      "instruction": "circle_home",
+      "instructionText": "Put the blue circle in its home!",
+      "voiceText": "Drag the blue circle to the blue home.",
+      "objects": [
+        {
+          "kind": "circle",
+          "color": "blue",
+          "x": 560,
+          "y": 690,
+          "targetId": "circle-home"
+        }
+      ],
+      "targets": [
+        {
+          "id": "circle-home",
+          "label": "CIRCLE",
+          "color": "blue",
+          "x": 1400,
+          "y": 690,
+          "w": 330,
+          "h": 270,
+          "accepts": [
+            "circle"
+          ]
+        }
+      ],
+      "completeDetail": "Circle matched!",
+      "skills": [
+        "BLUE",
+        "CIRCLE"
+      ]
+    },
+    {
+      "id": "sort_red_blue_fruit",
+      "type": "SortObjects",
+      "skill": "sort_colour",
+      "instruction": "sort_colours",
+      "instructionText": "Sort red and blue food!",
+      "voiceText": "Put red food with red, and blue food with blue.",
+      "targets": [
+        {
+          "id": "red-bin",
+          "label": "RED",
+          "color": "red",
+          "x": 1280,
+          "y": 620,
+          "w": 300,
+          "h": 270,
+          "accepts": [
+            "red"
+          ]
+        },
+        {
+          "id": "blue-bin",
+          "label": "BLUE",
+          "color": "blue",
+          "x": 1640,
+          "y": 620,
+          "w": 300,
+          "h": 270,
+          "accepts": [
+            "blue"
+          ]
+        }
+      ],
+      "objects": [
+        {
+          "kind": "apple",
+          "color": "red",
+          "category": "fruit",
+          "x": 400,
+          "y": 560,
+          "size": 140
+        },
+        {
+          "kind": "berry",
+          "color": "blue",
+          "category": "fruit",
+          "x": 650,
+          "y": 730,
+          "size": 140
+        },
+        {
+          "kind": "strawberry",
+          "color": "red",
+          "category": "fruit",
+          "x": 860,
+          "y": 540,
+          "size": 140
+        },
+        {
+          "kind": "berry",
+          "color": "blue",
+          "category": "fruit",
+          "x": 1020,
+          "y": 770,
+          "size": 140
+        }
+      ],
+      "completeDetail": "Colours sorted!",
+      "skills": [
+        "RED",
+        "BLUE"
+      ]
+    },
+    {
+      "id": "sort_shapes",
+      "type": "SortObjects",
+      "skill": "sort_shape",
+      "instruction": "sort_shapes",
+      "instructionText": "Sort circles and squares!",
+      "voiceText": "Put circles with circles, and squares with squares.",
+      "targets": [
+        {
+          "id": "circle-bin",
+          "label": "CIRCLES",
+          "color": "green",
+          "x": 1280,
+          "y": 620,
+          "w": 300,
+          "h": 270,
+          "accepts": [
+            "circle"
+          ]
+        },
+        {
+          "id": "square-bin",
+          "label": "SQUARES",
+          "color": "purple",
+          "x": 1640,
+          "y": 620,
+          "w": 300,
+          "h": 270,
+          "accepts": [
+            "square"
+          ]
+        }
+      ],
+      "objects": [
+        {
+          "kind": "circle",
+          "color": "green",
+          "category": "circle",
+          "x": 400,
+          "y": 560,
+          "size": 140
+        },
+        {
+          "kind": "square",
+          "color": "purple",
+          "category": "square",
+          "x": 650,
+          "y": 730,
+          "size": 140
+        },
+        {
+          "kind": "circle",
+          "color": "yellow",
+          "category": "circle",
+          "x": 860,
+          "y": 540,
+          "size": 140
+        },
+        {
+          "kind": "square",
+          "color": "blue",
+          "category": "square",
+          "x": 1020,
+          "y": 770,
+          "size": 140
+        }
+      ],
+      "completeDetail": "Shapes sorted!",
+      "skills": [
+        "CIRCLE",
+        "SQUARE"
+      ]
+    },
+    {
+      "id": "match_shapes",
+      "type": "MatchPairs",
+      "skill": "match_shape",
+      "instruction": "match_shapes",
+      "instructionText": "Find the matching shapes!",
+      "voiceText": "Tap two shapes that are the same.",
+      "pairs": [
+        {
+          "kind": "circle",
+          "color": "blue"
+        },
+        {
+          "kind": "square",
+          "color": "purple"
+        },
+        {
+          "kind": "triangle",
+          "color": "yellow"
+        }
+      ],
+      "completeDetail": "All 3 pairs matched!",
+      "skills": [
+        "CIRCLE",
+        "SQUARE",
+        "TRIANGLE",
+        "SAME_DIFFERENT"
+      ]
+    },
+    {
+      "id": "match_colours",
+      "type": "MatchPairs",
+      "skill": "match_colour",
+      "instruction": "match_colours",
+      "instructionText": "Find the matching colours!",
+      "voiceText": "Tap two colours that are the same.",
+      "pairs": [
+        {
+          "kind": "circle",
+          "color": "red"
+        },
+        {
+          "kind": "circle",
+          "color": "blue"
+        },
+        {
+          "kind": "circle",
+          "color": "yellow"
+        }
+      ],
+      "completeDetail": "All colours matched!",
+      "skills": [
+        "RED",
+        "BLUE",
+        "YELLOW",
+        "SAME_DIFFERENT"
+      ]
+    },
+    {
+      "id": "tap_red_apple",
+      "type": "TapRequestedObject",
+      "skill": "identify_colour_red",
+      "instruction": "tap_red_apple",
+      "instructionText": "Tap the red apple!",
+      "voiceText": "Can you tap the red apple?",
+      "request": {
+        "kind": "apple",
+        "color": "red"
+      },
+      "objects": [
+        {
+          "kind": "apple",
+          "color": "red",
+          "x": 560,
+          "y": 620
+        },
+        {
+          "kind": "berry",
+          "color": "blue",
+          "x": 900,
+          "y": 710
+        },
+        {
+          "kind": "banana",
+          "color": "yellow",
+          "x": 1220,
+          "y": 600
+        },
+        {
+          "kind": "orange",
+          "color": "orange",
+          "x": 1510,
+          "y": 720
+        }
+      ],
+      "completeDetail": "You found the red apple!",
+      "skills": [
+        "RED"
+      ]
+    },
+    {
+      "id": "tap_triangle",
+      "type": "TapRequestedObject",
+      "skill": "identify_triangle",
+      "instruction": "tap_triangle",
+      "instructionText": "Tap the triangle!",
+      "voiceText": "Can you tap the triangle?",
+      "request": {
+        "kind": "triangle"
+      },
+      "objects": [
+        {
+          "kind": "circle",
+          "color": "blue",
+          "x": 560,
+          "y": 620
+        },
+        {
+          "kind": "square",
+          "color": "green",
+          "x": 900,
+          "y": 710
+        },
+        {
+          "kind": "triangle",
+          "color": "yellow",
+          "x": 1220,
+          "y": 600
+        },
+        {
+          "kind": "star",
+          "color": "purple",
+          "x": 1510,
+          "y": 720
+        }
+      ],
+      "completeDetail": "You found the triangle!",
+      "skills": [
+        "TRIANGLE"
+      ]
+    },
+    {
+      "id": "dino_find_3",
+      "type": "TapRequestedObject",
+      "skill": "same_different",
+      "theme": "dino",
+      "instruction": "find_three_dinos",
+      "instructionText": "Find 3 dinosaurs!",
+      "voiceText": "Can you find the three dinosaurs?",
+      "pipBubble": "Find 3 dinosaurs!",
+      "targets": [
+        {
+          "kind": "dinosaur"
+        },
+        {
+          "kind": "dinosaur"
+        },
+        {
+          "kind": "dinosaur"
+        }
+      ],
+      "objects": [
+        {
+          "kind": "dinosaur",
+          "color": "green",
+          "x": 440,
+          "y": 600,
+          "size": 190
+        },
+        {
+          "kind": "circle",
+          "color": "orange",
+          "x": 710,
+          "y": 730,
+          "size": 150
+        },
+        {
+          "kind": "dinosaur",
+          "color": "purple",
+          "x": 960,
+          "y": 590,
+          "size": 190
+        },
+        {
+          "kind": "square",
+          "color": "yellow",
+          "x": 1210,
+          "y": 750,
+          "size": 145
+        },
+        {
+          "kind": "dinosaur",
+          "color": "blue",
+          "x": 1490,
+          "y": 610,
+          "size": 190
+        }
+      ],
+      "completeDetail": "Three dinosaurs found!",
+      "skills": [
+        "SAME_DIFFERENT"
+      ]
+    },
+    {
+      "id": "dino_feed_5",
+      "type": "CountAndPlace",
+      "skill": "count_1_5",
+      "theme": "dino",
+      "character": "rory",
+      "object": "strawberry",
+      "color": "red",
+      "targetCount": 5,
+      "instruction": "feed_five_fruit",
+      "instructionText": "Feed Rory 5 pieces of fruit!",
+      "voiceText": "Put five pieces of fruit on Rory's picnic plate.",
+      "pipBubble": "Count to 5!",
+      "completeDetail": "1 • 2 • 3 • 4 • 5",
+      "successReaction": "celebrate"
+    },
+    {
+      "id": "dino_sort_fruit",
+      "type": "SortObjects",
+      "skill": "sort_colour",
+      "theme": "dino",
+      "instruction": "sort_dino_fruit",
+      "instructionText": "Sort the fruit by colour!",
+      "voiceText": "Put each fruit with the same colour.",
+      "targets": [
+        {
+          "id": "red-picnic",
+          "label": "RED",
+          "color": "red",
+          "x": 1280,
+          "y": 640,
+          "w": 270,
+          "h": 240,
+          "accepts": [
+            "red"
+          ]
+        },
+        {
+          "id": "blue-picnic",
+          "label": "BLUE",
+          "color": "blue",
+          "x": 1580,
+          "y": 640,
+          "w": 270,
+          "h": 240,
+          "accepts": [
+            "blue"
+          ]
+        },
+        {
+          "id": "yellow-picnic",
+          "label": "YELLOW",
+          "color": "yellow",
+          "x": 1430,
+          "y": 890,
+          "w": 270,
+          "h": 210,
+          "accepts": [
+            "yellow"
+          ]
+        }
+      ],
+      "objects": [
+        {
+          "kind": "apple",
+          "color": "red",
+          "x": 360,
+          "y": 570,
+          "size": 135
+        },
+        {
+          "kind": "berry",
+          "color": "blue",
+          "x": 590,
+          "y": 760,
+          "size": 135
+        },
+        {
+          "kind": "banana",
+          "color": "yellow",
+          "x": 790,
+          "y": 560,
+          "size": 145
+        },
+        {
+          "kind": "strawberry",
+          "color": "red",
+          "x": 980,
+          "y": 770,
+          "size": 135
+        },
+        {
+          "kind": "berry",
+          "color": "blue",
+          "x": 1040,
+          "y": 520,
+          "size": 135
+        },
+        {
+          "kind": "banana",
+          "color": "yellow",
+          "x": 560,
+          "y": 520,
+          "size": 145
+        }
+      ],
+      "completeDetail": "Picnic colours sorted!",
+      "skills": [
+        "RED",
+        "BLUE",
+        "YELLOW"
+      ]
+    },
+    {
+      "id": "m13_shape_match",
+      "type": "ShapeMatch",
+      "theme": "rainbow",
+      "world": "rainbow",
+      "skill": "CIRCLE",
+      "skills": [
+        "CIRCLE",
+        "SQUARE"
+      ],
+      "instructionText": "Match each shape to its home!",
+      "voiceText": "Match each shape to its home.",
+      "completeDetail": "Shapes matched!",
+      "objects": [
+        {
+          "id": "circle-piece",
+          "kind": "circle",
+          "color": "blue",
+          "x": 520,
+          "y": 720,
+          "targetId": "circle-home"
+        },
+        {
+          "id": "square-piece",
+          "kind": "square",
+          "color": "yellow",
+          "x": 800,
+          "y": 720,
+          "targetId": "square-home"
+        }
+      ],
+      "targets": [
+        {
+          "id": "circle-home",
+          "shape": "circle",
+          "label": "CIRCLE",
+          "color": "blue",
+          "x": 1270,
+          "y": 650,
+          "w": 280,
+          "h": 260
+        },
+        {
+          "id": "square-home",
+          "shape": "square",
+          "label": "SQUARE",
+          "color": "yellow",
+          "x": 1590,
+          "y": 650,
+          "w": 280,
+          "h": 260
+        }
+      ]
+    },
+    {
+      "id": "m13_size_compare",
+      "type": "SizeCompare",
+      "theme": "meadow",
+      "skills": [
+        "BIG_SMALL"
+      ],
+      "instructionText": "Which star is the biggest?",
+      "voiceText": "Tap the biggest star.",
+      "rule": "largest",
+      "completeDetail": "Biggest star!",
+      "objects": [
+        {
+          "id": "small",
+          "kind": "star",
+          "color": "yellow",
+          "x": 600,
+          "y": 650,
+          "size": 100
+        },
+        {
+          "id": "big",
+          "kind": "star",
+          "color": "yellow",
+          "x": 970,
+          "y": 650,
+          "size": 230
+        },
+        {
+          "id": "medium",
+          "kind": "star",
+          "color": "yellow",
+          "x": 1370,
+          "y": 650,
+          "size": 160
+        }
+      ]
+    },
+    {
+      "id": "m13_pattern_complete",
+      "type": "PatternComplete",
+      "theme": "rainbow",
+      "world": "rainbow",
+      "skills": [
+        "PATTERN",
+        "RED",
+        "BLUE"
+      ],
+      "instructionText": "What comes next?",
+      "voiceText": "Finish the red blue pattern.",
+      "missingIndex": 3,
+      "sequence": [
+        {
+          "kind": "circle",
+          "color": "red"
+        },
+        {
+          "kind": "circle",
+          "color": "blue"
+        },
+        {
+          "kind": "circle",
+          "color": "red"
+        }
+      ],
+      "choices": [
+        {
+          "id": "blue-choice",
+          "kind": "circle",
+          "color": "blue",
+          "correct": true
+        },
+        {
+          "id": "yellow-choice",
+          "kind": "circle",
+          "color": "yellow"
+        }
+      ],
+      "completeDetail": "Pattern complete!"
+    },
+    {
+      "id": "m13_sequence_order",
+      "type": "SequenceOrder",
+      "theme": "dino",
+      "skills": [
+        "PATTERN",
+        "BIG_SMALL"
+      ],
+      "instructionText": "Tap them from smallest to biggest!",
+      "voiceText": "Tap the shapes from smallest to biggest.",
+      "objects": [
+        {
+          "id": "small",
+          "kind": "circle",
+          "color": "green",
+          "x": 600,
+          "y": 760,
+          "size": 90
+        },
+        {
+          "id": "big",
+          "kind": "circle",
+          "color": "green",
+          "x": 1200,
+          "y": 760,
+          "size": 190
+        },
+        {
+          "id": "medium",
+          "kind": "circle",
+          "color": "green",
+          "x": 900,
+          "y": 760,
+          "size": 140
+        }
+      ],
+      "correctOrder": [
+        "small",
+        "medium",
+        "big"
+      ],
+      "completeDetail": "Small, medium, big!"
+    },
+    {
+      "id": "m13_build_object",
+      "type": "BuildObject",
+      "theme": "rainbow",
+      "world": "rainbow",
+      "skills": [
+        "CIRCLE",
+        "RECTANGLE"
+      ],
+      "instructionText": "Build the flower!",
+      "voiceText": "Put the flower pieces in the right places.",
+      "objects": [
+        {
+          "id": "stem",
+          "kind": "rectangle",
+          "color": "green",
+          "x": 480,
+          "y": 760,
+          "targetId": "stem-home",
+          "size": 130
+        },
+        {
+          "id": "flower",
+          "kind": "circle",
+          "color": "purple",
+          "x": 760,
+          "y": 720,
+          "targetId": "flower-home",
+          "size": 150
+        }
+      ],
+      "targets": [
+        {
+          "id": "stem-home",
+          "label": "STEM",
+          "color": "green",
+          "x": 1320,
+          "y": 730,
+          "w": 220,
+          "h": 300,
+          "accepts": [
+            "rectangle"
+          ]
+        },
+        {
+          "id": "flower-home",
+          "label": "FLOWER",
+          "color": "purple",
+          "x": 1320,
+          "y": 470,
+          "w": 260,
+          "h": 220,
+          "accepts": [
+            "circle"
+          ]
+        }
+      ],
+      "completeDetail": "Flower built!"
+    },
+    {
+      "id": "m13_memory_match",
+      "type": "MemoryMatch",
+      "theme": "meadow",
+      "skills": [
+        "SAME_DIFFERENT"
+      ],
+      "instructionText": "Find the matching cards!",
+      "voiceText": "Turn over cards and find the matching pairs.",
+      "cards": [
+        {
+          "id": "r1",
+          "pairId": "red",
+          "kind": "circle",
+          "color": "red"
+        },
+        {
+          "id": "b1",
+          "pairId": "blue",
+          "kind": "square",
+          "color": "blue"
+        },
+        {
+          "id": "r2",
+          "pairId": "red",
+          "kind": "circle",
+          "color": "red"
+        },
+        {
+          "id": "b2",
+          "pairId": "blue",
+          "kind": "square",
+          "color": "blue"
+        }
+      ],
+      "completeDetail": "Great memory!"
+    },
+    {
+      "id": "m13_categorise",
+      "type": "Categorise",
+      "theme": "forest",
+      "skills": [
+        "SAME_DIFFERENT"
+      ],
+      "instructionText": "Put food with food and shapes with shapes!",
+      "voiceText": "Sort the food and shapes into their groups.",
+      "targets": [
+        {
+          "id": "food",
+          "label": "FOOD",
+          "color": "orange",
+          "x": 1320,
+          "y": 650,
+          "w": 300,
+          "h": 270,
+          "accepts": [
+            "food"
+          ]
+        },
+        {
+          "id": "shape",
+          "label": "SHAPES",
+          "color": "purple",
+          "x": 1650,
+          "y": 650,
+          "w": 300,
+          "h": 270,
+          "accepts": [
+            "shape"
+          ]
+        }
+      ],
+      "objects": [
+        {
+          "kind": "apple",
+          "color": "red",
+          "category": "food",
+          "x": 430,
+          "y": 560
+        },
+        {
+          "kind": "circle",
+          "color": "blue",
+          "category": "shape",
+          "x": 690,
+          "y": 720
+        },
+        {
+          "kind": "carrot",
+          "color": "orange",
+          "category": "food",
+          "x": 900,
+          "y": 540
+        },
+        {
+          "kind": "triangle",
+          "color": "yellow",
+          "category": "shape",
+          "x": 1060,
+          "y": 760
+        }
+      ],
+      "completeDetail": "Groups sorted!"
+    },
+    {
+      "id": "m13_wash_swipe",
+      "type": "WashSwipe",
+      "theme": "forest",
+      "skills": [
+        "SAME_DIFFERENT"
+      ],
+      "instructionText": "Wash away every muddy spot!",
+      "voiceText": "Swipe over the muddy spots to wash them clean.",
+      "spots": [
+        {
+          "x": 620,
+          "y": 520
+        },
+        {
+          "x": 880,
+          "y": 650
+        },
+        {
+          "x": 1120,
+          "y": 500
+        },
+        {
+          "x": 1350,
+          "y": 700
+        },
+        {
+          "x": 760,
+          "y": 780
+        }
+      ],
+      "completeDetail": "Sparkly clean!"
+    },
+    {
+      "id": "m13_paint_swipe",
+      "type": "PaintSwipe",
+      "theme": "rainbow",
+      "world": "rainbow",
+      "skills": [
+        "PURPLE"
+      ],
+      "instructionText": "Paint every white spot purple!",
+      "voiceText": "Swipe to paint all the white spots purple.",
+      "paintColor": "purple",
+      "surfaceColor": "#fff7d0",
+      "spots": [
+        {
+          "x": 620,
+          "y": 500
+        },
+        {
+          "x": 850,
+          "y": 680
+        },
+        {
+          "x": 1080,
+          "y": 520
+        },
+        {
+          "x": 1310,
+          "y": 700
+        }
+      ],
+      "completeDetail": "Beautiful painting!"
+    },
+    {
+      "id": "m13_trace_path",
+      "type": "TracePath",
+      "theme": "rainbow",
+      "world": "rainbow",
+      "skills": [
+        "PATTERN"
+      ],
+      "instructionText": "Trace the rainbow road!",
+      "voiceText": "Start at the first dot and trace the road.",
+      "points": [
+        {
+          "x": 520,
+          "y": 760
+        },
+        {
+          "x": 720,
+          "y": 610
+        },
+        {
+          "x": 930,
+          "y": 720
+        },
+        {
+          "x": 1150,
+          "y": 540
+        },
+        {
+          "x": 1390,
+          "y": 650
+        }
+      ],
+      "tolerance": 125,
+      "completeDetail": "Road traced!"
+    },
+    {
+      "id": "m13_sound_match",
+      "type": "SoundMatch",
+      "theme": "forest",
+      "skills": [
+        "COUNT_2"
+      ],
+      "instructionText": "Which picture matches two sounds?",
+      "voiceText": "Listen, then choose the picture for two.",
+      "soundCue": "count",
+      "soundCount": 2,
+      "choices": [
+        {
+          "id": "one",
+          "kind": "circle",
+          "color": "yellow",
+          "x": 700,
+          "y": 720,
+          "size": 100
+        },
+        {
+          "id": "two",
+          "kind": "circle",
+          "color": "blue",
+          "x": 1000,
+          "y": 720,
+          "size": 160,
+          "correct": true
+        },
+        {
+          "id": "three",
+          "kind": "circle",
+          "color": "red",
+          "x": 1300,
+          "y": 720,
+          "size": 220
+        }
+      ],
+      "completeDetail": "You heard two!"
+    },
+    {
+      "id": "m13_rhythm_repeat",
+      "type": "RhythmRepeat",
+      "theme": "forest",
+      "skills": [
+        "PATTERN"
+      ],
+      "instructionText": "Copy the drum beat!",
+      "voiceText": "Listen to the beat, then tap it back.",
+      "patternMs": [
+        0,
+        500,
+        1000
+      ],
+      "tolerance": 0.65,
+      "completeDetail": "Beat copied!"
+    },
+    {
+      "id": "m13_story_choice",
+      "type": "StoryChoice",
+      "theme": "rainbow",
+      "world": "rainbow",
+      "skills": [
+        "SAME_DIFFERENT"
+      ],
+      "instructionText": "What should Pip do?",
+      "voiceText": "Choose what Pip should do next.",
+      "storyText": "Pip sees a sad flower with dry soil.",
+      "choices": [
+        {
+          "id": "water",
+          "kind": "circle",
+          "color": "blue",
+          "label": "Water it",
+          "correct": true,
+          "resultText": "The flower feels better!"
+        },
+        {
+          "id": "leave",
+          "kind": "square",
+          "color": "red",
+          "label": "Walk away"
+        }
+      ],
+      "completeDetail": "Kind choice!"
+    },
+    {
+      "id": "rainbow_find_red",
+      "type": "TapRequestedObject",
+      "theme": "rainbow",
+      "world": "rainbow",
+      "character": "octo",
+      "skills": [
+        "RED"
+      ],
+      "instructionText": "Tap the red paint pot!",
+      "voiceText": "Find the red paint pot.",
+      "targets": [
+        {
+          "color": "red"
+        }
+      ],
+      "objects": [
+        {
+          "kind": "circle",
+          "color": "blue",
+          "x": 600,
+          "y": 650
+        },
+        {
+          "kind": "circle",
+          "color": "red",
+          "x": 960,
+          "y": 650
+        },
+        {
+          "kind": "circle",
+          "color": "yellow",
+          "x": 1320,
+          "y": 650
+        }
+      ],
+      "completeDetail": "Red found!"
+    },
+    {
+      "id": "rainbow_find_green",
+      "type": "TapRequestedObject",
+      "theme": "rainbow",
+      "world": "rainbow",
+      "character": "octo",
+      "skills": [
+        "GREEN"
+      ],
+      "instructionText": "Tap the green balloon!",
+      "voiceText": "Find the green balloon.",
+      "targets": [
+        {
+          "color": "green"
+        }
+      ],
+      "objects": [
+        {
+          "kind": "circle",
+          "color": "purple",
+          "x": 600,
+          "y": 650
+        },
+        {
+          "kind": "circle",
+          "color": "green",
+          "x": 960,
+          "y": 650
+        },
+        {
+          "kind": "circle",
+          "color": "orange",
+          "x": 1320,
+          "y": 650
+        }
+      ],
+      "completeDetail": "Green found!"
+    },
+    {
+      "id": "rainbow_colour_sort",
+      "type": "Categorise",
+      "theme": "rainbow",
+      "world": "rainbow",
+      "character": "octo",
+      "skills": [
+        "RED",
+        "BLUE",
+        "YELLOW",
+        "GREEN",
+        "ORANGE",
+        "PURPLE"
+      ],
+      "instructionText": "Sort the rainbow colours!",
+      "voiceText": "Put warm colours on one side and cool colours on the other.",
+      "targets": [
+        {
+          "id": "warm",
+          "label": "WARM",
+          "color": "orange",
+          "x": 1320,
+          "y": 650,
+          "w": 300,
+          "h": 280,
+          "accepts": [
+            "warm"
+          ]
+        },
+        {
+          "id": "cool",
+          "label": "COOL",
+          "color": "blue",
+          "x": 1640,
+          "y": 650,
+          "w": 300,
+          "h": 280,
+          "accepts": [
+            "cool"
+          ]
+        }
+      ],
+      "objects": [
+        {
+          "kind": "circle",
+          "color": "red",
+          "category": "warm",
+          "x": 380,
+          "y": 520
+        },
+        {
+          "kind": "circle",
+          "color": "orange",
+          "category": "warm",
+          "x": 570,
+          "y": 740
+        },
+        {
+          "kind": "circle",
+          "color": "yellow",
+          "category": "warm",
+          "x": 760,
+          "y": 520
+        },
+        {
+          "kind": "circle",
+          "color": "green",
+          "category": "cool",
+          "x": 900,
+          "y": 760
+        },
+        {
+          "kind": "circle",
+          "color": "blue",
+          "category": "cool",
+          "x": 1030,
+          "y": 520
+        },
+        {
+          "kind": "circle",
+          "color": "purple",
+          "category": "cool",
+          "x": 1140,
+          "y": 760
+        }
+      ],
+      "completeDetail": "Rainbow sorted!"
+    },
+    {
+      "id": "rainbow_shape_match",
+      "type": "ShapeMatch",
+      "theme": "rainbow",
+      "world": "rainbow",
+      "character": "octo",
+      "skills": [
+        "CIRCLE",
+        "SQUARE",
+        "TRIANGLE",
+        "RECTANGLE"
+      ],
+      "instructionText": "Match the house shapes!",
+      "voiceText": "Match each shape to the same shape.",
+      "objects": [
+        {
+          "id": "c",
+          "kind": "circle",
+          "color": "red",
+          "x": 380,
+          "y": 730,
+          "targetId": "ct"
+        },
+        {
+          "id": "s",
+          "kind": "square",
+          "color": "blue",
+          "x": 620,
+          "y": 730,
+          "targetId": "st"
+        },
+        {
+          "id": "t",
+          "kind": "triangle",
+          "color": "yellow",
+          "x": 860,
+          "y": 730,
+          "targetId": "tt"
+        },
+        {
+          "id": "r",
+          "kind": "rectangle",
+          "color": "purple",
+          "x": 1080,
+          "y": 730,
+          "targetId": "rt"
+        }
+      ],
+      "targets": [
+        {
+          "id": "ct",
+          "shape": "circle",
+          "label": "CIRCLE",
+          "color": "red",
+          "x": 1300,
+          "y": 480,
+          "w": 240,
+          "h": 200
+        },
+        {
+          "id": "st",
+          "shape": "square",
+          "label": "SQUARE",
+          "color": "blue",
+          "x": 1600,
+          "y": 480,
+          "w": 240,
+          "h": 200
+        },
+        {
+          "id": "tt",
+          "shape": "triangle",
+          "label": "TRIANGLE",
+          "color": "yellow",
+          "x": 1300,
+          "y": 760,
+          "w": 240,
+          "h": 200
+        },
+        {
+          "id": "rt",
+          "shape": "rectangle",
+          "label": "RECTANGLE",
+          "color": "purple",
+          "x": 1600,
+          "y": 760,
+          "w": 240,
+          "h": 200
+        }
+      ],
+      "completeDetail": "House shapes matched!"
+    },
+    {
+      "id": "rainbow_big_balloon",
+      "type": "SizeCompare",
+      "theme": "rainbow",
+      "world": "rainbow",
+      "character": "octo",
+      "skills": [
+        "BIG_SMALL"
+      ],
+      "instructionText": "Which balloon is biggest?",
+      "voiceText": "Tap the biggest balloon.",
+      "rule": "largest",
+      "objects": [
+        {
+          "id": "small",
+          "kind": "circle",
+          "color": "green",
+          "x": 600,
+          "y": 650,
+          "size": 100
+        },
+        {
+          "id": "big",
+          "kind": "circle",
+          "color": "orange",
+          "x": 980,
+          "y": 650,
+          "size": 240
+        },
+        {
+          "id": "medium",
+          "kind": "circle",
+          "color": "purple",
+          "x": 1380,
+          "y": 650,
+          "size": 160
+        }
+      ],
+      "completeDetail": "Big balloon!"
+    },
+    {
+      "id": "rainbow_pattern",
+      "type": "PatternComplete",
+      "theme": "rainbow",
+      "world": "rainbow",
+      "character": "octo",
+      "skills": [
+        "PATTERN",
+        "PURPLE",
+        "YELLOW"
+      ],
+      "instructionText": "Finish the parade pattern!",
+      "voiceText": "Purple, yellow, purple. What comes next?",
+      "missingIndex": 3,
+      "sequence": [
+        {
+          "kind": "square",
+          "color": "purple"
+        },
+        {
+          "kind": "square",
+          "color": "yellow"
+        },
+        {
+          "kind": "square",
+          "color": "purple"
+        }
+      ],
+      "choices": [
+        {
+          "id": "yellow",
+          "kind": "square",
+          "color": "yellow",
+          "correct": true
+        },
+        {
+          "id": "green",
+          "kind": "square",
+          "color": "green"
+        }
+      ],
+      "completeDetail": "Parade pattern complete!"
+    },
+    {
+      "id": "rainbow_paint_party",
+      "type": "PaintSwipe",
+      "theme": "rainbow",
+      "world": "rainbow",
+      "character": "octo",
+      "skills": [
+        "PURPLE"
+      ],
+      "instructionText": "Paint Octo’s banner purple!",
+      "voiceText": "Swipe over the banner to paint it purple.",
+      "paintColor": "purple",
+      "spots": [
+        {
+          "x": 600,
+          "y": 500
+        },
+        {
+          "x": 800,
+          "y": 690
+        },
+        {
+          "x": 1000,
+          "y": 500
+        },
+        {
+          "x": 1200,
+          "y": 690
+        },
+        {
+          "x": 1380,
+          "y": 520
+        }
+      ],
+      "completeDetail": "Party banner painted!"
+    },
+    {
+      "id": "rainbow_build_house",
+      "type": "BuildObject",
+      "theme": "rainbow",
+      "world": "rainbow",
+      "character": "octo",
+      "skills": [
+        "CIRCLE",
+        "SQUARE",
+        "TRIANGLE",
+        "RECTANGLE"
+      ],
+      "instructionText": "Build the shape house!",
+      "voiceText": "Put each shape where it belongs on the house.",
+      "objects": [
+        {
+          "id": "roof",
+          "kind": "triangle",
+          "color": "red",
+          "x": 420,
+          "y": 720,
+          "targetId": "roof-t"
+        },
+        {
+          "id": "body",
+          "kind": "square",
+          "color": "yellow",
+          "x": 650,
+          "y": 720,
+          "targetId": "body-t"
+        },
+        {
+          "id": "door",
+          "kind": "rectangle",
+          "color": "purple",
+          "x": 880,
+          "y": 720,
+          "targetId": "door-t"
+        },
+        {
+          "id": "window",
+          "kind": "circle",
+          "color": "blue",
+          "x": 1080,
+          "y": 720,
+          "targetId": "window-t"
+        }
+      ],
+      "targets": [
+        {
+          "id": "roof-t",
+          "label": "ROOF",
+          "color": "red",
+          "x": 1480,
+          "y": 390,
+          "w": 300,
+          "h": 180,
+          "accepts": [
+            "triangle"
+          ]
+        },
+        {
+          "id": "body-t",
+          "label": "HOUSE",
+          "color": "yellow",
+          "x": 1480,
+          "y": 610,
+          "w": 360,
+          "h": 300,
+          "accepts": [
+            "square"
+          ]
+        },
+        {
+          "id": "door-t",
+          "label": "DOOR",
+          "color": "purple",
+          "x": 1410,
+          "y": 720,
+          "w": 130,
+          "h": 190,
+          "accepts": [
+            "rectangle"
+          ]
+        },
+        {
+          "id": "window-t",
+          "label": "WINDOW",
+          "color": "blue",
+          "x": 1570,
+          "y": 600,
+          "w": 130,
+          "h": 130,
+          "accepts": [
+            "circle"
+          ]
+        }
+      ],
+      "completeDetail": "Shape house rescued!"
+    },
+    {
+      "id": "rainbow_balloon_sort",
+      "type": "Categorise",
+      "theme": "rainbow",
+      "world": "rainbow",
+      "character": "octo",
+      "skills": [
+        "RED",
+        "BLUE"
+      ],
+      "instructionText": "Sort red and blue balloons!",
+      "voiceText": "Put red balloons with red and blue balloons with blue.",
+      "targets": [
+        {
+          "id": "red",
+          "label": "RED",
+          "color": "red",
+          "x": 1340,
+          "y": 650,
+          "w": 300,
+          "h": 280,
+          "accepts": [
+            "red"
+          ]
+        },
+        {
+          "id": "blue",
+          "label": "BLUE",
+          "color": "blue",
+          "x": 1660,
+          "y": 650,
+          "w": 300,
+          "h": 280,
+          "accepts": [
+            "blue"
+          ]
+        }
+      ],
+      "objects": [
+        {
+          "kind": "circle",
+          "color": "red",
+          "category": "red",
+          "x": 440,
+          "y": 540
+        },
+        {
+          "kind": "circle",
+          "color": "blue",
+          "category": "blue",
+          "x": 650,
+          "y": 750
+        },
+        {
+          "kind": "circle",
+          "color": "red",
+          "category": "red",
+          "x": 850,
+          "y": 520
+        },
+        {
+          "kind": "circle",
+          "color": "blue",
+          "category": "blue",
+          "x": 1050,
+          "y": 750
+        }
+      ],
+      "completeDetail": "Balloons sorted!"
+    },
+    {
+      "id": "rainbow_parade_order",
+      "type": "SequenceOrder",
+      "theme": "rainbow",
+      "world": "rainbow",
+      "character": "octo",
+      "skills": [
+        "PATTERN",
+        "BIG_SMALL"
+      ],
+      "instructionText": "Line the parade flags up small to big!",
+      "voiceText": "Tap the flags from smallest to biggest.",
+      "objects": [
+        {
+          "id": "small",
+          "kind": "triangle",
+          "color": "red",
+          "x": 520,
+          "y": 760,
+          "size": 90
+        },
+        {
+          "id": "big",
+          "kind": "triangle",
+          "color": "purple",
+          "x": 1120,
+          "y": 760,
+          "size": 190
+        },
+        {
+          "id": "medium",
+          "kind": "triangle",
+          "color": "yellow",
+          "x": 820,
+          "y": 760,
+          "size": 140
+        }
+      ],
+      "correctOrder": [
+        "small",
+        "medium",
+        "big"
+      ],
+      "completeDetail": "Parade ready!"
+    },
+    {
+      "id": "rainbow_trace_float",
+      "type": "TracePath",
+      "theme": "rainbow",
+      "world": "rainbow",
+      "character": "octo",
+      "skills": [
+        "PATTERN"
+      ],
+      "instructionText": "Trace the parade route!",
+      "voiceText": "Trace the road for the parade float.",
+      "points": [
+        {
+          "x": 500,
+          "y": 760
+        },
+        {
+          "x": 700,
+          "y": 600
+        },
+        {
+          "x": 920,
+          "y": 720
+        },
+        {
+          "x": 1150,
+          "y": 560
+        },
+        {
+          "x": 1400,
+          "y": 670
+        }
+      ],
+      "tolerance": 130,
+      "completeDetail": "Route ready!"
+    },
+    {
+      "id": "rainbow_story_help",
+      "type": "StoryChoice",
+      "theme": "rainbow",
+      "world": "rainbow",
+      "character": "octo",
+      "skills": [
+        "SAME_DIFFERENT"
+      ],
+      "instructionText": "How can we help Octo?",
+      "voiceText": "Choose how to help Octo finish the parade.",
+      "storyText": "Octo has one last flag to hang.",
+      "choices": [
+        {
+          "id": "help",
+          "kind": "star",
+          "color": "yellow",
+          "label": "Help hang it",
+          "correct": true,
+          "resultText": "The parade can start!"
+        },
+        {
+          "id": "hide",
+          "kind": "square",
+          "color": "purple",
+          "label": "Hide it"
+        }
+      ],
+      "completeDetail": "Ready for the parade!"
+    },
+    {
+      "id": "m16_count_6",
+      "type": "CountAndPlace",
+      "theme": "dino",
+      "character": "none",
+      "object": "egg",
+      "color": "green",
+      "targetCount": 6,
+      "instructionText": "Put 6 eggs in the nest!",
+      "voiceText": "Count 6 dinosaur eggs into the nest.",
+      "skills": [
+        "COUNT_6"
+      ],
+      "contentGroup": "counting",
+      "world": "dino",
+      "completeDetail": "6 eggs — great counting!"
+    },
+    {
+      "id": "m16_count_7",
+      "type": "CountAndPlace",
+      "theme": "dino",
+      "character": "none",
+      "object": "egg",
+      "color": "orange",
+      "targetCount": 7,
+      "instructionText": "Put 7 eggs in the nest!",
+      "voiceText": "Count 7 dinosaur eggs into the nest.",
+      "skills": [
+        "COUNT_7"
+      ],
+      "contentGroup": "counting",
+      "world": "dino",
+      "completeDetail": "7 eggs — great counting!"
+    },
+    {
+      "id": "m16_count_8",
+      "type": "CountAndPlace",
+      "theme": "dino",
+      "character": "none",
+      "object": "egg",
+      "color": "purple",
+      "targetCount": 8,
+      "instructionText": "Put 8 eggs in the nest!",
+      "voiceText": "Count 8 dinosaur eggs into the nest.",
+      "skills": [
+        "COUNT_8"
+      ],
+      "contentGroup": "counting",
+      "world": "dino",
+      "completeDetail": "8 eggs — great counting!"
+    },
+    {
+      "id": "m16_count_9",
+      "type": "CountAndPlace",
+      "theme": "dino",
+      "character": "none",
+      "object": "egg",
+      "color": "blue",
+      "targetCount": 9,
+      "instructionText": "Put 9 eggs in the nest!",
+      "voiceText": "Count 9 dinosaur eggs into the nest.",
+      "skills": [
+        "COUNT_9"
+      ],
+      "contentGroup": "counting",
+      "world": "dino",
+      "completeDetail": "9 eggs — great counting!"
+    },
+    {
+      "id": "m16_count_10",
+      "type": "CountAndPlace",
+      "theme": "dino",
+      "character": "none",
+      "object": "egg",
+      "color": "yellow",
+      "targetCount": 10,
+      "instructionText": "Put 10 eggs in the nest!",
+      "voiceText": "Count 10 dinosaur eggs into the nest.",
+      "skills": [
+        "COUNT_10"
+      ],
+      "contentGroup": "counting",
+      "world": "dino",
+      "completeDetail": "10 eggs — great counting!"
+    },
+    {
+      "id": "m16_numerals_1_2",
+      "type": "TapRequestedObject",
+      "theme": "dino",
+      "objects": [
+        {
+          "id": "n1",
+          "kind": "numeral",
+          "value": 1,
+          "label": "1",
+          "color": "purple",
+          "x": 570,
+          "y": 610,
+          "size": 160
+        },
+        {
+          "id": "n2",
+          "kind": "numeral",
+          "value": 2,
+          "label": "2",
+          "color": "blue",
+          "x": 830,
+          "y": 610,
+          "size": 160
+        },
+        {
+          "id": "n3",
+          "kind": "numeral",
+          "value": 3,
+          "label": "3",
+          "color": "orange",
+          "x": 1090,
+          "y": 610,
+          "size": 160
+        },
+        {
+          "id": "n4",
+          "kind": "numeral",
+          "value": 4,
+          "label": "4",
+          "color": "green",
+          "x": 1350,
+          "y": 610,
+          "size": 160
+        }
+      ],
+      "targets": [
+        {
+          "kind": "numeral",
+          "value": 1
+        },
+        {
+          "kind": "numeral",
+          "value": 2
+        }
+      ],
+      "instructionText": "Find number {target}!",
+      "subtitle": "Tap the number Pip asks for",
+      "skills": [
+        "NUMERAL_1",
+        "NUMERAL_2"
+      ],
+      "contentGroup": "numerals",
+      "world": "dino",
+      "completeDetail": "You found 1 and 2!"
+    },
+    {
+      "id": "m16_numerals_3_4",
+      "type": "TapRequestedObject",
+      "theme": "dino",
+      "objects": [
+        {
+          "id": "n3",
+          "kind": "numeral",
+          "value": 3,
+          "label": "3",
+          "color": "purple",
+          "x": 570,
+          "y": 610,
+          "size": 160
+        },
+        {
+          "id": "n4",
+          "kind": "numeral",
+          "value": 4,
+          "label": "4",
+          "color": "blue",
+          "x": 830,
+          "y": 610,
+          "size": 160
+        },
+        {
+          "id": "n5",
+          "kind": "numeral",
+          "value": 5,
+          "label": "5",
+          "color": "orange",
+          "x": 1090,
+          "y": 610,
+          "size": 160
+        },
+        {
+          "id": "n6",
+          "kind": "numeral",
+          "value": 6,
+          "label": "6",
+          "color": "green",
+          "x": 1350,
+          "y": 610,
+          "size": 160
+        }
+      ],
+      "targets": [
+        {
+          "kind": "numeral",
+          "value": 3
+        },
+        {
+          "kind": "numeral",
+          "value": 4
+        }
+      ],
+      "instructionText": "Find number {target}!",
+      "subtitle": "Tap the number Pip asks for",
+      "skills": [
+        "NUMERAL_3",
+        "NUMERAL_4"
+      ],
+      "contentGroup": "numerals",
+      "world": "dino",
+      "completeDetail": "You found 3 and 4!"
+    },
+    {
+      "id": "m16_numerals_5_6",
+      "type": "TapRequestedObject",
+      "theme": "dino",
+      "objects": [
+        {
+          "id": "n5",
+          "kind": "numeral",
+          "value": 5,
+          "label": "5",
+          "color": "purple",
+          "x": 570,
+          "y": 610,
+          "size": 160
+        },
+        {
+          "id": "n6",
+          "kind": "numeral",
+          "value": 6,
+          "label": "6",
+          "color": "blue",
+          "x": 830,
+          "y": 610,
+          "size": 160
+        },
+        {
+          "id": "n7",
+          "kind": "numeral",
+          "value": 7,
+          "label": "7",
+          "color": "orange",
+          "x": 1090,
+          "y": 610,
+          "size": 160
+        },
+        {
+          "id": "n8",
+          "kind": "numeral",
+          "value": 8,
+          "label": "8",
+          "color": "green",
+          "x": 1350,
+          "y": 610,
+          "size": 160
+        }
+      ],
+      "targets": [
+        {
+          "kind": "numeral",
+          "value": 5
+        },
+        {
+          "kind": "numeral",
+          "value": 6
+        }
+      ],
+      "instructionText": "Find number {target}!",
+      "subtitle": "Tap the number Pip asks for",
+      "skills": [
+        "NUMERAL_5",
+        "NUMERAL_6"
+      ],
+      "contentGroup": "numerals",
+      "world": "dino",
+      "completeDetail": "You found 5 and 6!"
+    },
+    {
+      "id": "m16_numerals_7_8",
+      "type": "TapRequestedObject",
+      "theme": "dino",
+      "objects": [
+        {
+          "id": "n7",
+          "kind": "numeral",
+          "value": 7,
+          "label": "7",
+          "color": "purple",
+          "x": 570,
+          "y": 610,
+          "size": 160
+        },
+        {
+          "id": "n8",
+          "kind": "numeral",
+          "value": 8,
+          "label": "8",
+          "color": "blue",
+          "x": 830,
+          "y": 610,
+          "size": 160
+        },
+        {
+          "id": "n9",
+          "kind": "numeral",
+          "value": 9,
+          "label": "9",
+          "color": "orange",
+          "x": 1090,
+          "y": 610,
+          "size": 160
+        },
+        {
+          "id": "n10",
+          "kind": "numeral",
+          "value": 10,
+          "label": "10",
+          "color": "green",
+          "x": 1350,
+          "y": 610,
+          "size": 160
+        }
+      ],
+      "targets": [
+        {
+          "kind": "numeral",
+          "value": 7
+        },
+        {
+          "kind": "numeral",
+          "value": 8
+        }
+      ],
+      "instructionText": "Find number {target}!",
+      "subtitle": "Tap the number Pip asks for",
+      "skills": [
+        "NUMERAL_7",
+        "NUMERAL_8"
+      ],
+      "contentGroup": "numerals",
+      "world": "dino",
+      "completeDetail": "You found 7 and 8!"
+    },
+    {
+      "id": "m16_numerals_9_10",
+      "type": "TapRequestedObject",
+      "theme": "dino",
+      "objects": [
+        {
+          "id": "n9",
+          "kind": "numeral",
+          "value": 9,
+          "label": "9",
+          "color": "purple",
+          "x": 570,
+          "y": 610,
+          "size": 160
+        },
+        {
+          "id": "n10",
+          "kind": "numeral",
+          "value": 10,
+          "label": "10",
+          "color": "blue",
+          "x": 830,
+          "y": 610,
+          "size": 160
+        },
+        {
+          "id": "n8",
+          "kind": "numeral",
+          "value": 8,
+          "label": "8",
+          "color": "orange",
+          "x": 1090,
+          "y": 610,
+          "size": 160
+        },
+        {
+          "id": "n6",
+          "kind": "numeral",
+          "value": 6,
+          "label": "6",
+          "color": "green",
+          "x": 1350,
+          "y": 610,
+          "size": 160
+        }
+      ],
+      "targets": [
+        {
+          "kind": "numeral",
+          "value": 9
+        },
+        {
+          "kind": "numeral",
+          "value": 10
+        }
+      ],
+      "instructionText": "Find number {target}!",
+      "subtitle": "Tap the number Pip asks for",
+      "skills": [
+        "NUMERAL_9",
+        "NUMERAL_10"
+      ],
+      "contentGroup": "numerals",
+      "world": "dino",
+      "completeDetail": "You found 9 and 10!"
+    },
+    {
+      "id": "m16_more_eggs",
+      "type": "QuantityCompare",
+      "theme": "dino",
+      "rule": "more",
+      "object": "egg",
+      "color": "purple",
+      "choices": [
+        {
+          "id": "g0",
+          "count": 3,
+          "kind": "egg",
+          "color": "purple"
+        },
+        {
+          "id": "g1",
+          "count": 6,
+          "kind": "egg",
+          "color": "purple"
+        },
+        {
+          "id": "g2",
+          "count": 4,
+          "kind": "egg",
+          "color": "purple"
+        }
+      ],
+      "instructionText": "Which group has more?",
+      "skills": [
+        "MORE_LESS"
+      ],
+      "contentGroup": "more_less",
+      "world": "dino"
+    },
+    {
+      "id": "m16_less_fruit",
+      "type": "QuantityCompare",
+      "theme": "dino",
+      "rule": "less",
+      "object": "apple",
+      "color": "red",
+      "choices": [
+        {
+          "id": "g0",
+          "count": 5,
+          "kind": "apple",
+          "color": "red"
+        },
+        {
+          "id": "g1",
+          "count": 2,
+          "kind": "apple",
+          "color": "red"
+        },
+        {
+          "id": "g2",
+          "count": 4,
+          "kind": "apple",
+          "color": "red"
+        }
+      ],
+      "instructionText": "Which group has less?",
+      "skills": [
+        "MORE_LESS"
+      ],
+      "contentGroup": "more_less",
+      "world": "dino"
+    },
+    {
+      "id": "m16_more_footprints",
+      "type": "QuantityCompare",
+      "theme": "dino",
+      "rule": "more",
+      "object": "dinosaur",
+      "color": "green",
+      "choices": [
+        {
+          "id": "g0",
+          "count": 4,
+          "kind": "dinosaur",
+          "color": "green"
+        },
+        {
+          "id": "g1",
+          "count": 7,
+          "kind": "dinosaur",
+          "color": "green"
+        },
+        {
+          "id": "g2",
+          "count": 5,
+          "kind": "dinosaur",
+          "color": "green"
+        }
+      ],
+      "instructionText": "Which group has more?",
+      "skills": [
+        "MORE_LESS"
+      ],
+      "contentGroup": "more_less",
+      "world": "dino"
+    },
+    {
+      "id": "m16_less_bones",
+      "type": "QuantityCompare",
+      "theme": "dino",
+      "rule": "less",
+      "object": "object",
+      "color": "cream",
+      "choices": [
+        {
+          "id": "g0",
+          "count": 6,
+          "kind": "object",
+          "color": "cream",
+          "symbol": "BONE"
+        },
+        {
+          "id": "g1",
+          "count": 3,
+          "kind": "object",
+          "color": "cream",
+          "symbol": "BONE"
+        },
+        {
+          "id": "g2",
+          "count": 5,
+          "kind": "object",
+          "color": "cream",
+          "symbol": "BONE"
+        }
+      ],
+      "instructionText": "Which group has less?",
+      "skills": [
+        "MORE_LESS"
+      ],
+      "contentGroup": "more_less",
+      "world": "dino",
+      "symbol": "BONE"
+    },
+    {
+      "id": "m16_same_amount_1",
+      "type": "QuantityCompare",
+      "theme": "dino",
+      "rule": "same",
+      "referenceCount": 3,
+      "object": "egg",
+      "color": "purple",
+      "choices": [
+        {
+          "id": "g0",
+          "count": 2,
+          "kind": "egg",
+          "color": "yellow"
+        },
+        {
+          "id": "g1",
+          "count": 3,
+          "kind": "egg",
+          "color": "green"
+        },
+        {
+          "id": "g2",
+          "count": 5,
+          "kind": "egg",
+          "color": "blue"
+        }
+      ],
+      "instructionText": "Which group has the same amount?",
+      "skills": [
+        "SAME_AMOUNT"
+      ],
+      "contentGroup": "same_amount",
+      "world": "dino"
+    },
+    {
+      "id": "m16_same_amount_2",
+      "type": "QuantityCompare",
+      "theme": "dino",
+      "rule": "same",
+      "referenceCount": 4,
+      "object": "egg",
+      "color": "purple",
+      "choices": [
+        {
+          "id": "g0",
+          "count": 4,
+          "kind": "egg",
+          "color": "yellow"
+        },
+        {
+          "id": "g1",
+          "count": 6,
+          "kind": "egg",
+          "color": "green"
+        },
+        {
+          "id": "g2",
+          "count": 2,
+          "kind": "egg",
+          "color": "blue"
+        }
+      ],
+      "instructionText": "Which group has the same amount?",
+      "skills": [
+        "SAME_AMOUNT"
+      ],
+      "contentGroup": "same_amount",
+      "world": "dino"
+    },
+    {
+      "id": "m16_same_amount_3",
+      "type": "QuantityCompare",
+      "theme": "dino",
+      "rule": "same",
+      "referenceCount": 5,
+      "object": "egg",
+      "color": "purple",
+      "choices": [
+        {
+          "id": "g0",
+          "count": 3,
+          "kind": "egg",
+          "color": "yellow"
+        },
+        {
+          "id": "g1",
+          "count": 7,
+          "kind": "egg",
+          "color": "green"
+        },
+        {
+          "id": "g2",
+          "count": 5,
+          "kind": "egg",
+          "color": "blue"
+        }
+      ],
+      "instructionText": "Which group has the same amount?",
+      "skills": [
+        "SAME_AMOUNT"
+      ],
+      "contentGroup": "same_amount",
+      "world": "dino"
+    },
+    {
+      "id": "m16_same_amount_4",
+      "type": "QuantityCompare",
+      "theme": "dino",
+      "rule": "same",
+      "referenceCount": 6,
+      "object": "egg",
+      "color": "purple",
+      "choices": [
+        {
+          "id": "g0",
+          "count": 8,
+          "kind": "egg",
+          "color": "yellow"
+        },
+        {
+          "id": "g1",
+          "count": 6,
+          "kind": "egg",
+          "color": "green"
+        },
+        {
+          "id": "g2",
+          "count": 4,
+          "kind": "egg",
+          "color": "blue"
+        }
+      ],
+      "instructionText": "Which group has the same amount?",
+      "skills": [
+        "SAME_AMOUNT"
+      ],
+      "contentGroup": "same_amount",
+      "world": "dino"
+    },
+    {
+      "id": "m16_largest_egg",
+      "type": "SizeCompare",
+      "theme": "dino",
+      "rule": "largest",
+      "objects": [
+        {
+          "id": "s0",
+          "kind": "egg",
+          "label": "",
+          "color": "orange",
+          "x": 560,
+          "y": 650,
+          "size": 100,
+          "compareValue": 100
+        },
+        {
+          "id": "s1",
+          "kind": "egg",
+          "label": "",
+          "color": "green",
+          "x": 960,
+          "y": 650,
+          "size": 150,
+          "compareValue": 150
+        },
+        {
+          "id": "s2",
+          "kind": "egg",
+          "label": "",
+          "color": "purple",
+          "x": 1360,
+          "y": 650,
+          "size": 210,
+          "compareValue": 210
+        }
+      ],
+      "instructionText": "Which one is largest?",
+      "skills": [
+        "BIG_SMALL"
+      ],
+      "contentGroup": "size",
+      "world": "dino"
+    },
+    {
+      "id": "m16_smallest_dino",
+      "type": "SizeCompare",
+      "theme": "dino",
+      "rule": "smallest",
+      "objects": [
+        {
+          "id": "s0",
+          "kind": "dinosaur",
+          "label": "",
+          "color": "orange",
+          "x": 560,
+          "y": 650,
+          "size": 190,
+          "compareValue": 190
+        },
+        {
+          "id": "s1",
+          "kind": "dinosaur",
+          "label": "",
+          "color": "green",
+          "x": 960,
+          "y": 650,
+          "size": 115,
+          "compareValue": 115
+        },
+        {
+          "id": "s2",
+          "kind": "dinosaur",
+          "label": "",
+          "color": "purple",
+          "x": 1360,
+          "y": 650,
+          "size": 155,
+          "compareValue": 155
+        }
+      ],
+      "instructionText": "Which one is smallest?",
+      "skills": [
+        "BIG_SMALL"
+      ],
+      "contentGroup": "size",
+      "world": "dino"
+    },
+    {
+      "id": "m16_largest_fossil",
+      "type": "SizeCompare",
+      "theme": "dino",
+      "rule": "largest",
+      "objects": [
+        {
+          "id": "s0",
+          "kind": "object",
+          "label": "FOSSIL",
+          "color": "orange",
+          "x": 560,
+          "y": 650,
+          "size": 125,
+          "compareValue": 125
+        },
+        {
+          "id": "s1",
+          "kind": "object",
+          "label": "FOSSIL",
+          "color": "green",
+          "x": 960,
+          "y": 650,
+          "size": 205,
+          "compareValue": 205
+        },
+        {
+          "id": "s2",
+          "kind": "object",
+          "label": "FOSSIL",
+          "color": "purple",
+          "x": 1360,
+          "y": 650,
+          "size": 155,
+          "compareValue": 155
+        }
+      ],
+      "instructionText": "Which one is largest?",
+      "skills": [
+        "BIG_SMALL"
+      ],
+      "contentGroup": "size",
+      "world": "dino"
+    },
+    {
+      "id": "m16_smallest_bed",
+      "type": "SizeCompare",
+      "theme": "dino",
+      "rule": "smallest",
+      "objects": [
+        {
+          "id": "s0",
+          "kind": "object",
+          "label": "BED",
+          "color": "orange",
+          "x": 560,
+          "y": 650,
+          "size": 200,
+          "compareValue": 200
+        },
+        {
+          "id": "s1",
+          "kind": "object",
+          "label": "BED",
+          "color": "green",
+          "x": 960,
+          "y": 650,
+          "size": 160,
+          "compareValue": 160
+        },
+        {
+          "id": "s2",
+          "kind": "object",
+          "label": "BED",
+          "color": "purple",
+          "x": 1360,
+          "y": 650,
+          "size": 105,
+          "compareValue": 105
+        }
+      ],
+      "instructionText": "Which one is smallest?",
+      "skills": [
+        "BIG_SMALL"
+      ],
+      "contentGroup": "size",
+      "world": "dino"
+    },
+    {
+      "id": "m16_addition_prep_1",
+      "type": "CountAndPlace",
+      "theme": "dino",
+      "character": "none",
+      "object": "apple",
+      "color": "red",
+      "startingCount": 2,
+      "targetCount": 3,
+      "instructionText": "2 are here. Add 1 more!",
+      "voiceText": "There are 2. Add 1 more to make 3.",
+      "skills": [
+        "ADDITION_PREP",
+        "COUNT_3"
+      ],
+      "contentGroup": "addition",
+      "world": "dino",
+      "completeDetail": "2 and 1 more makes 3!"
+    },
+    {
+      "id": "m16_addition_prep_2",
+      "type": "CountAndPlace",
+      "theme": "dino",
+      "character": "none",
+      "object": "apple",
+      "color": "red",
+      "startingCount": 3,
+      "targetCount": 4,
+      "instructionText": "3 are here. Add 1 more!",
+      "voiceText": "There are 3. Add 1 more to make 4.",
+      "skills": [
+        "ADDITION_PREP",
+        "COUNT_4"
+      ],
+      "contentGroup": "addition",
+      "world": "dino",
+      "completeDetail": "3 and 1 more makes 4!"
+    },
+    {
+      "id": "m16_addition_prep_3",
+      "type": "CountAndPlace",
+      "theme": "dino",
+      "character": "none",
+      "object": "apple",
+      "color": "red",
+      "startingCount": 4,
+      "targetCount": 5,
+      "instructionText": "4 are here. Add 1 more!",
+      "voiceText": "There are 4. Add 1 more to make 5.",
+      "skills": [
+        "ADDITION_PREP",
+        "COUNT_5"
+      ],
+      "contentGroup": "addition",
+      "world": "dino",
+      "completeDetail": "4 and 1 more makes 5!"
+    },
+    {
+      "id": "m16_addition_prep_4",
+      "type": "CountAndPlace",
+      "theme": "dino",
+      "character": "none",
+      "object": "apple",
+      "color": "red",
+      "startingCount": 5,
+      "targetCount": 7,
+      "instructionText": "5 are here. Add 2 more!",
+      "voiceText": "There are 5. Add 2 more to make 7.",
+      "skills": [
+        "ADDITION_PREP",
+        "COUNT_7"
+      ],
+      "contentGroup": "addition",
+      "world": "dino",
+      "completeDetail": "5 and 2 more makes 7!"
+    },
+    {
+      "id": "m16_sequence_1",
+      "type": "SequenceOrder",
+      "theme": "dino",
+      "objects": [
+        {
+          "id": "v4",
+          "kind": "numeral",
+          "value": 4,
+          "label": "4",
+          "color": "orange",
+          "x": 570,
+          "y": 760,
+          "size": 135
+        },
+        {
+          "id": "v3",
+          "kind": "numeral",
+          "value": 3,
+          "label": "3",
+          "color": "green",
+          "x": 830,
+          "y": 760,
+          "size": 135
+        },
+        {
+          "id": "v2",
+          "kind": "numeral",
+          "value": 2,
+          "label": "2",
+          "color": "blue",
+          "x": 1090,
+          "y": 760,
+          "size": 135
+        },
+        {
+          "id": "v1",
+          "kind": "numeral",
+          "value": 1,
+          "label": "1",
+          "color": "purple",
+          "x": 1350,
+          "y": 760,
+          "size": 135
+        }
+      ],
+      "correctOrder": [
+        "v1",
+        "v2",
+        "v3",
+        "v4"
+      ],
+      "instructionText": "Put the number stones in order!",
+      "skills": [
+        "SEQUENCE",
+        "NUMERAL_1",
+        "NUMERAL_2",
+        "NUMERAL_3",
+        "NUMERAL_4"
+      ],
+      "contentGroup": "sequence",
+      "world": "dino"
+    },
+    {
+      "id": "m16_sequence_2",
+      "type": "SequenceOrder",
+      "theme": "dino",
+      "objects": [
+        {
+          "id": "v5",
+          "kind": "numeral",
+          "value": 5,
+          "label": "5",
+          "color": "orange",
+          "x": 570,
+          "y": 760,
+          "size": 135
+        },
+        {
+          "id": "v4",
+          "kind": "numeral",
+          "value": 4,
+          "label": "4",
+          "color": "green",
+          "x": 830,
+          "y": 760,
+          "size": 135
+        },
+        {
+          "id": "v3",
+          "kind": "numeral",
+          "value": 3,
+          "label": "3",
+          "color": "blue",
+          "x": 1090,
+          "y": 760,
+          "size": 135
+        },
+        {
+          "id": "v2",
+          "kind": "numeral",
+          "value": 2,
+          "label": "2",
+          "color": "purple",
+          "x": 1350,
+          "y": 760,
+          "size": 135
+        }
+      ],
+      "correctOrder": [
+        "v2",
+        "v3",
+        "v4",
+        "v5"
+      ],
+      "instructionText": "Put the dino steps in order!",
+      "skills": [
+        "SEQUENCE",
+        "NUMERAL_2",
+        "NUMERAL_3",
+        "NUMERAL_4",
+        "NUMERAL_5"
+      ],
+      "contentGroup": "sequence",
+      "world": "dino"
+    },
+    {
+      "id": "m16_sequence_3",
+      "type": "SequenceOrder",
+      "theme": "dino",
+      "objects": [
+        {
+          "id": "v7",
+          "kind": "numeral",
+          "value": 7,
+          "label": "7",
+          "color": "orange",
+          "x": 570,
+          "y": 760,
+          "size": 135
+        },
+        {
+          "id": "v6",
+          "kind": "numeral",
+          "value": 6,
+          "label": "6",
+          "color": "green",
+          "x": 830,
+          "y": 760,
+          "size": 135
+        },
+        {
+          "id": "v5",
+          "kind": "numeral",
+          "value": 5,
+          "label": "5",
+          "color": "blue",
+          "x": 1090,
+          "y": 760,
+          "size": 135
+        },
+        {
+          "id": "v4",
+          "kind": "numeral",
+          "value": 4,
+          "label": "4",
+          "color": "purple",
+          "x": 1350,
+          "y": 760,
+          "size": 135
+        }
+      ],
+      "correctOrder": [
+        "v4",
+        "v5",
+        "v6",
+        "v7"
+      ],
+      "instructionText": "Put the egg trail in order!",
+      "skills": [
+        "SEQUENCE",
+        "NUMERAL_4",
+        "NUMERAL_5",
+        "NUMERAL_6",
+        "NUMERAL_7"
+      ],
+      "contentGroup": "sequence",
+      "world": "dino"
+    },
+    {
+      "id": "m16_sequence_4",
+      "type": "SequenceOrder",
+      "theme": "dino",
+      "objects": [
+        {
+          "id": "v10",
+          "kind": "numeral",
+          "value": 10,
+          "label": "10",
+          "color": "orange",
+          "x": 440,
+          "y": 760,
+          "size": 135
+        },
+        {
+          "id": "v9",
+          "kind": "numeral",
+          "value": 9,
+          "label": "9",
+          "color": "green",
+          "x": 700,
+          "y": 760,
+          "size": 135
+        },
+        {
+          "id": "v8",
+          "kind": "numeral",
+          "value": 8,
+          "label": "8",
+          "color": "blue",
+          "x": 960,
+          "y": 760,
+          "size": 135
+        },
+        {
+          "id": "v7",
+          "kind": "numeral",
+          "value": 7,
+          "label": "7",
+          "color": "purple",
+          "x": 1220,
+          "y": 760,
+          "size": 135
+        },
+        {
+          "id": "v6",
+          "kind": "numeral",
+          "value": 6,
+          "label": "6",
+          "color": "yellow",
+          "x": 1480,
+          "y": 760,
+          "size": 135
+        }
+      ],
+      "correctOrder": [
+        "v6",
+        "v7",
+        "v8",
+        "v9",
+        "v10"
+      ],
+      "instructionText": "Put the picnic numbers in order!",
+      "skills": [
+        "SEQUENCE",
+        "NUMERAL_6",
+        "NUMERAL_7",
+        "NUMERAL_8",
+        "NUMERAL_9",
+        "NUMERAL_10"
+      ],
+      "contentGroup": "sequence",
+      "world": "dino"
+    },
+    {
+      "id": "m17_animal_names",
+      "type": "TapRequestedObject",
+      "theme": "forest",
+      "objects": [
+        {
+          "id": "fox",
+          "kind": "animal",
+          "label": "Fox",
+          "animalType": "fox",
+          "x": 510,
+          "y": 650,
+          "size": 160,
+          "color": "orange"
+        },
+        {
+          "id": "duck",
+          "kind": "animal",
+          "label": "Duck",
+          "animalType": "duck",
+          "x": 810,
+          "y": 650,
+          "size": 160,
+          "color": "yellow"
+        },
+        {
+          "id": "owl",
+          "kind": "animal",
+          "label": "Owl",
+          "animalType": "owl",
+          "x": 1110,
+          "y": 650,
+          "size": 160,
+          "color": "purple"
+        },
+        {
+          "id": "bear",
+          "kind": "animal",
+          "label": "Bear",
+          "animalType": "bear",
+          "x": 1410,
+          "y": 650,
+          "size": 160,
+          "color": "green"
+        }
+      ],
+      "targets": [
+        {
+          "animalType": "fox"
+        },
+        {
+          "animalType": "duck"
+        },
+        {
+          "animalType": "owl"
+        }
+      ],
+      "instructionText": "Find the {target}!",
+      "skills": [
+        "ANIMAL_NAMES"
+      ],
+      "world": "animal",
+      "completeDetail": "You know these forest friends!"
+    },
+    {
+      "id": "m17_sound_cow",
+      "type": "SoundMatch",
+      "theme": "forest",
+      "promptText": "Moo!",
+      "choices": [
+        {
+          "id": "cow",
+          "kind": "animal",
+          "label": "Cow",
+          "animalType": "cow",
+          "x": 650,
+          "y": 690,
+          "size": 160,
+          "color": "orange",
+          "correct": true
+        },
+        {
+          "id": "duck",
+          "kind": "animal",
+          "label": "Duck",
+          "animalType": "duck",
+          "x": 960,
+          "y": 690,
+          "size": 160,
+          "color": "yellow",
+          "correct": false
+        },
+        {
+          "id": "dog",
+          "kind": "animal",
+          "label": "Dog",
+          "animalType": "dog",
+          "x": 1270,
+          "y": 690,
+          "size": 160,
+          "color": "purple",
+          "correct": false
+        }
+      ],
+      "correctId": "cow",
+      "instructionText": "Who makes that sound?",
+      "skills": [
+        "ANIMAL_SOUNDS",
+        "SOUND_RECOGNITION"
+      ],
+      "world": "animal"
+    },
+    {
+      "id": "m17_sound_duck",
+      "type": "SoundMatch",
+      "theme": "forest",
+      "promptText": "Quack quack!",
+      "choices": [
+        {
+          "id": "duck",
+          "kind": "animal",
+          "label": "Duck",
+          "animalType": "duck",
+          "x": 650,
+          "y": 690,
+          "size": 160,
+          "color": "orange",
+          "correct": true
+        },
+        {
+          "id": "cow",
+          "kind": "animal",
+          "label": "Cow",
+          "animalType": "cow",
+          "x": 960,
+          "y": 690,
+          "size": 160,
+          "color": "yellow",
+          "correct": false
+        },
+        {
+          "id": "owl",
+          "kind": "animal",
+          "label": "Owl",
+          "animalType": "owl",
+          "x": 1270,
+          "y": 690,
+          "size": 160,
+          "color": "purple",
+          "correct": false
+        }
+      ],
+      "correctId": "duck",
+      "instructionText": "Who makes that sound?",
+      "skills": [
+        "ANIMAL_SOUNDS",
+        "SOUND_RECOGNITION"
+      ],
+      "world": "animal"
+    },
+    {
+      "id": "m17_sound_owl",
+      "type": "SoundMatch",
+      "theme": "forest",
+      "promptText": "Hoo hoo!",
+      "choices": [
+        {
+          "id": "owl",
+          "kind": "animal",
+          "label": "Owl",
+          "animalType": "owl",
+          "x": 650,
+          "y": 690,
+          "size": 160,
+          "color": "orange",
+          "correct": true
+        },
+        {
+          "id": "duck",
+          "kind": "animal",
+          "label": "Duck",
+          "animalType": "duck",
+          "x": 960,
+          "y": 690,
+          "size": 160,
+          "color": "yellow",
+          "correct": false
+        },
+        {
+          "id": "dog",
+          "kind": "animal",
+          "label": "Dog",
+          "animalType": "dog",
+          "x": 1270,
+          "y": 690,
+          "size": 160,
+          "color": "purple",
+          "correct": false
+        }
+      ],
+      "correctId": "owl",
+      "instructionText": "Who makes that sound?",
+      "skills": [
+        "ANIMAL_SOUNDS",
+        "SOUND_RECOGNITION"
+      ],
+      "world": "animal"
+    },
+    {
+      "id": "m17_land_water_air",
+      "type": "Categorise",
+      "theme": "forest",
+      "objects": [
+        {
+          "id": "fox",
+          "kind": "animal",
+          "label": "Fox",
+          "animalType": "fox",
+          "x": 710,
+          "y": 600,
+          "size": 160,
+          "color": "orange",
+          "category": "land"
+        },
+        {
+          "id": "duck",
+          "kind": "animal",
+          "label": "Duck",
+          "animalType": "duck",
+          "x": 960,
+          "y": 600,
+          "size": 160,
+          "color": "blue",
+          "category": "water"
+        },
+        {
+          "id": "eagle",
+          "kind": "animal",
+          "label": "Eagle",
+          "animalType": "eagle",
+          "x": 1210,
+          "y": 600,
+          "size": 160,
+          "color": "purple",
+          "category": "air"
+        },
+        {
+          "id": "frog",
+          "kind": "animal",
+          "label": "Frog",
+          "animalType": "frog",
+          "x": 710,
+          "y": 830,
+          "size": 160,
+          "color": "green",
+          "category": "water"
+        },
+        {
+          "id": "rabbit",
+          "kind": "animal",
+          "label": "Rabbit",
+          "animalType": "rabbit",
+          "x": 960,
+          "y": 830,
+          "size": 160,
+          "color": "yellow",
+          "category": "land"
+        },
+        {
+          "id": "owl",
+          "kind": "animal",
+          "label": "Owl",
+          "animalType": "owl",
+          "x": 1210,
+          "y": 830,
+          "size": 160,
+          "color": "pink",
+          "category": "air"
+        }
+      ],
+      "targets": [
+        {
+          "id": "land",
+          "label": "LAND",
+          "color": "green",
+          "x": 520,
+          "y": 800,
+          "w": 320,
+          "h": 230,
+          "accepts": [
+            "land"
+          ]
+        },
+        {
+          "id": "water",
+          "label": "WATER",
+          "color": "blue",
+          "x": 960,
+          "y": 800,
+          "w": 320,
+          "h": 230,
+          "accepts": [
+            "water"
+          ]
+        },
+        {
+          "id": "air",
+          "label": "AIR",
+          "color": "purple",
+          "x": 1400,
+          "y": 800,
+          "w": 320,
+          "h": 230,
+          "accepts": [
+            "air"
+          ]
+        }
+      ],
+      "skills": [
+        "HABITATS",
+        "LAND_WATER_AIR",
+        "CLASSIFICATION"
+      ],
+      "world": "animal"
+    },
+    {
+      "id": "m17_baby_parent",
+      "type": "MatchPairs",
+      "theme": "forest",
+      "pairs": [
+        {
+          "items": [
+            {
+              "kind": "animal",
+              "animalType": "duck",
+              "label": "Duck",
+              "color": "yellow"
+            },
+            {
+              "kind": "animal",
+              "animalType": "duckling",
+              "label": "Duckling",
+              "color": "yellow"
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": "animal",
+              "animalType": "bear",
+              "label": "Bear",
+              "color": "orange"
+            },
+            {
+              "kind": "animal",
+              "animalType": "cub",
+              "label": "Cub",
+              "color": "orange"
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": "animal",
+              "animalType": "fox",
+              "label": "Fox",
+              "color": "red"
+            },
+            {
+              "kind": "animal",
+              "animalType": "kit",
+              "label": "Kit",
+              "color": "red"
+            }
+          ]
+        }
+      ],
+      "instructionText": "Match each baby to its grown-up!",
+      "skills": [
+        "BABY_PARENT"
+      ],
+      "world": "animal"
+    },
+    {
+      "id": "m17_food_rabbit",
+      "type": "StoryChoice",
+      "theme": "forest",
+      "storyText": "What food should we give Rabbit?",
+      "choices": [
+        {
+          "id": "carrot",
+          "kind": "word",
+          "label": "Carrot",
+          "symbol": "CARROT",
+          "food": "carrot",
+          "x": 620,
+          "y": 690,
+          "color": "orange",
+          "correct": true
+        },
+        {
+          "id": "fish",
+          "kind": "word",
+          "label": "Fish",
+          "symbol": "FISH",
+          "food": "fish",
+          "x": 960,
+          "y": 690,
+          "color": "green",
+          "correct": false
+        },
+        {
+          "id": "berry",
+          "kind": "word",
+          "label": "Berry",
+          "symbol": "BERRY",
+          "food": "berry",
+          "x": 1300,
+          "y": 690,
+          "color": "blue",
+          "correct": false
+        }
+      ],
+      "instructionText": "Choose the food",
+      "skills": [
+        "ANIMAL_FOOD"
+      ],
+      "world": "animal"
+    },
+    {
+      "id": "m17_food_bear",
+      "type": "StoryChoice",
+      "theme": "forest",
+      "storyText": "What food should we give Bear?",
+      "choices": [
+        {
+          "id": "berry",
+          "kind": "word",
+          "label": "Berry",
+          "symbol": "BERRY",
+          "food": "berry",
+          "x": 620,
+          "y": 690,
+          "color": "orange",
+          "correct": true
+        },
+        {
+          "id": "leaf",
+          "kind": "word",
+          "label": "Leaf",
+          "symbol": "LEAF",
+          "food": "leaf",
+          "x": 960,
+          "y": 690,
+          "color": "green",
+          "correct": false
+        },
+        {
+          "id": "seed",
+          "kind": "word",
+          "label": "Seed",
+          "symbol": "SEED",
+          "food": "seed",
+          "x": 1300,
+          "y": 690,
+          "color": "blue",
+          "correct": false
+        }
+      ],
+      "instructionText": "Choose the food",
+      "skills": [
+        "ANIMAL_FOOD"
+      ],
+      "world": "animal"
+    },
+    {
+      "id": "m17_food_duck",
+      "type": "StoryChoice",
+      "theme": "forest",
+      "storyText": "What food should we give Duck?",
+      "choices": [
+        {
+          "id": "seed",
+          "kind": "word",
+          "label": "Seed",
+          "symbol": "SEED",
+          "food": "seed",
+          "x": 620,
+          "y": 690,
+          "color": "orange",
+          "correct": true
+        },
+        {
+          "id": "bone",
+          "kind": "word",
+          "label": "Bone",
+          "symbol": "BONE",
+          "food": "bone",
+          "x": 960,
+          "y": 690,
+          "color": "green",
+          "correct": false
+        },
+        {
+          "id": "carrot",
+          "kind": "word",
+          "label": "Carrot",
+          "symbol": "CARROT",
+          "food": "carrot",
+          "x": 1300,
+          "y": 690,
+          "color": "blue",
+          "correct": false
+        }
+      ],
+      "instructionText": "Choose the food",
+      "skills": [
+        "ANIMAL_FOOD"
+      ],
+      "world": "animal"
+    },
+    {
+      "id": "m17_body_features",
+      "type": "TapRequestedObject",
+      "theme": "forest",
+      "objects": [
+        {
+          "id": "owl",
+          "kind": "animal",
+          "label": "Owl",
+          "animalType": "owl",
+          "x": 650,
+          "y": 680,
+          "size": 160,
+          "color": "purple",
+          "feature": "feathers"
+        },
+        {
+          "id": "fox",
+          "kind": "animal",
+          "label": "Fox",
+          "animalType": "fox",
+          "x": 960,
+          "y": 680,
+          "size": 160,
+          "color": "orange",
+          "feature": "fur"
+        },
+        {
+          "id": "fish",
+          "kind": "animal",
+          "label": "Fish",
+          "animalType": "fish",
+          "x": 1270,
+          "y": 680,
+          "size": 160,
+          "color": "blue",
+          "feature": "scales"
+        }
+      ],
+      "targets": [
+        {
+          "feature": "feathers"
+        },
+        {
+          "feature": "fur"
+        },
+        {
+          "feature": "scales"
+        }
+      ],
+      "instructionText": "Find the friend with {target}!",
+      "skills": [
+        "BODY_FEATURES",
+        "CLASSIFICATION"
+      ],
+      "world": "animal"
+    },
+    {
+      "id": "m17_classify_covering",
+      "type": "Categorise",
+      "theme": "forest",
+      "objects": [
+        {
+          "id": "owl",
+          "kind": "animal",
+          "label": "Owl",
+          "animalType": "owl",
+          "x": 650,
+          "y": 680,
+          "size": 160,
+          "color": "purple",
+          "feature": "feathers",
+          "category": "feathers"
+        },
+        {
+          "id": "fox",
+          "kind": "animal",
+          "label": "Fox",
+          "animalType": "fox",
+          "x": 960,
+          "y": 680,
+          "size": 160,
+          "color": "orange",
+          "feature": "fur",
+          "category": "fur"
+        },
+        {
+          "id": "fish",
+          "kind": "animal",
+          "label": "Fish",
+          "animalType": "fish",
+          "x": 1270,
+          "y": 680,
+          "size": 160,
+          "color": "blue",
+          "feature": "scales",
+          "category": "scales"
+        }
+      ],
+      "targets": [
+        {
+          "id": "fur",
+          "label": "FUR",
+          "color": "orange",
+          "x": 520,
+          "y": 800,
+          "w": 320,
+          "h": 230,
+          "accepts": [
+            "fur"
+          ]
+        },
+        {
+          "id": "feathers",
+          "label": "FEATHERS",
+          "color": "purple",
+          "x": 960,
+          "y": 800,
+          "w": 320,
+          "h": 230,
+          "accepts": [
+            "feathers"
+          ]
+        },
+        {
+          "id": "scales",
+          "label": "SCALES",
+          "color": "blue",
+          "x": 1400,
+          "y": 800,
+          "w": 320,
+          "h": 230,
+          "accepts": [
+            "scales"
+          ]
+        }
+      ],
+      "skills": [
+        "BODY_FEATURES",
+        "CLASSIFICATION"
+      ],
+      "world": "animal"
+    },
+    {
+      "id": "m19_letters_1",
+      "type": "TapRequestedObject",
+      "theme": "storybook",
+      "objects": [
+        {
+          "id": "letter-A",
+          "kind": "letter",
+          "value": "A",
+          "label": "A",
+          "color": "purple",
+          "x": 460,
+          "y": 600,
+          "size": 160
+        },
+        {
+          "id": "letter-B",
+          "kind": "letter",
+          "value": "B",
+          "label": "B",
+          "color": "blue",
+          "x": 710,
+          "y": 600,
+          "size": 160
+        },
+        {
+          "id": "letter-C",
+          "kind": "letter",
+          "value": "C",
+          "label": "C",
+          "color": "orange",
+          "x": 960,
+          "y": 600,
+          "size": 160
+        },
+        {
+          "id": "letter-D",
+          "kind": "letter",
+          "value": "D",
+          "label": "D",
+          "color": "green",
+          "x": 1210,
+          "y": 600,
+          "size": 160
+        },
+        {
+          "id": "letter-E",
+          "kind": "letter",
+          "value": "E",
+          "label": "E",
+          "color": "red",
+          "x": 1460,
+          "y": 600,
+          "size": 160
+        }
+      ],
+      "targets": [
+        {
+          "kind": "letter",
+          "value": "A"
+        },
+        {
+          "kind": "letter",
+          "value": "B"
+        },
+        {
+          "kind": "letter",
+          "value": "C"
+        },
+        {
+          "kind": "letter",
+          "value": "D"
+        },
+        {
+          "kind": "letter",
+          "value": "E"
+        }
+      ],
+      "instructionText": "Find letter {target}!",
+      "subtitle": "Listen, look and tap",
+      "skills": [
+        "LETTER_RECOGNITION",
+        "LETTER_A",
+        "LETTER_B",
+        "LETTER_C",
+        "LETTER_D",
+        "LETTER_E"
+      ],
+      "world": "storybook",
+      "contentGroup": "letters"
+    },
+    {
+      "id": "m19_letters_2",
+      "type": "TapRequestedObject",
+      "theme": "storybook",
+      "objects": [
+        {
+          "id": "letter-F",
+          "kind": "letter",
+          "value": "F",
+          "label": "F",
+          "color": "purple",
+          "x": 460,
+          "y": 600,
+          "size": 160
+        },
+        {
+          "id": "letter-G",
+          "kind": "letter",
+          "value": "G",
+          "label": "G",
+          "color": "blue",
+          "x": 710,
+          "y": 600,
+          "size": 160
+        },
+        {
+          "id": "letter-H",
+          "kind": "letter",
+          "value": "H",
+          "label": "H",
+          "color": "orange",
+          "x": 960,
+          "y": 600,
+          "size": 160
+        },
+        {
+          "id": "letter-I",
+          "kind": "letter",
+          "value": "I",
+          "label": "I",
+          "color": "green",
+          "x": 1210,
+          "y": 600,
+          "size": 160
+        },
+        {
+          "id": "letter-J",
+          "kind": "letter",
+          "value": "J",
+          "label": "J",
+          "color": "red",
+          "x": 1460,
+          "y": 600,
+          "size": 160
+        }
+      ],
+      "targets": [
+        {
+          "kind": "letter",
+          "value": "F"
+        },
+        {
+          "kind": "letter",
+          "value": "G"
+        },
+        {
+          "kind": "letter",
+          "value": "H"
+        },
+        {
+          "kind": "letter",
+          "value": "I"
+        },
+        {
+          "kind": "letter",
+          "value": "J"
+        }
+      ],
+      "instructionText": "Find letter {target}!",
+      "subtitle": "Listen, look and tap",
+      "skills": [
+        "LETTER_RECOGNITION",
+        "LETTER_F",
+        "LETTER_G",
+        "LETTER_H",
+        "LETTER_I",
+        "LETTER_J"
+      ],
+      "world": "storybook",
+      "contentGroup": "letters"
+    },
+    {
+      "id": "m19_letters_3",
+      "type": "TapRequestedObject",
+      "theme": "storybook",
+      "objects": [
+        {
+          "id": "letter-K",
+          "kind": "letter",
+          "value": "K",
+          "label": "K",
+          "color": "purple",
+          "x": 460,
+          "y": 600,
+          "size": 160
+        },
+        {
+          "id": "letter-L",
+          "kind": "letter",
+          "value": "L",
+          "label": "L",
+          "color": "blue",
+          "x": 710,
+          "y": 600,
+          "size": 160
+        },
+        {
+          "id": "letter-M",
+          "kind": "letter",
+          "value": "M",
+          "label": "M",
+          "color": "orange",
+          "x": 960,
+          "y": 600,
+          "size": 160
+        },
+        {
+          "id": "letter-N",
+          "kind": "letter",
+          "value": "N",
+          "label": "N",
+          "color": "green",
+          "x": 1210,
+          "y": 600,
+          "size": 160
+        },
+        {
+          "id": "letter-O",
+          "kind": "letter",
+          "value": "O",
+          "label": "O",
+          "color": "red",
+          "x": 1460,
+          "y": 600,
+          "size": 160
+        }
+      ],
+      "targets": [
+        {
+          "kind": "letter",
+          "value": "K"
+        },
+        {
+          "kind": "letter",
+          "value": "L"
+        },
+        {
+          "kind": "letter",
+          "value": "M"
+        },
+        {
+          "kind": "letter",
+          "value": "N"
+        },
+        {
+          "kind": "letter",
+          "value": "O"
+        }
+      ],
+      "instructionText": "Find letter {target}!",
+      "subtitle": "Listen, look and tap",
+      "skills": [
+        "LETTER_RECOGNITION",
+        "LETTER_K",
+        "LETTER_L",
+        "LETTER_M",
+        "LETTER_N",
+        "LETTER_O"
+      ],
+      "world": "storybook",
+      "contentGroup": "letters"
+    },
+    {
+      "id": "m19_letters_4",
+      "type": "TapRequestedObject",
+      "theme": "storybook",
+      "objects": [
+        {
+          "id": "letter-P",
+          "kind": "letter",
+          "value": "P",
+          "label": "P",
+          "color": "purple",
+          "x": 460,
+          "y": 600,
+          "size": 160
+        },
+        {
+          "id": "letter-Q",
+          "kind": "letter",
+          "value": "Q",
+          "label": "Q",
+          "color": "blue",
+          "x": 710,
+          "y": 600,
+          "size": 160
+        },
+        {
+          "id": "letter-R",
+          "kind": "letter",
+          "value": "R",
+          "label": "R",
+          "color": "orange",
+          "x": 960,
+          "y": 600,
+          "size": 160
+        },
+        {
+          "id": "letter-S",
+          "kind": "letter",
+          "value": "S",
+          "label": "S",
+          "color": "green",
+          "x": 1210,
+          "y": 600,
+          "size": 160
+        },
+        {
+          "id": "letter-T",
+          "kind": "letter",
+          "value": "T",
+          "label": "T",
+          "color": "red",
+          "x": 1460,
+          "y": 600,
+          "size": 160
+        }
+      ],
+      "targets": [
+        {
+          "kind": "letter",
+          "value": "P"
+        },
+        {
+          "kind": "letter",
+          "value": "Q"
+        },
+        {
+          "kind": "letter",
+          "value": "R"
+        },
+        {
+          "kind": "letter",
+          "value": "S"
+        },
+        {
+          "kind": "letter",
+          "value": "T"
+        }
+      ],
+      "instructionText": "Find letter {target}!",
+      "subtitle": "Listen, look and tap",
+      "skills": [
+        "LETTER_RECOGNITION",
+        "LETTER_P",
+        "LETTER_Q",
+        "LETTER_R",
+        "LETTER_S",
+        "LETTER_T"
+      ],
+      "world": "storybook",
+      "contentGroup": "letters"
+    },
+    {
+      "id": "m19_letters_5",
+      "type": "TapRequestedObject",
+      "theme": "storybook",
+      "objects": [
+        {
+          "id": "letter-U",
+          "kind": "letter",
+          "value": "U",
+          "label": "U",
+          "color": "purple",
+          "x": 460,
+          "y": 600,
+          "size": 160
+        },
+        {
+          "id": "letter-V",
+          "kind": "letter",
+          "value": "V",
+          "label": "V",
+          "color": "blue",
+          "x": 710,
+          "y": 600,
+          "size": 160
+        },
+        {
+          "id": "letter-W",
+          "kind": "letter",
+          "value": "W",
+          "label": "W",
+          "color": "orange",
+          "x": 960,
+          "y": 600,
+          "size": 160
+        },
+        {
+          "id": "letter-X",
+          "kind": "letter",
+          "value": "X",
+          "label": "X",
+          "color": "green",
+          "x": 1210,
+          "y": 600,
+          "size": 160
+        },
+        {
+          "id": "letter-Y",
+          "kind": "letter",
+          "value": "Y",
+          "label": "Y",
+          "color": "red",
+          "x": 1460,
+          "y": 600,
+          "size": 160
+        }
+      ],
+      "targets": [
+        {
+          "kind": "letter",
+          "value": "U"
+        },
+        {
+          "kind": "letter",
+          "value": "V"
+        },
+        {
+          "kind": "letter",
+          "value": "W"
+        },
+        {
+          "kind": "letter",
+          "value": "X"
+        },
+        {
+          "kind": "letter",
+          "value": "Y"
+        }
+      ],
+      "instructionText": "Find letter {target}!",
+      "subtitle": "Listen, look and tap",
+      "skills": [
+        "LETTER_RECOGNITION",
+        "LETTER_U",
+        "LETTER_V",
+        "LETTER_W",
+        "LETTER_X",
+        "LETTER_Y"
+      ],
+      "world": "storybook",
+      "contentGroup": "letters"
+    },
+    {
+      "id": "m19_letters_6",
+      "type": "TapRequestedObject",
+      "theme": "storybook",
+      "objects": [
+        {
+          "id": "letter-Z",
+          "kind": "letter",
+          "value": "Z",
+          "label": "Z",
+          "color": "purple",
+          "x": 960,
+          "y": 600,
+          "size": 160
+        }
+      ],
+      "targets": [
+        {
+          "kind": "letter",
+          "value": "Z"
+        }
+      ],
+      "instructionText": "Find letter {target}!",
+      "subtitle": "Listen, look and tap",
+      "skills": [
+        "LETTER_RECOGNITION",
+        "LETTER_Z"
+      ],
+      "world": "storybook",
+      "contentGroup": "letters"
+    },
+    {
+      "id": "m19_upper_lower_1",
+      "type": "DragToTarget",
+      "theme": "storybook",
+      "objects": [
+        {
+          "id": "lower-A",
+          "kind": "letter",
+          "value": "a",
+          "label": "a",
+          "case": "lower",
+          "category": "A",
+          "targetId": "upper-A",
+          "x": 500,
+          "y": 790,
+          "size": 140,
+          "color": "purple"
+        },
+        {
+          "id": "lower-B",
+          "kind": "letter",
+          "value": "b",
+          "label": "b",
+          "case": "lower",
+          "category": "B",
+          "targetId": "upper-B",
+          "x": 800,
+          "y": 790,
+          "size": 140,
+          "color": "blue"
+        },
+        {
+          "id": "lower-C",
+          "kind": "letter",
+          "value": "c",
+          "label": "c",
+          "case": "lower",
+          "category": "C",
+          "targetId": "upper-C",
+          "x": 1100,
+          "y": 790,
+          "size": 140,
+          "color": "orange"
+        },
+        {
+          "id": "lower-D",
+          "kind": "letter",
+          "value": "d",
+          "label": "d",
+          "case": "lower",
+          "category": "D",
+          "targetId": "upper-D",
+          "x": 1400,
+          "y": 790,
+          "size": 140,
+          "color": "green"
+        }
+      ],
+      "targets": [
+        {
+          "id": "upper-A",
+          "label": "A",
+          "color": "purple",
+          "x": 500,
+          "y": 470,
+          "w": 210,
+          "h": 210,
+          "accepts": [
+            "A"
+          ]
+        },
+        {
+          "id": "upper-B",
+          "label": "B",
+          "color": "blue",
+          "x": 800,
+          "y": 470,
+          "w": 210,
+          "h": 210,
+          "accepts": [
+            "B"
+          ]
+        },
+        {
+          "id": "upper-C",
+          "label": "C",
+          "color": "orange",
+          "x": 1100,
+          "y": 470,
+          "w": 210,
+          "h": 210,
+          "accepts": [
+            "C"
+          ]
+        },
+        {
+          "id": "upper-D",
+          "label": "D",
+          "color": "green",
+          "x": 1400,
+          "y": 470,
+          "w": 210,
+          "h": 210,
+          "accepts": [
+            "D"
+          ]
+        }
+      ],
+      "instructionText": "Match the little letters to the BIG letters!",
+      "skills": [
+        "UPPER_LOWER",
+        "LETTER_RECOGNITION",
+        "LETTER_A",
+        "LETTER_B",
+        "LETTER_C",
+        "LETTER_D"
+      ],
+      "world": "storybook",
+      "contentGroup": "upper_lower"
+    },
+    {
+      "id": "m19_upper_lower_2",
+      "type": "DragToTarget",
+      "theme": "storybook",
+      "objects": [
+        {
+          "id": "lower-E",
+          "kind": "letter",
+          "value": "e",
+          "label": "e",
+          "case": "lower",
+          "category": "E",
+          "targetId": "upper-E",
+          "x": 500,
+          "y": 790,
+          "size": 140,
+          "color": "purple"
+        },
+        {
+          "id": "lower-F",
+          "kind": "letter",
+          "value": "f",
+          "label": "f",
+          "case": "lower",
+          "category": "F",
+          "targetId": "upper-F",
+          "x": 800,
+          "y": 790,
+          "size": 140,
+          "color": "blue"
+        },
+        {
+          "id": "lower-G",
+          "kind": "letter",
+          "value": "g",
+          "label": "g",
+          "case": "lower",
+          "category": "G",
+          "targetId": "upper-G",
+          "x": 1100,
+          "y": 790,
+          "size": 140,
+          "color": "orange"
+        },
+        {
+          "id": "lower-H",
+          "kind": "letter",
+          "value": "h",
+          "label": "h",
+          "case": "lower",
+          "category": "H",
+          "targetId": "upper-H",
+          "x": 1400,
+          "y": 790,
+          "size": 140,
+          "color": "green"
+        }
+      ],
+      "targets": [
+        {
+          "id": "upper-E",
+          "label": "E",
+          "color": "purple",
+          "x": 500,
+          "y": 470,
+          "w": 210,
+          "h": 210,
+          "accepts": [
+            "E"
+          ]
+        },
+        {
+          "id": "upper-F",
+          "label": "F",
+          "color": "blue",
+          "x": 800,
+          "y": 470,
+          "w": 210,
+          "h": 210,
+          "accepts": [
+            "F"
+          ]
+        },
+        {
+          "id": "upper-G",
+          "label": "G",
+          "color": "orange",
+          "x": 1100,
+          "y": 470,
+          "w": 210,
+          "h": 210,
+          "accepts": [
+            "G"
+          ]
+        },
+        {
+          "id": "upper-H",
+          "label": "H",
+          "color": "green",
+          "x": 1400,
+          "y": 470,
+          "w": 210,
+          "h": 210,
+          "accepts": [
+            "H"
+          ]
+        }
+      ],
+      "instructionText": "Match the little letters to the BIG letters!",
+      "skills": [
+        "UPPER_LOWER",
+        "LETTER_RECOGNITION",
+        "LETTER_E",
+        "LETTER_F",
+        "LETTER_G",
+        "LETTER_H"
+      ],
+      "world": "storybook",
+      "contentGroup": "upper_lower"
+    },
+    {
+      "id": "m19_upper_lower_3",
+      "type": "DragToTarget",
+      "theme": "storybook",
+      "objects": [
+        {
+          "id": "lower-I",
+          "kind": "letter",
+          "value": "i",
+          "label": "i",
+          "case": "lower",
+          "category": "I",
+          "targetId": "upper-I",
+          "x": 500,
+          "y": 790,
+          "size": 140,
+          "color": "purple"
+        },
+        {
+          "id": "lower-J",
+          "kind": "letter",
+          "value": "j",
+          "label": "j",
+          "case": "lower",
+          "category": "J",
+          "targetId": "upper-J",
+          "x": 800,
+          "y": 790,
+          "size": 140,
+          "color": "blue"
+        },
+        {
+          "id": "lower-K",
+          "kind": "letter",
+          "value": "k",
+          "label": "k",
+          "case": "lower",
+          "category": "K",
+          "targetId": "upper-K",
+          "x": 1100,
+          "y": 790,
+          "size": 140,
+          "color": "orange"
+        },
+        {
+          "id": "lower-L",
+          "kind": "letter",
+          "value": "l",
+          "label": "l",
+          "case": "lower",
+          "category": "L",
+          "targetId": "upper-L",
+          "x": 1400,
+          "y": 790,
+          "size": 140,
+          "color": "green"
+        }
+      ],
+      "targets": [
+        {
+          "id": "upper-I",
+          "label": "I",
+          "color": "purple",
+          "x": 500,
+          "y": 470,
+          "w": 210,
+          "h": 210,
+          "accepts": [
+            "I"
+          ]
+        },
+        {
+          "id": "upper-J",
+          "label": "J",
+          "color": "blue",
+          "x": 800,
+          "y": 470,
+          "w": 210,
+          "h": 210,
+          "accepts": [
+            "J"
+          ]
+        },
+        {
+          "id": "upper-K",
+          "label": "K",
+          "color": "orange",
+          "x": 1100,
+          "y": 470,
+          "w": 210,
+          "h": 210,
+          "accepts": [
+            "K"
+          ]
+        },
+        {
+          "id": "upper-L",
+          "label": "L",
+          "color": "green",
+          "x": 1400,
+          "y": 470,
+          "w": 210,
+          "h": 210,
+          "accepts": [
+            "L"
+          ]
+        }
+      ],
+      "instructionText": "Match the little letters to the BIG letters!",
+      "skills": [
+        "UPPER_LOWER",
+        "LETTER_RECOGNITION",
+        "LETTER_I",
+        "LETTER_J",
+        "LETTER_K",
+        "LETTER_L"
+      ],
+      "world": "storybook",
+      "contentGroup": "upper_lower"
+    },
+    {
+      "id": "m19_upper_lower_4",
+      "type": "DragToTarget",
+      "theme": "storybook",
+      "objects": [
+        {
+          "id": "lower-M",
+          "kind": "letter",
+          "value": "m",
+          "label": "m",
+          "case": "lower",
+          "category": "M",
+          "targetId": "upper-M",
+          "x": 500,
+          "y": 790,
+          "size": 140,
+          "color": "purple"
+        },
+        {
+          "id": "lower-N",
+          "kind": "letter",
+          "value": "n",
+          "label": "n",
+          "case": "lower",
+          "category": "N",
+          "targetId": "upper-N",
+          "x": 800,
+          "y": 790,
+          "size": 140,
+          "color": "blue"
+        },
+        {
+          "id": "lower-O",
+          "kind": "letter",
+          "value": "o",
+          "label": "o",
+          "case": "lower",
+          "category": "O",
+          "targetId": "upper-O",
+          "x": 1100,
+          "y": 790,
+          "size": 140,
+          "color": "orange"
+        },
+        {
+          "id": "lower-P",
+          "kind": "letter",
+          "value": "p",
+          "label": "p",
+          "case": "lower",
+          "category": "P",
+          "targetId": "upper-P",
+          "x": 1400,
+          "y": 790,
+          "size": 140,
+          "color": "green"
+        }
+      ],
+      "targets": [
+        {
+          "id": "upper-M",
+          "label": "M",
+          "color": "purple",
+          "x": 500,
+          "y": 470,
+          "w": 210,
+          "h": 210,
+          "accepts": [
+            "M"
+          ]
+        },
+        {
+          "id": "upper-N",
+          "label": "N",
+          "color": "blue",
+          "x": 800,
+          "y": 470,
+          "w": 210,
+          "h": 210,
+          "accepts": [
+            "N"
+          ]
+        },
+        {
+          "id": "upper-O",
+          "label": "O",
+          "color": "orange",
+          "x": 1100,
+          "y": 470,
+          "w": 210,
+          "h": 210,
+          "accepts": [
+            "O"
+          ]
+        },
+        {
+          "id": "upper-P",
+          "label": "P",
+          "color": "green",
+          "x": 1400,
+          "y": 470,
+          "w": 210,
+          "h": 210,
+          "accepts": [
+            "P"
+          ]
+        }
+      ],
+      "instructionText": "Match the little letters to the BIG letters!",
+      "skills": [
+        "UPPER_LOWER",
+        "LETTER_RECOGNITION",
+        "LETTER_M",
+        "LETTER_N",
+        "LETTER_O",
+        "LETTER_P"
+      ],
+      "world": "storybook",
+      "contentGroup": "upper_lower"
+    },
+    {
+      "id": "m19_upper_lower_5",
+      "type": "DragToTarget",
+      "theme": "storybook",
+      "objects": [
+        {
+          "id": "lower-Q",
+          "kind": "letter",
+          "value": "q",
+          "label": "q",
+          "case": "lower",
+          "category": "Q",
+          "targetId": "upper-Q",
+          "x": 500,
+          "y": 790,
+          "size": 140,
+          "color": "purple"
+        },
+        {
+          "id": "lower-R",
+          "kind": "letter",
+          "value": "r",
+          "label": "r",
+          "case": "lower",
+          "category": "R",
+          "targetId": "upper-R",
+          "x": 800,
+          "y": 790,
+          "size": 140,
+          "color": "blue"
+        },
+        {
+          "id": "lower-S",
+          "kind": "letter",
+          "value": "s",
+          "label": "s",
+          "case": "lower",
+          "category": "S",
+          "targetId": "upper-S",
+          "x": 1100,
+          "y": 790,
+          "size": 140,
+          "color": "orange"
+        },
+        {
+          "id": "lower-T",
+          "kind": "letter",
+          "value": "t",
+          "label": "t",
+          "case": "lower",
+          "category": "T",
+          "targetId": "upper-T",
+          "x": 1400,
+          "y": 790,
+          "size": 140,
+          "color": "green"
+        }
+      ],
+      "targets": [
+        {
+          "id": "upper-Q",
+          "label": "Q",
+          "color": "purple",
+          "x": 500,
+          "y": 470,
+          "w": 210,
+          "h": 210,
+          "accepts": [
+            "Q"
+          ]
+        },
+        {
+          "id": "upper-R",
+          "label": "R",
+          "color": "blue",
+          "x": 800,
+          "y": 470,
+          "w": 210,
+          "h": 210,
+          "accepts": [
+            "R"
+          ]
+        },
+        {
+          "id": "upper-S",
+          "label": "S",
+          "color": "orange",
+          "x": 1100,
+          "y": 470,
+          "w": 210,
+          "h": 210,
+          "accepts": [
+            "S"
+          ]
+        },
+        {
+          "id": "upper-T",
+          "label": "T",
+          "color": "green",
+          "x": 1400,
+          "y": 470,
+          "w": 210,
+          "h": 210,
+          "accepts": [
+            "T"
+          ]
+        }
+      ],
+      "instructionText": "Match the little letters to the BIG letters!",
+      "skills": [
+        "UPPER_LOWER",
+        "LETTER_RECOGNITION",
+        "LETTER_Q",
+        "LETTER_R",
+        "LETTER_S",
+        "LETTER_T"
+      ],
+      "world": "storybook",
+      "contentGroup": "upper_lower"
+    },
+    {
+      "id": "m19_upper_lower_6",
+      "type": "DragToTarget",
+      "theme": "storybook",
+      "objects": [
+        {
+          "id": "lower-U",
+          "kind": "letter",
+          "value": "u",
+          "label": "u",
+          "case": "lower",
+          "category": "U",
+          "targetId": "upper-U",
+          "x": 500,
+          "y": 790,
+          "size": 140,
+          "color": "purple"
+        },
+        {
+          "id": "lower-V",
+          "kind": "letter",
+          "value": "v",
+          "label": "v",
+          "case": "lower",
+          "category": "V",
+          "targetId": "upper-V",
+          "x": 800,
+          "y": 790,
+          "size": 140,
+          "color": "blue"
+        },
+        {
+          "id": "lower-W",
+          "kind": "letter",
+          "value": "w",
+          "label": "w",
+          "case": "lower",
+          "category": "W",
+          "targetId": "upper-W",
+          "x": 1100,
+          "y": 790,
+          "size": 140,
+          "color": "orange"
+        },
+        {
+          "id": "lower-X",
+          "kind": "letter",
+          "value": "x",
+          "label": "x",
+          "case": "lower",
+          "category": "X",
+          "targetId": "upper-X",
+          "x": 1400,
+          "y": 790,
+          "size": 140,
+          "color": "green"
+        }
+      ],
+      "targets": [
+        {
+          "id": "upper-U",
+          "label": "U",
+          "color": "purple",
+          "x": 500,
+          "y": 470,
+          "w": 210,
+          "h": 210,
+          "accepts": [
+            "U"
+          ]
+        },
+        {
+          "id": "upper-V",
+          "label": "V",
+          "color": "blue",
+          "x": 800,
+          "y": 470,
+          "w": 210,
+          "h": 210,
+          "accepts": [
+            "V"
+          ]
+        },
+        {
+          "id": "upper-W",
+          "label": "W",
+          "color": "orange",
+          "x": 1100,
+          "y": 470,
+          "w": 210,
+          "h": 210,
+          "accepts": [
+            "W"
+          ]
+        },
+        {
+          "id": "upper-X",
+          "label": "X",
+          "color": "green",
+          "x": 1400,
+          "y": 470,
+          "w": 210,
+          "h": 210,
+          "accepts": [
+            "X"
+          ]
+        }
+      ],
+      "instructionText": "Match the little letters to the BIG letters!",
+      "skills": [
+        "UPPER_LOWER",
+        "LETTER_RECOGNITION",
+        "LETTER_U",
+        "LETTER_V",
+        "LETTER_W",
+        "LETTER_X"
+      ],
+      "world": "storybook",
+      "contentGroup": "upper_lower"
+    },
+    {
+      "id": "m19_upper_lower_7",
+      "type": "DragToTarget",
+      "theme": "storybook",
+      "objects": [
+        {
+          "id": "lower-Y",
+          "kind": "letter",
+          "value": "y",
+          "label": "y",
+          "case": "lower",
+          "category": "Y",
+          "targetId": "upper-Y",
+          "x": 500,
+          "y": 790,
+          "size": 140,
+          "color": "purple"
+        },
+        {
+          "id": "lower-Z",
+          "kind": "letter",
+          "value": "z",
+          "label": "z",
+          "case": "lower",
+          "category": "Z",
+          "targetId": "upper-Z",
+          "x": 800,
+          "y": 790,
+          "size": 140,
+          "color": "blue"
+        }
+      ],
+      "targets": [
+        {
+          "id": "upper-Y",
+          "label": "Y",
+          "color": "purple",
+          "x": 500,
+          "y": 470,
+          "w": 210,
+          "h": 210,
+          "accepts": [
+            "Y"
+          ]
+        },
+        {
+          "id": "upper-Z",
+          "label": "Z",
+          "color": "blue",
+          "x": 800,
+          "y": 470,
+          "w": 210,
+          "h": 210,
+          "accepts": [
+            "Z"
+          ]
+        }
+      ],
+      "instructionText": "Match the little letters to the BIG letters!",
+      "skills": [
+        "UPPER_LOWER",
+        "LETTER_RECOGNITION",
+        "LETTER_Y",
+        "LETTER_Z"
+      ],
+      "world": "storybook",
+      "contentGroup": "upper_lower"
+    },
+    {
+      "id": "m19_first_sound_b",
+      "type": "TapRequestedObject",
+      "theme": "storybook",
+      "objects": [
+        {
+          "id": "ball",
+          "kind": "word",
+          "symbol": "BALL",
+          "label": "Ball",
+          "firstSound": "B",
+          "x": 650,
+          "y": 690,
+          "size": 155,
+          "color": "orange"
+        },
+        {
+          "id": "sun",
+          "kind": "word",
+          "symbol": "SUN",
+          "label": "Sun",
+          "firstSound": "S",
+          "x": 960,
+          "y": 690,
+          "size": 155,
+          "color": "blue"
+        },
+        {
+          "id": "moon",
+          "kind": "word",
+          "symbol": "MOON",
+          "label": "Moon",
+          "firstSound": "M",
+          "x": 1270,
+          "y": 690,
+          "size": 155,
+          "color": "green"
+        }
+      ],
+      "request": {
+        "firstSound": "B"
+      },
+      "instructionText": "Which word starts with B?",
+      "skills": [
+        "FIRST_SOUNDS",
+        "LETTER_B"
+      ],
+      "world": "storybook",
+      "contentGroup": "first_sounds"
+    },
+    {
+      "id": "m19_first_sound_m",
+      "type": "TapRequestedObject",
+      "theme": "storybook",
+      "objects": [
+        {
+          "id": "cat",
+          "kind": "word",
+          "symbol": "CAT",
+          "label": "Cat",
+          "firstSound": "C",
+          "x": 650,
+          "y": 690,
+          "size": 155,
+          "color": "orange"
+        },
+        {
+          "id": "moon",
+          "kind": "word",
+          "symbol": "MOON",
+          "label": "Moon",
+          "firstSound": "M",
+          "x": 960,
+          "y": 690,
+          "size": 155,
+          "color": "blue"
+        },
+        {
+          "id": "fish",
+          "kind": "word",
+          "symbol": "FISH",
+          "label": "Fish",
+          "firstSound": "F",
+          "x": 1270,
+          "y": 690,
+          "size": 155,
+          "color": "green"
+        }
+      ],
+      "request": {
+        "firstSound": "M"
+      },
+      "instructionText": "Which word starts with M?",
+      "skills": [
+        "FIRST_SOUNDS",
+        "LETTER_M"
+      ],
+      "world": "storybook",
+      "contentGroup": "first_sounds"
+    },
+    {
+      "id": "m19_first_sound_s",
+      "type": "TapRequestedObject",
+      "theme": "storybook",
+      "objects": [
+        {
+          "id": "sun",
+          "kind": "word",
+          "symbol": "SUN",
+          "label": "Sun",
+          "firstSound": "S",
+          "x": 650,
+          "y": 690,
+          "size": 155,
+          "color": "orange"
+        },
+        {
+          "id": "dog",
+          "kind": "word",
+          "symbol": "DOG",
+          "label": "Dog",
+          "firstSound": "D",
+          "x": 960,
+          "y": 690,
+          "size": 155,
+          "color": "blue"
+        },
+        {
+          "id": "apple",
+          "kind": "word",
+          "symbol": "APPLE",
+          "label": "Apple",
+          "firstSound": "A",
+          "x": 1270,
+          "y": 690,
+          "size": 155,
+          "color": "green"
+        }
+      ],
+      "request": {
+        "firstSound": "S"
+      },
+      "instructionText": "Which word starts with S?",
+      "skills": [
+        "FIRST_SOUNDS",
+        "LETTER_S"
+      ],
+      "world": "storybook",
+      "contentGroup": "first_sounds"
+    },
+    {
+      "id": "m19_first_sound_f",
+      "type": "TapRequestedObject",
+      "theme": "storybook",
+      "objects": [
+        {
+          "id": "fish",
+          "kind": "word",
+          "symbol": "FISH",
+          "label": "Fish",
+          "firstSound": "F",
+          "x": 650,
+          "y": 690,
+          "size": 155,
+          "color": "orange"
+        },
+        {
+          "id": "ball",
+          "kind": "word",
+          "symbol": "BALL",
+          "label": "Ball",
+          "firstSound": "B",
+          "x": 960,
+          "y": 690,
+          "size": 155,
+          "color": "blue"
+        },
+        {
+          "id": "tree",
+          "kind": "word",
+          "symbol": "TREE",
+          "label": "Tree",
+          "firstSound": "T",
+          "x": 1270,
+          "y": 690,
+          "size": 155,
+          "color": "green"
+        }
+      ],
+      "request": {
+        "firstSound": "F"
+      },
+      "instructionText": "Which word starts with F?",
+      "skills": [
+        "FIRST_SOUNDS",
+        "LETTER_F"
+      ],
+      "world": "storybook",
+      "contentGroup": "first_sounds"
+    },
+    {
+      "id": "m19_name_initial",
+      "type": "TapRequestedObject",
+      "theme": "storybook",
+      "dynamic": "profileInitial",
+      "objects": [
+        {
+          "kind": "letter",
+          "value": "L"
+        }
+      ],
+      "request": {
+        "kind": "letter",
+        "value": "L"
+      },
+      "skills": [
+        "NAME_LETTER",
+        "LETTER_RECOGNITION"
+      ],
+      "world": "storybook",
+      "contentGroup": "name"
+    },
+    {
+      "id": "m19_vocab_garden",
+      "type": "StoryChoice",
+      "theme": "storybook",
+      "storyText": "Luna found something in the garden. What is it?",
+      "choices": [
+        {
+          "id": "flower",
+          "kind": "word",
+          "symbol": "FLOWER",
+          "label": "Flower",
+          "x": 650,
+          "y": 690,
+          "color": "pink",
+          "correct": true
+        },
+        {
+          "id": "book",
+          "kind": "word",
+          "symbol": "BOOK",
+          "label": "Book",
+          "x": 960,
+          "y": 690,
+          "color": "blue",
+          "correct": false
+        },
+        {
+          "id": "shoe",
+          "kind": "word",
+          "symbol": "SHOE",
+          "label": "Shoe",
+          "x": 1270,
+          "y": 690,
+          "color": "green",
+          "correct": false
+        }
+      ],
+      "skills": [
+        "VOCABULARY"
+      ],
+      "world": "storybook"
+    },
+    {
+      "id": "m19_vocab_picnic",
+      "type": "StoryChoice",
+      "theme": "storybook",
+      "storyText": "Luna found something in the picnic. What is it?",
+      "choices": [
+        {
+          "id": "cup",
+          "kind": "word",
+          "symbol": "CUP",
+          "label": "Cup",
+          "x": 650,
+          "y": 690,
+          "color": "pink",
+          "correct": true
+        },
+        {
+          "id": "cloud",
+          "kind": "word",
+          "symbol": "CLOUD",
+          "label": "Cloud",
+          "x": 960,
+          "y": 690,
+          "color": "blue",
+          "correct": false
+        },
+        {
+          "id": "bed",
+          "kind": "word",
+          "symbol": "BED",
+          "label": "Bed",
+          "x": 1270,
+          "y": 690,
+          "color": "green",
+          "correct": false
+        }
+      ],
+      "skills": [
+        "VOCABULARY"
+      ],
+      "world": "storybook"
+    },
+    {
+      "id": "m19_vocab_forest",
+      "type": "StoryChoice",
+      "theme": "storybook",
+      "storyText": "Luna found something in the forest. What is it?",
+      "choices": [
+        {
+          "id": "tree",
+          "kind": "word",
+          "symbol": "TREE",
+          "label": "Tree",
+          "x": 650,
+          "y": 690,
+          "color": "pink",
+          "correct": true
+        },
+        {
+          "id": "sock",
+          "kind": "word",
+          "symbol": "SOCK",
+          "label": "Sock",
+          "x": 960,
+          "y": 690,
+          "color": "blue",
+          "correct": false
+        },
+        {
+          "id": "plate",
+          "kind": "word",
+          "symbol": "PLATE",
+          "label": "Plate",
+          "x": 1270,
+          "y": 690,
+          "color": "green",
+          "correct": false
+        }
+      ],
+      "skills": [
+        "VOCABULARY"
+      ],
+      "world": "storybook"
+    },
+    {
+      "id": "m20_wash_hands",
+      "type": "WashSwipe",
+      "theme": "life",
+      "spots": [
+        {
+          "x": 650,
+          "y": 600
+        },
+        {
+          "x": 760,
+          "y": 680
+        },
+        {
+          "x": 870,
+          "y": 600
+        },
+        {
+          "x": 980,
+          "y": 680
+        },
+        {
+          "x": 1090,
+          "y": 600
+        },
+        {
+          "x": 1200,
+          "y": 680
+        },
+        {
+          "x": 1310,
+          "y": 600
+        }
+      ],
+      "instructionText": "Wash all the bubbly spots!",
+      "skills": [
+        "HAND_WASHING"
+      ],
+      "world": "life",
+      "completeDetail": "Clean hands!"
+    },
+    {
+      "id": "m20_brush_teeth",
+      "type": "WashSwipe",
+      "theme": "life",
+      "spots": [
+        {
+          "x": 680,
+          "y": 585
+        },
+        {
+          "x": 780,
+          "y": 675
+        },
+        {
+          "x": 880,
+          "y": 585
+        },
+        {
+          "x": 980,
+          "y": 675
+        },
+        {
+          "x": 1080,
+          "y": 585
+        },
+        {
+          "x": 1180,
+          "y": 675
+        },
+        {
+          "x": 1280,
+          "y": 585
+        }
+      ],
+      "instructionText": "Brush every tooth sparkle!",
+      "skills": [
+        "TEETH_BRUSHING"
+      ],
+      "world": "life",
+      "completeDetail": "Sparkly teeth!"
+    },
+    {
+      "id": "m20_weather_rain",
+      "type": "StoryChoice",
+      "theme": "life",
+      "storyText": "It is rainy. What could Bella wear?",
+      "choices": [
+        {
+          "id": "raincoat",
+          "kind": "clothing",
+          "symbol": "RAINCOAT",
+          "label": "Raincoat",
+          "x": 620,
+          "y": 690,
+          "color": "blue",
+          "correct": true
+        },
+        {
+          "id": "swimsuit",
+          "kind": "clothing",
+          "symbol": "SWIMSUIT",
+          "label": "Swimsuit",
+          "x": 960,
+          "y": 690,
+          "color": "yellow",
+          "correct": false
+        },
+        {
+          "id": "scarf",
+          "kind": "clothing",
+          "symbol": "SCARF",
+          "label": "Scarf",
+          "x": 1300,
+          "y": 690,
+          "color": "purple",
+          "correct": false
+        }
+      ],
+      "skills": [
+        "WEATHER_CLOTHES"
+      ],
+      "world": "life"
+    },
+    {
+      "id": "m20_weather_sun",
+      "type": "StoryChoice",
+      "theme": "life",
+      "storyText": "It is sunny. What could Bella wear?",
+      "choices": [
+        {
+          "id": "boots",
+          "kind": "clothing",
+          "symbol": "BOOTS",
+          "label": "Boots",
+          "x": 620,
+          "y": 690,
+          "color": "blue",
+          "correct": false
+        },
+        {
+          "id": "sunhat",
+          "kind": "clothing",
+          "symbol": "SUNHAT",
+          "label": "Sunhat",
+          "x": 960,
+          "y": 690,
+          "color": "yellow",
+          "correct": true
+        },
+        {
+          "id": "mittens",
+          "kind": "clothing",
+          "symbol": "MITTENS",
+          "label": "Mittens",
+          "x": 1300,
+          "y": 690,
+          "color": "purple",
+          "correct": false
+        }
+      ],
+      "skills": [
+        "WEATHER_CLOTHES"
+      ],
+      "world": "life"
+    },
+    {
+      "id": "m20_weather_cold",
+      "type": "StoryChoice",
+      "theme": "life",
+      "storyText": "It is cold. What could Bella wear?",
+      "choices": [
+        {
+          "id": "sandals",
+          "kind": "clothing",
+          "symbol": "SANDALS",
+          "label": "Sandals",
+          "x": 620,
+          "y": 690,
+          "color": "blue",
+          "correct": false
+        },
+        {
+          "id": "coat",
+          "kind": "clothing",
+          "symbol": "COAT",
+          "label": "Coat",
+          "x": 960,
+          "y": 690,
+          "color": "yellow",
+          "correct": true
+        },
+        {
+          "id": "sunhat",
+          "kind": "clothing",
+          "symbol": "SUNHAT",
+          "label": "Sunhat",
+          "x": 1300,
+          "y": 690,
+          "color": "purple",
+          "correct": false
+        }
+      ],
+      "skills": [
+        "WEATHER_CLOTHES"
+      ],
+      "world": "life"
+    },
+    {
+      "id": "m20_toy_sort",
+      "type": "Categorise",
+      "theme": "life",
+      "objects": [
+        {
+          "id": "ball1",
+          "kind": "toy",
+          "symbol": "BALL",
+          "label": "Ball",
+          "category": "outside",
+          "x": 520,
+          "y": 620,
+          "color": "red"
+        },
+        {
+          "id": "blocks",
+          "kind": "toy",
+          "symbol": "BLOCKS",
+          "label": "Blocks",
+          "category": "box",
+          "x": 760,
+          "y": 620,
+          "color": "blue"
+        },
+        {
+          "id": "ball2",
+          "kind": "toy",
+          "symbol": "BALL",
+          "label": "Ball",
+          "category": "outside",
+          "x": 1000,
+          "y": 620,
+          "color": "yellow"
+        },
+        {
+          "id": "puzzle",
+          "kind": "toy",
+          "symbol": "PUZZLE",
+          "label": "Puzzle",
+          "category": "box",
+          "x": 1240,
+          "y": 620,
+          "color": "purple"
+        }
+      ],
+      "targets": [
+        {
+          "id": "box",
+          "label": "TOY BOX",
+          "color": "purple",
+          "x": 720,
+          "y": 840,
+          "w": 360,
+          "h": 220,
+          "accepts": [
+            "box"
+          ]
+        },
+        {
+          "id": "outside",
+          "label": "PLAY MAT",
+          "color": "green",
+          "x": 1220,
+          "y": 840,
+          "w": 360,
+          "h": 220,
+          "accepts": [
+            "outside"
+          ]
+        }
+      ],
+      "skills": [
+        "TOY_SORTING"
+      ],
+      "world": "life"
+    },
+    {
+      "id": "m20_feeling_sad",
+      "type": "StoryChoice",
+      "theme": "life",
+      "storyText": "Bella feels sad. What could help?",
+      "choices": [
+        {
+          "id": "hug",
+          "kind": "feeling",
+          "symbol": "HUG",
+          "label": "Hug",
+          "x": 620,
+          "y": 690,
+          "color": "pink",
+          "correct": true
+        },
+        {
+          "id": "laugh",
+          "kind": "feeling",
+          "symbol": "LAUGH",
+          "label": "Laugh",
+          "x": 960,
+          "y": 690,
+          "color": "blue",
+          "correct": false
+        },
+        {
+          "id": "hide",
+          "kind": "feeling",
+          "symbol": "HIDE",
+          "label": "Hide",
+          "x": 1300,
+          "y": 690,
+          "color": "green",
+          "correct": false
+        }
+      ],
+      "skills": [
+        "FEELINGS"
+      ],
+      "world": "life",
+      "completeDetail": "That is one helpful choice!"
+    },
+    {
+      "id": "m20_feeling_frustrated",
+      "type": "StoryChoice",
+      "theme": "life",
+      "storyText": "Bella feels frustrated by a puzzle. What could help?",
+      "choices": [
+        {
+          "id": "ask",
+          "kind": "feeling",
+          "symbol": "ASK",
+          "label": "Ask",
+          "x": 620,
+          "y": 690,
+          "color": "pink",
+          "correct": true
+        },
+        {
+          "id": "throw",
+          "kind": "feeling",
+          "symbol": "THROW",
+          "label": "Throw",
+          "x": 960,
+          "y": 690,
+          "color": "blue",
+          "correct": false
+        },
+        {
+          "id": "rush",
+          "kind": "feeling",
+          "symbol": "RUSH",
+          "label": "Rush",
+          "x": 1300,
+          "y": 690,
+          "color": "green",
+          "correct": false
+        }
+      ],
+      "skills": [
+        "FEELINGS"
+      ],
+      "world": "life",
+      "completeDetail": "That is one helpful choice!"
+    },
+    {
+      "id": "m20_feeling_excited",
+      "type": "StoryChoice",
+      "theme": "life",
+      "storyText": "Bella feels very excited. What can she do?",
+      "choices": [
+        {
+          "id": "share",
+          "kind": "feeling",
+          "symbol": "SHARE",
+          "label": "Share",
+          "x": 620,
+          "y": 690,
+          "color": "pink",
+          "correct": true
+        },
+        {
+          "id": "shout",
+          "kind": "feeling",
+          "symbol": "SHOUT",
+          "label": "Shout",
+          "x": 960,
+          "y": 690,
+          "color": "blue",
+          "correct": false
+        },
+        {
+          "id": "grab",
+          "kind": "feeling",
+          "symbol": "GRAB",
+          "label": "Grab",
+          "x": 1300,
+          "y": 690,
+          "color": "green",
+          "correct": false
+        }
+      ],
+      "skills": [
+        "FEELINGS"
+      ],
+      "world": "life",
+      "completeDetail": "That is one helpful choice!"
+    },
+    {
+      "id": "m20_helping_table",
+      "type": "StoryChoice",
+      "theme": "life",
+      "storyText": "The picnic is ready. How can we help?",
+      "choices": [
+        {
+          "id": "carry",
+          "kind": "routine",
+          "symbol": "CARRY",
+          "label": "Carry",
+          "x": 620,
+          "y": 690,
+          "color": "green",
+          "correct": true
+        },
+        {
+          "id": "walk_away",
+          "kind": "routine",
+          "symbol": "WALK AWAY",
+          "label": "Walk Away",
+          "x": 960,
+          "y": 690,
+          "color": "blue",
+          "correct": false
+        },
+        {
+          "id": "scatter",
+          "kind": "routine",
+          "symbol": "SCATTER",
+          "label": "Scatter",
+          "x": 1300,
+          "y": 690,
+          "color": "orange",
+          "correct": false
+        }
+      ],
+      "skills": [
+        "HELPING"
+      ],
+      "world": "life"
+    },
+    {
+      "id": "m20_helping_friend",
+      "type": "StoryChoice",
+      "theme": "life",
+      "storyText": "A friend dropped the blocks. What could we do?",
+      "choices": [
+        {
+          "id": "help",
+          "kind": "routine",
+          "symbol": "HELP",
+          "label": "Help",
+          "x": 620,
+          "y": 690,
+          "color": "green",
+          "correct": true
+        },
+        {
+          "id": "point",
+          "kind": "routine",
+          "symbol": "POINT",
+          "label": "Point",
+          "x": 960,
+          "y": 690,
+          "color": "blue",
+          "correct": false
+        },
+        {
+          "id": "take",
+          "kind": "routine",
+          "symbol": "TAKE",
+          "label": "Take",
+          "x": 1300,
+          "y": 690,
+          "color": "orange",
+          "correct": false
+        }
+      ],
+      "skills": [
+        "HELPING"
+      ],
+      "world": "life"
+    },
+    {
+      "id": "m20_routine_morning",
+      "type": "SequenceOrder",
+      "theme": "life",
+      "objects": [
+        {
+          "id": "brush",
+          "kind": "routine",
+          "symbol": "BRUSH",
+          "label": "Brush",
+          "x": 540,
+          "y": 780,
+          "size": 130,
+          "color": "orange"
+        },
+        {
+          "id": "breakfast",
+          "kind": "routine",
+          "symbol": "BREAKFAST",
+          "label": "Breakfast",
+          "x": 820,
+          "y": 780,
+          "size": 130,
+          "color": "blue"
+        },
+        {
+          "id": "dress",
+          "kind": "routine",
+          "symbol": "DRESS",
+          "label": "Dress",
+          "x": 1100,
+          "y": 780,
+          "size": 130,
+          "color": "green"
+        },
+        {
+          "id": "wake",
+          "kind": "routine",
+          "symbol": "WAKE",
+          "label": "Wake",
+          "x": 1380,
+          "y": 780,
+          "size": 130,
+          "color": "purple"
+        }
+      ],
+      "correctOrder": [
+        "wake",
+        "dress",
+        "breakfast",
+        "brush"
+      ],
+      "instructionText": "Put the morning routine in order!",
+      "skills": [
+        "ROUTINES"
+      ],
+      "world": "life"
+    },
+    {
+      "id": "m20_routine_bedtime",
+      "type": "SequenceOrder",
+      "theme": "life",
+      "objects": [
+        {
+          "id": "story",
+          "kind": "routine",
+          "symbol": "STORY",
+          "label": "Story",
+          "x": 540,
+          "y": 780,
+          "size": 130,
+          "color": "orange"
+        },
+        {
+          "id": "brush",
+          "kind": "routine",
+          "symbol": "BRUSH",
+          "label": "Brush",
+          "x": 820,
+          "y": 780,
+          "size": 130,
+          "color": "blue"
+        },
+        {
+          "id": "pajamas",
+          "kind": "routine",
+          "symbol": "PAJAMAS",
+          "label": "Pajamas",
+          "x": 1100,
+          "y": 780,
+          "size": 130,
+          "color": "green"
+        },
+        {
+          "id": "tidy",
+          "kind": "routine",
+          "symbol": "TIDY",
+          "label": "Tidy",
+          "x": 1380,
+          "y": 780,
+          "size": 130,
+          "color": "purple"
+        }
+      ],
+      "correctOrder": [
+        "tidy",
+        "pajamas",
+        "brush",
+        "story"
+      ],
+      "instructionText": "Put the bedtime routine in order!",
+      "skills": [
+        "ROUTINES"
+      ],
+      "world": "life"
+    },
+    {
+      "id": "m25_odd_one_out",
+      "type": "OddOneOut",
+      "theme": "animal",
+      "instructionText": "Which one does not belong?",
+      "subtitle": "Tap the odd one out",
+      "skills": [
+        "CLASSIFICATION",
+        "SAME_DIFFERENT"
+      ],
+      "world": "animal",
+      "contentGroup": "scale",
+      "objects": [
+        {
+          "id": "a",
+          "kind": "animal",
+          "animalType": "duck",
+          "label": "Duck",
+          "x": 620,
+          "y": 650,
+          "color": "yellow"
+        },
+        {
+          "id": "b",
+          "kind": "animal",
+          "animalType": "fox",
+          "label": "Fox",
+          "x": 960,
+          "y": 650,
+          "color": "orange"
+        },
+        {
+          "id": "c",
+          "kind": "vehicle",
+          "label": "Boat",
+          "x": 1300,
+          "y": 650,
+          "color": "blue",
+          "odd": true
+        }
+      ]
+    },
+    {
+      "id": "m25_number_line",
+      "type": "NumberLine",
+      "theme": "dino",
+      "instructionText": "Find number 4 on the number line!",
+      "targetValue": 4,
+      "values": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "skills": [
+        "NUMERAL_4"
+      ],
+      "world": "dino",
+      "contentGroup": "scale"
+    },
+    {
+      "id": "m25_same_different",
+      "type": "SameDifferent",
+      "theme": "rainbow",
+      "same": false,
+      "storyText": "One shape is different. Are they the same or different?",
+      "instructionText": "Same or different?",
+      "skills": [
+        "SAME_DIFFERENT"
+      ],
+      "world": "rainbow",
+      "contentGroup": "scale"
+    },
+    {
+      "id": "m25_order_by_size",
+      "type": "OrderBySize",
+      "theme": "dino",
+      "direction": "small-to-big",
+      "instructionText": "Tap from smallest to biggest!",
+      "skills": [
+        "BIG_SMALL",
+        "SEQUENCE"
+      ],
+      "world": "dino",
+      "contentGroup": "scale",
+      "objects": [
+        {
+          "id": "big",
+          "kind": "egg",
+          "label": "Big",
+          "size": 190,
+          "sizeMetric": 3,
+          "x": 620,
+          "y": 760,
+          "color": "purple"
+        },
+        {
+          "id": "small",
+          "kind": "egg",
+          "label": "Small",
+          "size": 110,
+          "sizeMetric": 1,
+          "x": 960,
+          "y": 760,
+          "color": "yellow"
+        },
+        {
+          "id": "mid",
+          "kind": "egg",
+          "label": "Medium",
+          "size": 150,
+          "sizeMetric": 2,
+          "x": 1300,
+          "y": 760,
+          "color": "green"
+        }
+      ]
+    },
+    {
+      "id": "m25_picture_puzzle",
+      "type": "PicturePuzzle",
+      "theme": "storybook",
+      "instructionText": "Build the picture!",
+      "subtitle": "Drag each piece into its place",
+      "skills": [
+        "PATTERN"
+      ],
+      "world": "storybook",
+      "contentGroup": "scale",
+      "objects": [
+        {
+          "id": "sun",
+          "kind": "circle",
+          "label": "Sun",
+          "color": "yellow",
+          "x": 560,
+          "y": 760,
+          "size": 130
+        },
+        {
+          "id": "tree",
+          "kind": "triangle",
+          "label": "Tree",
+          "color": "green",
+          "x": 960,
+          "y": 760,
+          "size": 130
+        },
+        {
+          "id": "pond",
+          "kind": "square",
+          "label": "Pond",
+          "color": "blue",
+          "x": 1360,
+          "y": 760,
+          "size": 130
+        }
+      ]
+    },
+    {
+      "id": "m25_follow_directions",
+      "type": "FollowDirections",
+      "theme": "life",
+      "instructionText": "Tap: wash, brush, then story!",
+      "skills": [
+        "ROUTINES"
+      ],
+      "world": "life",
+      "contentGroup": "scale",
+      "objects": [
+        {
+          "id": "wash",
+          "kind": "routine",
+          "label": "Wash",
+          "x": 600,
+          "y": 760,
+          "size": 125,
+          "color": "blue"
+        },
+        {
+          "id": "brush",
+          "kind": "routine",
+          "label": "Brush",
+          "x": 960,
+          "y": 760,
+          "size": 125,
+          "color": "green"
+        },
+        {
+          "id": "story",
+          "kind": "routine",
+          "label": "Story",
+          "x": 1320,
+          "y": 760,
+          "size": 125,
+          "color": "purple"
+        }
+      ],
+      "directions": [
+        "wash",
+        "brush",
+        "story"
+      ]
+    }
+  ]
+}

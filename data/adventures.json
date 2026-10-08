@@ -1,0 +1,1198 @@
+{
+  "adventures": [
+    {
+      "id": "rory_dino_picnic",
+      "title": "Rory's Dino Picnic",
+      "world": "dino",
+      "reward": {
+        "type": "creatures",
+        "id": "baby_raptor",
+        "name": "Baby Raptor"
+      },
+      "steps": [
+        {
+          "id": "meet_rory",
+          "kind": "story",
+          "title": "Pip finds Rory!",
+          "voice": "Pip found Rory the Raptor. Rory wants to make a dinosaur picnic!"
+        },
+        {
+          "id": "find_dinos",
+          "kind": "activity",
+          "activityId": "dino_find_3"
+        },
+        {
+          "id": "feed_dinos",
+          "kind": "activity",
+          "activityId": "dino_feed_5"
+        },
+        {
+          "id": "sort_fruit",
+          "kind": "activity",
+          "activityId": "dino_sort_fruit"
+        },
+        {
+          "id": "big_blanket",
+          "kind": "size",
+          "title": "Choose the biggest picnic blanket!"
+        },
+        {
+          "id": "pattern",
+          "kind": "pattern",
+          "title": "Finish the picnic pattern!"
+        },
+        {
+          "id": "egg_reward",
+          "kind": "egg",
+          "title": "You found a dinosaur egg!"
+        },
+        {
+          "id": "return_island",
+          "kind": "story",
+          "title": "Back to Wonder Island",
+          "voice": "Let's bring the dinosaur egg home to Wonder Island!"
+        },
+        {
+          "id": "hatch",
+          "kind": "hatch",
+          "title": "The egg is hatching!"
+        },
+        {
+          "id": "place_home",
+          "kind": "place",
+          "title": "Give Baby Raptor a home!"
+        }
+      ]
+    },
+    {
+      "id": "rainbow_missing_rainbow",
+      "title": "The Missing Rainbow",
+      "world": "rainbow",
+      "guide": "octo",
+      "reward": {
+        "type": "buildings",
+        "id": "rainbow_arch",
+        "name": "Rainbow Arch"
+      },
+      "steps": [
+        {
+          "id": "rainbow_intro",
+          "kind": "story",
+          "title": "The Rainbow Is Missing!",
+          "voice": "Octo needs help putting the rainbow colours back."
+        },
+        {
+          "id": "rr1",
+          "kind": "activity",
+          "activityId": "rainbow_find_red"
+        },
+        {
+          "id": "rr2",
+          "kind": "activity",
+          "activityId": "rainbow_find_green"
+        },
+        {
+          "id": "rr3",
+          "kind": "activity",
+          "activityId": "rainbow_colour_sort"
+        },
+        {
+          "id": "rr_done",
+          "kind": "story",
+          "title": "The Rainbow Is Back!",
+          "voice": "Every colour is shining again!"
+        }
+      ]
+    },
+    {
+      "id": "rainbow_octo_paint_party",
+      "title": "Octo's Paint Party",
+      "world": "rainbow",
+      "guide": "octo",
+      "reward": {
+        "type": "cosmetics",
+        "id": "octo_party_hat",
+        "name": "Party Hat"
+      },
+      "steps": [
+        {
+          "id": "paint_intro",
+          "kind": "story",
+          "title": "Paint Party!",
+          "voice": "Octo is making a colourful party banner."
+        },
+        {
+          "id": "paint1",
+          "kind": "activity",
+          "activityId": "rainbow_paint_party"
+        },
+        {
+          "id": "paint2",
+          "kind": "activity",
+          "activityId": "rainbow_pattern"
+        },
+        {
+          "id": "paint_done",
+          "kind": "story",
+          "title": "Party Ready!",
+          "voice": "The banner looks wonderful!"
+        }
+      ]
+    },
+    {
+      "id": "rainbow_shape_house_rescue",
+      "title": "Shape House Rescue",
+      "world": "rainbow",
+      "guide": "octo",
+      "reward": {
+        "type": "decorations",
+        "id": "shape_garden",
+        "name": "Shape Garden"
+      },
+      "steps": [
+        {
+          "id": "house_intro",
+          "kind": "story",
+          "title": "Shape House Rescue!",
+          "voice": "The shape house pieces have fallen apart."
+        },
+        {
+          "id": "house1",
+          "kind": "activity",
+          "activityId": "rainbow_shape_match"
+        },
+        {
+          "id": "house2",
+          "kind": "activity",
+          "activityId": "rainbow_build_house"
+        },
+        {
+          "id": "house_done",
+          "kind": "story",
+          "title": "House Fixed!",
+          "voice": "Every shape is back where it belongs."
+        }
+      ]
+    },
+    {
+      "id": "rainbow_balloon_sort_mission",
+      "title": "Balloon Sort",
+      "world": "rainbow",
+      "guide": "octo",
+      "reward": {
+        "type": "creatures",
+        "id": "prism_butterfly",
+        "name": "Prism Butterfly"
+      },
+      "steps": [
+        {
+          "id": "balloon_intro",
+          "kind": "story",
+          "title": "Balloon Mix-Up!",
+          "voice": "The parade balloons are all mixed up."
+        },
+        {
+          "id": "balloon1",
+          "kind": "activity",
+          "activityId": "rainbow_balloon_sort"
+        },
+        {
+          "id": "balloon2",
+          "kind": "activity",
+          "activityId": "rainbow_big_balloon"
+        },
+        {
+          "id": "balloon3",
+          "kind": "activity",
+          "activityId": "rainbow_trace_float"
+        },
+        {
+          "id": "balloon_done",
+          "kind": "story",
+          "title": "Balloons Ready!",
+          "voice": "The balloons are sorted and ready to go."
+        }
+      ]
+    },
+    {
+      "id": "rainbow_build_parade_float",
+      "title": "Build the Parade Float",
+      "world": "rainbow",
+      "guide": "octo",
+      "reward": {
+        "type": "buildings",
+        "id": "parade_float",
+        "name": "Parade Float"
+      },
+      "steps": [
+        {
+          "id": "float_intro",
+          "kind": "story",
+          "title": "Build the Parade Float!",
+          "voice": "Octo needs help getting the parade ready."
+        },
+        {
+          "id": "float1",
+          "kind": "activity",
+          "activityId": "rainbow_parade_order"
+        },
+        {
+          "id": "float2",
+          "kind": "activity",
+          "activityId": "rainbow_pattern"
+        },
+        {
+          "id": "float3",
+          "kind": "activity",
+          "activityId": "rainbow_story_help"
+        },
+        {
+          "id": "float_done",
+          "kind": "story",
+          "title": "Parade Time!",
+          "voice": "The float is ready. Let the parade begin!"
+        }
+      ]
+    },
+    {
+      "id": "dino_nest_number_hunt",
+      "title": "Nest Number Hunt",
+      "world": "dino",
+      "guide": "rory",
+      "reward": {
+        "type": "creatures",
+        "id": "baby_triceratops",
+        "name": "Baby Triceratops"
+      },
+      "steps": [
+        {
+          "id": "dino_nest_number_hunt_intro",
+          "kind": "story",
+          "title": "Nest Number Hunt",
+          "voice": "Rory found nests with number stones."
+        },
+        {
+          "id": "dino_nest_number_hunt_a1",
+          "kind": "activity",
+          "activityId": "m16_numerals_1_2"
+        },
+        {
+          "id": "dino_nest_number_hunt_a2",
+          "kind": "activity",
+          "activityId": "m16_count_6"
+        },
+        {
+          "id": "dino_nest_number_hunt_a3",
+          "kind": "activity",
+          "activityId": "m16_same_amount_1"
+        },
+        {
+          "id": "dino_nest_number_hunt_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "The nests are ready, and a Baby Triceratops came to visit!"
+        }
+      ]
+    },
+    {
+      "id": "dino_hungry_herd",
+      "title": "Hungry Herd",
+      "world": "dino",
+      "guide": "rory",
+      "reward": {
+        "type": "creatures",
+        "id": "baby_stegosaurus",
+        "name": "Baby Stegosaurus"
+      },
+      "steps": [
+        {
+          "id": "dino_hungry_herd_intro",
+          "kind": "story",
+          "title": "Hungry Herd",
+          "voice": "The dinosaur herd is hungry for picnic treats."
+        },
+        {
+          "id": "dino_hungry_herd_a1",
+          "kind": "activity",
+          "activityId": "m16_count_7"
+        },
+        {
+          "id": "dino_hungry_herd_a2",
+          "kind": "activity",
+          "activityId": "m16_addition_prep_1"
+        },
+        {
+          "id": "dino_hungry_herd_a3",
+          "kind": "activity",
+          "activityId": "m16_more_eggs"
+        },
+        {
+          "id": "dino_hungry_herd_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "Everyone has enough food now!"
+        }
+      ]
+    },
+    {
+      "id": "dino_more_or_less",
+      "title": "More or Less Trail",
+      "world": "dino",
+      "guide": "rory",
+      "reward": {
+        "type": "creatures",
+        "id": "baby_ankylosaur",
+        "name": "Baby Ankylosaur"
+      },
+      "steps": [
+        {
+          "id": "dino_more_or_less_intro",
+          "kind": "story",
+          "title": "More or Less Trail",
+          "voice": "Footprints lead across Dino Valley."
+        },
+        {
+          "id": "dino_more_or_less_a1",
+          "kind": "activity",
+          "activityId": "m16_more_footprints"
+        },
+        {
+          "id": "dino_more_or_less_a2",
+          "kind": "activity",
+          "activityId": "m16_less_bones"
+        },
+        {
+          "id": "dino_more_or_less_a3",
+          "kind": "activity",
+          "activityId": "m16_same_amount_2"
+        },
+        {
+          "id": "dino_more_or_less_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "You followed every clue on the trail!"
+        }
+      ]
+    },
+    {
+      "id": "dino_same_nest",
+      "title": "Same Nest Rescue",
+      "world": "dino",
+      "guide": "rory",
+      "reward": {
+        "type": "creatures",
+        "id": "baby_brachiosaurus",
+        "name": "Baby Brachiosaurus"
+      },
+      "steps": [
+        {
+          "id": "dino_same_nest_intro",
+          "kind": "story",
+          "title": "Same Nest Rescue",
+          "voice": "The eggs need matching nests with the same amount."
+        },
+        {
+          "id": "dino_same_nest_a1",
+          "kind": "activity",
+          "activityId": "m16_same_amount_3"
+        },
+        {
+          "id": "dino_same_nest_a2",
+          "kind": "activity",
+          "activityId": "m16_count_8"
+        },
+        {
+          "id": "dino_same_nest_a3",
+          "kind": "activity",
+          "activityId": "m16_numerals_7_8"
+        },
+        {
+          "id": "dino_same_nest_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "Every egg is safe in the right nest!"
+        }
+      ]
+    },
+    {
+      "id": "dino_giant_beds",
+      "title": "Dino Bedtime",
+      "world": "dino",
+      "guide": "rory",
+      "reward": {
+        "type": "creatures",
+        "id": "baby_pterosaur",
+        "name": "Baby Pterosaur"
+      },
+      "steps": [
+        {
+          "id": "dino_giant_beds_intro",
+          "kind": "story",
+          "title": "Dino Bedtime",
+          "voice": "The sleepy dinosaurs need the right-sized beds."
+        },
+        {
+          "id": "dino_giant_beds_a1",
+          "kind": "activity",
+          "activityId": "m16_largest_egg"
+        },
+        {
+          "id": "dino_giant_beds_a2",
+          "kind": "activity",
+          "activityId": "m16_smallest_dino"
+        },
+        {
+          "id": "dino_giant_beds_a3",
+          "kind": "activity",
+          "activityId": "m16_smallest_bed"
+        },
+        {
+          "id": "dino_giant_beds_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "The whole valley is tucked in!"
+        }
+      ]
+    },
+    {
+      "id": "dino_fossil_number_trail",
+      "title": "Fossil Number Trail",
+      "world": "dino",
+      "guide": "rory",
+      "reward": {
+        "type": "decorations",
+        "id": "fossil_arch",
+        "name": "Fossil Arch"
+      },
+      "steps": [
+        {
+          "id": "dino_fossil_number_trail_intro",
+          "kind": "story",
+          "title": "Fossil Number Trail",
+          "voice": "Rory found shiny fossils and number stones."
+        },
+        {
+          "id": "dino_fossil_number_trail_a1",
+          "kind": "activity",
+          "activityId": "m16_numerals_5_6"
+        },
+        {
+          "id": "dino_fossil_number_trail_a2",
+          "kind": "activity",
+          "activityId": "m16_largest_fossil"
+        },
+        {
+          "id": "dino_fossil_number_trail_a3",
+          "kind": "activity",
+          "activityId": "m16_sequence_1"
+        },
+        {
+          "id": "dino_fossil_number_trail_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "The fossil trail is complete!"
+        }
+      ]
+    },
+    {
+      "id": "dino_train_sequence",
+      "title": "Dino Train Parade",
+      "world": "dino",
+      "guide": "rory",
+      "reward": {
+        "type": "decorations",
+        "id": "dino_train",
+        "name": "Dino Train"
+      },
+      "steps": [
+        {
+          "id": "dino_train_sequence_intro",
+          "kind": "story",
+          "title": "Dino Train Parade",
+          "voice": "The dinosaur train needs everything in the right order."
+        },
+        {
+          "id": "dino_train_sequence_a1",
+          "kind": "activity",
+          "activityId": "m16_sequence_2"
+        },
+        {
+          "id": "dino_train_sequence_a2",
+          "kind": "activity",
+          "activityId": "m16_sequence_3"
+        },
+        {
+          "id": "dino_train_sequence_a3",
+          "kind": "activity",
+          "activityId": "m16_more_eggs"
+        },
+        {
+          "id": "dino_train_sequence_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "The Dino Train is ready to roll!"
+        }
+      ]
+    },
+    {
+      "id": "dino_plus_one_picnic",
+      "title": "Plus-One Picnic",
+      "world": "dino",
+      "guide": "rory",
+      "reward": {
+        "type": "decorations",
+        "id": "volcano_lamp",
+        "name": "Volcano Lamp"
+      },
+      "steps": [
+        {
+          "id": "dino_plus_one_picnic_intro",
+          "kind": "story",
+          "title": "Plus-One Picnic",
+          "voice": "More dinosaur friends keep joining the picnic."
+        },
+        {
+          "id": "dino_plus_one_picnic_a1",
+          "kind": "activity",
+          "activityId": "m16_addition_prep_2"
+        },
+        {
+          "id": "dino_plus_one_picnic_a2",
+          "kind": "activity",
+          "activityId": "m16_addition_prep_3"
+        },
+        {
+          "id": "dino_plus_one_picnic_a3",
+          "kind": "activity",
+          "activityId": "m16_same_amount_4"
+        },
+        {
+          "id": "dino_plus_one_picnic_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "You made room for every new friend!"
+        }
+      ]
+    },
+    {
+      "id": "dino_ten_egg_rescue",
+      "title": "Ten Egg Rescue",
+      "world": "dino",
+      "guide": "rory",
+      "reward": {
+        "type": "creatures",
+        "id": "baby_trex",
+        "name": "Baby Trex"
+      },
+      "steps": [
+        {
+          "id": "dino_ten_egg_rescue_intro",
+          "kind": "story",
+          "title": "Ten Egg Rescue",
+          "voice": "Ten eggs are scattered near the nesting ground."
+        },
+        {
+          "id": "dino_ten_egg_rescue_a1",
+          "kind": "activity",
+          "activityId": "m16_numerals_9_10"
+        },
+        {
+          "id": "dino_ten_egg_rescue_a2",
+          "kind": "activity",
+          "activityId": "m16_count_10"
+        },
+        {
+          "id": "dino_ten_egg_rescue_a3",
+          "kind": "activity",
+          "activityId": "m16_addition_prep_4"
+        },
+        {
+          "id": "dino_ten_egg_rescue_a4",
+          "kind": "activity",
+          "activityId": "m16_sequence_4"
+        },
+        {
+          "id": "dino_ten_egg_rescue_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "All ten eggs are back together!"
+        }
+      ]
+    },
+    {
+      "id": "animal_who_lives_here",
+      "title": "Who Lives Here?",
+      "world": "animal",
+      "guide": "bella",
+      "reward": {
+        "type": "buildings",
+        "id": "forest_treehouse",
+        "name": "Forest Treehouse"
+      },
+      "steps": [
+        {
+          "id": "animal_who_lives_here_intro",
+          "kind": "story",
+          "title": "Who Lives Here?",
+          "voice": "Bella heard new friends in the forest."
+        },
+        {
+          "id": "animal_who_lives_here_a1",
+          "kind": "activity",
+          "activityId": "m17_animal_names"
+        },
+        {
+          "id": "animal_who_lives_here_a2",
+          "kind": "activity",
+          "activityId": "m17_land_water_air"
+        },
+        {
+          "id": "animal_who_lives_here_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "Every animal found its kind of home!"
+        }
+      ]
+    },
+    {
+      "id": "animal_baby_rescue",
+      "title": "Baby Animal Rescue",
+      "world": "animal",
+      "guide": "bella",
+      "reward": {
+        "type": "creatures",
+        "id": "duckling",
+        "name": "Duckling"
+      },
+      "steps": [
+        {
+          "id": "animal_baby_rescue_intro",
+          "kind": "story",
+          "title": "Baby Animal Rescue",
+          "voice": "Some baby animals are looking for their grown-ups."
+        },
+        {
+          "id": "animal_baby_rescue_a1",
+          "kind": "activity",
+          "activityId": "m17_baby_parent"
+        },
+        {
+          "id": "animal_baby_rescue_a2",
+          "kind": "activity",
+          "activityId": "m17_animal_names"
+        },
+        {
+          "id": "animal_baby_rescue_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "Every baby is back with its family!"
+        }
+      ]
+    },
+    {
+      "id": "animal_forest_breakfast",
+      "title": "Forest Breakfast",
+      "world": "animal",
+      "guide": "bella",
+      "reward": {
+        "type": "creatures",
+        "id": "fox_cub",
+        "name": "Fox Cub"
+      },
+      "steps": [
+        {
+          "id": "animal_forest_breakfast_intro",
+          "kind": "story",
+          "title": "Forest Breakfast",
+          "voice": "Breakfast time has arrived in Animal Forest."
+        },
+        {
+          "id": "animal_forest_breakfast_a1",
+          "kind": "activity",
+          "activityId": "m17_food_rabbit"
+        },
+        {
+          "id": "animal_forest_breakfast_a2",
+          "kind": "activity",
+          "activityId": "m17_food_bear"
+        },
+        {
+          "id": "animal_forest_breakfast_a3",
+          "kind": "activity",
+          "activityId": "m17_food_duck"
+        },
+        {
+          "id": "animal_forest_breakfast_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "You helped serve a forest breakfast!"
+        }
+      ]
+    },
+    {
+      "id": "animal_feather_fur_scales",
+      "title": "Feather, Fur & Scales",
+      "world": "animal",
+      "guide": "bella",
+      "reward": {
+        "type": "decorations",
+        "id": "feather_mobile",
+        "name": "Feather Mobile"
+      },
+      "steps": [
+        {
+          "id": "animal_feather_fur_scales_intro",
+          "kind": "story",
+          "title": "Feather, Fur & Scales",
+          "voice": "Look closely at feathers, fur and scales."
+        },
+        {
+          "id": "animal_feather_fur_scales_a1",
+          "kind": "activity",
+          "activityId": "m17_body_features"
+        },
+        {
+          "id": "animal_feather_fur_scales_a2",
+          "kind": "activity",
+          "activityId": "m17_classify_covering"
+        },
+        {
+          "id": "animal_feather_fur_scales_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "You spotted all the different body coverings!"
+        }
+      ]
+    },
+    {
+      "id": "animal_pond_parade",
+      "title": "Pond Parade",
+      "world": "animal",
+      "guide": "bella",
+      "reward": {
+        "type": "buildings",
+        "id": "pond_fountain",
+        "name": "Pond Fountain"
+      },
+      "steps": [
+        {
+          "id": "animal_pond_parade_intro",
+          "kind": "story",
+          "title": "Pond Parade",
+          "voice": "The pond friends are making a noisy parade."
+        },
+        {
+          "id": "animal_pond_parade_a1",
+          "kind": "activity",
+          "activityId": "m17_sound_duck"
+        },
+        {
+          "id": "animal_pond_parade_a2",
+          "kind": "activity",
+          "activityId": "m17_sound_owl"
+        },
+        {
+          "id": "animal_pond_parade_a3",
+          "kind": "activity",
+          "activityId": "m17_land_water_air"
+        },
+        {
+          "id": "animal_pond_parade_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "The Pond Parade is ready!"
+        }
+      ]
+    },
+    {
+      "id": "storybook_letter_garden",
+      "title": "Luna’s Letter Garden",
+      "world": "storybook",
+      "guide": "luna",
+      "reward": {
+        "type": "buildings",
+        "id": "moon_book_nook",
+        "name": "Moon Book Nook"
+      },
+      "steps": [
+        {
+          "id": "storybook_letter_garden_intro",
+          "kind": "story",
+          "title": "Luna’s Letter Garden",
+          "voice": "Luna found letters growing like flowers."
+        },
+        {
+          "id": "storybook_letter_garden_a1",
+          "kind": "activity",
+          "activityId": "m19_letters_1"
+        },
+        {
+          "id": "storybook_letter_garden_a2",
+          "kind": "activity",
+          "activityId": "m19_letters_2"
+        },
+        {
+          "id": "storybook_letter_garden_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "The Letter Garden is blooming!"
+        }
+      ]
+    },
+    {
+      "id": "storybook_big_little",
+      "title": "Big & Little Letters",
+      "world": "storybook",
+      "guide": "luna",
+      "reward": {
+        "type": "decorations",
+        "id": "letter_kite",
+        "name": "Letter Kite"
+      },
+      "steps": [
+        {
+          "id": "storybook_big_little_intro",
+          "kind": "story",
+          "title": "Big & Little Letters",
+          "voice": "Some big and little letters lost their partners."
+        },
+        {
+          "id": "storybook_big_little_a1",
+          "kind": "activity",
+          "activityId": "m19_upper_lower_1"
+        },
+        {
+          "id": "storybook_big_little_a2",
+          "kind": "activity",
+          "activityId": "m19_upper_lower_2"
+        },
+        {
+          "id": "storybook_big_little_a3",
+          "kind": "activity",
+          "activityId": "m19_upper_lower_3"
+        },
+        {
+          "id": "storybook_big_little_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "The letter partners are together again!"
+        }
+      ]
+    },
+    {
+      "id": "storybook_first_sounds",
+      "title": "First Sound Picnic",
+      "world": "storybook",
+      "guide": "luna",
+      "reward": {
+        "type": "decorations",
+        "id": "luna_star",
+        "name": "Luna Star"
+      },
+      "steps": [
+        {
+          "id": "storybook_first_sounds_intro",
+          "kind": "story",
+          "title": "First Sound Picnic",
+          "voice": "Luna packed a picnic full of word sounds."
+        },
+        {
+          "id": "storybook_first_sounds_a1",
+          "kind": "activity",
+          "activityId": "m19_first_sound_b"
+        },
+        {
+          "id": "storybook_first_sounds_a2",
+          "kind": "activity",
+          "activityId": "m19_first_sound_m"
+        },
+        {
+          "id": "storybook_first_sounds_a3",
+          "kind": "activity",
+          "activityId": "m19_first_sound_s"
+        },
+        {
+          "id": "storybook_first_sounds_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "You listened for the first sounds!"
+        }
+      ]
+    },
+    {
+      "id": "storybook_my_name",
+      "title": "My Name Letter",
+      "world": "storybook",
+      "guide": "luna",
+      "reward": {
+        "type": "decorations",
+        "id": "alphabet_blocks",
+        "name": "Alphabet Blocks"
+      },
+      "steps": [
+        {
+          "id": "storybook_my_name_intro",
+          "kind": "story",
+          "title": "My Name Letter",
+          "voice": "There is a special letter at the start of your name."
+        },
+        {
+          "id": "storybook_my_name_a1",
+          "kind": "activity",
+          "activityId": "m19_name_initial"
+        },
+        {
+          "id": "storybook_my_name_a2",
+          "kind": "activity",
+          "activityId": "m19_letters_6"
+        },
+        {
+          "id": "storybook_my_name_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "You found a letter from your own name!"
+        }
+      ]
+    },
+    {
+      "id": "storybook_word_hunt",
+      "title": "Luna’s Word Hunt",
+      "world": "storybook",
+      "guide": "luna",
+      "reward": {
+        "type": "decorations",
+        "id": "story_tree",
+        "name": "Story Tree"
+      },
+      "steps": [
+        {
+          "id": "storybook_word_hunt_intro",
+          "kind": "story",
+          "title": "Luna’s Word Hunt",
+          "voice": "Luna is collecting useful new words."
+        },
+        {
+          "id": "storybook_word_hunt_a1",
+          "kind": "activity",
+          "activityId": "m19_vocab_garden"
+        },
+        {
+          "id": "storybook_word_hunt_a2",
+          "kind": "activity",
+          "activityId": "m19_vocab_picnic"
+        },
+        {
+          "id": "storybook_word_hunt_a3",
+          "kind": "activity",
+          "activityId": "m19_vocab_forest"
+        },
+        {
+          "id": "storybook_word_hunt_a4",
+          "kind": "activity",
+          "activityId": "m19_first_sound_f"
+        },
+        {
+          "id": "storybook_word_hunt_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "Your story word collection grew!"
+        }
+      ]
+    },
+    {
+      "id": "life_bella_gets_ready",
+      "title": "Bella Gets Ready",
+      "world": "life",
+      "guide": "bella",
+      "reward": {
+        "type": "creatures",
+        "id": "bella_bear_friend",
+        "name": "Bella Bear Friend"
+      },
+      "steps": [
+        {
+          "id": "life_bella_gets_ready_intro",
+          "kind": "story",
+          "title": "Bella Gets Ready",
+          "voice": "Bella is getting ready for a fun day."
+        },
+        {
+          "id": "life_bella_gets_ready_a1",
+          "kind": "activity",
+          "activityId": "m20_wash_hands"
+        },
+        {
+          "id": "life_bella_gets_ready_a2",
+          "kind": "activity",
+          "activityId": "m20_brush_teeth"
+        },
+        {
+          "id": "life_bella_gets_ready_a3",
+          "kind": "activity",
+          "activityId": "m20_routine_morning"
+        },
+        {
+          "id": "life_bella_gets_ready_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "Bella is ready to play!"
+        }
+      ]
+    },
+    {
+      "id": "life_rainy_dressup",
+      "title": "Rainy Day Dress-Up",
+      "world": "life",
+      "guide": "bella",
+      "reward": {
+        "type": "decorations",
+        "id": "weather_spinner",
+        "name": "Weather Spinner"
+      },
+      "steps": [
+        {
+          "id": "life_rainy_dressup_intro",
+          "kind": "story",
+          "title": "Rainy Day Dress-Up",
+          "voice": "The weather keeps changing outside."
+        },
+        {
+          "id": "life_rainy_dressup_a1",
+          "kind": "activity",
+          "activityId": "m20_weather_rain"
+        },
+        {
+          "id": "life_rainy_dressup_a2",
+          "kind": "activity",
+          "activityId": "m20_weather_sun"
+        },
+        {
+          "id": "life_rainy_dressup_a3",
+          "kind": "activity",
+          "activityId": "m20_weather_cold"
+        },
+        {
+          "id": "life_rainy_dressup_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "You picked clothes that fit the weather!"
+        }
+      ]
+    },
+    {
+      "id": "life_toy_tidy_party",
+      "title": "Toy Tidy Party",
+      "world": "life",
+      "guide": "bella",
+      "reward": {
+        "type": "buildings",
+        "id": "toy_chest",
+        "name": "Toy Chest"
+      },
+      "steps": [
+        {
+          "id": "life_toy_tidy_party_intro",
+          "kind": "story",
+          "title": "Toy Tidy Party",
+          "voice": "The playroom had a very busy day."
+        },
+        {
+          "id": "life_toy_tidy_party_a1",
+          "kind": "activity",
+          "activityId": "m20_toy_sort"
+        },
+        {
+          "id": "life_toy_tidy_party_a2",
+          "kind": "activity",
+          "activityId": "m20_routine_bedtime"
+        },
+        {
+          "id": "life_toy_tidy_party_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "Everything has a useful place!"
+        }
+      ]
+    },
+    {
+      "id": "life_feelings_picnic",
+      "title": "Feelings Picnic",
+      "world": "life",
+      "guide": "bella",
+      "reward": {
+        "type": "buildings",
+        "id": "kindness_garden",
+        "name": "Kindness Garden"
+      },
+      "steps": [
+        {
+          "id": "life_feelings_picnic_intro",
+          "kind": "story",
+          "title": "Feelings Picnic",
+          "voice": "Bella and her friends have lots of different feelings."
+        },
+        {
+          "id": "life_feelings_picnic_a1",
+          "kind": "activity",
+          "activityId": "m20_feeling_sad"
+        },
+        {
+          "id": "life_feelings_picnic_a2",
+          "kind": "activity",
+          "activityId": "m20_feeling_frustrated"
+        },
+        {
+          "id": "life_feelings_picnic_a3",
+          "kind": "activity",
+          "activityId": "m20_feeling_excited"
+        },
+        {
+          "id": "life_feelings_picnic_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "You found kind ways to handle big feelings!"
+        }
+      ]
+    },
+    {
+      "id": "life_helping_hands",
+      "title": "Helping Hands",
+      "world": "life",
+      "guide": "bella",
+      "reward": {
+        "type": "decorations",
+        "id": "toothbrush_sparkle",
+        "name": "Toothbrush Sparkle"
+      },
+      "steps": [
+        {
+          "id": "life_helping_hands_intro",
+          "kind": "story",
+          "title": "Helping Hands",
+          "voice": "There are little ways to help everywhere."
+        },
+        {
+          "id": "life_helping_hands_a1",
+          "kind": "activity",
+          "activityId": "m20_helping_table"
+        },
+        {
+          "id": "life_helping_hands_a2",
+          "kind": "activity",
+          "activityId": "m20_helping_friend"
+        },
+        {
+          "id": "life_helping_hands_a3",
+          "kind": "activity",
+          "activityId": "m20_wash_hands"
+        },
+        {
+          "id": "life_helping_hands_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "Helping together made the day easier!"
+        }
+      ]
+    }
+  ]
+}

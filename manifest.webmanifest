@@ -1,0 +1,25 @@
+{
+  "name": "Little Legends: Magic World",
+  "short_name": "Little Legends",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "landscape-primary",
+  "background_color": "#75d8ff",
+  "theme_color": "#75d8ff",
+  "description": "A tablet-first learning adventure for young children.",
+  "scope": "./",
+  "icons": [
+    {
+      "src": "./assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+# Dependencies and local tooling
+node_modules/
+
+# One-file test builds (large; the web version doesn't need them)
+LITTLE_LEGENDS_STANDALONE_*.html
+*.standalone.html
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.vscode/
+.idea/

@@ -1,0 +1,2630 @@
+[
+ {
+  "id": "art.meadow_picnic_clearing",
+  "url": "./assets/art/meadow_picnic_clearing.png"
+ },
+ {
+  "id": "characters.explorer.explorer_back",
+  "url": "./assets/characters/explorer/explorer_back.png"
+ },
+ {
+  "id": "characters.explorer.explorer_cheer",
+  "url": "./assets/characters/explorer/explorer_cheer.png"
+ },
+ {
+  "id": "characters.explorer.explorer_face_determined",
+  "url": "./assets/characters/explorer/explorer_face_determined.png"
+ },
+ {
+  "id": "characters.explorer.explorer_face_excited",
+  "url": "./assets/characters/explorer/explorer_face_excited.png"
+ },
+ {
+  "id": "characters.explorer.explorer_face_happy",
+  "url": "./assets/characters/explorer/explorer_face_happy.png"
+ },
+ {
+  "id": "characters.explorer.explorer_face_laugh",
+  "url": "./assets/characters/explorer/explorer_face_laugh.png"
+ },
+ {
+  "id": "characters.explorer.explorer_face_sad",
+  "url": "./assets/characters/explorer/explorer_face_sad.png"
+ },
+ {
+  "id": "characters.explorer.explorer_face_surprised",
+  "url": "./assets/characters/explorer/explorer_face_surprised.png"
+ },
+ {
+  "id": "characters.explorer.explorer_face_thinking",
+  "url": "./assets/characters/explorer/explorer_face_thinking.png"
+ },
+ {
+  "id": "characters.explorer.explorer_face_wink",
+  "url": "./assets/characters/explorer/explorer_face_wink.png"
+ },
+ {
+  "id": "characters.explorer.explorer_front",
+  "url": "./assets/characters/explorer/explorer_front.png"
+ },
+ {
+  "id": "characters.explorer.explorer_part_backpack",
+  "url": "./assets/characters/explorer/explorer_part_backpack.png"
+ },
+ {
+  "id": "characters.explorer.explorer_part_goggles",
+  "url": "./assets/characters/explorer/explorer_part_goggles.png"
+ },
+ {
+  "id": "characters.explorer.explorer_part_star_pendant",
+  "url": "./assets/characters/explorer/explorer_part_star_pendant.png"
+ },
+ {
+  "id": "characters.explorer.explorer_point",
+  "url": "./assets/characters/explorer/explorer_point.png"
+ },
+ {
+  "id": "characters.explorer.explorer_present",
+  "url": "./assets/characters/explorer/explorer_present.png"
+ },
+ {
+  "id": "characters.explorer.explorer_read_map",
+  "url": "./assets/characters/explorer/explorer_read_map.png"
+ },
+ {
+  "id": "characters.explorer.explorer_run",
+  "url": "./assets/characters/explorer/explorer_run.png"
+ },
+ {
+  "id": "characters.explorer.explorer_side_a",
+  "url": "./assets/characters/explorer/explorer_side_a.png"
+ },
+ {
+  "id": "characters.explorer.explorer_side_b",
+  "url": "./assets/characters/explorer/explorer_side_b.png"
+ },
+ {
+  "id": "characters.explorer.explorer_sit_star",
+  "url": "./assets/characters/explorer/explorer_sit_star.png"
+ },
+ {
+  "id": "characters.explorer.explorer_tpose",
+  "url": "./assets/characters/explorer/explorer_tpose.png"
+ },
+ {
+  "id": "characters.pip.pip_back",
+  "url": "./assets/characters/pip/pip_back.png"
+ },
+ {
+  "id": "characters.pip.pip_crouch_play",
+  "url": "./assets/characters/pip/pip_crouch_play.png"
+ },
+ {
+  "id": "characters.pip.pip_face_cheeky",
+  "url": "./assets/characters/pip/pip_face_cheeky.png"
+ },
+ {
+  "id": "characters.pip.pip_face_content",
+  "url": "./assets/characters/pip/pip_face_content.png"
+ },
+ {
+  "id": "characters.pip.pip_face_happy",
+  "url": "./assets/characters/pip/pip_face_happy.png"
+ },
+ {
+  "id": "characters.pip.pip_face_laugh",
+  "url": "./assets/characters/pip/pip_face_laugh.png"
+ },
+ {
+  "id": "characters.pip.pip_face_surprised",
+  "url": "./assets/characters/pip/pip_face_surprised.png"
+ },
+ {
+  "id": "characters.pip.pip_face_wink",
+  "url": "./assets/characters/pip/pip_face_wink.png"
+ },
+ {
+  "id": "characters.pip.pip_face_worried",
+  "url": "./assets/characters/pip/pip_face_worried.png"
+ },
+ {
+  "id": "characters.pip.pip_fly_happy",
+  "url": "./assets/characters/pip/pip_fly_happy.png"
+ },
+ {
+  "id": "characters.pip.pip_front",
+  "url": "./assets/characters/pip/pip_front.png"
+ },
+ {
+  "id": "characters.pip.pip_look_up",
+  "url": "./assets/characters/pip/pip_look_up.png"
+ },
+ {
+  "id": "characters.pip.pip_part_amulet",
+  "url": "./assets/characters/pip/pip_part_amulet.png"
+ },
+ {
+  "id": "characters.pip.pip_part_foot",
+  "url": "./assets/characters/pip/pip_part_foot.png"
+ },
+ {
+  "id": "characters.pip.pip_part_paw",
+  "url": "./assets/characters/pip/pip_part_paw.png"
+ },
+ {
+  "id": "characters.pip.pip_part_satchel",
+  "url": "./assets/characters/pip/pip_part_satchel.png"
+ },
+ {
+  "id": "characters.pip.pip_part_tail",
+  "url": "./assets/characters/pip/pip_part_tail.png"
+ },
+ {
+  "id": "characters.pip.pip_side",
+  "url": "./assets/characters/pip/pip_side.png"
+ },
+ {
+  "id": "characters.pip.pip_wave",
+  "url": "./assets/characters/pip/pip_wave.png"
+ },
+ {
+  "id": "creatures.bunny.bunny_tpose",
+  "url": "./assets/creatures/bunny/bunny_tpose.png"
+ },
+ {
+  "id": "creatures.colour_friends.blob_blue",
+  "url": "./assets/creatures/colour_friends/blob_blue.png"
+ },
+ {
+  "id": "creatures.colour_friends.blob_green",
+  "url": "./assets/creatures/colour_friends/blob_green.png"
+ },
+ {
+  "id": "creatures.colour_friends.blob_orange",
+  "url": "./assets/creatures/colour_friends/blob_orange.png"
+ },
+ {
+  "id": "creatures.colour_friends.blob_purple",
+  "url": "./assets/creatures/colour_friends/blob_purple.png"
+ },
+ {
+  "id": "creatures.colour_friends.blob_red",
+  "url": "./assets/creatures/colour_friends/blob_red.png"
+ },
+ {
+  "id": "creatures.colour_friends.blob_yellow",
+  "url": "./assets/creatures/colour_friends/blob_yellow.png"
+ },
+ {
+  "id": "creatures.dino_orange.dino_orange_grin",
+  "url": "./assets/creatures/dino_orange/dino_orange_grin.png"
+ },
+ {
+  "id": "creatures.dino_orange.dino_orange_stand",
+  "url": "./assets/creatures/dino_orange/dino_orange_stand.png"
+ },
+ {
+  "id": "creatures.dinos.ankylosaurus",
+  "url": "./assets/creatures/dinos/ankylosaurus.png"
+ },
+ {
+  "id": "creatures.dinos.parasaurolophus",
+  "url": "./assets/creatures/dinos/parasaurolophus.png"
+ },
+ {
+  "id": "creatures.dinos.stegosaurus",
+  "url": "./assets/creatures/dinos/stegosaurus.png"
+ },
+ {
+  "id": "creatures.farm.chicken",
+  "url": "./assets/creatures/farm/chicken.png"
+ },
+ {
+  "id": "creatures.farm.cow",
+  "url": "./assets/creatures/farm/cow.png"
+ },
+ {
+  "id": "creatures.farm.duck",
+  "url": "./assets/creatures/farm/duck.png"
+ },
+ {
+  "id": "creatures.farm.fox",
+  "url": "./assets/creatures/farm/fox.png"
+ },
+ {
+  "id": "creatures.farm.pig",
+  "url": "./assets/creatures/farm/pig.png"
+ },
+ {
+  "id": "creatures.farm.sheep",
+  "url": "./assets/creatures/farm/sheep.png"
+ },
+ {
+  "id": "creatures.forest.bear",
+  "url": "./assets/creatures/forest/bear.png"
+ },
+ {
+  "id": "creatures.forest.deer",
+  "url": "./assets/creatures/forest/deer.png"
+ },
+ {
+  "id": "creatures.forest.hedgehog",
+  "url": "./assets/creatures/forest/hedgehog.png"
+ },
+ {
+  "id": "creatures.forest.monkey",
+  "url": "./assets/creatures/forest/monkey.png"
+ },
+ {
+  "id": "creatures.forest.owl",
+  "url": "./assets/creatures/forest/owl.png"
+ },
+ {
+  "id": "creatures.forest.squirrel",
+  "url": "./assets/creatures/forest/squirrel.png"
+ },
+ {
+  "id": "creatures.rory.rory_idle",
+  "url": "./assets/creatures/rory/rory_idle.png"
+ },
+ {
+  "id": "creatures.safari.crocodile",
+  "url": "./assets/creatures/safari/crocodile.png"
+ },
+ {
+  "id": "creatures.safari.elephant",
+  "url": "./assets/creatures/safari/elephant.png"
+ },
+ {
+  "id": "creatures.safari.hippo",
+  "url": "./assets/creatures/safari/hippo.png"
+ },
+ {
+  "id": "creatures.safari.lion",
+  "url": "./assets/creatures/safari/lion.png"
+ },
+ {
+  "id": "creatures.safari.meerkat",
+  "url": "./assets/creatures/safari/meerkat.png"
+ },
+ {
+  "id": "creatures.safari.tiger",
+  "url": "./assets/creatures/safari/tiger.png"
+ },
+ {
+  "id": "creatures.sea_dino.brachiosaurus",
+  "url": "./assets/creatures/sea_dino/brachiosaurus.png"
+ },
+ {
+  "id": "creatures.sea_dino.crab",
+  "url": "./assets/creatures/sea_dino/crab.png"
+ },
+ {
+  "id": "creatures.sea_dino.fish",
+  "url": "./assets/creatures/sea_dino/fish.png"
+ },
+ {
+  "id": "creatures.sea_dino.octopus",
+  "url": "./assets/creatures/sea_dino/octopus.png"
+ },
+ {
+  "id": "creatures.sea_dino.seahorse",
+  "url": "./assets/creatures/sea_dino/seahorse.png"
+ },
+ {
+  "id": "creatures.sea_dino.triceratops",
+  "url": "./assets/creatures/sea_dino/triceratops.png"
+ },
+ {
+  "id": "creatures.shape_friends.circle_blue",
+  "url": "./assets/creatures/shape_friends/circle_blue.png"
+ },
+ {
+  "id": "creatures.shape_friends.heart_red",
+  "url": "./assets/creatures/shape_friends/heart_red.png"
+ },
+ {
+  "id": "creatures.shape_friends.rectangle_purple",
+  "url": "./assets/creatures/shape_friends/rectangle_purple.png"
+ },
+ {
+  "id": "creatures.shape_friends.square_yellow",
+  "url": "./assets/creatures/shape_friends/square_yellow.png"
+ },
+ {
+  "id": "creatures.shape_friends.star_yellow",
+  "url": "./assets/creatures/shape_friends/star_yellow.png"
+ },
+ {
+  "id": "creatures.shape_friends.triangle_green",
+  "url": "./assets/creatures/shape_friends/triangle_green.png"
+ },
+ {
+  "id": "creatures.tropical.flamingo",
+  "url": "./assets/creatures/tropical/flamingo.png"
+ },
+ {
+  "id": "creatures.tropical.lemur",
+  "url": "./assets/creatures/tropical/lemur.png"
+ },
+ {
+  "id": "creatures.tropical.peacock",
+  "url": "./assets/creatures/tropical/peacock.png"
+ },
+ {
+  "id": "creatures.tropical.red_panda",
+  "url": "./assets/creatures/tropical/red_panda.png"
+ },
+ {
+  "id": "creatures.tropical.sloth",
+  "url": "./assets/creatures/tropical/sloth.png"
+ },
+ {
+  "id": "creatures.tropical.toucan",
+  "url": "./assets/creatures/tropical/toucan.png"
+ },
+ {
+  "id": "creatures.wild.frog",
+  "url": "./assets/creatures/wild/frog.png"
+ },
+ {
+  "id": "creatures.wild.kangaroo",
+  "url": "./assets/creatures/wild/kangaroo.png"
+ },
+ {
+  "id": "creatures.wild.koala",
+  "url": "./assets/creatures/wild/koala.png"
+ },
+ {
+  "id": "creatures.wild.panda",
+  "url": "./assets/creatures/wild/panda.png"
+ },
+ {
+  "id": "creatures.wild.raccoon",
+  "url": "./assets/creatures/wild/raccoon.png"
+ },
+ {
+  "id": "creatures.wild.turtle",
+  "url": "./assets/creatures/wild/turtle.png"
+ },
+ {
+  "id": "creatures.zoo.dolphin",
+  "url": "./assets/creatures/zoo/dolphin.png"
+ },
+ {
+  "id": "creatures.zoo.giraffe",
+  "url": "./assets/creatures/zoo/giraffe.png"
+ },
+ {
+  "id": "creatures.zoo.parrot",
+  "url": "./assets/creatures/zoo/parrot.png"
+ },
+ {
+  "id": "creatures.zoo.penguin",
+  "url": "./assets/creatures/zoo/penguin.png"
+ },
+ {
+  "id": "creatures.zoo.seal",
+  "url": "./assets/creatures/zoo/seal.png"
+ },
+ {
+  "id": "creatures.zoo.zebra",
+  "url": "./assets/creatures/zoo/zebra.png"
+ },
+ {
+  "id": "fx.drops.drop_blue",
+  "url": "./assets/fx/drops/drop_blue.png"
+ },
+ {
+  "id": "fx.drops.drop_green",
+  "url": "./assets/fx/drops/drop_green.png"
+ },
+ {
+  "id": "fx.drops.drop_orange",
+  "url": "./assets/fx/drops/drop_orange.png"
+ },
+ {
+  "id": "fx.drops.drop_purple",
+  "url": "./assets/fx/drops/drop_purple.png"
+ },
+ {
+  "id": "fx.drops.drop_red",
+  "url": "./assets/fx/drops/drop_red.png"
+ },
+ {
+  "id": "fx.drops.drop_yellow",
+  "url": "./assets/fx/drops/drop_yellow.png"
+ },
+ {
+  "id": "fx.fx_beam_pink",
+  "url": "./assets/fx/fx_beam_pink.png"
+ },
+ {
+  "id": "fx.fx_bubbles",
+  "url": "./assets/fx/fx_bubbles.png"
+ },
+ {
+  "id": "fx.fx_confetti",
+  "url": "./assets/fx/fx_confetti.png"
+ },
+ {
+  "id": "fx.fx_egg_crack",
+  "url": "./assets/fx/fx_egg_crack.png"
+ },
+ {
+  "id": "fx.fx_glow_gold",
+  "url": "./assets/fx/fx_glow_gold.png"
+ },
+ {
+  "id": "fx.fx_magic_trail",
+  "url": "./assets/fx/fx_magic_trail.png"
+ },
+ {
+  "id": "fx.fx_portal",
+  "url": "./assets/fx/fx_portal.png"
+ },
+ {
+  "id": "fx.fx_ring_stars_gold",
+  "url": "./assets/fx/fx_ring_stars_gold.png"
+ },
+ {
+  "id": "fx.fx_shooting_stars",
+  "url": "./assets/fx/fx_shooting_stars.png"
+ },
+ {
+  "id": "fx.fx_slime_splat",
+  "url": "./assets/fx/fx_slime_splat.png"
+ },
+ {
+  "id": "fx.fx_sparkle_blue",
+  "url": "./assets/fx/fx_sparkle_blue.png"
+ },
+ {
+  "id": "fx.fx_sparkles_gold",
+  "url": "./assets/fx/fx_sparkles_gold.png"
+ },
+ {
+  "id": "fx.fx_star_burst",
+  "url": "./assets/fx/fx_star_burst.png"
+ },
+ {
+  "id": "fx.fx_water_splash",
+  "url": "./assets/fx/fx_water_splash.png"
+ },
+ {
+  "id": "fx.magic.butterflies_glow",
+  "url": "./assets/fx/magic/butterflies_glow.png"
+ },
+ {
+  "id": "fx.magic.clouds_soft",
+  "url": "./assets/fx/magic/clouds_soft.png"
+ },
+ {
+  "id": "fx.magic.fireflies",
+  "url": "./assets/fx/magic/fireflies.png"
+ },
+ {
+  "id": "fx.magic.leaf_swirl",
+  "url": "./assets/fx/magic/leaf_swirl.png"
+ },
+ {
+  "id": "fx.magic.leaf_wind",
+  "url": "./assets/fx/magic/leaf_wind.png"
+ },
+ {
+  "id": "fx.magic.pedestal_glow",
+  "url": "./assets/fx/magic/pedestal_glow.png"
+ },
+ {
+  "id": "fx.magic.petal_swirl",
+  "url": "./assets/fx/magic/petal_swirl.png"
+ },
+ {
+  "id": "fx.magic.portal_swirl",
+  "url": "./assets/fx/magic/portal_swirl.png"
+ },
+ {
+  "id": "fx.magic.rain_drops",
+  "url": "./assets/fx/magic/rain_drops.png"
+ },
+ {
+  "id": "fx.magic.sparkle_orbs",
+  "url": "./assets/fx/magic/sparkle_orbs.png"
+ },
+ {
+  "id": "fx.magic.sun_rays",
+  "url": "./assets/fx/magic/sun_rays.png"
+ },
+ {
+  "id": "fx.magic.water_drop",
+  "url": "./assets/fx/magic/water_drop.png"
+ },
+ {
+  "id": "fx.note_blue",
+  "url": "./assets/fx/note_blue.png"
+ },
+ {
+  "id": "fx.note_gold",
+  "url": "./assets/fx/note_gold.png"
+ },
+ {
+  "id": "fx.note_pink",
+  "url": "./assets/fx/note_pink.png"
+ },
+ {
+  "id": "fx.ring_blue",
+  "url": "./assets/fx/ring_blue.png"
+ },
+ {
+  "id": "fx.ring_green",
+  "url": "./assets/fx/ring_green.png"
+ },
+ {
+  "id": "fx.ring_pink",
+  "url": "./assets/fx/ring_pink.png"
+ },
+ {
+  "id": "fx.ring_purple",
+  "url": "./assets/fx/ring_purple.png"
+ },
+ {
+  "id": "fx.ring_red",
+  "url": "./assets/fx/ring_red.png"
+ },
+ {
+  "id": "fx.ring_yellow",
+  "url": "./assets/fx/ring_yellow.png"
+ },
+ {
+  "id": "objects.art.crystal_rainbow",
+  "url": "./assets/objects/art/crystal_rainbow.png"
+ },
+ {
+  "id": "objects.art.easel_rainbow",
+  "url": "./assets/objects/art/easel_rainbow.png"
+ },
+ {
+  "id": "objects.art.paint_bowl_rainbow",
+  "url": "./assets/objects/art/paint_bowl_rainbow.png"
+ },
+ {
+  "id": "objects.art.paint_pot_rainbow",
+  "url": "./assets/objects/art/paint_pot_rainbow.png"
+ },
+ {
+  "id": "objects.art.paintbrush_rainbow",
+  "url": "./assets/objects/art/paintbrush_rainbow.png"
+ },
+ {
+  "id": "objects.art.palette",
+  "url": "./assets/objects/art/palette.png"
+ },
+ {
+  "id": "objects.bathroom.bubbles",
+  "url": "./assets/objects/bathroom/bubbles.png"
+ },
+ {
+  "id": "objects.bathroom.cup",
+  "url": "./assets/objects/bathroom/cup.png"
+ },
+ {
+  "id": "objects.bathroom.fx_sparkle_gold",
+  "url": "./assets/objects/bathroom/fx_sparkle_gold.png"
+ },
+ {
+  "id": "objects.bathroom.hairbrush",
+  "url": "./assets/objects/bathroom/hairbrush.png"
+ },
+ {
+  "id": "objects.bathroom.sink",
+  "url": "./assets/objects/bathroom/sink.png"
+ },
+ {
+  "id": "objects.bathroom.soap",
+  "url": "./assets/objects/bathroom/soap.png"
+ },
+ {
+  "id": "objects.bathroom.tap",
+  "url": "./assets/objects/bathroom/tap.png"
+ },
+ {
+  "id": "objects.bathroom.toothbrush",
+  "url": "./assets/objects/bathroom/toothbrush.png"
+ },
+ {
+  "id": "objects.bathroom.toothpaste",
+  "url": "./assets/objects/bathroom/toothpaste.png"
+ },
+ {
+  "id": "objects.bathroom.towel",
+  "url": "./assets/objects/bathroom/towel.png"
+ },
+ {
+  "id": "objects.bathroom.toy_box",
+  "url": "./assets/objects/bathroom/toy_box.png"
+ },
+ {
+  "id": "objects.bathroom.water_splash",
+  "url": "./assets/objects/bathroom/water_splash.png"
+ },
+ {
+  "id": "objects.bowl_paw",
+  "url": "./assets/objects/bowl_paw.png"
+ },
+ {
+  "id": "objects.clothes.beanie",
+  "url": "./assets/objects/clothes/beanie.png"
+ },
+ {
+  "id": "objects.clothes.gloves",
+  "url": "./assets/objects/clothes/gloves.png"
+ },
+ {
+  "id": "objects.clothes.puffer_jacket",
+  "url": "./assets/objects/clothes/puffer_jacket.png"
+ },
+ {
+  "id": "objects.clothes.rain_boots",
+  "url": "./assets/objects/clothes/rain_boots.png"
+ },
+ {
+  "id": "objects.clothes.raincoat",
+  "url": "./assets/objects/clothes/raincoat.png"
+ },
+ {
+  "id": "objects.clothes.scarf",
+  "url": "./assets/objects/clothes/scarf.png"
+ },
+ {
+  "id": "objects.clothes.shorts",
+  "url": "./assets/objects/clothes/shorts.png"
+ },
+ {
+  "id": "objects.clothes.snow_boots",
+  "url": "./assets/objects/clothes/snow_boots.png"
+ },
+ {
+  "id": "objects.clothes.sun_hat",
+  "url": "./assets/objects/clothes/sun_hat.png"
+ },
+ {
+  "id": "objects.clothes.sunglasses",
+  "url": "./assets/objects/clothes/sunglasses.png"
+ },
+ {
+  "id": "objects.clothes.tshirt",
+  "url": "./assets/objects/clothes/tshirt.png"
+ },
+ {
+  "id": "objects.clothes.umbrella",
+  "url": "./assets/objects/clothes/umbrella.png"
+ },
+ {
+  "id": "objects.daily_life.alarm_clock",
+  "url": "./assets/objects/daily_life/alarm_clock.png"
+ },
+ {
+  "id": "objects.daily_life.fork",
+  "url": "./assets/objects/daily_life/fork.png"
+ },
+ {
+  "id": "objects.daily_life.plate",
+  "url": "./assets/objects/daily_life/plate.png"
+ },
+ {
+  "id": "objects.daily_life.pyjamas",
+  "url": "./assets/objects/daily_life/pyjamas.png"
+ },
+ {
+  "id": "objects.daily_life.spoon",
+  "url": "./assets/objects/daily_life/spoon.png"
+ },
+ {
+  "id": "objects.daily_life.teddy",
+  "url": "./assets/objects/daily_life/teddy.png"
+ },
+ {
+  "id": "objects.dino.bone",
+  "url": "./assets/objects/dino/bone.png"
+ },
+ {
+  "id": "objects.dino.food_bowl_dino",
+  "url": "./assets/objects/dino/food_bowl_dino.png"
+ },
+ {
+  "id": "objects.dino.footprint_dino",
+  "url": "./assets/objects/dino/footprint_dino.png"
+ },
+ {
+  "id": "objects.dino.footprint_paw",
+  "url": "./assets/objects/dino/footprint_paw.png"
+ },
+ {
+  "id": "objects.dino.fossil_trex",
+  "url": "./assets/objects/dino/fossil_trex.png"
+ },
+ {
+  "id": "objects.dino.nest_leaf",
+  "url": "./assets/objects/dino/nest_leaf.png"
+ },
+ {
+  "id": "objects.dino_egg",
+  "url": "./assets/objects/dino_egg.png"
+ },
+ {
+  "id": "objects.dino_egg_nest",
+  "url": "./assets/objects/dino_egg_nest.png"
+ },
+ {
+  "id": "objects.food.apple_green",
+  "url": "./assets/objects/food/apple_green.png"
+ },
+ {
+  "id": "objects.food.apple_red",
+  "url": "./assets/objects/food/apple_red.png"
+ },
+ {
+  "id": "objects.food.banana",
+  "url": "./assets/objects/food/banana.png"
+ },
+ {
+  "id": "objects.food.blueberry",
+  "url": "./assets/objects/food/blueberry.png"
+ },
+ {
+  "id": "objects.food.carrot",
+  "url": "./assets/objects/food/carrot.png"
+ },
+ {
+  "id": "objects.food.orange",
+  "url": "./assets/objects/food/orange.png"
+ },
+ {
+  "id": "objects.food.strawberry",
+  "url": "./assets/objects/food/strawberry.png"
+ },
+ {
+  "id": "objects.hats.ears_bear",
+  "url": "./assets/objects/hats/ears_bear.png"
+ },
+ {
+  "id": "objects.hats.glasses_round",
+  "url": "./assets/objects/hats/glasses_round.png"
+ },
+ {
+  "id": "objects.hats.glasses_star",
+  "url": "./assets/objects/hats/glasses_star.png"
+ },
+ {
+  "id": "objects.hats.hat_astronaut",
+  "url": "./assets/objects/hats/hat_astronaut.png"
+ },
+ {
+  "id": "objects.hats.hat_cap",
+  "url": "./assets/objects/hats/hat_cap.png"
+ },
+ {
+  "id": "objects.hats.hat_chef",
+  "url": "./assets/objects/hats/hat_chef.png"
+ },
+ {
+  "id": "objects.hats.hat_crown",
+  "url": "./assets/objects/hats/hat_crown.png"
+ },
+ {
+  "id": "objects.hats.hat_firefighter",
+  "url": "./assets/objects/hats/hat_firefighter.png"
+ },
+ {
+  "id": "objects.hats.hat_party",
+  "url": "./assets/objects/hats/hat_party.png"
+ },
+ {
+  "id": "objects.hats.hat_pirate",
+  "url": "./assets/objects/hats/hat_pirate.png"
+ },
+ {
+  "id": "objects.hats.hat_wizard",
+  "url": "./assets/objects/hats/hat_wizard.png"
+ },
+ {
+  "id": "objects.hats.hood_dino",
+  "url": "./assets/objects/hats/hood_dino.png"
+ },
+ {
+  "id": "objects.letters.letter_a",
+  "url": "./assets/objects/letters/letter_a.png"
+ },
+ {
+  "id": "objects.letters.letter_b",
+  "url": "./assets/objects/letters/letter_b.png"
+ },
+ {
+  "id": "objects.letters.letter_c",
+  "url": "./assets/objects/letters/letter_c.png"
+ },
+ {
+  "id": "objects.letters.letter_d",
+  "url": "./assets/objects/letters/letter_d.png"
+ },
+ {
+  "id": "objects.letters.letter_e",
+  "url": "./assets/objects/letters/letter_e.png"
+ },
+ {
+  "id": "objects.letters.letter_f",
+  "url": "./assets/objects/letters/letter_f.png"
+ },
+ {
+  "id": "objects.letters.letter_g",
+  "url": "./assets/objects/letters/letter_g.png"
+ },
+ {
+  "id": "objects.letters.letter_h",
+  "url": "./assets/objects/letters/letter_h.png"
+ },
+ {
+  "id": "objects.letters.letter_i",
+  "url": "./assets/objects/letters/letter_i.png"
+ },
+ {
+  "id": "objects.letters.letter_j",
+  "url": "./assets/objects/letters/letter_j.png"
+ },
+ {
+  "id": "objects.letters.letter_k",
+  "url": "./assets/objects/letters/letter_k.png"
+ },
+ {
+  "id": "objects.letters.letter_l",
+  "url": "./assets/objects/letters/letter_l.png"
+ },
+ {
+  "id": "objects.letters.letter_m",
+  "url": "./assets/objects/letters/letter_m.png"
+ },
+ {
+  "id": "objects.letters.letter_n",
+  "url": "./assets/objects/letters/letter_n.png"
+ },
+ {
+  "id": "objects.letters.letter_o",
+  "url": "./assets/objects/letters/letter_o.png"
+ },
+ {
+  "id": "objects.letters.letter_p",
+  "url": "./assets/objects/letters/letter_p.png"
+ },
+ {
+  "id": "objects.letters.letter_q",
+  "url": "./assets/objects/letters/letter_q.png"
+ },
+ {
+  "id": "objects.letters.letter_r",
+  "url": "./assets/objects/letters/letter_r.png"
+ },
+ {
+  "id": "objects.letters.letter_s",
+  "url": "./assets/objects/letters/letter_s.png"
+ },
+ {
+  "id": "objects.letters.letter_t",
+  "url": "./assets/objects/letters/letter_t.png"
+ },
+ {
+  "id": "objects.letters.letter_u",
+  "url": "./assets/objects/letters/letter_u.png"
+ },
+ {
+  "id": "objects.letters.letter_v",
+  "url": "./assets/objects/letters/letter_v.png"
+ },
+ {
+  "id": "objects.letters.letter_w",
+  "url": "./assets/objects/letters/letter_w.png"
+ },
+ {
+  "id": "objects.letters.letter_x",
+  "url": "./assets/objects/letters/letter_x.png"
+ },
+ {
+  "id": "objects.letters.letter_y",
+  "url": "./assets/objects/letters/letter_y.png"
+ },
+ {
+  "id": "objects.letters.letter_z",
+  "url": "./assets/objects/letters/letter_z.png"
+ },
+ {
+  "id": "objects.letters_lower.lower_a",
+  "url": "./assets/objects/letters_lower/lower_a.png"
+ },
+ {
+  "id": "objects.letters_lower.lower_b",
+  "url": "./assets/objects/letters_lower/lower_b.png"
+ },
+ {
+  "id": "objects.letters_lower.lower_c",
+  "url": "./assets/objects/letters_lower/lower_c.png"
+ },
+ {
+  "id": "objects.letters_lower.lower_d",
+  "url": "./assets/objects/letters_lower/lower_d.png"
+ },
+ {
+  "id": "objects.letters_lower.lower_e",
+  "url": "./assets/objects/letters_lower/lower_e.png"
+ },
+ {
+  "id": "objects.letters_lower.lower_f",
+  "url": "./assets/objects/letters_lower/lower_f.png"
+ },
+ {
+  "id": "objects.letters_lower.lower_g",
+  "url": "./assets/objects/letters_lower/lower_g.png"
+ },
+ {
+  "id": "objects.letters_lower.lower_h",
+  "url": "./assets/objects/letters_lower/lower_h.png"
+ },
+ {
+  "id": "objects.letters_lower.lower_i",
+  "url": "./assets/objects/letters_lower/lower_i.png"
+ },
+ {
+  "id": "objects.letters_lower.lower_j",
+  "url": "./assets/objects/letters_lower/lower_j.png"
+ },
+ {
+  "id": "objects.letters_lower.lower_k",
+  "url": "./assets/objects/letters_lower/lower_k.png"
+ },
+ {
+  "id": "objects.letters_lower.lower_l",
+  "url": "./assets/objects/letters_lower/lower_l.png"
+ },
+ {
+  "id": "objects.letters_lower.lower_m",
+  "url": "./assets/objects/letters_lower/lower_m.png"
+ },
+ {
+  "id": "objects.letters_lower.lower_n",
+  "url": "./assets/objects/letters_lower/lower_n.png"
+ },
+ {
+  "id": "objects.letters_lower.lower_o",
+  "url": "./assets/objects/letters_lower/lower_o.png"
+ },
+ {
+  "id": "objects.letters_lower.lower_p",
+  "url": "./assets/objects/letters_lower/lower_p.png"
+ },
+ {
+  "id": "objects.letters_lower.lower_q",
+  "url": "./assets/objects/letters_lower/lower_q.png"
+ },
+ {
+  "id": "objects.letters_lower.lower_r",
+  "url": "./assets/objects/letters_lower/lower_r.png"
+ },
+ {
+  "id": "objects.letters_lower.lower_s",
+  "url": "./assets/objects/letters_lower/lower_s.png"
+ },
+ {
+  "id": "objects.letters_lower.lower_t",
+  "url": "./assets/objects/letters_lower/lower_t.png"
+ },
+ {
+  "id": "objects.letters_lower.lower_u",
+  "url": "./assets/objects/letters_lower/lower_u.png"
+ },
+ {
+  "id": "objects.letters_lower.lower_v",
+  "url": "./assets/objects/letters_lower/lower_v.png"
+ },
+ {
+  "id": "objects.letters_lower.lower_w",
+  "url": "./assets/objects/letters_lower/lower_w.png"
+ },
+ {
+  "id": "objects.letters_lower.lower_x",
+  "url": "./assets/objects/letters_lower/lower_x.png"
+ },
+ {
+  "id": "objects.letters_lower.lower_y",
+  "url": "./assets/objects/letters_lower/lower_y.png"
+ },
+ {
+  "id": "objects.letters_lower.lower_z",
+  "url": "./assets/objects/letters_lower/lower_z.png"
+ },
+ {
+  "id": "objects.literacy.book_lectern",
+  "url": "./assets/objects/literacy/book_lectern.png"
+ },
+ {
+  "id": "objects.literacy.letter_stone_a",
+  "url": "./assets/objects/literacy/letter_stone_a.png"
+ },
+ {
+  "id": "objects.literacy.moon_sleepy_pedestal",
+  "url": "./assets/objects/literacy/moon_sleepy_pedestal.png"
+ },
+ {
+  "id": "objects.literacy.star_happy_pedestal",
+  "url": "./assets/objects/literacy/star_happy_pedestal.png"
+ },
+ {
+  "id": "objects.literacy.storybook_open",
+  "url": "./assets/objects/literacy/storybook_open.png"
+ },
+ {
+  "id": "objects.literacy.word_card_apple",
+  "url": "./assets/objects/literacy/word_card_apple.png"
+ },
+ {
+  "id": "objects.music.drum",
+  "url": "./assets/objects/music/drum.png"
+ },
+ {
+  "id": "objects.music.handbells",
+  "url": "./assets/objects/music/handbells.png"
+ },
+ {
+  "id": "objects.music.maracas",
+  "url": "./assets/objects/music/maracas.png"
+ },
+ {
+  "id": "objects.music.tambourine",
+  "url": "./assets/objects/music/tambourine.png"
+ },
+ {
+  "id": "objects.music.triangle",
+  "url": "./assets/objects/music/triangle.png"
+ },
+ {
+  "id": "objects.music.xylophone",
+  "url": "./assets/objects/music/xylophone.png"
+ },
+ {
+  "id": "objects.music_jungle.bells_row",
+  "url": "./assets/objects/music_jungle/bells_row.png"
+ },
+ {
+  "id": "objects.music_jungle.drum_kit",
+  "url": "./assets/objects/music_jungle/drum_kit.png"
+ },
+ {
+  "id": "objects.music_jungle.guitar",
+  "url": "./assets/objects/music_jungle/guitar.png"
+ },
+ {
+  "id": "objects.music_jungle.maracas",
+  "url": "./assets/objects/music_jungle/maracas.png"
+ },
+ {
+  "id": "objects.music_jungle.speaker",
+  "url": "./assets/objects/music_jungle/speaker.png"
+ },
+ {
+  "id": "objects.music_jungle.trumpet",
+  "url": "./assets/objects/music_jungle/trumpet.png"
+ },
+ {
+  "id": "objects.nest",
+  "url": "./assets/objects/nest.png"
+ },
+ {
+  "id": "objects.numbers.num_0",
+  "url": "./assets/objects/numbers/num_0.png"
+ },
+ {
+  "id": "objects.numbers.num_1",
+  "url": "./assets/objects/numbers/num_1.png"
+ },
+ {
+  "id": "objects.numbers.num_10",
+  "url": "./assets/objects/numbers/num_10.png"
+ },
+ {
+  "id": "objects.numbers.num_11",
+  "url": "./assets/objects/numbers/num_11.png"
+ },
+ {
+  "id": "objects.numbers.num_12",
+  "url": "./assets/objects/numbers/num_12.png"
+ },
+ {
+  "id": "objects.numbers.num_13",
+  "url": "./assets/objects/numbers/num_13.png"
+ },
+ {
+  "id": "objects.numbers.num_14",
+  "url": "./assets/objects/numbers/num_14.png"
+ },
+ {
+  "id": "objects.numbers.num_15",
+  "url": "./assets/objects/numbers/num_15.png"
+ },
+ {
+  "id": "objects.numbers.num_16",
+  "url": "./assets/objects/numbers/num_16.png"
+ },
+ {
+  "id": "objects.numbers.num_17",
+  "url": "./assets/objects/numbers/num_17.png"
+ },
+ {
+  "id": "objects.numbers.num_18",
+  "url": "./assets/objects/numbers/num_18.png"
+ },
+ {
+  "id": "objects.numbers.num_19",
+  "url": "./assets/objects/numbers/num_19.png"
+ },
+ {
+  "id": "objects.numbers.num_2",
+  "url": "./assets/objects/numbers/num_2.png"
+ },
+ {
+  "id": "objects.numbers.num_20",
+  "url": "./assets/objects/numbers/num_20.png"
+ },
+ {
+  "id": "objects.numbers.num_3",
+  "url": "./assets/objects/numbers/num_3.png"
+ },
+ {
+  "id": "objects.numbers.num_4",
+  "url": "./assets/objects/numbers/num_4.png"
+ },
+ {
+  "id": "objects.numbers.num_5",
+  "url": "./assets/objects/numbers/num_5.png"
+ },
+ {
+  "id": "objects.numbers.num_6",
+  "url": "./assets/objects/numbers/num_6.png"
+ },
+ {
+  "id": "objects.numbers.num_7",
+  "url": "./assets/objects/numbers/num_7.png"
+ },
+ {
+  "id": "objects.numbers.num_8",
+  "url": "./assets/objects/numbers/num_8.png"
+ },
+ {
+  "id": "objects.numbers.num_9",
+  "url": "./assets/objects/numbers/num_9.png"
+ },
+ {
+  "id": "objects.numbers.number_tile_blank",
+  "url": "./assets/objects/numbers/number_tile_blank.png"
+ },
+ {
+  "id": "objects.outfits.goggles",
+  "url": "./assets/objects/outfits/goggles.png"
+ },
+ {
+  "id": "objects.outfits.outfit_astronaut",
+  "url": "./assets/objects/outfits/outfit_astronaut.png"
+ },
+ {
+  "id": "objects.outfits.outfit_builder",
+  "url": "./assets/objects/outfits/outfit_builder.png"
+ },
+ {
+  "id": "objects.outfits.outfit_chef",
+  "url": "./assets/objects/outfits/outfit_chef.png"
+ },
+ {
+  "id": "objects.outfits.outfit_dino_onesie",
+  "url": "./assets/objects/outfits/outfit_dino_onesie.png"
+ },
+ {
+  "id": "objects.outfits.outfit_doctor",
+  "url": "./assets/objects/outfits/outfit_doctor.png"
+ },
+ {
+  "id": "objects.outfits.outfit_pirate",
+  "url": "./assets/objects/outfits/outfit_pirate.png"
+ },
+ {
+  "id": "objects.outfits.outfit_pyjamas",
+  "url": "./assets/objects/outfits/outfit_pyjamas.png"
+ },
+ {
+  "id": "objects.outfits.outfit_rainbow",
+  "url": "./assets/objects/outfits/outfit_rainbow.png"
+ },
+ {
+  "id": "objects.outfits.outfit_raincoat",
+  "url": "./assets/objects/outfits/outfit_raincoat.png"
+ },
+ {
+  "id": "objects.outfits.outfit_wizard",
+  "url": "./assets/objects/outfits/outfit_wizard.png"
+ },
+ {
+  "id": "objects.outfits.spanner",
+  "url": "./assets/objects/outfits/spanner.png"
+ },
+ {
+  "id": "objects.picnic.cookies_muffin",
+  "url": "./assets/objects/picnic/cookies_muffin.png"
+ },
+ {
+  "id": "objects.picnic.fruit_crate",
+  "url": "./assets/objects/picnic/fruit_crate.png"
+ },
+ {
+  "id": "objects.picnic.sandwich",
+  "url": "./assets/objects/picnic/sandwich.png"
+ },
+ {
+  "id": "objects.picnic.toy_car",
+  "url": "./assets/objects/picnic/toy_car.png"
+ },
+ {
+  "id": "objects.picnic.veg_basket",
+  "url": "./assets/objects/picnic/veg_basket.png"
+ },
+ {
+  "id": "objects.picnic.water_bottle",
+  "url": "./assets/objects/picnic/water_bottle.png"
+ },
+ {
+  "id": "objects.picnic_blanket",
+  "url": "./assets/objects/picnic_blanket.png"
+ },
+ {
+  "id": "objects.plate_paw",
+  "url": "./assets/objects/plate_paw.png"
+ },
+ {
+  "id": "objects.play.beach_ball",
+  "url": "./assets/objects/play/beach_ball.png"
+ },
+ {
+  "id": "objects.play.bench",
+  "url": "./assets/objects/play/bench.png"
+ },
+ {
+  "id": "objects.play.drum",
+  "url": "./assets/objects/play/drum.png"
+ },
+ {
+  "id": "objects.play.slide",
+  "url": "./assets/objects/play/slide.png"
+ },
+ {
+  "id": "objects.play.swing",
+  "url": "./assets/objects/play/swing.png"
+ },
+ {
+  "id": "objects.play.xylophone",
+  "url": "./assets/objects/play/xylophone.png"
+ },
+ {
+  "id": "objects.robot_build.battery",
+  "url": "./assets/objects/robot_build/battery.png"
+ },
+ {
+  "id": "objects.robot_build.cable_plug",
+  "url": "./assets/objects/robot_build/cable_plug.png"
+ },
+ {
+  "id": "objects.robot_build.gears",
+  "url": "./assets/objects/robot_build/gears.png"
+ },
+ {
+  "id": "objects.robot_build.robot_arm",
+  "url": "./assets/objects/robot_build/robot_arm.png"
+ },
+ {
+  "id": "objects.robot_build.robot_head",
+  "url": "./assets/objects/robot_build/robot_head.png"
+ },
+ {
+  "id": "objects.robot_build.robot_wheel",
+  "url": "./assets/objects/robot_build/robot_wheel.png"
+ },
+ {
+  "id": "objects.rocket_build.body_tube",
+  "url": "./assets/objects/rocket_build/body_tube.png"
+ },
+ {
+  "id": "objects.rocket_build.control_console",
+  "url": "./assets/objects/rocket_build/control_console.png"
+ },
+ {
+  "id": "objects.rocket_build.fins_base",
+  "url": "./assets/objects/rocket_build/fins_base.png"
+ },
+ {
+  "id": "objects.rocket_build.nose_cone",
+  "url": "./assets/objects/rocket_build/nose_cone.png"
+ },
+ {
+  "id": "objects.rocket_build.porthole",
+  "url": "./assets/objects/rocket_build/porthole.png"
+ },
+ {
+  "id": "objects.rocket_build.signal_light",
+  "url": "./assets/objects/rocket_build/signal_light.png"
+ },
+ {
+  "id": "objects.routine.bedtime",
+  "url": "./assets/objects/routine/bedtime.png"
+ },
+ {
+  "id": "objects.routine.breakfast",
+  "url": "./assets/objects/routine/breakfast.png"
+ },
+ {
+  "id": "objects.routine.brush_teeth",
+  "url": "./assets/objects/routine/brush_teeth.png"
+ },
+ {
+  "id": "objects.routine.get_dressed",
+  "url": "./assets/objects/routine/get_dressed.png"
+ },
+ {
+  "id": "objects.routine.school_bag",
+  "url": "./assets/objects/routine/school_bag.png"
+ },
+ {
+  "id": "objects.routine.wash_hands",
+  "url": "./assets/objects/routine/wash_hands.png"
+ },
+ {
+  "id": "objects.shape_slots.slot_circle_blue",
+  "url": "./assets/objects/shape_slots/slot_circle_blue.png"
+ },
+ {
+  "id": "objects.shape_slots.slot_heart_red",
+  "url": "./assets/objects/shape_slots/slot_heart_red.png"
+ },
+ {
+  "id": "objects.shape_slots.slot_rectangle_orange",
+  "url": "./assets/objects/shape_slots/slot_rectangle_orange.png"
+ },
+ {
+  "id": "objects.shape_slots.slot_square_green",
+  "url": "./assets/objects/shape_slots/slot_square_green.png"
+ },
+ {
+  "id": "objects.shape_slots.slot_star_yellow",
+  "url": "./assets/objects/shape_slots/slot_star_yellow.png"
+ },
+ {
+  "id": "objects.shape_slots.slot_triangle_purple",
+  "url": "./assets/objects/shape_slots/slot_triangle_purple.png"
+ },
+ {
+  "id": "objects.shapes.circle_red",
+  "url": "./assets/objects/shapes/circle_red.png"
+ },
+ {
+  "id": "objects.shapes.heart_pink",
+  "url": "./assets/objects/shapes/heart_pink.png"
+ },
+ {
+  "id": "objects.shapes.rectangle_green",
+  "url": "./assets/objects/shapes/rectangle_green.png"
+ },
+ {
+  "id": "objects.shapes.square_blue",
+  "url": "./assets/objects/shapes/square_blue.png"
+ },
+ {
+  "id": "objects.shapes.star_purple",
+  "url": "./assets/objects/shapes/star_purple.png"
+ },
+ {
+  "id": "objects.shapes.star_yellow",
+  "url": "./assets/objects/shapes/star_yellow.png"
+ },
+ {
+  "id": "objects.shapes.triangle_yellow",
+  "url": "./assets/objects/shapes/triangle_yellow.png"
+ },
+ {
+  "id": "objects.shapes_candy.circle_red",
+  "url": "./assets/objects/shapes_candy/circle_red.png"
+ },
+ {
+  "id": "objects.shapes_candy.heart_pink",
+  "url": "./assets/objects/shapes_candy/heart_pink.png"
+ },
+ {
+  "id": "objects.shapes_candy.rectangle_purple",
+  "url": "./assets/objects/shapes_candy/rectangle_purple.png"
+ },
+ {
+  "id": "objects.shapes_candy.square_blue",
+  "url": "./assets/objects/shapes_candy/square_blue.png"
+ },
+ {
+  "id": "objects.shapes_candy.star_green",
+  "url": "./assets/objects/shapes_candy/star_green.png"
+ },
+ {
+  "id": "objects.shapes_candy.triangle_yellow",
+  "url": "./assets/objects/shapes_candy/triangle_yellow.png"
+ },
+ {
+  "id": "objects.space.control_panel",
+  "url": "./assets/objects/space/control_panel.png"
+ },
+ {
+  "id": "objects.space.launch_button",
+  "url": "./assets/objects/space/launch_button.png"
+ },
+ {
+  "id": "objects.space.moon",
+  "url": "./assets/objects/space/moon.png"
+ },
+ {
+  "id": "objects.space.moon_rock",
+  "url": "./assets/objects/space/moon_rock.png"
+ },
+ {
+  "id": "objects.space.oxygen_tank",
+  "url": "./assets/objects/space/oxygen_tank.png"
+ },
+ {
+  "id": "objects.space.planet_globe",
+  "url": "./assets/objects/space/planet_globe.png"
+ },
+ {
+  "id": "objects.space.planet_ringed",
+  "url": "./assets/objects/space/planet_ringed.png"
+ },
+ {
+  "id": "objects.space.rocket",
+  "url": "./assets/objects/space/rocket.png"
+ },
+ {
+  "id": "objects.space.satellite",
+  "url": "./assets/objects/space/satellite.png"
+ },
+ {
+  "id": "objects.space.space_helmet",
+  "url": "./assets/objects/space/space_helmet.png"
+ },
+ {
+  "id": "objects.space.star",
+  "url": "./assets/objects/space/star.png"
+ },
+ {
+  "id": "objects.space.telescope",
+  "url": "./assets/objects/space/telescope.png"
+ },
+ {
+  "id": "objects.stage.curtain",
+  "url": "./assets/objects/stage/curtain.png"
+ },
+ {
+  "id": "objects.stage.dance_pad",
+  "url": "./assets/objects/stage/dance_pad.png"
+ },
+ {
+  "id": "objects.stage.microphone",
+  "url": "./assets/objects/stage/microphone.png"
+ },
+ {
+  "id": "objects.stage.music_stand",
+  "url": "./assets/objects/stage/music_stand.png"
+ },
+ {
+  "id": "objects.stage.speakers",
+  "url": "./assets/objects/stage/speakers.png"
+ },
+ {
+  "id": "objects.stage.spotlight",
+  "url": "./assets/objects/stage/spotlight.png"
+ },
+ {
+  "id": "objects.town.barrier",
+  "url": "./assets/objects/town/barrier.png"
+ },
+ {
+  "id": "objects.town.cone",
+  "url": "./assets/objects/town/cone.png"
+ },
+ {
+  "id": "objects.town.crossing_road",
+  "url": "./assets/objects/town/crossing_road.png"
+ },
+ {
+  "id": "objects.town.fire_hydrant",
+  "url": "./assets/objects/town/fire_hydrant.png"
+ },
+ {
+  "id": "objects.town.post_box",
+  "url": "./assets/objects/town/post_box.png"
+ },
+ {
+  "id": "objects.town.sign_arrow",
+  "url": "./assets/objects/town/sign_arrow.png"
+ },
+ {
+  "id": "objects.town.sign_crossing",
+  "url": "./assets/objects/town/sign_crossing.png"
+ },
+ {
+  "id": "objects.town.sign_parking",
+  "url": "./assets/objects/town/sign_parking.png"
+ },
+ {
+  "id": "objects.town.sign_roadworks",
+  "url": "./assets/objects/town/sign_roadworks.png"
+ },
+ {
+  "id": "objects.town.sign_stop",
+  "url": "./assets/objects/town/sign_stop.png"
+ },
+ {
+  "id": "objects.town.street_lamp",
+  "url": "./assets/objects/town/street_lamp.png"
+ },
+ {
+  "id": "objects.town.traffic_light",
+  "url": "./assets/objects/town/traffic_light.png"
+ },
+ {
+  "id": "objects.town_helpers.fire_extinguisher",
+  "url": "./assets/objects/town_helpers/fire_extinguisher.png"
+ },
+ {
+  "id": "objects.town_helpers.first_aid_kit",
+  "url": "./assets/objects/town_helpers/first_aid_kit.png"
+ },
+ {
+  "id": "objects.town_helpers.parcel",
+  "url": "./assets/objects/town_helpers/parcel.png"
+ },
+ {
+  "id": "objects.town_helpers.police_badge",
+  "url": "./assets/objects/town_helpers/police_badge.png"
+ },
+ {
+  "id": "objects.town_helpers.ticket_bus",
+  "url": "./assets/objects/town_helpers/ticket_bus.png"
+ },
+ {
+  "id": "objects.town_helpers.ticket_train",
+  "url": "./assets/objects/town_helpers/ticket_train.png"
+ },
+ {
+  "id": "objects.tracks.acorns",
+  "url": "./assets/objects/tracks/acorns.png"
+ },
+ {
+  "id": "objects.tracks.feather",
+  "url": "./assets/objects/tracks/feather.png"
+ },
+ {
+  "id": "objects.tracks.track_bear",
+  "url": "./assets/objects/tracks/track_bear.png"
+ },
+ {
+  "id": "objects.tracks.track_deer",
+  "url": "./assets/objects/tracks/track_deer.png"
+ },
+ {
+  "id": "objects.tracks.track_duck",
+  "url": "./assets/objects/tracks/track_duck.png"
+ },
+ {
+  "id": "objects.tracks.track_fox",
+  "url": "./assets/objects/tracks/track_fox.png"
+ },
+ {
+  "id": "objects.vehicles.ambulance",
+  "url": "./assets/objects/vehicles/ambulance.png"
+ },
+ {
+  "id": "objects.vehicles.digger",
+  "url": "./assets/objects/vehicles/digger.png"
+ },
+ {
+  "id": "objects.vehicles.fire_truck",
+  "url": "./assets/objects/vehicles/fire_truck.png"
+ },
+ {
+  "id": "objects.vehicles.school_bus",
+  "url": "./assets/objects/vehicles/school_bus.png"
+ },
+ {
+  "id": "objects.vehicles.sign_bus_stop",
+  "url": "./assets/objects/vehicles/sign_bus_stop.png"
+ },
+ {
+  "id": "objects.vehicles.sign_train_station",
+  "url": "./assets/objects/vehicles/sign_train_station.png"
+ },
+ {
+  "id": "objects.vehicles.tractor",
+  "url": "./assets/objects/vehicles/tractor.png"
+ },
+ {
+  "id": "objects.vehicles.train_happy",
+  "url": "./assets/objects/vehicles/train_happy.png"
+ },
+ {
+  "id": "objects.vehicles.train_toy",
+  "url": "./assets/objects/vehicles/train_toy.png"
+ },
+ {
+  "id": "objects.vehicles.van",
+  "url": "./assets/objects/vehicles/van.png"
+ },
+ {
+  "id": "objects.weather.cloud",
+  "url": "./assets/objects/weather/cloud.png"
+ },
+ {
+  "id": "objects.weather.rain_cloud",
+  "url": "./assets/objects/weather/rain_cloud.png"
+ },
+ {
+  "id": "objects.weather.sun",
+  "url": "./assets/objects/weather/sun.png"
+ },
+ {
+  "id": "objects.weather.thermo_cold",
+  "url": "./assets/objects/weather/thermo_cold.png"
+ },
+ {
+  "id": "objects.weather.thermo_hot",
+  "url": "./assets/objects/weather/thermo_hot.png"
+ },
+ {
+  "id": "objects.weather.wind",
+  "url": "./assets/objects/weather/wind.png"
+ },
+ {
+  "id": "rewards.books.book_blue",
+  "url": "./assets/rewards/books/book_blue.png"
+ },
+ {
+  "id": "rewards.books.book_green",
+  "url": "./assets/rewards/books/book_green.png"
+ },
+ {
+  "id": "rewards.books.book_red",
+  "url": "./assets/rewards/books/book_red.png"
+ },
+ {
+  "id": "rewards.books.frame_card_blank",
+  "url": "./assets/rewards/books/frame_card_blank.png"
+ },
+ {
+  "id": "rewards.books.quill_magic",
+  "url": "./assets/rewards/books/quill_magic.png"
+ },
+ {
+  "id": "rewards.books.scroll_certificate",
+  "url": "./assets/rewards/books/scroll_certificate.png"
+ },
+ {
+  "id": "rewards.chest_star",
+  "url": "./assets/rewards/chest_star.png"
+ },
+ {
+  "id": "rewards.egg_pedestal",
+  "url": "./assets/rewards/egg_pedestal.png"
+ },
+ {
+  "id": "rewards.eggs.egg_farm",
+  "url": "./assets/rewards/eggs/egg_farm.png"
+ },
+ {
+  "id": "rewards.eggs.egg_forest",
+  "url": "./assets/rewards/eggs/egg_forest.png"
+ },
+ {
+  "id": "rewards.eggs.egg_jungle",
+  "url": "./assets/rewards/eggs/egg_jungle.png"
+ },
+ {
+  "id": "rewards.eggs.egg_moon",
+  "url": "./assets/rewards/eggs/egg_moon.png"
+ },
+ {
+  "id": "rewards.eggs.egg_ocean",
+  "url": "./assets/rewards/eggs/egg_ocean.png"
+ },
+ {
+  "id": "rewards.eggs.egg_rainbow",
+  "url": "./assets/rewards/eggs/egg_rainbow.png"
+ },
+ {
+  "id": "rewards.medals.badge_check",
+  "url": "./assets/rewards/medals/badge_check.png"
+ },
+ {
+  "id": "rewards.medals.medal_bronze",
+  "url": "./assets/rewards/medals/medal_bronze.png"
+ },
+ {
+  "id": "rewards.medals.medal_gold",
+  "url": "./assets/rewards/medals/medal_gold.png"
+ },
+ {
+  "id": "rewards.medals.medal_silver",
+  "url": "./assets/rewards/medals/medal_silver.png"
+ },
+ {
+  "id": "rewards.medals.star_gold",
+  "url": "./assets/rewards/medals/star_gold.png"
+ },
+ {
+  "id": "rewards.medals.trophy",
+  "url": "./assets/rewards/medals/trophy.png"
+ },
+ {
+  "id": "rewards.podiums.banner_stars",
+  "url": "./assets/rewards/podiums/banner_stars.png"
+ },
+ {
+  "id": "rewards.podiums.bow_star_ribbons",
+  "url": "./assets/rewards/podiums/bow_star_ribbons.png"
+ },
+ {
+  "id": "rewards.podiums.garland_stars",
+  "url": "./assets/rewards/podiums/garland_stars.png"
+ },
+ {
+  "id": "rewards.podiums.podium_bronze",
+  "url": "./assets/rewards/podiums/podium_bronze.png"
+ },
+ {
+  "id": "rewards.podiums.podium_gold",
+  "url": "./assets/rewards/podiums/podium_gold.png"
+ },
+ {
+  "id": "rewards.podiums.podium_silver",
+  "url": "./assets/rewards/podiums/podium_silver.png"
+ },
+ {
+  "id": "rewards.reward_pedestal",
+  "url": "./assets/rewards/reward_pedestal.png"
+ },
+ {
+  "id": "rewards.reward_star",
+  "url": "./assets/rewards/reward_star.png"
+ },
+ {
+  "id": "rewards.star_globe",
+  "url": "./assets/rewards/star_globe.png"
+ },
+ {
+  "id": "ui.btn_close",
+  "url": "./assets/ui/btn_close.png"
+ },
+ {
+  "id": "ui.btn_home",
+  "url": "./assets/ui/btn_home.png"
+ },
+ {
+  "id": "ui.btn_play",
+  "url": "./assets/ui/btn_play.png"
+ },
+ {
+  "id": "ui.btn_settings",
+  "url": "./assets/ui/btn_settings.png"
+ },
+ {
+  "id": "ui.build.move_arrows",
+  "url": "./assets/ui/build/move_arrows.png"
+ },
+ {
+  "id": "ui.build.place_blocked",
+  "url": "./assets/ui/build/place_blocked.png"
+ },
+ {
+  "id": "ui.build.place_ghost_house",
+  "url": "./assets/ui/build/place_ghost_house.png"
+ },
+ {
+  "id": "ui.build.place_ok",
+  "url": "./assets/ui/build/place_ok.png"
+ },
+ {
+  "id": "ui.build.place_spot_glow",
+  "url": "./assets/ui/build/place_spot_glow.png"
+ },
+ {
+  "id": "ui.build.shop",
+  "url": "./assets/ui/build/shop.png"
+ },
+ {
+  "id": "ui.emotions.face_excited",
+  "url": "./assets/ui/emotions/face_excited.png"
+ },
+ {
+  "id": "ui.emotions.face_happy",
+  "url": "./assets/ui/emotions/face_happy.png"
+ },
+ {
+  "id": "ui.emotions.face_sad",
+  "url": "./assets/ui/emotions/face_sad.png"
+ },
+ {
+  "id": "ui.emotions.face_sleepy",
+  "url": "./assets/ui/emotions/face_sleepy.png"
+ },
+ {
+  "id": "ui.emotions.face_thinking",
+  "url": "./assets/ui/emotions/face_thinking.png"
+ },
+ {
+  "id": "ui.emotions.world_stories",
+  "url": "./assets/ui/emotions/world_stories.png"
+ },
+ {
+  "id": "ui.icon_home",
+  "url": "./assets/ui/icon_home.png"
+ },
+ {
+  "id": "ui.icon_parent_area",
+  "url": "./assets/ui/icon_parent_area.png"
+ },
+ {
+  "id": "ui.icon_play",
+  "url": "./assets/ui/icon_play.png"
+ },
+ {
+  "id": "ui.icon_sound_off",
+  "url": "./assets/ui/icon_sound_off.png"
+ },
+ {
+  "id": "ui.icon_sound_on",
+  "url": "./assets/ui/icon_sound_on.png"
+ },
+ {
+  "id": "ui.icon_star",
+  "url": "./assets/ui/icon_star.png"
+ },
+ {
+  "id": "ui.lock_closed",
+  "url": "./assets/ui/lock_closed.png"
+ },
+ {
+  "id": "ui.lock_open",
+  "url": "./assets/ui/lock_open.png"
+ },
+ {
+  "id": "ui.map_pin_star",
+  "url": "./assets/ui/map_pin_star.png"
+ },
+ {
+  "id": "ui.menu.icon_badge",
+  "url": "./assets/ui/menu/icon_badge.png"
+ },
+ {
+  "id": "ui.menu.icon_collection",
+  "url": "./assets/ui/menu/icon_collection.png"
+ },
+ {
+  "id": "ui.menu.icon_eggs",
+  "url": "./assets/ui/menu/icon_eggs.png"
+ },
+ {
+  "id": "ui.menu.icon_gift",
+  "url": "./assets/ui/menu/icon_gift.png"
+ },
+ {
+  "id": "ui.menu.icon_sticker_book",
+  "url": "./assets/ui/menu/icon_sticker_book.png"
+ },
+ {
+  "id": "ui.menu.icon_wardrobe",
+  "url": "./assets/ui/menu/icon_wardrobe.png"
+ },
+ {
+  "id": "ui.parent.avatar_child",
+  "url": "./assets/ui/parent/avatar_child.png"
+ },
+ {
+  "id": "ui.parent.avatar_parent",
+  "url": "./assets/ui/parent/avatar_parent.png"
+ },
+ {
+  "id": "ui.parent.child_hungry",
+  "url": "./assets/ui/parent/child_hungry.png"
+ },
+ {
+  "id": "ui.parent.child_surprised",
+  "url": "./assets/ui/parent/child_surprised.png"
+ },
+ {
+  "id": "ui.parent.icon_goals",
+  "url": "./assets/ui/parent/icon_goals.png"
+ },
+ {
+  "id": "ui.parent.icon_progress",
+  "url": "./assets/ui/parent/icon_progress.png"
+ },
+ {
+  "id": "ui.parent.icon_settings",
+  "url": "./assets/ui/parent/icon_settings.png"
+ },
+ {
+  "id": "ui.parent.icon_sound",
+  "url": "./assets/ui/parent/icon_sound.png"
+ },
+ {
+  "id": "ui.parent.language",
+  "url": "./assets/ui/parent/language.png"
+ },
+ {
+  "id": "ui.parent.profile_card",
+  "url": "./assets/ui/parent/profile_card.png"
+ },
+ {
+  "id": "ui.parent.timer",
+  "url": "./assets/ui/parent/timer.png"
+ },
+ {
+  "id": "ui.parent.toggle_on",
+  "url": "./assets/ui/parent/toggle_on.png"
+ },
+ {
+  "id": "ui.speech_bubble",
+  "url": "./assets/ui/speech_bubble.png"
+ },
+ {
+  "id": "ui.worlds.rocket_engine",
+  "url": "./assets/ui/worlds/rocket_engine.png"
+ },
+ {
+  "id": "ui.worlds.world_animals",
+  "url": "./assets/ui/worlds/world_animals.png"
+ },
+ {
+  "id": "ui.worlds.world_colours",
+  "url": "./assets/ui/worlds/world_colours.png"
+ },
+ {
+  "id": "ui.worlds.world_feelings",
+  "url": "./assets/ui/worlds/world_feelings.png"
+ },
+ {
+  "id": "ui.worlds.world_helping",
+  "url": "./assets/ui/worlds/world_helping.png"
+ },
+ {
+  "id": "ui.worlds.world_letters",
+  "url": "./assets/ui/worlds/world_letters.png"
+ },
+ {
+  "id": "ui.worlds.world_logic",
+  "url": "./assets/ui/worlds/world_logic.png"
+ },
+ {
+  "id": "ui.worlds.world_music",
+  "url": "./assets/ui/worlds/world_music.png"
+ },
+ {
+  "id": "ui.worlds.world_nature",
+  "url": "./assets/ui/worlds/world_nature.png"
+ },
+ {
+  "id": "ui.worlds.world_numbers",
+  "url": "./assets/ui/worlds/world_numbers.png"
+ },
+ {
+  "id": "ui.worlds.world_shapes",
+  "url": "./assets/ui/worlds/world_shapes.png"
+ },
+ {
+  "id": "ui.worlds.world_space",
+  "url": "./assets/ui/worlds/world_space.png"
+ },
+ {
+  "id": "worlds.animal_forest.bridge_stream",
+  "url": "./assets/worlds/animal_forest/bridge_stream.png"
+ },
+ {
+  "id": "worlds.animal_forest.burrow",
+  "url": "./assets/worlds/animal_forest/burrow.png"
+ },
+ {
+  "id": "worlds.animal_forest.den_cave",
+  "url": "./assets/worlds/animal_forest/den_cave.png"
+ },
+ {
+  "id": "worlds.animal_forest.log_hollow",
+  "url": "./assets/worlds/animal_forest/log_hollow.png"
+ },
+ {
+  "id": "worlds.animal_forest.nest_bird_eggs",
+  "url": "./assets/worlds/animal_forest/nest_bird_eggs.png"
+ },
+ {
+  "id": "worlds.animal_forest.tree_stump_home",
+  "url": "./assets/worlds/animal_forest/tree_stump_home.png"
+ },
+ {
+  "id": "worlds.beach.banner_sun",
+  "url": "./assets/worlds/beach/banner_sun.png"
+ },
+ {
+  "id": "worlds.beach.beach_ball",
+  "url": "./assets/worlds/beach/beach_ball.png"
+ },
+ {
+  "id": "worlds.beach.beach_umbrella",
+  "url": "./assets/worlds/beach/beach_umbrella.png"
+ },
+ {
+  "id": "worlds.beach.shell_garland",
+  "url": "./assets/worlds/beach/shell_garland.png"
+ },
+ {
+  "id": "worlds.beach.sign_picnic",
+  "url": "./assets/worlds/beach/sign_picnic.png"
+ },
+ {
+  "id": "worlds.beach.tiki_torch_flower",
+  "url": "./assets/worlds/beach/tiki_torch_flower.png"
+ },
+ {
+  "id": "worlds.buildings.bakery",
+  "url": "./assets/worlds/buildings/bakery.png"
+ },
+ {
+  "id": "worlds.buildings.bridge",
+  "url": "./assets/worlds/buildings/bridge.png"
+ },
+ {
+  "id": "worlds.buildings.camp_circle",
+  "url": "./assets/worlds/buildings/camp_circle.png"
+ },
+ {
+  "id": "worlds.buildings.castle",
+  "url": "./assets/worlds/buildings/castle.png"
+ },
+ {
+  "id": "worlds.buildings.climbing_dome",
+  "url": "./assets/worlds/buildings/climbing_dome.png"
+ },
+ {
+  "id": "worlds.buildings.construction_site",
+  "url": "./assets/worlds/buildings/construction_site.png"
+ },
+ {
+  "id": "worlds.buildings.cottage_blue",
+  "url": "./assets/worlds/buildings/cottage_blue.png"
+ },
+ {
+  "id": "worlds.buildings.dock",
+  "url": "./assets/worlds/buildings/dock.png"
+ },
+ {
+  "id": "worlds.buildings.fruit_shop",
+  "url": "./assets/worlds/buildings/fruit_shop.png"
+ },
+ {
+  "id": "worlds.buildings.garage",
+  "url": "./assets/worlds/buildings/garage.png"
+ },
+ {
+  "id": "worlds.buildings.music_hut",
+  "url": "./assets/worlds/buildings/music_hut.png"
+ },
+ {
+  "id": "worlds.buildings.portal_gate",
+  "url": "./assets/worlds/buildings/portal_gate.png"
+ },
+ {
+  "id": "worlds.buildings.stone_circle",
+  "url": "./assets/worlds/buildings/stone_circle.png"
+ },
+ {
+  "id": "worlds.buildings.treehouse",
+  "url": "./assets/worlds/buildings/treehouse.png"
+ },
+ {
+  "id": "worlds.buildings.workshop",
+  "url": "./assets/worlds/buildings/workshop.png"
+ },
+ {
+  "id": "worlds.bunny_cottage",
+  "url": "./assets/worlds/bunny_cottage.png"
+ },
+ {
+  "id": "worlds.bunny_house",
+  "url": "./assets/worlds/bunny_house.png"
+ },
+ {
+  "id": "worlds.decor.apple_tree",
+  "url": "./assets/worlds/decor/apple_tree.png"
+ },
+ {
+  "id": "worlds.decor.balloons_bunch",
+  "url": "./assets/worlds/decor/balloons_bunch.png"
+ },
+ {
+  "id": "worlds.decor.barrel",
+  "url": "./assets/worlds/decor/barrel.png"
+ },
+ {
+  "id": "worlds.decor.crate_wood",
+  "url": "./assets/worlds/decor/crate_wood.png"
+ },
+ {
+  "id": "worlds.decor.flags_trio",
+  "url": "./assets/worlds/decor/flags_trio.png"
+ },
+ {
+  "id": "worlds.decor.fountain_pond",
+  "url": "./assets/worlds/decor/fountain_pond.png"
+ },
+ {
+  "id": "worlds.decor.heart_crystal",
+  "url": "./assets/worlds/decor/heart_crystal.png"
+ },
+ {
+  "id": "worlds.decor.lantern_star",
+  "url": "./assets/worlds/decor/lantern_star.png"
+ },
+ {
+  "id": "worlds.decor.moon_crystal_sleepy",
+  "url": "./assets/worlds/decor/moon_crystal_sleepy.png"
+ },
+ {
+  "id": "worlds.decor.post_banner",
+  "url": "./assets/worlds/decor/post_banner.png"
+ },
+ {
+  "id": "worlds.decor.rainbow_clouds",
+  "url": "./assets/worlds/decor/rainbow_clouds.png"
+ },
+ {
+  "id": "worlds.decor.rope_coil",
+  "url": "./assets/worlds/decor/rope_coil.png"
+ },
+ {
+  "id": "worlds.decor.sandpit",
+  "url": "./assets/worlds/decor/sandpit.png"
+ },
+ {
+  "id": "worlds.decor.seesaw",
+  "url": "./assets/worlds/decor/seesaw.png"
+ },
+ {
+  "id": "worlds.decor.sign_arrow_wood",
+  "url": "./assets/worlds/decor/sign_arrow_wood.png"
+ },
+ {
+  "id": "worlds.decor.sign_compass",
+  "url": "./assets/worlds/decor/sign_compass.png"
+ },
+ {
+  "id": "worlds.decor.sign_heart",
+  "url": "./assets/worlds/decor/sign_heart.png"
+ },
+ {
+  "id": "worlds.decor.signpost_three",
+  "url": "./assets/worlds/decor/signpost_three.png"
+ },
+ {
+  "id": "worlds.decor.star_monument",
+  "url": "./assets/worlds/decor/star_monument.png"
+ },
+ {
+  "id": "worlds.decor.star_trophy_happy",
+  "url": "./assets/worlds/decor/star_trophy_happy.png"
+ },
+ {
+  "id": "worlds.decor.statue_dragon",
+  "url": "./assets/worlds/decor/statue_dragon.png"
+ },
+ {
+  "id": "worlds.decor.toy_blocks",
+  "url": "./assets/worlds/decor/toy_blocks.png"
+ },
+ {
+  "id": "worlds.decor.trampoline",
+  "url": "./assets/worlds/decor/trampoline.png"
+ },
+ {
+  "id": "worlds.decor.treasure_chest",
+  "url": "./assets/worlds/decor/treasure_chest.png"
+ },
+ {
+  "id": "worlds.dino_cave",
+  "url": "./assets/worlds/dino_cave.png"
+ },
+ {
+  "id": "worlds.dino_cave_skull",
+  "url": "./assets/worlds/dino_cave_skull.png"
+ },
+ {
+  "id": "worlds.dino_valley.dino_bed_leaf",
+  "url": "./assets/worlds/dino_valley/dino_bed_leaf.png"
+ },
+ {
+  "id": "worlds.dino_valley.lava_rocks",
+  "url": "./assets/worlds/dino_valley/lava_rocks.png"
+ },
+ {
+  "id": "worlds.dino_valley.log_mossy",
+  "url": "./assets/worlds/dino_valley/log_mossy.png"
+ },
+ {
+  "id": "worlds.dino_valley.number_stone_1",
+  "url": "./assets/worlds/dino_valley/number_stone_1.png"
+ },
+ {
+  "id": "worlds.dino_valley.number_stone_2",
+  "url": "./assets/worlds/dino_valley/number_stone_2.png"
+ },
+ {
+  "id": "worlds.dino_valley.number_stone_3",
+  "url": "./assets/worlds/dino_valley/number_stone_3.png"
+ },
+ {
+  "id": "worlds.flowers.bluebells",
+  "url": "./assets/worlds/flowers/bluebells.png"
+ },
+ {
+  "id": "worlds.flowers.daffodils",
+  "url": "./assets/worlds/flowers/daffodils.png"
+ },
+ {
+  "id": "worlds.flowers.daisies",
+  "url": "./assets/worlds/flowers/daisies.png"
+ },
+ {
+  "id": "worlds.flowers.pink_flowers",
+  "url": "./assets/worlds/flowers/pink_flowers.png"
+ },
+ {
+  "id": "worlds.flowers.sunflowers",
+  "url": "./assets/worlds/flowers/sunflowers.png"
+ },
+ {
+  "id": "worlds.flowers.tulips",
+  "url": "./assets/worlds/flowers/tulips.png"
+ },
+ {
+  "id": "worlds.house_parts.door_blue",
+  "url": "./assets/worlds/house_parts/door_blue.png"
+ },
+ {
+  "id": "worlds.house_parts.door_red",
+  "url": "./assets/worlds/house_parts/door_red.png"
+ },
+ {
+  "id": "worlds.house_parts.flag_rainbow",
+  "url": "./assets/worlds/house_parts/flag_rainbow.png"
+ },
+ {
+  "id": "worlds.house_parts.window_round",
+  "url": "./assets/worlds/house_parts/window_round.png"
+ },
+ {
+  "id": "worlds.house_parts.window_square",
+  "url": "./assets/worlds/house_parts/window_square.png"
+ },
+ {
+  "id": "worlds.house_parts.window_triangle",
+  "url": "./assets/worlds/house_parts/window_triangle.png"
+ },
+ {
+  "id": "worlds.island_waterfall",
+  "url": "./assets/worlds/island_waterfall.png"
+ },
+ {
+  "id": "worlds.jungle_stage.flower_garland",
+  "url": "./assets/worlds/jungle_stage/flower_garland.png"
+ },
+ {
+  "id": "worlds.jungle_stage.leaf_stool",
+  "url": "./assets/worlds/jungle_stage/leaf_stool.png"
+ },
+ {
+  "id": "worlds.jungle_stage.sign_music",
+  "url": "./assets/worlds/jungle_stage/sign_music.png"
+ },
+ {
+  "id": "worlds.jungle_stage.speaker_rock",
+  "url": "./assets/worlds/jungle_stage/speaker_rock.png"
+ },
+ {
+  "id": "worlds.jungle_stage.tiki_torch",
+  "url": "./assets/worlds/jungle_stage/tiki_torch.png"
+ },
+ {
+  "id": "worlds.jungle_stage.vine_garland",
+  "url": "./assets/worlds/jungle_stage/vine_garland.png"
+ },
+ {
+  "id": "worlds.nature.berry_bush",
+  "url": "./assets/worlds/nature/berry_bush.png"
+ },
+ {
+  "id": "worlds.nature.bush_flowers",
+  "url": "./assets/worlds/nature/bush_flowers.png"
+ },
+ {
+  "id": "worlds.nature.crystals",
+  "url": "./assets/worlds/nature/crystals.png"
+ },
+ {
+  "id": "worlds.nature.fern",
+  "url": "./assets/worlds/nature/fern.png"
+ },
+ {
+  "id": "worlds.nature.flower_rainbow",
+  "url": "./assets/worlds/nature/flower_rainbow.png"
+ },
+ {
+  "id": "worlds.nature.flowers",
+  "url": "./assets/worlds/nature/flowers.png"
+ },
+ {
+  "id": "worlds.nature.flowers_glow",
+  "url": "./assets/worlds/nature/flowers_glow.png"
+ },
+ {
+  "id": "worlds.nature.mushroom",
+  "url": "./assets/worlds/nature/mushroom.png"
+ },
+ {
+  "id": "worlds.nature.pebbles",
+  "url": "./assets/worlds/nature/pebbles.png"
+ },
+ {
+  "id": "worlds.nature.plant_big_leaf",
+  "url": "./assets/worlds/nature/plant_big_leaf.png"
+ },
+ {
+  "id": "worlds.nature.reeds",
+  "url": "./assets/worlds/nature/reeds.png"
+ },
+ {
+  "id": "worlds.nature.rock_flat",
+  "url": "./assets/worlds/nature/rock_flat.png"
+ },
+ {
+  "id": "worlds.nature.rock_mossy",
+  "url": "./assets/worlds/nature/rock_mossy.png"
+ },
+ {
+  "id": "worlds.nature.tree_big",
+  "url": "./assets/worlds/nature/tree_big.png"
+ },
+ {
+  "id": "worlds.nature.tree_blossom",
+  "url": "./assets/worlds/nature/tree_blossom.png"
+ },
+ {
+  "id": "worlds.nature.tree_palm",
+  "url": "./assets/worlds/nature/tree_palm.png"
+ },
+ {
+  "id": "worlds.nature.tree_small",
+  "url": "./assets/worlds/nature/tree_small.png"
+ },
+ {
+  "id": "worlds.nature.tree_willow",
+  "url": "./assets/worlds/nature/tree_willow.png"
+ },
+ {
+  "id": "worlds.pond.fountain_stone",
+  "url": "./assets/worlds/pond/fountain_stone.png"
+ },
+ {
+  "id": "worlds.pond.horn_post",
+  "url": "./assets/worlds/pond/horn_post.png"
+ },
+ {
+  "id": "worlds.pond.lily_pads",
+  "url": "./assets/worlds/pond/lily_pads.png"
+ },
+ {
+  "id": "worlds.pond.piano_stone",
+  "url": "./assets/worlds/pond/piano_stone.png"
+ },
+ {
+  "id": "worlds.pond.reeds_bubbles",
+  "url": "./assets/worlds/pond/reeds_bubbles.png"
+ },
+ {
+  "id": "worlds.pond.stepping_stones",
+  "url": "./assets/worlds/pond/stepping_stones.png"
+ },
+ {
+  "id": "worlds.rainbow_build.balloon_rainbow",
+  "url": "./assets/worlds/rainbow_build/balloon_rainbow.png"
+ },
+ {
+  "id": "worlds.rainbow_build.basket_rainbow",
+  "url": "./assets/worlds/rainbow_build/basket_rainbow.png"
+ },
+ {
+  "id": "worlds.rainbow_build.carousel_top",
+  "url": "./assets/worlds/rainbow_build/carousel_top.png"
+ },
+ {
+  "id": "worlds.rainbow_build.cart_rainbow",
+  "url": "./assets/worlds/rainbow_build/cart_rainbow.png"
+ },
+ {
+  "id": "worlds.rainbow_build.roof_rainbow",
+  "url": "./assets/worlds/rainbow_build/roof_rainbow.png"
+ },
+ {
+  "id": "worlds.rainbow_build.wall_window_rainbow",
+  "url": "./assets/worlds/rainbow_build/wall_window_rainbow.png"
+ },
+ {
+  "id": "worlds.rainbow_village.colour_wheel",
+  "url": "./assets/worlds/rainbow_village/colour_wheel.png"
+ },
+ {
+  "id": "worlds.rainbow_village.paint_splat_rainbow",
+  "url": "./assets/worlds/rainbow_village/paint_splat_rainbow.png"
+ },
+ {
+  "id": "worlds.rainbow_village.rainbow",
+  "url": "./assets/worlds/rainbow_village/rainbow.png"
+ },
+ {
+  "id": "worlds.rainbow_village.rainbow_fountain",
+  "url": "./assets/worlds/rainbow_village/rainbow_fountain.png"
+ },
+ {
+  "id": "worlds.rainbow_village.shape_sorter_board",
+  "url": "./assets/worlds/rainbow_village/shape_sorter_board.png"
+ },
+ {
+  "id": "worlds.rainbow_village.stepping_stones_rainbow",
+  "url": "./assets/worlds/rainbow_village/stepping_stones_rainbow.png"
+ },
+ {
+  "id": "worlds.scenes.dino_valley_clearing",
+  "url": "./assets/worlds/scenes/dino_valley_clearing.png"
+ },
+ {
+  "id": "worlds.scenes.egg_hatch_cave",
+  "url": "./assets/worlds/scenes/egg_hatch_cave.png"
+ },
+ {
+  "id": "worlds.scenes.welcome_back_dock",
+  "url": "./assets/worlds/scenes/welcome_back_dock.png"
+ },
+ {
+  "id": "worlds.scenes.wonder_island_path",
+  "url": "./assets/worlds/scenes/wonder_island_path.png"
+ },
+ {
+  "id": "worlds.seasons.autumn.harvest_basket",
+  "url": "./assets/worlds/seasons/autumn/harvest_basket.png"
+ },
+ {
+  "id": "worlds.seasons.autumn.lantern_acorn",
+  "url": "./assets/worlds/seasons/autumn/lantern_acorn.png"
+ },
+ {
+  "id": "worlds.seasons.autumn.leaf_garland",
+  "url": "./assets/worlds/seasons/autumn/leaf_garland.png"
+ },
+ {
+  "id": "worlds.seasons.autumn.leaf_pile",
+  "url": "./assets/worlds/seasons/autumn/leaf_pile.png"
+ },
+ {
+  "id": "worlds.seasons.autumn.pumpkin",
+  "url": "./assets/worlds/seasons/autumn/pumpkin.png"
+ },
+ {
+  "id": "worlds.seasons.autumn.scarecrow",
+  "url": "./assets/worlds/seasons/autumn/scarecrow.png"
+ },
+ {
+  "id": "worlds.seasons.spring.bunting_pastel",
+  "url": "./assets/worlds/seasons/spring/bunting_pastel.png"
+ },
+ {
+  "id": "worlds.seasons.spring.butterflies",
+  "url": "./assets/worlds/seasons/spring/butterflies.png"
+ },
+ {
+  "id": "worlds.seasons.spring.egg_painted",
+  "url": "./assets/worlds/seasons/spring/egg_painted.png"
+ },
+ {
+  "id": "worlds.seasons.spring.flower_arch",
+  "url": "./assets/worlds/seasons/spring/flower_arch.png"
+ },
+ {
+  "id": "worlds.seasons.spring.lantern_tulip",
+  "url": "./assets/worlds/seasons/spring/lantern_tulip.png"
+ },
+ {
+  "id": "worlds.seasons.spring.wreath_blossom",
+  "url": "./assets/worlds/seasons/spring/wreath_blossom.png"
+ },
+ {
+  "id": "worlds.seasons.winter.arch_candy_cane",
+  "url": "./assets/worlds/seasons/winter/arch_candy_cane.png"
+ },
+ {
+  "id": "worlds.seasons.winter.lantern_snow",
+  "url": "./assets/worlds/seasons/winter/lantern_snow.png"
+ },
+ {
+  "id": "worlds.seasons.winter.presents",
+  "url": "./assets/worlds/seasons/winter/presents.png"
+ },
+ {
+  "id": "worlds.seasons.winter.snowman",
+  "url": "./assets/worlds/seasons/winter/snowman.png"
+ },
+ {
+  "id": "worlds.seasons.winter.tree_snowy",
+  "url": "./assets/worlds/seasons/winter/tree_snowy.png"
+ },
+ {
+  "id": "worlds.seasons.winter.wreath_holly",
+  "url": "./assets/worlds/seasons/winter/wreath_holly.png"
+ },
+ {
+  "id": "worlds.tiles.tile_hill",
+  "url": "./assets/worlds/tiles/tile_hill.png"
+ },
+ {
+  "id": "worlds.tiles.tile_meadow",
+  "url": "./assets/worlds/tiles/tile_meadow.png"
+ },
+ {
+  "id": "worlds.tiles.tile_path",
+  "url": "./assets/worlds/tiles/tile_path.png"
+ },
+ {
+  "id": "worlds.tiles.tile_pond",
+  "url": "./assets/worlds/tiles/tile_pond.png"
+ },
+ {
+  "id": "worlds.tiles.tile_rocks",
+  "url": "./assets/worlds/tiles/tile_rocks.png"
+ },
+ {
+  "id": "worlds.tiles.tile_sand",
+  "url": "./assets/worlds/tiles/tile_sand.png"
+ },
+ {
+  "id": "worlds.town.bus_depot",
+  "url": "./assets/worlds/town/bus_depot.png"
+ },
+ {
+  "id": "worlds.town.fire_station",
+  "url": "./assets/worlds/town/fire_station.png"
+ },
+ {
+  "id": "worlds.town.hospital",
+  "url": "./assets/worlds/town/hospital.png"
+ },
+ {
+  "id": "worlds.town.police_station",
+  "url": "./assets/worlds/town/police_station.png"
+ },
+ {
+  "id": "worlds.town.post_office",
+  "url": "./assets/worlds/town/post_office.png"
+ },
+ {
+  "id": "worlds.town.train_station",
+  "url": "./assets/worlds/town/train_station.png"
+ }
+]

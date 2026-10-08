@@ -1,4 +1,4 @@
-const CACHE = 'little-legends-m29-playable-fix1-art-v35';
+const CACHE = 'little-legends-m29-playable-fix1-art-v36';
 const CORE = [
   './',
   './index.html',

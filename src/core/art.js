@@ -163,7 +163,9 @@ async function artIdsForScene(game, name, data = {}) {
     for (const step of adventure?.steps ?? []) if (step.activityId) ids.push(...idsForActivity(activities?.get?.(step.activityId), activities));
     const guide = characterArt(adventure?.guide ?? (adventure?.world === 'rainbow' ? 'octo' : adventure?.world === 'dino' ? 'rory' : null)); if (guide) ids.push(guide);
     const reward = map.rewards?.[adventure?.reward?.id]; if (reward) ids.push(reward);
-    if ((adventure?.steps ?? []).some(step => step.kind === 'egg' || step.kind === 'hatch')) ids.push(...hatchArtIds(hatchTheme(adventure?.reward?.id, adventure?.world), adventure?.reward?.id));
+    // The reward egg (for the hatch steps, and so the island celebration has it ready on arrival).
+    const rewardIsCreature = adventure?.reward?.type === 'creatures';
+    if (rewardIsCreature || (adventure?.steps ?? []).some(step => step.kind === 'egg' || step.kind === 'hatch')) ids.push(...hatchArtIds(hatchTheme(adventure?.reward?.id, adventure?.world), adventure?.reward?.id));
   }
   if (name === 'activity' && activities) {
     await activities.ensureLoaded?.(game.assets);

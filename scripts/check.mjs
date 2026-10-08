@@ -62,7 +62,7 @@ for (const file of jsFiles) execFileSync(process.execPath, ['--check', file], { 
 
 // The installable/offline build must cache every eagerly imported source module.
 const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v35"), 'Service worker cache version should advance with the real-art build');
+assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v36"), 'Service worker cache version should advance with the real-art build');
 for (const file of walk(path.join(root, 'src')).filter(file => file.endsWith('.js'))) {
   const rel = `./${path.relative(root, file).split(path.sep).join('/')}`;
   assert.ok(serviceWorkerSource.includes(`'${rel}'`), `Offline cache must include ${rel}`);
@@ -767,6 +767,7 @@ assert.ok((await artIdsForScene(artGame,'adventure',{adventureId:'rory_dino_picn
 assert.ok(serviceWorkerSource.includes("'./src/fx/HatchSequence.js'"));
 const plainIsland=await artIdsForScene(artGame,'island',{});assert.ok(!plainIsland.includes('creatures.forest.bear'),'Island only preloads rewards the child owns');
 assert.equal(islandHatch[0],'rewards.hatch.forest.egg_forest_1_idle','Celebration egg loads first');
+assert.ok((await artIdsForScene(artGame,'adventure',{adventureId:'animal_baby_rescue'})).includes('rewards.hatch.farm.egg_farm_6_hatched'),'A mission that wins a creature preloads its egg for the island hatch');
 assert.ok(/ART_PARALLEL = [1-4];/.test(serviceWorkerSource)&&serviceWorkerSource.includes("'cache-art'"),'Offline art caching must be gentle (a few at a time, after the game loads)');
 assert.ok(!serviceWorkerSource.includes('cache.addAll(CORE).then(() => cacheArt'),'Install must not download every picture at once');
 delete globalThis.__LL_ASSETS;

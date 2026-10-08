@@ -3,7 +3,7 @@ import { HintController } from '../hints/HintController.js';
 import { drawActivityBackground, drawInstructionPanel, drawToken, drawActivityAmbient } from '../activities/activityDraw.js';
 import { drawCandyButton } from '../utils/draw.js';
 import { EGG_STATES } from '../rewards/EggSystem.js';
-import { drawArt, characterArt, hatchTheme } from '../core/art.js';
+import { drawArt, characterArt, hatchTheme, worldTheme, dragonForWorld } from '../core/art.js';
 import { HatchSequence } from '../fx/HatchSequence.js';
 
 // Tap-to-hatch keeps its taps; each egg state shows the next hatch frame.
@@ -87,7 +87,19 @@ export class AdventureScene {
       await this.game.save?.saveLearning?.(this.game.learning.snapshot());
       await this.game.save?.saveAdventure?.(this.definition.id,0,{completed:true});
     }
-    this.game.scenes.change('island',{celebrateReward:rewardId});
+    // Every mission in this world done: its rare dragon hatches on the island after the mission reward.
+    const dragon=this.earnedDragon();
+    if(dragon&&!this.game.rewards.isUnlocked(dragon.id)){await this.game.rewards.award(dragon.id);this.dragonAwarded=dragon.id;}
+    const celebrate=[rewardId,dragon?.id].filter(Boolean);
+    this.game.scenes.change('island',{celebrateReward:celebrate[0]??null,celebrateNext:celebrate.slice(1)});
+  }
+
+  earnedDragon(){
+    const world=this.definition?.world,dragon=dragonForWorld(this.game,world);if(!dragon)return null;
+    const done=this.game.save?.getProfileState?.()?.adventure?.completed??[];
+    const all=this.game.adventureEngine.list().filter(a=>a.world===world);
+    if(!all.length||!all.every(a=>done.includes(a.id)))return null;
+    return this.dragonAwarded===dragon.id||!this.game.rewards.isUnlocked(dragon.id)?dragon:null; // only the first time
   }
 
   update(dt){
@@ -152,13 +164,13 @@ export class AdventureScene {
 
   drawBella(ctx,x=1510,y=690,scale=1){ctx.save();ctx.translate(x,y);ctx.scale(scale,scale);ctx.fillStyle='#c98b58';ctx.beginPath();ctx.arc(0,-48,112,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(-75,-130,42,0,Math.PI*2);ctx.arc(75,-130,42,0,Math.PI*2);ctx.fill();ctx.fillStyle='#f2c99d';ctx.beginPath();ctx.ellipse(0,-20,70,58,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(-38,-70,18,0,Math.PI*2);ctx.arc(38,-70,18,0,Math.PI*2);ctx.fill();ctx.fillStyle='#3d3348';ctx.beginPath();ctx.arc(-34,-68,7,0,Math.PI*2);ctx.arc(42,-68,7,0,Math.PI*2);ctx.fill();ctx.fillStyle='#5a3a73';ctx.beginPath();ctx.arc(0,-30,13,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#6b4c55';ctx.lineWidth=8;ctx.beginPath();ctx.arc(0,-12,34,.12*Math.PI,.88*Math.PI);ctx.stroke();ctx.restore();}
 
-  drawGuide(ctx){const world=this.definition?.world;if(this.definition?.guide==='octo'||world==='rainbow')this.drawOcto(ctx);else if(this.definition?.guide==='luna'||world==='storybook')this.drawLuna(ctx);else if(this.definition?.guide==='bella'||world==='animal'||world==='life')this.drawBella(ctx);else this.drawRory(ctx);}
+  drawGuide(ctx){const world=this.definition?.world;if(this.definition?.guide==='pip')return;/* Pip leads (no art yet for Zig Robot) */if(this.definition?.guide==='octo'||world==='rainbow')this.drawOcto(ctx);else if(this.definition?.guide==='luna'||world==='storybook')this.drawLuna(ctx);else if(this.definition?.guide==='bella'||world==='animal'||world==='life')this.drawBella(ctx);else this.drawRory(ctx);}
 
   drawSpeech(ctx){if(!this.speech||this.speechT<=0)return;ctx.save();ctx.fillStyle='#fffdf4';ctx.beginPath();ctx.roundRect(70,80,440,125,45);ctx.fill();ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='800 31px system-ui';ctx.fillText(this.speech,290,151);ctx.restore();}
 
   render(ctx){
     if(this.activity){this.activity.render(ctx);drawActivityAmbient(ctx,this.activity.definition,this.t);this.pip.render(ctx);this.drawSpeech(ctx);if(this.completedStep)this.drawContinue(ctx);return;}
-    const worldTheme={rainbow:'rainbow',dino:'dino',animal:'forest',storybook:'storybook',life:'life'}[this.definition?.world]??'dino';drawActivityBackground(ctx,worldTheme); this.drawGuide(ctx); this.pip.render(ctx); this.drawSpeech(ctx);
+    drawActivityBackground(ctx,this.step.theme??this.definition.theme??worldTheme(this.definition?.world)); this.drawGuide(ctx); this.pip.render(ctx); this.drawSpeech(ctx);
     drawInstructionPanel(ctx,this.step.title,`${this.stepIndex+1} of ${this.definition.steps.length}`);
     if(this.step.kind==='story')this.renderStory(ctx);
     else if(this.step.kind==='size')this.renderSize(ctx);
@@ -169,7 +181,7 @@ export class AdventureScene {
     if(this.completedStep||['story','egg'].includes(this.step.kind))this.drawContinue(ctx,this.step.kind==='place'&&this.completedStep?'HOME':'CONTINUE');
   }
 
-  renderStory(ctx){ctx.fillStyle='#ffffffcc';ctx.beginPath();ctx.roundRect(560,360,780,250,70);ctx.fill();ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='900 54px system-ui';ctx.fillText(this.step.title??this.definition.title,950,465);ctx.font='700 32px system-ui';const fallback={rainbow:'Octo needs our help!',animal:'Bella found an animal mystery!',storybook:'Luna has a story for us!',life:'Bella is ready for today!',dino:'Rory needs our help.'}[this.definition.world]??'Let’s help!';const detail=this.step.voice??fallback;ctx.fillText(detail.length>54?detail.slice(0,52)+'…':detail,950,535);}
+  renderStory(ctx){ctx.fillStyle='#ffffffcc';ctx.beginPath();ctx.roundRect(560,360,780,250,70);ctx.fill();ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='900 54px system-ui';ctx.fillText(this.step.title??this.definition.title,950,465);ctx.font='700 32px system-ui';const fallback={space:'Pip is ready for take-off!',town:'Busy Town needs a helper!',rainbow:'Octo needs our help!',animal:'Bella found an animal mystery!',storybook:'Luna has a story for us!',life:'Bella is ready for today!',dino:'Rory needs our help.'}[this.definition.world]??'Let’s help!';const detail=this.step.voice??fallback;ctx.fillText(detail.length>54?detail.slice(0,52)+'…':detail,950,535);}
   renderSize(ctx){for(const b of this.blankets()){ctx.fillStyle=b.color;ctx.beginPath();ctx.roundRect(b.x-b.w/2,b.y-b.h/2,b.w,b.h,45);ctx.fill();ctx.fillStyle='#ffffff55';for(let i=0;i<4;i++){ctx.beginPath();ctx.arc(b.x-b.w*.3+i*b.w*.2,b.y,16,0,Math.PI*2);ctx.fill();}}}
   renderPattern(ctx){const xs=[520,760,1000,1240];const colors=['red','blue','red',null];for(let i=0;i<4;i++){ctx.fillStyle=colors[i]==='red'?'#e94d55':colors[i]==='blue'?'#4d8ee8':'#ffffffaa';ctx.beginPath();ctx.roundRect(xs[i]-85,470,170,170,45);ctx.fill();if(!colors[i]){ctx.fillStyle='#8b69db';ctx.textAlign='center';ctx.font='900 95px system-ui';ctx.fillText('?',xs[i],585);}}for(const [x,c] of [[690,'#4d8ee8'],[990,'#f7cf4f']]){ctx.fillStyle=c;ctx.beginPath();ctx.roundRect(x,760,240,150,45);ctx.fill();}}
   renderEgg(ctx,hatched){const egg=this.game.eggs?.get?.('rory-dino-egg');

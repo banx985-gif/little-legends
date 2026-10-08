@@ -2090,6 +2090,158 @@
       "starCost": 4,
       "color": "red",
       "style": 0
+    },
+    {
+      "id": "space_toy_rocket",
+      "type": "decorations",
+      "name": "Toy Rocket",
+      "world": "space",
+      "voice": "You earned Toy Rocket!",
+      "interaction": "tap to make it bounce and sparkle",
+      "stars": 2,
+      "island": {
+        "type": "reward_badge",
+        "x": 380,
+        "y": 720,
+        "w": 170,
+        "h": 150,
+        "zone": "decoration",
+        "color": "red",
+        "label": "Toy Rocket"
+      }
+    },
+    {
+      "id": "space_robot_arm",
+      "type": "decorations",
+      "name": "Robot Arm",
+      "world": "space",
+      "voice": "You earned Robot Arm!",
+      "interaction": "tap to make it bounce and sparkle",
+      "stars": 2,
+      "island": {
+        "type": "reward_badge",
+        "x": 560,
+        "y": 470,
+        "w": 170,
+        "h": 150,
+        "zone": "decoration",
+        "color": "purple",
+        "label": "Robot Arm"
+      }
+    },
+    {
+      "id": "space_hologram",
+      "type": "decorations",
+      "name": "Hologram Planets",
+      "world": "space",
+      "voice": "You earned Hologram Planets!",
+      "interaction": "tap to make it bounce and sparkle",
+      "stars": 2,
+      "island": {
+        "type": "reward_badge",
+        "x": 1250,
+        "y": 460,
+        "w": 170,
+        "h": 150,
+        "zone": "decoration",
+        "color": "blue",
+        "label": "Hologram Planets"
+      }
+    },
+    {
+      "id": "space_crystal_pod",
+      "type": "decorations",
+      "name": "Crystal Pod",
+      "world": "space",
+      "voice": "You earned Crystal Pod!",
+      "interaction": "tap to make it bounce and sparkle",
+      "stars": 2,
+      "island": {
+        "type": "reward_badge",
+        "x": 1420,
+        "y": 560,
+        "w": 170,
+        "h": 150,
+        "zone": "decoration",
+        "color": "purple",
+        "label": "Crystal Pod"
+      }
+    },
+    {
+      "id": "space_mission_control",
+      "type": "buildings",
+      "name": "Mission Control",
+      "world": "space",
+      "voice": "You earned Mission Control!",
+      "interaction": "tap to make it bounce and sparkle",
+      "stars": 2,
+      "island": {
+        "type": "reward_badge",
+        "x": 1530,
+        "y": 760,
+        "w": 170,
+        "h": 150,
+        "zone": "building",
+        "color": "blue",
+        "label": "Mission Control"
+      }
+    },
+    {
+      "id": "space_rover",
+      "type": "decorations",
+      "name": "Moon Rover",
+      "world": "space",
+      "voice": "You earned Moon Rover!",
+      "interaction": "tap to make it bounce and sparkle",
+      "stars": 2,
+      "island": {
+        "type": "reward_badge",
+        "x": 700,
+        "y": 520,
+        "w": 170,
+        "h": 150,
+        "zone": "decoration",
+        "color": "cream",
+        "label": "Moon Rover"
+      }
+    },
+    {
+      "id": "space_satellite",
+      "type": "decorations",
+      "name": "Solar Satellite",
+      "world": "space",
+      "voice": "You earned Solar Satellite!",
+      "interaction": "tap to make it bounce and sparkle",
+      "stars": 2,
+      "island": {
+        "type": "reward_badge",
+        "x": 1240,
+        "y": 770,
+        "w": 170,
+        "h": 150,
+        "zone": "decoration",
+        "color": "yellow",
+        "label": "Solar Satellite"
+      }
+    },
+    {
+      "id": "space_lander",
+      "type": "decorations",
+      "name": "Lander Pod",
+      "world": "space",
+      "voice": "You earned Lander Pod!",
+      "interaction": "tap to make it bounce and sparkle",
+      "stars": 2,
+      "island": {
+        "type": "reward_badge",
+        "x": 300,
+        "y": 500,
+        "w": 170,
+        "h": 150,
+        "zone": "decoration",
+        "color": "orange",
+        "label": "Lander Pod"
+      }
     }
   ]
 }

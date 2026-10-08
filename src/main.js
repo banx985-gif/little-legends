@@ -30,10 +30,15 @@ game.scenes.register('collection', game => new CollectionScene(game));
 window.addEventListener('error', event => game.reportRuntimeError?.(event.error ?? new Error(event.message || 'Window error'), 'window:error'));
 window.addEventListener('unhandledrejection', event => game.reportRuntimeError?.(event.reason instanceof Error ? event.reason : new Error(String(event.reason ?? 'Unhandled promise rejection')), 'window:unhandledrejection'));
 
-const requestedScene = new URLSearchParams(location.search).get('scene');
+const params = new URLSearchParams(location.search);
+const requestedScene = params.get('scene');
 const initialScene = ['profile', 'island', 'activity', 'parentGate', 'adventure', 'rainbowVillage', 'worldSelect', 'worldHub', 'jungleJam', 'collection'].includes(requestedScene) ? requestedScene : 'boot';
+// Testing shortcut: ?scene=worldHub&world=space, ?scene=activity&activityId=space_build_rocket, ?scene=adventure&adventureId=… (&step=2)
+const sceneData = {};
+for (const key of ['world', 'activityId', 'adventureId', 'tab', 'celebrateReward']) if (params.get(key)) sceneData[key] = params.get(key);
+if (params.get('step')) sceneData.step = Number(params.get('step')) || 0;
 
-game.start(initialScene).catch(error => {
+game.start(initialScene, sceneData).catch(error => {
   console.error(error);
   const ctx = canvas.getContext('2d');
   ctx.fillStyle = '#492f5d';

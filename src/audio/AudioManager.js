@@ -320,7 +320,9 @@ export class AudioManager {
       animal: [294, 349, 440, 349],
       storybook: [330, 392, 494, 587],
       life: [349, 440, 523, 440],
-      jungle: [220, 330, 440, 330]
+      jungle: [220, 330, 440, 330],
+      space: [262, 392, 523, 392],
+      town: [392, 330, 392, 523]
     };
     return map[theme] ?? map.dino;
   }

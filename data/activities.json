@@ -6069,6 +6069,1177 @@
         "brush",
         "story"
       ]
+    },
+    {
+      "id": "space_build_rocket",
+      "type": "BuildObject",
+      "world": "space",
+      "theme": "space_rocket_hangar",
+      "skills": [
+        "SEQUENCE",
+        "SAME_DIFFERENT"
+      ],
+      "instructionText": "Build the rocket!",
+      "voiceText": "Put the rocket pieces together. Nose cone on top, fins at the bottom.",
+      "subtitle": "Drag each piece to its faded picture",
+      "completeDetail": "Rocket built!",
+      "objects": [
+        {
+          "id": "nose",
+          "kind": "thing",
+          "thing": "nose_cone",
+          "label": "Nose cone",
+          "x": 470,
+          "y": 420,
+          "targetId": "nose-home",
+          "size": 211
+        },
+        {
+          "id": "body",
+          "kind": "thing",
+          "thing": "body_tube",
+          "label": "Body",
+          "x": 760,
+          "y": 560,
+          "targetId": "body-home",
+          "size": 256
+        },
+        {
+          "id": "fins",
+          "kind": "thing",
+          "thing": "fins_base",
+          "label": "Fins",
+          "x": 520,
+          "y": 800,
+          "targetId": "fins-home",
+          "size": 278
+        },
+        {
+          "id": "window",
+          "kind": "thing",
+          "thing": "porthole",
+          "label": "Window",
+          "x": 860,
+          "y": 840,
+          "targetId": "window-home",
+          "size": 122
+        }
+      ],
+      "targets": [
+        {
+          "id": "nose-home",
+          "thing": "nose_cone",
+          "ghost": true,
+          "label": "Nose cone",
+          "x": 1350,
+          "y": 330,
+          "w": 190,
+          "h": 190,
+          "pieceScale": 1
+        },
+        {
+          "id": "body-home",
+          "thing": "body_tube",
+          "ghost": true,
+          "label": "Body",
+          "x": 1350,
+          "y": 545,
+          "w": 230,
+          "h": 230,
+          "pieceScale": 1
+        },
+        {
+          "id": "fins-home",
+          "thing": "fins_base",
+          "ghost": true,
+          "label": "Fins",
+          "x": 1350,
+          "y": 790,
+          "w": 250,
+          "h": 250,
+          "pieceScale": 1
+        },
+        {
+          "id": "window-home",
+          "thing": "porthole",
+          "ghost": true,
+          "label": "Window",
+          "x": 1350,
+          "y": 540,
+          "w": 110,
+          "h": 110,
+          "pieceScale": 1
+        }
+      ],
+      "pipBubble": "Build the rocket!"
+    },
+    {
+      "id": "space_countdown",
+      "type": "SequenceOrder",
+      "world": "space",
+      "theme": "space_rocket_hangar",
+      "skills": [
+        "SEQUENCE",
+        "NUMERAL_5",
+        "NUMERAL_4",
+        "NUMERAL_3",
+        "NUMERAL_2",
+        "NUMERAL_1"
+      ],
+      "instructionText": "Count down: 5, 4, 3, 2, 1!",
+      "voiceText": "Count down for blast off! Tap five, four, three, two, one.",
+      "subtitle": "Tap the numbers from 5 down to 1",
+      "completeDetail": "Blast off!",
+      "objects": [
+        {
+          "id": "n3",
+          "kind": "numeral",
+          "value": 3,
+          "x": 560,
+          "y": 800,
+          "size": 140,
+          "color": "blue"
+        },
+        {
+          "id": "n5",
+          "kind": "numeral",
+          "value": 5,
+          "x": 830,
+          "y": 760,
+          "size": 140,
+          "color": "blue"
+        },
+        {
+          "id": "n1",
+          "kind": "numeral",
+          "value": 1,
+          "x": 1100,
+          "y": 810,
+          "size": 140,
+          "color": "blue"
+        },
+        {
+          "id": "n4",
+          "kind": "numeral",
+          "value": 4,
+          "x": 1370,
+          "y": 760,
+          "size": 140,
+          "color": "blue"
+        },
+        {
+          "id": "n2",
+          "kind": "numeral",
+          "value": 2,
+          "x": 1640,
+          "y": 810,
+          "size": 140,
+          "color": "blue"
+        }
+      ],
+      "correctOrder": [
+        "n5",
+        "n4",
+        "n3",
+        "n2",
+        "n1"
+      ],
+      "pipBubble": "5, 4, 3, 2, 1!"
+    },
+    {
+      "id": "space_launch_button",
+      "type": "TapRequestedObject",
+      "world": "space",
+      "theme": "space_rocket_hangar",
+      "skills": [
+        "VOCABULARY"
+      ],
+      "instructionText": "Tap the launch button!",
+      "voiceText": "Everyone ready? Tap the big red launch button!",
+      "subtitle": "It has a rocket on it",
+      "completeDetail": "Whoosh!",
+      "request": {
+        "matchKey": "thing",
+        "matchValue": "launch_button",
+        "value": "launch button"
+      },
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "signal_light",
+          "label": "Light",
+          "x": 600,
+          "y": 650,
+          "size": 185
+        },
+        {
+          "kind": "thing",
+          "thing": "launch_button",
+          "label": "Launch",
+          "x": 960,
+          "y": 720,
+          "size": 185
+        },
+        {
+          "kind": "thing",
+          "thing": "control_console",
+          "label": "Console",
+          "x": 1320,
+          "y": 650,
+          "size": 185
+        }
+      ],
+      "pipBubble": "Launch button!"
+    },
+    {
+      "id": "space_build_robot",
+      "type": "BuildObject",
+      "world": "space",
+      "theme": "space_workshop",
+      "skills": [
+        "SEQUENCE",
+        "SAME_DIFFERENT"
+      ],
+      "instructionText": "Build a robot helper!",
+      "voiceText": "Build the robot. Head on top, wheel at the bottom.",
+      "subtitle": "Drag each piece to its faded picture",
+      "completeDetail": "Robot built!",
+      "objects": [
+        {
+          "id": "head",
+          "kind": "thing",
+          "thing": "robot_head",
+          "label": "Head",
+          "x": 480,
+          "y": 430,
+          "targetId": "head-home",
+          "size": 211
+        },
+        {
+          "id": "battery",
+          "kind": "thing",
+          "thing": "battery",
+          "label": "Battery",
+          "x": 800,
+          "y": 470,
+          "targetId": "battery-home",
+          "size": 200
+        },
+        {
+          "id": "arm",
+          "kind": "thing",
+          "thing": "robot_arm",
+          "label": "Arm",
+          "x": 480,
+          "y": 760,
+          "targetId": "arm-home",
+          "size": 189
+        },
+        {
+          "id": "wheel",
+          "kind": "thing",
+          "thing": "robot_wheel",
+          "label": "Wheel",
+          "x": 800,
+          "y": 790,
+          "targetId": "wheel-home",
+          "size": 211
+        },
+        {
+          "id": "gears",
+          "kind": "thing",
+          "thing": "gears",
+          "label": "Gears",
+          "x": 1010,
+          "y": 860,
+          "targetId": "gears-home",
+          "size": 167
+        }
+      ],
+      "targets": [
+        {
+          "id": "head-home",
+          "thing": "robot_head",
+          "ghost": true,
+          "label": "Head",
+          "x": 1350,
+          "y": 330,
+          "w": 190,
+          "h": 190,
+          "pieceScale": 1
+        },
+        {
+          "id": "battery-home",
+          "thing": "battery",
+          "ghost": true,
+          "label": "Battery",
+          "x": 1350,
+          "y": 540,
+          "w": 180,
+          "h": 180,
+          "pieceScale": 1
+        },
+        {
+          "id": "arm-home",
+          "thing": "robot_arm",
+          "ghost": true,
+          "label": "Arm",
+          "x": 1580,
+          "y": 520,
+          "w": 170,
+          "h": 170,
+          "pieceScale": 1
+        },
+        {
+          "id": "wheel-home",
+          "thing": "robot_wheel",
+          "ghost": true,
+          "label": "Wheel",
+          "x": 1350,
+          "y": 760,
+          "w": 190,
+          "h": 190,
+          "pieceScale": 1
+        },
+        {
+          "id": "gears-home",
+          "thing": "gears",
+          "ghost": true,
+          "label": "Gears",
+          "x": 1120,
+          "y": 540,
+          "w": 150,
+          "h": 150,
+          "pieceScale": 1
+        }
+      ],
+      "pipBubble": "Build the robot!"
+    },
+    {
+      "id": "space_robot_batteries",
+      "type": "CountAndPlace",
+      "world": "space",
+      "theme": "space_workshop",
+      "character": "none",
+      "object": "thing",
+      "thing": "battery",
+      "color": "yellow",
+      "targetCount": 3,
+      "instructionText": "Put 3 batteries on the charging pad!",
+      "voiceText": "The robot needs power. Put three batteries on the charging pad.",
+      "pipBubble": "Three batteries!",
+      "skills": [
+        "COUNT_3"
+      ],
+      "adaptiveSkill": "COUNT_3"
+    },
+    {
+      "id": "space_biggest_wheel",
+      "type": "SizeCompare",
+      "world": "space",
+      "theme": "space_workshop",
+      "rule": "largest",
+      "skills": [
+        "BIG_SMALL"
+      ],
+      "instructionText": "Which wheel is the biggest?",
+      "voiceText": "The robot needs the biggest wheel. Tap the biggest one.",
+      "completeDetail": "Biggest wheel!",
+      "objects": [
+        {
+          "id": "small",
+          "kind": "thing",
+          "thing": "robot_wheel",
+          "x": 620,
+          "y": 680,
+          "size": 120
+        },
+        {
+          "id": "big",
+          "kind": "thing",
+          "thing": "robot_wheel",
+          "x": 1000,
+          "y": 650,
+          "size": 260
+        },
+        {
+          "id": "medium",
+          "kind": "thing",
+          "thing": "robot_wheel",
+          "x": 1420,
+          "y": 670,
+          "size": 180
+        }
+      ],
+      "pipBubble": "Biggest wheel?"
+    },
+    {
+      "id": "space_tap_stars",
+      "type": "TapRequestedObject",
+      "world": "space",
+      "theme": "space_planetarium",
+      "skills": [
+        "COUNT_3"
+      ],
+      "instructionText": "Tap the 3 stars!",
+      "voiceText": "Can you find three stars? Tap them and count: one, two, three!",
+      "subtitle": "Count as you tap",
+      "completeDetail": "1 • 2 • 3 stars",
+      "targets": [
+        {
+          "matchKey": "thing",
+          "matchValue": "star",
+          "value": "star 1"
+        },
+        {
+          "matchKey": "thing",
+          "matchValue": "star",
+          "value": "star 2"
+        },
+        {
+          "matchKey": "thing",
+          "matchValue": "star",
+          "value": "star 3"
+        }
+      ],
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "star",
+          "x": 520,
+          "y": 470,
+          "size": 185
+        },
+        {
+          "kind": "thing",
+          "thing": "planet_ringed",
+          "x": 820,
+          "y": 720,
+          "size": 185
+        },
+        {
+          "kind": "thing",
+          "thing": "star",
+          "x": 1100,
+          "y": 450,
+          "size": 185
+        },
+        {
+          "kind": "thing",
+          "thing": "moon",
+          "x": 1380,
+          "y": 740,
+          "size": 185
+        },
+        {
+          "kind": "thing",
+          "thing": "star",
+          "x": 1640,
+          "y": 520,
+          "size": 185
+        }
+      ],
+      "pipBubble": "Find 3 stars!"
+    },
+    {
+      "id": "space_more_planets",
+      "type": "QuantityCompare",
+      "world": "space",
+      "theme": "space_planetarium",
+      "rule": "more",
+      "object": "thing",
+      "thing": "planet_ringed",
+      "skills": [
+        "MORE_LESS"
+      ],
+      "instructionText": "Which group has more planets?",
+      "voiceText": "Look at the planets. Which group has more?",
+      "completeDetail": "More planets!",
+      "choices": [
+        {
+          "id": "few",
+          "count": 2
+        },
+        {
+          "id": "many",
+          "count": 5
+        }
+      ],
+      "pipBubble": "More planets?"
+    },
+    {
+      "id": "space_planet_pattern",
+      "type": "PatternComplete",
+      "world": "space",
+      "theme": "space_planetarium",
+      "skills": [
+        "PATTERN"
+      ],
+      "instructionText": "What comes next?",
+      "voiceText": "Planet, star, planet, star. What comes next?",
+      "completeDetail": "Planet, star, planet!",
+      "missingIndex": 4,
+      "sequence": [
+        {
+          "kind": "thing",
+          "thing": "planet_globe"
+        },
+        {
+          "kind": "thing",
+          "thing": "star"
+        },
+        {
+          "kind": "thing",
+          "thing": "planet_globe"
+        },
+        {
+          "kind": "thing",
+          "thing": "star"
+        }
+      ],
+      "choices": [
+        {
+          "id": "planet",
+          "kind": "thing",
+          "thing": "planet_globe",
+          "correct": true
+        },
+        {
+          "id": "moon",
+          "kind": "thing",
+          "thing": "moon"
+        }
+      ],
+      "pipBubble": "What comes next?"
+    },
+    {
+      "id": "space_shape_slots",
+      "type": "ShapeMatch",
+      "world": "space",
+      "theme": "space_shape_lab",
+      "skills": [
+        "CIRCLE",
+        "SQUARE",
+        "TRIANGLE"
+      ],
+      "instructionText": "Put each shape in its slot!",
+      "voiceText": "Help Pip fix the shape lab. Put each shape in the slot with the same shape.",
+      "subtitle": "Look at the shape, not the colour",
+      "completeDetail": "Shapes matched!",
+      "objects": [
+        {
+          "id": "circle-piece",
+          "kind": "circle",
+          "color": "red",
+          "x": 480,
+          "y": 560,
+          "targetId": "circle-slot"
+        },
+        {
+          "id": "square-piece",
+          "kind": "square",
+          "color": "blue",
+          "x": 760,
+          "y": 740,
+          "targetId": "square-slot"
+        },
+        {
+          "id": "triangle-piece",
+          "kind": "triangle",
+          "color": "yellow",
+          "x": 500,
+          "y": 850,
+          "targetId": "triangle-slot"
+        },
+        {
+          "id": "heart-piece",
+          "kind": "heart",
+          "color": "pink",
+          "x": 900,
+          "y": 500,
+          "targetId": "heart-slot"
+        }
+      ],
+      "targets": [
+        {
+          "id": "circle-slot",
+          "shape": "circle",
+          "thing": "slot_circle_blue",
+          "label": "",
+          "x": 1250,
+          "y": 460,
+          "w": 240,
+          "h": 220
+        },
+        {
+          "id": "square-slot",
+          "shape": "square",
+          "thing": "slot_square_green",
+          "label": "",
+          "x": 1560,
+          "y": 460,
+          "w": 240,
+          "h": 220
+        },
+        {
+          "id": "triangle-slot",
+          "shape": "triangle",
+          "thing": "slot_triangle_purple",
+          "label": "",
+          "x": 1250,
+          "y": 750,
+          "w": 240,
+          "h": 220
+        },
+        {
+          "id": "heart-slot",
+          "shape": "heart",
+          "thing": "slot_heart_red",
+          "label": "",
+          "x": 1560,
+          "y": 750,
+          "w": 240,
+          "h": 220
+        }
+      ],
+      "pipBubble": "Same shape!"
+    },
+    {
+      "id": "space_sort_stars_hearts",
+      "type": "SortObjects",
+      "world": "space",
+      "theme": "space_shape_lab",
+      "skills": [
+        "SAME_DIFFERENT",
+        "CLASSIFICATION"
+      ],
+      "instructionText": "Stars here, hearts there!",
+      "voiceText": "Put the stars with the star, and the hearts with the heart.",
+      "completeDetail": "All sorted!",
+      "targets": [
+        {
+          "id": "star-box",
+          "thing": "slot_star_yellow",
+          "label": "STARS",
+          "x": 1300,
+          "y": 620,
+          "w": 300,
+          "h": 280,
+          "accepts": [
+            "star"
+          ]
+        },
+        {
+          "id": "heart-box",
+          "thing": "slot_heart_red",
+          "label": "HEARTS",
+          "x": 1650,
+          "y": 620,
+          "w": 300,
+          "h": 280,
+          "accepts": [
+            "heart"
+          ]
+        }
+      ],
+      "objects": [
+        {
+          "kind": "star",
+          "color": "yellow",
+          "category": "star",
+          "x": 460,
+          "y": 560
+        },
+        {
+          "kind": "heart",
+          "color": "pink",
+          "category": "heart",
+          "x": 720,
+          "y": 760
+        },
+        {
+          "kind": "star",
+          "color": "purple",
+          "category": "star",
+          "x": 940,
+          "y": 520
+        },
+        {
+          "kind": "heart",
+          "color": "pink",
+          "category": "heart",
+          "x": 1020,
+          "y": 820
+        }
+      ],
+      "pipBubble": "Stars and hearts!"
+    },
+    {
+      "id": "space_light_pattern",
+      "type": "PatternComplete",
+      "world": "space",
+      "theme": "space_control_room",
+      "skills": [
+        "PATTERN",
+        "YELLOW",
+        "PURPLE"
+      ],
+      "instructionText": "Which light comes next?",
+      "voiceText": "Yellow, purple, yellow, purple. Which light comes next?",
+      "completeDetail": "Lights on!",
+      "missingIndex": 4,
+      "sequence": [
+        {
+          "kind": "star",
+          "color": "yellow"
+        },
+        {
+          "kind": "star",
+          "color": "purple"
+        },
+        {
+          "kind": "star",
+          "color": "yellow"
+        },
+        {
+          "kind": "star",
+          "color": "purple"
+        }
+      ],
+      "choices": [
+        {
+          "id": "yellow",
+          "kind": "star",
+          "color": "yellow",
+          "correct": true
+        },
+        {
+          "id": "green",
+          "kind": "star",
+          "color": "green"
+        }
+      ],
+      "pipBubble": "Which light?"
+    },
+    {
+      "id": "space_light_pattern_abc",
+      "type": "PatternComplete",
+      "world": "space",
+      "theme": "space_control_room",
+      "skills": [
+        "PATTERN",
+        "GREEN"
+      ],
+      "instructionText": "Finish the light pattern!",
+      "voiceText": "Yellow, purple, green, yellow, purple. What comes next?",
+      "completeDetail": "Pattern complete!",
+      "missingIndex": 5,
+      "sequence": [
+        {
+          "kind": "star",
+          "color": "yellow"
+        },
+        {
+          "kind": "star",
+          "color": "purple"
+        },
+        {
+          "kind": "star",
+          "color": "green"
+        },
+        {
+          "kind": "star",
+          "color": "yellow"
+        },
+        {
+          "kind": "star",
+          "color": "purple"
+        }
+      ],
+      "choices": [
+        {
+          "id": "green",
+          "kind": "star",
+          "color": "green",
+          "correct": true
+        },
+        {
+          "id": "yellow",
+          "kind": "star",
+          "color": "yellow"
+        }
+      ],
+      "pipBubble": "Which light?"
+    },
+    {
+      "id": "space_find_screen",
+      "type": "TapRequestedObject",
+      "world": "space",
+      "theme": "space_control_room",
+      "skills": [
+        "VOCABULARY"
+      ],
+      "instructionText": "Find the planet screen!",
+      "voiceText": "Mission control needs the screen with the planets. Can you find it?",
+      "completeDetail": "Screen on!",
+      "request": {
+        "matchKey": "thing",
+        "matchValue": "screen_planets",
+        "value": "planet screen"
+      },
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "alarm_light",
+          "x": 600,
+          "y": 660,
+          "size": 185
+        },
+        {
+          "kind": "thing",
+          "thing": "radio_tower",
+          "x": 960,
+          "y": 660,
+          "size": 185
+        },
+        {
+          "kind": "thing",
+          "thing": "screen_planets",
+          "x": 1320,
+          "y": 660,
+          "size": 185
+        }
+      ],
+      "pipBubble": "Planet screen!"
+    },
+    {
+      "id": "space_sample_jars",
+      "type": "TapRequestedObject",
+      "world": "space",
+      "theme": "space_observatory",
+      "skills": [
+        "VOCABULARY",
+        "CLASSIFICATION"
+      ],
+      "instructionText": "Find the {target}!",
+      "voiceText": "Help Pip check the sample jars. Find the moon rock first.",
+      "subtitle": "Look in the jars",
+      "completeDetail": "Samples checked!",
+      "targets": [
+        {
+          "matchKey": "thing",
+          "matchValue": "jar_moon_rock",
+          "value": "moon rock"
+        },
+        {
+          "matchKey": "thing",
+          "matchValue": "crystal_pod",
+          "value": "crystal"
+        },
+        {
+          "matchKey": "thing",
+          "matchValue": "jar_plant",
+          "value": "space plant"
+        }
+      ],
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "jar_plant",
+          "x": 560,
+          "y": 680,
+          "size": 185
+        },
+        {
+          "kind": "thing",
+          "thing": "jar_moon_rock",
+          "x": 900,
+          "y": 640,
+          "size": 185
+        },
+        {
+          "kind": "thing",
+          "thing": "crystal_pod",
+          "x": 1240,
+          "y": 690,
+          "size": 185
+        },
+        {
+          "kind": "thing",
+          "thing": "meteor_glow",
+          "x": 1580,
+          "y": 640,
+          "size": 185
+        }
+      ],
+      "pipBubble": "Moon rock first!"
+    },
+    {
+      "id": "space_smallest_planet",
+      "type": "SizeCompare",
+      "world": "space",
+      "theme": "space_observatory",
+      "rule": "smallest",
+      "skills": [
+        "BIG_SMALL"
+      ],
+      "instructionText": "Tap the smallest planet!",
+      "voiceText": "Look through the telescope. Which planet is the smallest?",
+      "completeDetail": "Tiny planet!",
+      "objects": [
+        {
+          "id": "big",
+          "kind": "thing",
+          "thing": "planet_globe",
+          "x": 640,
+          "y": 660,
+          "size": 270
+        },
+        {
+          "id": "small",
+          "kind": "thing",
+          "thing": "planet_globe",
+          "x": 1060,
+          "y": 700,
+          "size": 110
+        },
+        {
+          "id": "medium",
+          "kind": "thing",
+          "thing": "planet_globe",
+          "x": 1440,
+          "y": 680,
+          "size": 180
+        }
+      ],
+      "pipBubble": "Smallest planet?"
+    },
+    {
+      "id": "space_fewer_stars",
+      "type": "QuantityCompare",
+      "world": "space",
+      "theme": "space_observatory",
+      "rule": "less",
+      "object": "thing",
+      "thing": "star",
+      "skills": [
+        "MORE_LESS"
+      ],
+      "instructionText": "Which window has fewer stars?",
+      "voiceText": "Which group has fewer stars?",
+      "completeDetail": "Fewer stars!",
+      "choices": [
+        {
+          "id": "many",
+          "count": 6
+        },
+        {
+          "id": "few",
+          "count": 2
+        },
+        {
+          "id": "some",
+          "count": 4
+        }
+      ],
+      "pipBubble": "Fewer stars?"
+    },
+    {
+      "id": "space_lunch_berries",
+      "type": "CountAndPlace",
+      "world": "space",
+      "theme": "space_control_room",
+      "character": "none",
+      "object": "berry",
+      "color": "blue",
+      "targetCount": 4,
+      "instructionText": "Put 4 berries on Pip’s plate!",
+      "voiceText": "Pip is hungry after the space walk. Put four berries on the plate.",
+      "pipBubble": "Four berries!",
+      "skills": [
+        "COUNT_4"
+      ],
+      "adaptiveSkill": "COUNT_4"
+    },
+    {
+      "id": "space_thirsty",
+      "type": "StoryChoice",
+      "world": "space",
+      "theme": "space_control_room",
+      "skills": [
+        "VOCABULARY",
+        "ROUTINES"
+      ],
+      "instructionText": "What should Pip drink?",
+      "voiceText": "Pip is thirsty. What can Pip drink?",
+      "storyText": "Pip is thirsty after lunch.",
+      "completeDetail": "Yummy water!",
+      "choices": [
+        {
+          "id": "water",
+          "kind": "thing",
+          "thing": "water_bottle",
+          "label": "Water",
+          "x": 620,
+          "y": 700,
+          "correct": true,
+          "resultText": "Ahh, water!",
+          "size": 185
+        },
+        {
+          "id": "rock",
+          "kind": "thing",
+          "thing": "moon_rock",
+          "label": "Moon rock",
+          "x": 960,
+          "y": 700,
+          "size": 185
+        },
+        {
+          "id": "helmet",
+          "kind": "thing",
+          "thing": "space_helmet",
+          "label": "Helmet",
+          "x": 1300,
+          "y": 700,
+          "size": 185
+        }
+      ],
+      "pipBubble": "Pip is thirsty!"
+    },
+    {
+      "id": "space_find_tray",
+      "type": "TapRequestedObject",
+      "world": "space",
+      "theme": "space_control_room",
+      "skills": [
+        "VOCABULARY"
+      ],
+      "instructionText": "Find the space food tray!",
+      "voiceText": "Where is the food tray? Tap it.",
+      "completeDetail": "Lunch time!",
+      "request": {
+        "matchKey": "thing",
+        "matchValue": "food_tray",
+        "value": "food tray"
+      },
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "locker",
+          "x": 600,
+          "y": 660,
+          "size": 185
+        },
+        {
+          "kind": "thing",
+          "thing": "food_tray",
+          "x": 960,
+          "y": 700,
+          "size": 185
+        },
+        {
+          "kind": "thing",
+          "thing": "fuel_tank",
+          "x": 1320,
+          "y": 660,
+          "size": 185
+        }
+      ],
+      "pipBubble": "Food tray!"
+    },
+    {
+      "id": "space_tidy_up",
+      "type": "Categorise",
+      "world": "space",
+      "theme": "space_workshop",
+      "skills": [
+        "CLASSIFICATION",
+        "TOY_SORTING"
+      ],
+      "instructionText": "Tidy up the space base!",
+      "voiceText": "Space suit things go in the locker. Sample jars go on the shelf.",
+      "subtitle": "Locker or shelf?",
+      "completeDetail": "All tidy!",
+      "targets": [
+        {
+          "id": "locker",
+          "thing": "locker",
+          "label": "LOCKER",
+          "x": 1300,
+          "y": 630,
+          "w": 300,
+          "h": 300,
+          "accepts": [
+            "suit"
+          ]
+        },
+        {
+          "id": "shelf",
+          "thing": "sample_shelf",
+          "label": "SHELF",
+          "x": 1650,
+          "y": 630,
+          "w": 300,
+          "h": 300,
+          "accepts": [
+            "sample"
+          ]
+        }
+      ],
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "space_helmet",
+          "category": "suit",
+          "label": "Helmet",
+          "x": 460,
+          "y": 540
+        },
+        {
+          "kind": "thing",
+          "thing": "jar_moon_rock",
+          "category": "sample",
+          "label": "Rock jar",
+          "x": 720,
+          "y": 760
+        },
+        {
+          "kind": "thing",
+          "thing": "oxygen_tank",
+          "category": "suit",
+          "label": "Air tank",
+          "x": 940,
+          "y": 520
+        },
+        {
+          "kind": "thing",
+          "thing": "jar_plant",
+          "category": "sample",
+          "label": "Plant jar",
+          "x": 1010,
+          "y": 820
+        }
+      ],
+      "pipBubble": "Locker or shelf?"
+    },
+    {
+      "id": "space_stack_crates",
+      "type": "CountAndPlace",
+      "world": "space",
+      "theme": "space_moon_base",
+      "character": "none",
+      "object": "thing",
+      "thing": "supply_crate",
+      "color": "orange",
+      "targetCount": 3,
+      "instructionText": "Put 3 crates on the landing pad!",
+      "voiceText": "The lander is coming. Put three crates on the landing pad.",
+      "pipBubble": "Three crates!",
+      "skills": [
+        "COUNT_3"
+      ],
+      "adaptiveSkill": "COUNT_3"
     }
   ]
 }

@@ -20,7 +20,7 @@ function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
 export class WonderIslandScene {
   constructor(game){this.game=game;this.t=0;this.portalPressed=false;this.rainbowPressed=false;this.parentPressed=false;this.modePressed=false;this.collectionPressed=false;this.placementMode=false;this.drag=null;this.dragOffset={x:0,y:0};this.objects=[];this.pip=null;this.interaction=null;this.interactionT=0;this.celebrateReward=null;}
   enter(data={}){
-    this.t=0;this.celebrateReward=data.celebrateReward??null;
+    this.t=0;this.celebrateReward=null;this.celebrateQueue=[data.celebrateReward,...(data.celebrateNext??[])].filter(Boolean);
     const state=this.game.save?.getProfileState?.();const placements=state?.island?.placements??{};const cosmeticId=state?.pip?.outfit?.cosmeticId;const cosmetic=cosmeticId?this.game.rewards?.get?.(cosmeticId):null;this.pip=new PipController({x:300,y:760,scale:.72,cosmetic});
     const buildings=new Set([...(state?.unlocks?.buildings??[])]),decorations=new Set([...(state?.unlocks?.decorations??[])]),creatures=new Set([...(state?.unlocks?.creatures??[])]);
     this.objects=BASE_OBJECTS.map(o=>({...o,...(placements[o.id]??{})}));
@@ -35,15 +35,21 @@ export class WonderIslandScene {
       const unlocked=(state?.unlocks?.[reward.type]??[]).includes(reward.id);if(!unlocked)continue;
       this.objects.push({id:reward.id,...reward.island,name:reward.name,...(placements[reward.id]??{})});known.add(reward.id);
     }
-    // A new creature friend hatches from its world's egg; tap skips. Other rewards keep the banner only.
-    const won=this.celebrateReward?this.game.rewards?.get?.(this.celebrateReward):null;
-    this.hatch=won?.type==='creatures'?new HatchSequence({theme:hatchTheme(won.id,worldOfReward(this.game,won.id)),rewardId:won.id}).play():null;
-    this.celebrateT=0;
-    if(this.celebrateReward){this.pip.react('celebrate',{duration:2});this.game.audio?.playCue?.('reward');}
+    this.hatch=null;this.celebrateT=0;this.startCelebration(this.celebrateQueue.shift()??null);
+  }
+  // A new creature friend hatches from its world's egg; tap skips. Other rewards keep the banner only.
+  // Several wins (a mission reward, then a world's dragon) celebrate one after another.
+  startCelebration(id){
+    this.celebrateReward=id;this.celebrateT=0;this.celebrateClock=0;
+    const won=id?this.game.rewards?.get?.(id):null;
+    this.hatch=won?.type==='creatures'?new HatchSequence({theme:hatchTheme(won.id,won.dragonWorld??worldOfReward(this.game,won.id)),rewardId:won.id}).play():null;
+    if(id){this.pip?.react('celebrate',{duration:2});this.game.audio?.playCue?.('reward');}
   }
   update(dt){this.t+=dt;this.pip?.update(dt);this.hatch?.update(dt);
     // The celebration clock waits for the egg pictures; if they never arrive, carry on with the banner only.
-    if(this.hatch&&!this.hatch.ready&&this.t>HATCH_ART_WAIT)this.hatch=null;if(!this.hatch||this.hatch.ready)this.celebrateT+=dt;if(this.interactionT>0){this.interactionT=Math.max(0,this.interactionT-dt);if(this.interactionT===0)this.interaction=null;}}
+    this.celebrateClock=(this.celebrateClock??0)+dt;
+    if(this.hatch&&!this.hatch.ready&&this.celebrateClock>HATCH_ART_WAIT)this.hatch=null;if(!this.hatch||this.hatch.ready)this.celebrateT+=dt;
+    if(this.celebrateT>=CELEBRATE_SECONDS&&this.celebrateQueue?.length)this.startCelebration(this.celebrateQueue.shift());if(this.interactionT>0){this.interactionT=Math.max(0,this.interactionT-dt);if(this.interactionT===0)this.interaction=null;}}
 
   drawIsland(ctx){
     ctx.fillStyle='#78dcff';ctx.fillRect(0,0,1920,1080);drawCloud(ctx,150,120,1.05,.75);drawCloud(ctx,1380,150,.8,.68);

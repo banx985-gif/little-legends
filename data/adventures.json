@@ -1193,6 +1193,324 @@
           "voice": "Helping together made the day easier!"
         }
       ]
+    },
+    {
+      "id": "space_build_rocket_mission",
+      "title": "Build the Rocket",
+      "world": "space",
+      "guide": "pip",
+      "theme": "space_rocket_hangar",
+      "reward": {
+        "type": "decorations",
+        "id": "space_toy_rocket",
+        "name": "Toy Rocket"
+      },
+      "steps": [
+        {
+          "id": "space_build_rocket_mission_intro",
+          "kind": "story",
+          "title": "Build the Rocket",
+          "voice": "The rocket is in pieces. Let’s build it and blast off!"
+        },
+        {
+          "id": "space_build_rocket_mission_a1",
+          "kind": "activity",
+          "activityId": "space_build_rocket"
+        },
+        {
+          "id": "space_build_rocket_mission_a2",
+          "kind": "activity",
+          "activityId": "space_countdown"
+        },
+        {
+          "id": "space_build_rocket_mission_a3",
+          "kind": "activity",
+          "activityId": "space_launch_button"
+        },
+        {
+          "id": "space_build_rocket_mission_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "Blast off! You built a rocket!"
+        }
+      ]
+    },
+    {
+      "id": "space_robot_helper",
+      "title": "Build a Robot Helper",
+      "world": "space",
+      "guide": "pip",
+      "theme": "space_workshop",
+      "reward": {
+        "type": "decorations",
+        "id": "space_robot_arm",
+        "name": "Robot Arm"
+      },
+      "steps": [
+        {
+          "id": "space_robot_helper_intro",
+          "kind": "story",
+          "title": "Build a Robot Helper",
+          "voice": "Pip wants a robot helper. Let’s build one!"
+        },
+        {
+          "id": "space_robot_helper_a1",
+          "kind": "activity",
+          "activityId": "space_build_robot"
+        },
+        {
+          "id": "space_robot_helper_a2",
+          "kind": "activity",
+          "activityId": "space_robot_batteries"
+        },
+        {
+          "id": "space_robot_helper_a3",
+          "kind": "activity",
+          "activityId": "space_biggest_wheel"
+        },
+        {
+          "id": "space_robot_helper_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "Beep boop! The robot says thank you!"
+        }
+      ]
+    },
+    {
+      "id": "space_count_stars",
+      "title": "Count the Stars",
+      "world": "space",
+      "guide": "pip",
+      "theme": "space_planetarium",
+      "reward": {
+        "type": "decorations",
+        "id": "space_hologram",
+        "name": "Hologram Planets"
+      },
+      "steps": [
+        {
+          "id": "space_count_stars_intro",
+          "kind": "story",
+          "title": "Count the Stars",
+          "voice": "The planetarium is full of stars and planets!"
+        },
+        {
+          "id": "space_count_stars_a1",
+          "kind": "activity",
+          "activityId": "space_tap_stars"
+        },
+        {
+          "id": "space_count_stars_a2",
+          "kind": "activity",
+          "activityId": "space_more_planets"
+        },
+        {
+          "id": "space_count_stars_a3",
+          "kind": "activity",
+          "activityId": "space_planet_pattern"
+        },
+        {
+          "id": "space_count_stars_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "You counted the whole sky!"
+        }
+      ]
+    },
+    {
+      "id": "space_shape_lab",
+      "title": "The Shape Lab",
+      "world": "space",
+      "guide": "pip",
+      "theme": "space_shape_lab",
+      "reward": {
+        "type": "decorations",
+        "id": "space_crystal_pod",
+        "name": "Crystal Pod"
+      },
+      "steps": [
+        {
+          "id": "space_shape_lab_intro",
+          "kind": "story",
+          "title": "The Shape Lab",
+          "voice": "The shapes fell out of the shape lab machine!"
+        },
+        {
+          "id": "space_shape_lab_a1",
+          "kind": "activity",
+          "activityId": "space_shape_slots"
+        },
+        {
+          "id": "space_shape_lab_a2",
+          "kind": "activity",
+          "activityId": "space_sort_stars_hearts"
+        },
+        {
+          "id": "space_shape_lab_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "The shape lab is working again!"
+        }
+      ]
+    },
+    {
+      "id": "space_control_lights",
+      "title": "Control Panel Lights",
+      "world": "space",
+      "guide": "pip",
+      "theme": "space_control_room",
+      "reward": {
+        "type": "buildings",
+        "id": "space_mission_control",
+        "name": "Mission Control"
+      },
+      "steps": [
+        {
+          "id": "space_control_lights_intro",
+          "kind": "story",
+          "title": "Control Panel Lights",
+          "voice": "The control panel lights need fixing."
+        },
+        {
+          "id": "space_control_lights_a1",
+          "kind": "activity",
+          "activityId": "space_light_pattern"
+        },
+        {
+          "id": "space_control_lights_a2",
+          "kind": "activity",
+          "activityId": "space_light_pattern_abc"
+        },
+        {
+          "id": "space_control_lights_a3",
+          "kind": "activity",
+          "activityId": "space_find_screen"
+        },
+        {
+          "id": "space_control_lights_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "All the lights are shining!"
+        }
+      ]
+    },
+    {
+      "id": "space_moon_samples",
+      "title": "Moon Rock Samples",
+      "world": "space",
+      "guide": "pip",
+      "theme": "space_observatory",
+      "reward": {
+        "type": "decorations",
+        "id": "space_rover",
+        "name": "Moon Rover"
+      },
+      "steps": [
+        {
+          "id": "space_moon_samples_intro",
+          "kind": "story",
+          "title": "Moon Rock Samples",
+          "voice": "Pip found jars from the Moon. Let’s look!"
+        },
+        {
+          "id": "space_moon_samples_a1",
+          "kind": "activity",
+          "activityId": "space_sample_jars"
+        },
+        {
+          "id": "space_moon_samples_a2",
+          "kind": "activity",
+          "activityId": "space_smallest_planet"
+        },
+        {
+          "id": "space_moon_samples_a3",
+          "kind": "activity",
+          "activityId": "space_fewer_stars"
+        },
+        {
+          "id": "space_moon_samples_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "What a great space scientist!"
+        }
+      ]
+    },
+    {
+      "id": "space_lunch",
+      "title": "Lunch in Space",
+      "world": "space",
+      "guide": "pip",
+      "theme": "space_control_room",
+      "reward": {
+        "type": "decorations",
+        "id": "space_satellite",
+        "name": "Solar Satellite"
+      },
+      "steps": [
+        {
+          "id": "space_lunch_intro",
+          "kind": "story",
+          "title": "Lunch in Space",
+          "voice": "Space walks make Pip hungry!"
+        },
+        {
+          "id": "space_lunch_a1",
+          "kind": "activity",
+          "activityId": "space_find_tray"
+        },
+        {
+          "id": "space_lunch_a2",
+          "kind": "activity",
+          "activityId": "space_lunch_berries"
+        },
+        {
+          "id": "space_lunch_a3",
+          "kind": "activity",
+          "activityId": "space_thirsty"
+        },
+        {
+          "id": "space_lunch_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "Yum! Pip is full and happy."
+        }
+      ]
+    },
+    {
+      "id": "space_tidy_base",
+      "title": "Tidy the Space Base",
+      "world": "space",
+      "guide": "pip",
+      "theme": "space_moon_base",
+      "reward": {
+        "type": "decorations",
+        "id": "space_lander",
+        "name": "Lander Pod"
+      },
+      "steps": [
+        {
+          "id": "space_tidy_base_intro",
+          "kind": "story",
+          "title": "Tidy the Space Base",
+          "voice": "The space base is messy. Let’s tidy up!"
+        },
+        {
+          "id": "space_tidy_base_a1",
+          "kind": "activity",
+          "activityId": "space_tidy_up"
+        },
+        {
+          "id": "space_tidy_base_a2",
+          "kind": "activity",
+          "activityId": "space_stack_crates"
+        },
+        {
+          "id": "space_tidy_base_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "The space base is spick and span!"
+        }
+      ]
     }
   ]
 }

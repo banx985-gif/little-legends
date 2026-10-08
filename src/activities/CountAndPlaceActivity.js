@@ -22,7 +22,7 @@ export class CountAndPlaceActivity extends DragBaseActivity {
     const starts=this.definition.positions?.length?this.definition.positions:DEFAULT_STARTS;
     this.tokens=Array.from({length:count},(_,i)=>{
       const pos=starts[Math.max(0,i-this.startingCount)%starts.length];
-      const token=this.makeToken({kind:this.definition.object??'apple',color:this.definition.color??'red',x:pos.x,y:pos.y,size:this.definition.objectSize??145},i);
+      const token=this.makeToken({kind:this.definition.object??'apple',color:this.definition.color??'red',thing:this.definition.thing,symbol:this.definition.symbol,x:pos.x,y:pos.y,size:this.definition.objectSize??145},i);
       if(i<this.startingCount){token.state='placed';token.placed=true;token.scale=.82;}
       return token;
     });

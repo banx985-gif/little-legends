@@ -86,7 +86,7 @@ export class Game {
     });
   }
 
-  async start(initialScene = 'boot') {
+  async start(initialScene = 'boot', sceneData = {}) {
     await this.save.init();
     await this.releaseQA.init();
     await this.rewards.ensureLoaded(this.assets);
@@ -99,7 +99,7 @@ export class Game {
     for (const [channel, value] of Object.entries(savedAudio ?? {})) {
       if (channel !== 'master') this.audio.setChannelVolume(channel, value);
     }
-    await this.scenes.change(initialScene);
+    await this.scenes.change(initialScene, sceneData);
     this.loop.start();
   }
 

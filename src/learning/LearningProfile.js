@@ -69,6 +69,8 @@ export const TRACKED_SKILLS = Object.freeze({
   FEELINGS: 'Feelings',
   HELPING: 'Helping',
   ROUTINES: 'Simple routines',
+  COMMUNITY_HELPERS: 'Community helpers and their vehicles',
+  ROAD_SAFETY: 'Road safety (stop and go)',
   LETTER_A: 'Letter A',
   LETTER_B: 'Letter B',
   LETTER_C: 'Letter C',

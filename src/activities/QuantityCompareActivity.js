@@ -30,7 +30,7 @@ export class QuantityCompareActivity extends Activity {
     const cols=choice.count<=4?2:choice.count<=6?3:4;const gap=Math.min(80,(choice.w-80)/Math.max(1,cols));const rows=Math.ceil(choice.count/cols);const totalH=(rows-1)*75;const startY=choice.y-totalH/2;
     for(let i=0;i<choice.count;i++){
       const col=i%cols,row=Math.floor(i/cols);const colsThis=Math.min(cols,choice.count-row*cols);const x=choice.x+(col-(colsThis-1)/2)*gap,y=startY+row*75;
-      drawToken(ctx,{kind:choice.kind??this.definition.object??'egg',color:choice.color??this.definition.color??'yellow',symbol:choice.symbol??this.definition.symbol,x,y,size:72},{colour:'uniform',plain:true});
+      drawToken(ctx,{kind:choice.kind??this.definition.object??'egg',color:choice.color??this.definition.color??'yellow',symbol:choice.symbol??this.definition.symbol,thing:choice.thing??this.definition.thing,x,y,size:72},{colour:'uniform',plain:true});
     }
     ctx.restore();
   }

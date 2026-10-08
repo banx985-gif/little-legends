@@ -1,5 +1,5 @@
 import { drawCloud } from '../utils/draw.js';
-import { art, artMap, drawArt, tokenArt, characterArt, fxArt, ambientArt } from '../core/art.js';
+import { art, artMap, drawArt, tokenArt, characterArt, fxArt, ambientArt, backgroundArt, thingArt } from '../core/art.js';
 
 export const PALETTE = Object.freeze({
   red: '#e94d55',
@@ -20,6 +20,10 @@ export function resolveColor(value, fallback = '#8b69db') {
 export function drawActivityBackground(ctx, theme = 'meadow') {
   const meadowArt = art('art.meadow_picnic_clearing') ?? globalThis.__LL_ASSETS?.get?.('meadow-picnic-bg');
   if (theme === 'meadow' && meadowArt?.width) { ctx.drawImage(meadowArt, 0, 0, 1920, 1080); return; }
+  const scene = art(backgroundArt(theme));
+  if (scene && typeof ctx.drawImage === 'function') { ctx.drawImage(scene, 0, 0, 1920, 1080); return; }
+  if (String(theme).startsWith('space')) { drawSpaceBackdrop(ctx); return; }
+  if (String(theme).startsWith('town')) { drawTownBackdrop(ctx); return; }
   const skyByTheme = { dino:'#8dddf4', forest:'#9ee4cf', rainbow:'#91dcff', storybook:'#a8d8ff', life:'#9fe3df', jungle:'#89d9c5', music:'#89d9c5' };
   const grassByTheme = { dino:'#88c764', forest:'#6ac070', rainbow:'#8fd06b', storybook:'#78c878', life:'#83cc70', jungle:'#5fbd69', music:'#5fbd69' };
   const sky = skyByTheme[theme] ?? '#82ddff';
@@ -36,6 +40,28 @@ export function drawActivityBackground(ctx, theme = 'meadow') {
     colors.forEach((color,i)=>{ ctx.strokeStyle=color; ctx.lineWidth=22; ctx.beginPath(); ctx.arc(1660,330,170-i*20,Math.PI,Math.PI*2); ctx.stroke(); });
     ctx.restore();
   }
+}
+
+// Space Station placeholder until the scene picture arrives: deep blue sky, a few fixed stars, a grey moon floor.
+function drawSpaceBackdrop(ctx) {
+  ctx.fillStyle = '#25316e'; ctx.fillRect(0, 0, 1920, 1080);
+  ctx.fillStyle = '#ffffffaa';
+  for (let i = 0; i < 40; i++) { ctx.beginPath(); ctx.arc((i * 431) % 1920, (i * 197) % 620, 3 + (i % 3), 0, Math.PI * 2); ctx.fill(); }
+  ctx.fillStyle = '#c9cfe6'; ctx.beginPath(); ctx.ellipse(960, 1060, 1300, 400, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = '#b3bad8'; ctx.beginPath(); ctx.ellipse(960, 820, 420, 90, 0, 0, Math.PI * 2); ctx.fill();
+}
+
+// Busy Town (no town scene picture yet): drawn sky and pavement, the real building pictures along the street
+// (data/art_map.json "townStreet"), and a road. No characters are drawn.
+function drawTownBackdrop(ctx) {
+  ctx.fillStyle = '#8fdcff'; ctx.fillRect(0, 0, 1920, 1080);
+  drawCloud(ctx, 160, 120, 0.75, 0.7); drawCloud(ctx, 1520, 150, 0.65, 0.6);
+  ctx.fillStyle = '#86cf6c'; ctx.fillRect(0, 430, 1920, 120);
+  for (const b of artMap()?.townStreet ?? []) drawArt(ctx, b.id, b.x, 520, b.w, b.h ?? b.w, { anchor: 'bottom' });
+  ctx.fillStyle = '#e9e1d2'; ctx.fillRect(0, 510, 1920, 70);
+  ctx.fillStyle = '#6d7480'; ctx.fillRect(0, 580, 1920, 500);
+  ctx.fillStyle = '#f4f1e8';
+  for (let x = 40; x < 1920; x += 220) ctx.fillRect(x, 815, 120, 16);
 }
 
 // Soft weather/nature magic over an activity (data/art_map.json "ambient"): light blend, slow drift, no flashing.
@@ -87,6 +113,8 @@ export function drawToken(ctx, token, { scale = 1, alpha = 1, highlight = false,
 
   const picture = noArt ? null : tokenArt(token, { colour });
   if (picture && art(picture.id)) {
+    // Props on busy scene pictures sit on a soft light pool so they stand out.
+    if (kind === 'thing' && !plain) { ctx.fillStyle = '#ffffff5c'; ctx.beginPath(); ctx.ellipse(0, size * 0.04, size * 0.5, size * 0.47, 0, 0, Math.PI * 2); ctx.fill(); }
     drawTokenArt(ctx, token, plain ? { ...picture, card: false, fit: 0.9 } : picture, size, color);
     if (globalThis.__LL_COLOR_SYMBOLS && PALETTE[token.color] && picture.colour === token.color) drawColorAccessibilityMark(ctx, token.color, size);
     ctx.restore();
@@ -104,6 +132,7 @@ export function drawToken(ctx, token, { scale = 1, alpha = 1, highlight = false,
   else if (kind === 'numeral') drawSymbolToken(ctx, String(token.value ?? token.label ?? '?'), size, color, { fontScale: 0.62 });
   else if (kind === 'letter') drawSymbolToken(ctx, String(token.value ?? token.label ?? '?'), size, color, { fontScale: 0.58 });
   else if (kind === 'animal') drawAnimalToken(ctx, token, size, color);
+  else if (kind === 'thing') drawSymbolToken(ctx, String(token.label ?? token.thing ?? '★'), size, color, { fontScale: 0.16 });
   else if (['clothing','toy','feeling','routine','instrument','word','object'].includes(kind)) drawSymbolToken(ctx, String(token.symbol ?? token.label ?? token.value ?? '★'), size, color, { fontScale: 0.38, sublabel: token.symbol ? token.label : '' });
   else { drawShape(ctx, kind, size, color); if (token.label) drawTokenLabel(ctx, token.label, size); }
   if (globalThis.__LL_COLOR_SYMBOLS && PALETTE[token.color]) drawColorAccessibilityMark(ctx, token.color, size);
@@ -277,10 +306,24 @@ export function drawBasket(ctx, target, count = 0, active = false, artId = null)
 export function drawBin(ctx, target, active = false) {
   const w=target.w??300,h=target.h??250;
   ctx.save();
+  // Ghost target (building activities): just the part's own picture, faded, where it belongs. No frame.
+  const ghost=target.ghost&&target.thing?thingArt(target.thing):null;
+  if(ghost&&art(ghost.id)){
+    // A soft light pool under the faded part keeps it easy to see on busy scene pictures.
+    ctx.fillStyle=active?'#fff36b88':'#ffffff66';ctx.beginPath();ctx.ellipse(target.x,target.y,w*0.58,h*0.58,0,0,Math.PI*2);ctx.fill();
+    drawArt(ctx,ghost.id,target.x,target.y,w,h,{alpha:0.5});
+    ctx.restore();return;
+  }
   ctx.fillStyle=active?'#fff36b66':'#ffffff55';
   ctx.beginPath();ctx.roundRect(target.x-w/2,target.y-h/2,w,h,48);ctx.fill();
   ctx.strokeStyle=resolveColor(target.color,'#8062d1');ctx.lineWidth=active?20:14;
   ctx.beginPath();ctx.roundRect(target.x-w/2,target.y-h/2,w,h,48);ctx.stroke();
+  // A target can show a picture (target.thing): solid for a place (locker, bin, building), faded for where a part goes (ghost).
+  const thing=target.thing?thingArt(target.thing):null;
+  if(thing&&drawArt(ctx,thing.id,target.x,target.y-(target.label?h*0.07:0),w*0.8,h*(target.label?0.66:0.8))){
+    if(target.label){ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='800 30px system-ui';ctx.fillText(target.label,target.x,target.y+h*0.42);}
+    ctx.restore();return;
+  }
   const letter=/^[A-Za-z]$/.test(String(target.label??''))?tokenArt({kind:'letter',value:target.label}):null;
   if(!letter||!drawArt(ctx,letter.id,target.x,target.y,w*0.62,h*0.62)){ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='800 34px system-ui';ctx.fillText(target.label??'',target.x,target.y+h*0.34);}
   ctx.restore();

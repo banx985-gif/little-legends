@@ -3,6 +3,7 @@
 
 const COLOUR_NAMES = new Set(['red','blue','yellow','green','orange','purple','pink','cream','teal']);
 const SYMBOL_KINDS = new Set(['clothing','toy','feeling','routine','instrument','word','object']);
+const THING_FIT = 0.9;
 const STARTER_KEEP_LIMIT = 140;
 
 function loader() { return globalThis.__LL_ASSETS ?? null; }
@@ -48,6 +49,7 @@ export function tokenArt(token, { colour = 'strict' } = {}) {
   const map = artMap();
   if (!map || !token) return null;
   const kind = String(token.kind ?? 'circle');
+  if (kind === 'thing') return thingArt(token.thing);
   if (kind === 'letter' && map.letters) {
     const v = String(token.value ?? token.label ?? '');
     if (!/^[A-Za-z]$/.test(v)) return null;
@@ -78,12 +80,23 @@ export function tokenArt(token, { colour = 'strict' } = {}) {
   return entry.colour === 'soft' && colour === 'loose' ? pick(entry.art[0]) : null;
 }
 
+// A named picture (data/art_map.json "things"): space and town props, rocket parts, vehicles…
+// Tokens use { kind: 'thing', thing: 'nose_cone', label: 'Nose' }; the label card is the placeholder.
+export function thingArt(name) {
+  const things = artMap()?.things;
+  const id = things?.art?.[String(name ?? '').toLowerCase()];
+  return id ? { id, fit: things.fit ?? THING_FIT, colour: null } : null;
+}
+
 // Empty container for a counting activity's drop target (data/art_map.json "countTargets").
 export function countTargetArt(definition) {
   const t = artMap()?.countTargets;
   if (!t) return null;
-  return t.byObject?.[definition?.object] ?? t.byCharacter?.[definition?.character] ?? t.default ?? null;
+  return t.byActivity?.[definition?.id] ?? t.byObject?.[definition?.object] ?? t.byCharacter?.[definition?.character] ?? t.default ?? null;
 }
+
+// Full-screen scene picture for an activity/world theme (data/art_map.json "backgrounds"), or null.
+export function backgroundArt(theme) { return artMap()?.backgrounds?.[theme] ?? null; }
 
 // Soft magic effect for an activity (data/art_map.json "ambient"), or null.
 export function ambientArt(definition) {
@@ -115,7 +128,7 @@ export function hatchFrameIds(theme) {
 export function hatchArtIds(theme, rewardId = null) {
   const h = artMap()?.hatch;
   if (!h || !theme) return [];
-  return [...hatchFrameIds(theme), h.bursts?.[theme], h.pedestal, lookupArt('rewards', rewardId)].filter(Boolean);
+  return [...hatchFrameIds(theme), h.rewards?.[rewardId]?.burst ?? h.bursts?.[theme], h.pedestal, lookupArt('rewards', rewardId)].filter(Boolean);
 }
 
 // ---- per-scene loading ----
@@ -124,7 +137,8 @@ function tokensIn(definition) {
   const out = [];
   const walk = o => { if (Array.isArray(o)) o.forEach(walk); else if (o && typeof o === 'object') { if (o.kind) out.push(o); Object.values(o).forEach(walk); } };
   walk(definition);
-  if (definition?.object) out.push({ kind: definition.object, color: definition.color, symbol: definition.symbol });
+  if (definition?.object) out.push({ kind: definition.object, color: definition.color, symbol: definition.symbol, thing: definition.thing });
+  for (const target of definition?.targets ?? []) if (target?.thing) out.push({ kind: 'thing', thing: target.thing });
   for (const value of definition?.values ?? []) out.push({ kind: 'numeral', value });
   return out;
 }
@@ -137,7 +151,16 @@ function idsForActivity(definition, engine) {
   const who = characterArt(definition?.character); if (who) ids.push(who);
   const ambient = ambientArt(definition); if (ambient) ids.push(ambient);
   if (definition?.type === 'CountAndPlace') { const box = countTargetArt(definition); if (box) ids.push(box); }
+  ids.push(...themeArtIds(definition?.theme));
   return ids;
+}
+
+// Pictures a theme's background needs: its full-screen scene, or (Busy Town) the buildings drawn along the street.
+function themeArtIds(theme) {
+  const map = artMap();
+  const bg = backgroundArt(theme);
+  if (bg) return [bg];
+  return String(theme ?? '').startsWith('town') ? [...(map?.townStreet ?? [])].map(b => b.id) : [];
 }
 
 async function artIdsForScene(game, name, data = {}) {
@@ -162,6 +185,11 @@ async function artIdsForScene(game, name, data = {}) {
     const adventure = game.adventureEngine.get?.(data.adventureId ?? 'rory_dino_picnic');
     for (const step of adventure?.steps ?? []) if (step.activityId) ids.push(...idsForActivity(activities?.get?.(step.activityId), activities));
     const guide = characterArt(adventure?.guide ?? (adventure?.world === 'rainbow' ? 'octo' : adventure?.world === 'dino' ? 'rory' : null)); if (guide) ids.push(guide);
+    ids.push(...themeArtIds(worldTheme(adventure?.world)));
+    // Last mission left in its world: the world's dragon egg hatches on the island afterwards.
+    const dragon = dragonForWorld(game, adventure?.world), done = game.save?.getProfileState?.()?.adventure?.completed ?? [];
+    const lastOne = game.adventureEngine.list().filter(a => a.world === adventure?.world && a.id !== adventure.id).every(a => done.includes(a.id));
+    if (dragon && lastOne && !game.rewards?.isUnlocked?.(dragon.id)) ids.push(...hatchArtIds(hatchTheme(dragon.id, adventure?.world), dragon.id));
     const reward = map.rewards?.[adventure?.reward?.id]; if (reward) ids.push(reward);
     // The reward egg (for the hatch steps, and so the island celebration has it ready on arrival).
     const rewardIsCreature = adventure?.reward?.type === 'creatures';
@@ -173,7 +201,12 @@ async function artIdsForScene(game, name, data = {}) {
     if (id) ids.push(...idsForActivity(activities.get?.(id), activities));
   }
   if (name === 'worldHub' && map.worlds?.[data.world]) ids.push(map.worlds[data.world]);
-  if (name === 'island' && data.celebrateReward) ids.unshift(...hatchArtIds(hatchTheme(data.celebrateReward, worldOfReward(game, data.celebrateReward)), data.celebrateReward)); // first in the queue
+  if (name === 'worldHub') {
+    ids.push(...themeArtIds(worldTheme(data.world)));
+    await game.adventureEngine?.ensureLoaded?.(game.assets);
+    for (const a of game.adventureEngine?.list?.() ?? []) if (a.world === data.world && map.missionIcons?.[a.id]) ids.push(map.missionIcons[a.id]);
+  }
+  if (name === 'island') for (const id of [data.celebrateReward, ...(data.celebrateNext ?? [])].filter(Boolean).reverse()) ids.unshift(...hatchArtIds(hatchTheme(id, worldOfReward(game, id)), id)); // first in the queue
   return [...new Set(ids.filter(Boolean))];
 }
 
@@ -193,6 +226,16 @@ async function prepareSceneArt(game, name, data = {}, { maxWait = 1500 } = {}) {
     console.warn('Little Legends art preload skipped', error);
     return 0;
   }
+}
+
+// Each world's look (scene theme) for hubs and story steps.
+const WORLD_THEMES = { rainbow: 'rainbow', dino: 'dino', animal: 'forest', storybook: 'storybook', life: 'life', space: 'space_moon_base', town: 'town' };
+export function worldTheme(world) { return WORLD_THEMES[world] ?? 'dino'; }
+
+// The rare dragon a world gives once every one of its Little Missions is done (data/rewards.json "dragonWorld").
+export function dragonForWorld(game, world) {
+  if (!world) return null;
+  return game?.rewards?.list?.().find(r => r.dragonWorld === world) ?? null;
 }
 
 export { artIdsForScene, prepareSceneArt };

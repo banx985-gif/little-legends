@@ -14,7 +14,7 @@ export class HatchSequence {
     this.theme = theme;
     this.rewardId = rewardId;
     this.frames = hatchFrameIds(theme);
-    this.burst = h?.bursts?.[theme] ?? null;
+    this.burst = h?.rewards?.[rewardId]?.burst ?? h?.bursts?.[theme] ?? null; // a reward may have its own burst (dragons)
     this.pedestal = h?.pedestal ?? null;
     this.showBaby = Boolean(h?.rewards?.[rewardId]?.baby);
     this.rewardArt = lookupArt('rewards', rewardId);

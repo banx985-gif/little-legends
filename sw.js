@@ -1,4 +1,4 @@
-const CACHE = 'little-legends-m29-playable-fix1-art-v36';
+const CACHE = 'little-legends-m29-playable-fix1-art-v37';
 const CORE = [
   './',
   './index.html',
@@ -82,7 +82,7 @@ const CORE = [
 ];
 // Pictures live in their own cache, which survives code updates (they would otherwise re-download every
 // release). Bump ART_CACHE only if pictures are redrawn under the same file name.
-const ART_CACHE = 'little-legends-art-v1';
+const ART_CACHE = 'little-legends-art-v2';
 const ART_PARALLEL = 3;
 
 // Gently caches every picture in the art manifest that isn't cached yet: a few at a time, so the game's own

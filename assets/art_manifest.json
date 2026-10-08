@@ -216,6 +216,34 @@
   "url": "./assets/creatures/dinos/stegosaurus.png"
  },
  {
+  "id": "creatures.dragons.dragon_leaf",
+  "url": "./assets/creatures/dragons/dragon_leaf.png"
+ },
+ {
+  "id": "creatures.dragons.dragon_moon",
+  "url": "./assets/creatures/dragons/dragon_moon.png"
+ },
+ {
+  "id": "creatures.dragons.dragon_music",
+  "url": "./assets/creatures/dragons/dragon_music.png"
+ },
+ {
+  "id": "creatures.dragons.dragon_numbers",
+  "url": "./assets/creatures/dragons/dragon_numbers.png"
+ },
+ {
+  "id": "creatures.dragons.dragon_puzzle",
+  "url": "./assets/creatures/dragons/dragon_puzzle.png"
+ },
+ {
+  "id": "creatures.dragons.dragon_rainbow",
+  "url": "./assets/creatures/dragons/dragon_rainbow.png"
+ },
+ {
+  "id": "creatures.dragons.dragon_story",
+  "url": "./assets/creatures/dragons/dragon_story.png"
+ },
+ {
   "id": "creatures.farm.chicken",
   "url": "./assets/creatures/farm/chicken.png"
  },
@@ -1552,6 +1580,78 @@
   "url": "./assets/objects/space/telescope.png"
  },
  {
+  "id": "objects.space_base.bunk_beds",
+  "url": "./assets/objects/space_base/bunk_beds.png"
+ },
+ {
+  "id": "objects.space_base.charging_pod",
+  "url": "./assets/objects/space_base/charging_pod.png"
+ },
+ {
+  "id": "objects.space_base.crystal_pod",
+  "url": "./assets/objects/space_base/crystal_pod.png"
+ },
+ {
+  "id": "objects.space_base.desk_space",
+  "url": "./assets/objects/space_base/desk_space.png"
+ },
+ {
+  "id": "objects.space_base.food_tray",
+  "url": "./assets/objects/space_base/food_tray.png"
+ },
+ {
+  "id": "objects.space_base.fuel_tank",
+  "url": "./assets/objects/space_base/fuel_tank.png"
+ },
+ {
+  "id": "objects.space_base.hologram_planets",
+  "url": "./assets/objects/space_base/hologram_planets.png"
+ },
+ {
+  "id": "objects.space_base.jar_moon_rock",
+  "url": "./assets/objects/space_base/jar_moon_rock.png"
+ },
+ {
+  "id": "objects.space_base.jar_plant",
+  "url": "./assets/objects/space_base/jar_plant.png"
+ },
+ {
+  "id": "objects.space_base.lander_pod",
+  "url": "./assets/objects/space_base/lander_pod.png"
+ },
+ {
+  "id": "objects.space_base.locker",
+  "url": "./assets/objects/space_base/locker.png"
+ },
+ {
+  "id": "objects.space_base.magnifier_space",
+  "url": "./assets/objects/space_base/magnifier_space.png"
+ },
+ {
+  "id": "objects.space_base.meteor_glow",
+  "url": "./assets/objects/space_base/meteor_glow.png"
+ },
+ {
+  "id": "objects.space_base.robot_arm_base",
+  "url": "./assets/objects/space_base/robot_arm_base.png"
+ },
+ {
+  "id": "objects.space_base.rover",
+  "url": "./assets/objects/space_base/rover.png"
+ },
+ {
+  "id": "objects.space_base.sample_shelf",
+  "url": "./assets/objects/space_base/sample_shelf.png"
+ },
+ {
+  "id": "objects.space_base.seat_astronaut",
+  "url": "./assets/objects/space_base/seat_astronaut.png"
+ },
+ {
+  "id": "objects.space_base.solar_satellite",
+  "url": "./assets/objects/space_base/solar_satellite.png"
+ },
+ {
   "id": "objects.stage.curtain",
   "url": "./assets/objects/stage/curtain.png"
  },
@@ -1624,12 +1724,20 @@
   "url": "./assets/objects/town/traffic_light.png"
  },
  {
+  "id": "objects.town_helpers.cones",
+  "url": "./assets/objects/town_helpers/cones.png"
+ },
+ {
   "id": "objects.town_helpers.fire_extinguisher",
   "url": "./assets/objects/town_helpers/fire_extinguisher.png"
  },
  {
   "id": "objects.town_helpers.first_aid_kit",
   "url": "./assets/objects/town_helpers/first_aid_kit.png"
+ },
+ {
+  "id": "objects.town_helpers.hose_reel",
+  "url": "./assets/objects/town_helpers/hose_reel.png"
  },
  {
   "id": "objects.town_helpers.parcel",
@@ -1640,12 +1748,28 @@
   "url": "./assets/objects/town_helpers/police_badge.png"
  },
  {
+  "id": "objects.town_helpers.shopping_cart",
+  "url": "./assets/objects/town_helpers/shopping_cart.png"
+ },
+ {
+  "id": "objects.town_helpers.stretcher",
+  "url": "./assets/objects/town_helpers/stretcher.png"
+ },
+ {
   "id": "objects.town_helpers.ticket_bus",
   "url": "./assets/objects/town_helpers/ticket_bus.png"
  },
  {
   "id": "objects.town_helpers.ticket_train",
   "url": "./assets/objects/town_helpers/ticket_train.png"
+ },
+ {
+  "id": "objects.town_helpers.toolbox",
+  "url": "./assets/objects/town_helpers/toolbox.png"
+ },
+ {
+  "id": "objects.town_helpers.trolley_boxes",
+  "url": "./assets/objects/town_helpers/trolley_boxes.png"
  },
  {
   "id": "objects.tracks.acorns",
@@ -1676,16 +1800,52 @@
   "url": "./assets/objects/vehicles/ambulance.png"
  },
  {
+  "id": "objects.vehicles.bicycle",
+  "url": "./assets/objects/vehicles/bicycle.png"
+ },
+ {
+  "id": "objects.vehicles.cement_mixer",
+  "url": "./assets/objects/vehicles/cement_mixer.png"
+ },
+ {
+  "id": "objects.vehicles.crane_truck",
+  "url": "./assets/objects/vehicles/crane_truck.png"
+ },
+ {
   "id": "objects.vehicles.digger",
   "url": "./assets/objects/vehicles/digger.png"
+ },
+ {
+  "id": "objects.vehicles.ferry",
+  "url": "./assets/objects/vehicles/ferry.png"
  },
  {
   "id": "objects.vehicles.fire_truck",
   "url": "./assets/objects/vehicles/fire_truck.png"
  },
  {
+  "id": "objects.vehicles.garbage_truck",
+  "url": "./assets/objects/vehicles/garbage_truck.png"
+ },
+ {
+  "id": "objects.vehicles.mail_van",
+  "url": "./assets/objects/vehicles/mail_van.png"
+ },
+ {
+  "id": "objects.vehicles.police_car",
+  "url": "./assets/objects/vehicles/police_car.png"
+ },
+ {
   "id": "objects.vehicles.school_bus",
   "url": "./assets/objects/vehicles/school_bus.png"
+ },
+ {
+  "id": "objects.vehicles.school_bus_b",
+  "url": "./assets/objects/vehicles/school_bus_b.png"
+ },
+ {
+  "id": "objects.vehicles.scooter_delivery",
+  "url": "./assets/objects/vehicles/scooter_delivery.png"
  },
  {
   "id": "objects.vehicles.sign_bus_stop",
@@ -1694,6 +1854,18 @@
  {
   "id": "objects.vehicles.sign_train_station",
   "url": "./assets/objects/vehicles/sign_train_station.png"
+ },
+ {
+  "id": "objects.vehicles.street_sweeper",
+  "url": "./assets/objects/vehicles/street_sweeper.png"
+ },
+ {
+  "id": "objects.vehicles.taxi",
+  "url": "./assets/objects/vehicles/taxi.png"
+ },
+ {
+  "id": "objects.vehicles.tow_truck",
+  "url": "./assets/objects/vehicles/tow_truck.png"
  },
  {
   "id": "objects.vehicles.tractor",
@@ -2796,6 +2968,54 @@
   "url": "./assets/worlds/seasons/winter/wreath_holly.png"
  },
  {
+  "id": "worlds.space_base.alarm_light",
+  "url": "./assets/worlds/space_base/alarm_light.png"
+ },
+ {
+  "id": "worlds.space_base.antenna_tower",
+  "url": "./assets/worlds/space_base/antenna_tower.png"
+ },
+ {
+  "id": "worlds.space_base.dish_satellite",
+  "url": "./assets/worlds/space_base/dish_satellite.png"
+ },
+ {
+  "id": "worlds.space_base.hatch_door",
+  "url": "./assets/worlds/space_base/hatch_door.png"
+ },
+ {
+  "id": "worlds.space_base.landing_pad",
+  "url": "./assets/worlds/space_base/landing_pad.png"
+ },
+ {
+  "id": "worlds.space_base.light_tower",
+  "url": "./assets/worlds/space_base/light_tower.png"
+ },
+ {
+  "id": "worlds.space_base.mission_control",
+  "url": "./assets/worlds/space_base/mission_control.png"
+ },
+ {
+  "id": "worlds.space_base.radio_tower",
+  "url": "./assets/worlds/space_base/radio_tower.png"
+ },
+ {
+  "id": "worlds.space_base.repair_bay",
+  "url": "./assets/worlds/space_base/repair_bay.png"
+ },
+ {
+  "id": "worlds.space_base.screen_planets",
+  "url": "./assets/worlds/space_base/screen_planets.png"
+ },
+ {
+  "id": "worlds.space_base.solar_panel",
+  "url": "./assets/worlds/space_base/solar_panel.png"
+ },
+ {
+  "id": "worlds.space_base.supply_crate",
+  "url": "./assets/worlds/space_base/supply_crate.png"
+ },
+ {
   "id": "worlds.tiles.tile_hill",
   "url": "./assets/worlds/tiles/tile_hill.png"
  },
@@ -2820,16 +3040,52 @@
   "url": "./assets/worlds/tiles/tile_sand.png"
  },
  {
+  "id": "worlds.town.bench_park",
+  "url": "./assets/worlds/town/bench_park.png"
+ },
+ {
+  "id": "worlds.town.bike_rack",
+  "url": "./assets/worlds/town/bike_rack.png"
+ },
+ {
+  "id": "worlds.town.bin",
+  "url": "./assets/worlds/town/bin.png"
+ },
+ {
   "id": "worlds.town.bus_depot",
   "url": "./assets/worlds/town/bus_depot.png"
+ },
+ {
+  "id": "worlds.town.bus_shelter",
+  "url": "./assets/worlds/town/bus_shelter.png"
+ },
+ {
+  "id": "worlds.town.cafe",
+  "url": "./assets/worlds/town/cafe.png"
  },
  {
   "id": "worlds.town.fire_station",
   "url": "./assets/worlds/town/fire_station.png"
  },
  {
+  "id": "worlds.town.fountain_town",
+  "url": "./assets/worlds/town/fountain_town.png"
+ },
+ {
+  "id": "worlds.town.fuel_station",
+  "url": "./assets/worlds/town/fuel_station.png"
+ },
+ {
   "id": "worlds.town.hospital",
   "url": "./assets/worlds/town/hospital.png"
+ },
+ {
+  "id": "worlds.town.info_pillar",
+  "url": "./assets/worlds/town/info_pillar.png"
+ },
+ {
+  "id": "worlds.town.library",
+  "url": "./assets/worlds/town/library.png"
  },
  {
   "id": "worlds.town.police_station",
@@ -2838,6 +3094,18 @@
  {
   "id": "worlds.town.post_office",
   "url": "./assets/worlds/town/post_office.png"
+ },
+ {
+  "id": "worlds.town.supermarket",
+  "url": "./assets/worlds/town/supermarket.png"
+ },
+ {
+  "id": "worlds.town.town_hall",
+  "url": "./assets/worlds/town/town_hall.png"
+ },
+ {
+  "id": "worlds.town.toy_shop",
+  "url": "./assets/worlds/town/toy_shop.png"
  },
  {
   "id": "worlds.town.train_station",

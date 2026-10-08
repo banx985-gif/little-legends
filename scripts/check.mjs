@@ -62,7 +62,7 @@ for (const file of jsFiles) execFileSync(process.execPath, ['--check', file], { 
 
 // The installable/offline build must cache every eagerly imported source module.
 const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v40"), 'Service worker cache version should advance with the real-art build');
+assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v41"), 'Service worker cache version should advance with the real-art build');
 for (const file of walk(path.join(root, 'src')).filter(file => file.endsWith('.js'))) {
   const rel = `./${path.relative(root, file).split(path.sep).join('/')}`;
   assert.ok(serviceWorkerSource.includes(`'${rel}'`), `Offline cache must include ${rel}`);
@@ -661,6 +661,18 @@ for (const a of activityData.activities.filter(a => a.world === 'space' || a.wor
   const shopIsland = new WonderIslandScene(sg); shopIsland.enter(); assert.ok(shopIsland.objects.some(o => o.id === snowman), 'Bought decorations appear on Wonder Island'); shopIsland.render(fakeCtx); assert.equal(fakeCtx.depth, 0);
   shopIsland.placementMode = true; shopIsland.render(fakeCtx); assert.equal(fakeCtx.depth, 0); }
 for (const id of ['m17_meet_new_animals','m17_whose_footprints','m20_name_the_feeling','m20_bathroom_things','m20_weather_snow','m20_hot_or_cold','m16_number_stones','rainbow_colour_friends','rainbow_shape_friends']) assert.ok(adventureData.adventures.some(a => a.steps.some(st => st.activityId === id)), `${id} is played inside a Little Mission`);
+
+// Job 06 Part 5: lazy-load new worlds, tablet-friendly layouts.
+{ const starter = JSON.parse(fs.readFileSync(path.join(root,'data/art_map.json'),'utf8')).preload.starter;
+  assert.ok(!starter.some(id => /backgrounds|space|worlds.town|town_helpers|vehicles|dragon/.test(id)), 'New worlds and dragons are never loaded at boot (starter set)');
+  for (const a of activityData.activities.filter(a => ['space','town'].includes(a.world))) {
+    for (const o of [...(a.objects ?? []), ...(a.choices ?? []), ...(a.pairs ?? []).flatMap(p => p.items ?? [p])]) {
+      if (o.x == null) continue; const r = (o.size ?? 150) / 2;
+      assert.ok(o.x - r >= 60 && o.x + r <= 1860 && o.y - r >= 230 && o.y + r <= 1030, `${a.id}: ${o.id ?? o.thing ?? o.kind} keeps clear of the screen edges and title`);
+      if (!['CountAndPlace','QuantityCompare','PatternComplete'].includes(a.type)) assert.ok((o.size ?? 150) >= 100, `${a.id}: tap targets are at least as big as the existing smallest (100)`);
+    }
+    for (const t of a.targets ?? []) if (t.x != null) assert.ok(t.x - (t.w ?? 300) / 2 >= 60 && t.x + (t.w ?? 300) / 2 <= 1860, `${a.id}: target ${t.id} keeps clear of the screen edges`);
+  } }
 
 // World select + generic hub navigation.
 const navGame={adventureEngine,save:contentSave,audio:sceneAudio,scenes:{last:null,change(name,data){this.last={name,data};}}};

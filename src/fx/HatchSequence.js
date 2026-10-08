@@ -30,7 +30,7 @@ export class HatchSequence {
   reveal() { this.manualStage = null; this.t = T_HATCH; this.running = true; return this; }
   skip() { this.manualStage = null; this.t = T_END; }
 
-  update(dt) { if (this.running) this.t += dt; }
+  update(dt) { if (this.running && this.ready) this.t += dt; } // waits for its pictures (slow first visit)
 
   frameIndex() {
     if (this.manualStage !== null) return this.manualStage;

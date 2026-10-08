@@ -137,7 +137,7 @@ Opening a world hub (Dino Valley, Rainbow Village, Animal Forest, Storybook, Bel
 
 ## Offline and one-file build
 
-- `sw.js` cache is now `little-legends-m29-playable-fix1-art-v33` (v31 in Job 01, v32 in Job 02). On install it caches the core files, then every picture in the art manifest. A missing picture never blocks the install.
+- `sw.js` cache is now `little-legends-m29-playable-fix1-art-v34` (v31 in Job 01, v32 in Job 02, v33 briefly in Job 04). On install it caches the core files, then every picture in the art manifest. A missing picture never blocks the install.
 - `npm run standalone`: all the art is ~99 MB on disk (~132 MB once embedded), over the 60 MB limit. So the one-file build embeds only the **starter set**: 101 pictures (Pip, Bunny, Rory, everything in Rory's Dino Picnic, the island, world icons, parent icons, core UI and effects). The file is ~32 MB. Other pictures show placeholders in that build only.
 - `npm run check` gained checks that: every art id in the map exists; numbers 0–20 and every letter have art; placeholders still draw when art is missing; art keeps its shape; Pip uses art in every state except sleepy; glows use the light blend; Dino Picnic preloads its food; and the offline cache covers the art.
 

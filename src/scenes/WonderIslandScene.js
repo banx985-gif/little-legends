@@ -3,7 +3,7 @@ import { PipController } from '../characters/PipController.js';
 import { drawArt, lookupArt, hatchTheme, worldOfReward } from '../core/art.js';
 import { HatchSequence } from '../fx/HatchSequence.js';
 
-const CELEBRATE_SECONDS=4.5;
+const CELEBRATE_SECONDS=4.5, HATCH_ART_WAIT=6;
 
 const BASE_OBJECTS=[
   {id:'tree',type:'tree',x:450,y:585,w:180,h:260,zone:'nature'},
@@ -38,9 +38,12 @@ export class WonderIslandScene {
     // A new creature friend hatches from its world's egg; tap skips. Other rewards keep the banner only.
     const won=this.celebrateReward?this.game.rewards?.get?.(this.celebrateReward):null;
     this.hatch=won?.type==='creatures'?new HatchSequence({theme:hatchTheme(won.id,worldOfReward(this.game,won.id)),rewardId:won.id}).play():null;
+    this.celebrateT=0;
     if(this.celebrateReward){this.pip.react('celebrate',{duration:2});this.game.audio?.playCue?.('reward');}
   }
-  update(dt){this.t+=dt;this.pip?.update(dt);this.hatch?.update(dt);if(this.interactionT>0){this.interactionT=Math.max(0,this.interactionT-dt);if(this.interactionT===0)this.interaction=null;}}
+  update(dt){this.t+=dt;this.pip?.update(dt);this.hatch?.update(dt);
+    // The celebration clock waits for the egg pictures; if they never arrive, carry on with the banner only.
+    if(this.hatch&&!this.hatch.ready&&this.t>HATCH_ART_WAIT)this.hatch=null;if(!this.hatch||this.hatch.ready)this.celebrateT+=dt;if(this.interactionT>0){this.interactionT=Math.max(0,this.interactionT-dt);if(this.interactionT===0)this.interaction=null;}}
 
   drawIsland(ctx){
     ctx.fillStyle='#78dcff';ctx.fillRect(0,0,1920,1080);drawCloud(ctx,150,120,1.05,.75);drawCloud(ctx,1380,150,.8,.68);
@@ -59,8 +62,8 @@ export class WonderIslandScene {
     drawCandyButton(ctx,1330,910,390,95,this.placementMode?'DONE MOVING':'MOVE THINGS',this.modePressed,'move');
     if(!drawArt(ctx,lookupArt('ui','parent'),90,85,118,118)){ctx.fillStyle='#ffffffdd';ctx.beginPath();ctx.arc(90,85,54,0,Math.PI*2);ctx.fill();ctx.fillStyle='#5b3b72';ctx.font='900 46px system-ui';ctx.fillText('⚙',90,101);}drawCandyButton(ctx,1510,42,330,82,'COLLECTION',this.collectionPressed,'collection');
     if(this.placementMode){ctx.strokeStyle='#fff8';ctx.setLineDash?.([18,16]);ctx.lineWidth=8;ctx.beginPath();ctx.roundRect(300,300,1330,565,70);ctx.stroke();ctx.setLineDash?.([]);}
-    if(this.hatch?.ready&&this.t<CELEBRATE_SECONDS){ctx.save();ctx.globalAlpha=Math.min(1,(CELEBRATE_SECONDS-this.t)/.5)*.7;ctx.fillStyle='#fffdf0';ctx.beginPath();ctx.ellipse(960,620,260,240,0,0,Math.PI*2);ctx.fill();ctx.restore();this.hatch.render(ctx,960,780,340);}
-    if(this.celebrateReward&&this.t<CELEBRATE_SECONDS){const reward=this.game.rewards?.get?.(this.celebrateReward);ctx.fillStyle='#fffdf0ee';ctx.beginPath();ctx.roundRect(500,180,920,140,60);ctx.fill();ctx.fillStyle='#5a3a73';ctx.font='900 41px system-ui';ctx.fillText(reward?`${reward.name} is now yours!`:'New reward unlocked!',960,265);}
+    if(this.hatch?.ready&&this.celebrateT<CELEBRATE_SECONDS){ctx.save();ctx.globalAlpha=Math.min(1,(CELEBRATE_SECONDS-this.celebrateT)/.5)*.7;ctx.fillStyle='#fffdf0';ctx.beginPath();ctx.ellipse(960,620,260,240,0,0,Math.PI*2);ctx.fill();ctx.restore();this.hatch.render(ctx,960,780,340);}
+    if(this.celebrateReward&&this.celebrateT<CELEBRATE_SECONDS){const reward=this.game.rewards?.get?.(this.celebrateReward);ctx.fillStyle='#fffdf0ee';ctx.beginPath();ctx.roundRect(500,180,920,140,60);ctx.fill();ctx.fillStyle='#5a3a73';ctx.font='900 41px system-ui';ctx.fillText(reward?`${reward.name} is now yours!`:'New reward unlocked!',960,265);}
   }
 
   drawObject(ctx,o){
@@ -106,7 +109,7 @@ export class WonderIslandScene {
   interact(o){this.interaction=o.id;this.interactionT=1.2;if(o.type==='drum')this.game.audio?.playCue?.('count',{count:2});else this.game.audio?.playCue?.('correct');if(o.type==='slide')this.pip?.react('bounce',{duration:1.2});if(o.type==='ball')this.pip?.lookAt(o,.8);}
 
   handlePointer(e){
-    if(this.hatch?.ready&&!this.hatch.finished&&this.t<CELEBRATE_SECONDS){if(e.type==='up')this.hatch.skip();return;}
+    if(this.hatch?.ready&&!this.hatch.finished&&this.celebrateT<CELEBRATE_SECONDS){if(e.type==='up')this.hatch.skip();return;}
     const portal=e.x>=340&&e.x<=800&&e.y>=875&&e.y<=1045;const rainbow=e.x>=790&&e.x<=1330&&e.y>=875&&e.y<=1045;const parent=(e.x-90)**2+(e.y-85)**2<=75**2;const mode=e.x>=1320&&e.x<=1740&&e.y>=885&&e.y<=1045;const collection=e.x>=1490&&e.x<=1860&&e.y>=30&&e.y<=140;
     if(e.type==='down'){
       this.portalPressed=portal;this.rainbowPressed=rainbow;this.parentPressed=parent;this.modePressed=mode;this.collectionPressed=collection;

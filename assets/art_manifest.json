@@ -216,20 +216,16 @@
   "url": "./assets/creatures/dinos/stegosaurus.png"
  },
  {
-  "id": "creatures.dragons.dragon_leaf",
-  "url": "./assets/creatures/dragons/dragon_leaf.png"
- },
- {
-  "id": "creatures.dragons.dragon_moon",
-  "url": "./assets/creatures/dragons/dragon_moon.png"
- },
- {
   "id": "creatures.dragons.dragon_music",
   "url": "./assets/creatures/dragons/dragon_music.png"
  },
  {
-  "id": "creatures.dragons.dragon_numbers",
-  "url": "./assets/creatures/dragons/dragon_numbers.png"
+  "id": "creatures.dragons.dragon_nature",
+  "url": "./assets/creatures/dragons/dragon_nature.png"
+ },
+ {
+  "id": "creatures.dragons.dragon_number",
+  "url": "./assets/creatures/dragons/dragon_number.png"
  },
  {
   "id": "creatures.dragons.dragon_puzzle",
@@ -238,6 +234,10 @@
  {
   "id": "creatures.dragons.dragon_rainbow",
   "url": "./assets/creatures/dragons/dragon_rainbow.png"
+ },
+ {
+  "id": "creatures.dragons.dragon_space",
+  "url": "./assets/creatures/dragons/dragon_space.png"
  },
  {
   "id": "creatures.dragons.dragon_story",
@@ -2438,6 +2438,34 @@
  {
   "id": "worlds.animal_forest.tree_stump_home",
   "url": "./assets/worlds/animal_forest/tree_stump_home.png"
+ },
+ {
+  "id": "worlds.backgrounds.space.bg_space_control_room",
+  "url": "./assets/worlds/backgrounds/space/bg_space_control_room.png"
+ },
+ {
+  "id": "worlds.backgrounds.space.bg_space_moon_base",
+  "url": "./assets/worlds/backgrounds/space/bg_space_moon_base.png"
+ },
+ {
+  "id": "worlds.backgrounds.space.bg_space_observatory",
+  "url": "./assets/worlds/backgrounds/space/bg_space_observatory.png"
+ },
+ {
+  "id": "worlds.backgrounds.space.bg_space_planetarium",
+  "url": "./assets/worlds/backgrounds/space/bg_space_planetarium.png"
+ },
+ {
+  "id": "worlds.backgrounds.space.bg_space_rocket_hangar",
+  "url": "./assets/worlds/backgrounds/space/bg_space_rocket_hangar.png"
+ },
+ {
+  "id": "worlds.backgrounds.space.bg_space_shape_lab",
+  "url": "./assets/worlds/backgrounds/space/bg_space_shape_lab.png"
+ },
+ {
+  "id": "worlds.backgrounds.space.bg_space_workshop",
+  "url": "./assets/worlds/backgrounds/space/bg_space_workshop.png"
  },
  {
   "id": "worlds.beach.banner_sun",

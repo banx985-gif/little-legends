@@ -12,3 +12,6 @@ desktop.ini
 *.swp
 .vscode/
 .idea/
+
+# Full-size originals waiting to be moved into ../../04_ART/MASTERS_FULL_SIZE
+_masters_pending/

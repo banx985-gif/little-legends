@@ -4,6 +4,7 @@
 //   npm install --no-save sharp@0.34.4
 //   node scripts/shrink-art.cjs            (only pictures that are new or changed in the masters folder)
 //   node scripts/shrink-art.cjs --all      (redo everything)
+//   LL_MASTERS=<folder> node scripts/shrink-art.cjs   (read originals from another folder, e.g. _masters_pending)
 //
 // Rules: longest side ≈ 2× the largest size the game draws it at 1920×1080 (never upscale); background art keeps
 // its size. Compression: high-quality palette (like pngquant), except effects (glows) and any picture whose colours
@@ -14,11 +15,12 @@ let sharp;
 try { sharp = require('sharp'); } catch { console.error('Run: npm install --no-save sharp@0.34.4'); process.exit(1); }
 
 const ROOT = path.resolve(__dirname, '..');
-const MASTERS = path.resolve(ROOT, '..', '..', '04_ART', 'MASTERS_FULL_SIZE');
+const MASTERS = process.env.LL_MASTERS ? path.resolve(process.env.LL_MASTERS) : path.resolve(ROOT, '..', '..', '04_ART', 'MASTERS_FULL_SIZE');
 const ERROR_LIMIT = 6; // average change per visible pixel (0–255) above which a picture stays lossless
 
 function targetLongest(rel) {
   if (rel.startsWith('art/')) return Infinity;                      // full-screen background
+  if (rel.startsWith('worlds/backgrounds/')) return 1920;           // full-screen 16:9 scene backgrounds
   if (rel.startsWith('ui/')) return 256;
   if (/^objects\/(letters|letters_lower|numbers)\//.test(rel)) return 384;
   if (rel.startsWith('characters/pip/')) return 680;                // Pip ≤ 410 tall × scale 0.8

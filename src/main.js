@@ -45,6 +45,8 @@ game.start(initialScene).catch(error => {
 
 if ('serviceWorker' in navigator && location.protocol !== 'file:') {
   window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(console.warn));
+  // Once the game has loaded what it needs, let the offline cache fetch the remaining pictures in the background.
+  setTimeout(() => navigator.serviceWorker.ready.then(registration => registration.active?.postMessage('cache-art')).catch(() => {}), 8000);
 }
 
 window.__littleLegends = game;

@@ -62,7 +62,7 @@ for (const file of jsFiles) execFileSync(process.execPath, ['--check', file], { 
 
 // The installable/offline build must cache every eagerly imported source module.
 const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v34"), 'Service worker cache version should advance with the real-art build');
+assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v35"), 'Service worker cache version should advance with the real-art build');
 for (const file of walk(path.join(root, 'src')).filter(file => file.endsWith('.js'))) {
   const rel = `./${path.relative(root, file).split(path.sep).join('/')}`;
   assert.ok(serviceWorkerSource.includes(`'${rel}'`), `Offline cache must include ${rel}`);
@@ -765,6 +765,10 @@ const manual=new HatchSequence({theme:'dino',rewardId:'baby_raptor'}).showStage(
 const islandHatch=await artIdsForScene(artGame,'island',{celebrateReward:'fox_cub'});assert.ok(islandHatch.includes('rewards.hatch.forest.egg_forest_1_idle'),'Island preloads the forest egg for Fox Cub');
 assert.ok((await artIdsForScene(artGame,'adventure',{adventureId:'rory_dino_picnic'})).includes('rewards.hatch.dino.egg_dino_6_hatched'),'Dino Picnic preloads its hatch');
 assert.ok(serviceWorkerSource.includes("'./src/fx/HatchSequence.js'"));
+const plainIsland=await artIdsForScene(artGame,'island',{});assert.ok(!plainIsland.includes('creatures.forest.bear'),'Island only preloads rewards the child owns');
+assert.equal(islandHatch[0],'rewards.hatch.forest.egg_forest_1_idle','Celebration egg loads first');
+assert.ok(/ART_PARALLEL = [1-4];/.test(serviceWorkerSource)&&serviceWorkerSource.includes("'cache-art'"),'Offline art caching must be gentle (a few at a time, after the game loads)');
+assert.ok(!serviceWorkerSource.includes('cache.addAll(CORE).then(() => cacheArt'),'Install must not download every picture at once');
 delete globalThis.__LL_ASSETS;
 assert.ok(serviceWorkerSource.includes("'./assets/art_manifest.json'")&&serviceWorkerSource.includes('cacheArt('),'Offline cache should include every picture in the art manifest');
 

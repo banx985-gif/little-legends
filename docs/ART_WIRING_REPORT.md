@@ -129,6 +129,10 @@ Pictures: `rewards/hatch/<theme>/` (6 frames: idle, wobble, small crack, big cra
 
 Opening a world hub (Dino Valley, Rainbow Village, Animal Forest, Storybook, Bella's Day) started its music. The music code played its first note before recording that it had started, and playing a note checked again, so it looped until it crashed. The game then recovered by sending you back to the island. The fix is one line in `src/audio/AudioManager.js`, and `npm run check` now tests it.
 
+## Job 04 loading fix
+
+Testing the live site showed the island preloading every reward picture (~80), not only the ones the child owns. On a first online visit that kept the island's own pictures and the hatch egg waiting. The island now loads only owned rewards and puts the celebration egg first. The hatch and its banner also wait for the egg pictures (up to 6 s) instead of running unseen.
+
 ## Job 04 notes — new art not used (no clear match)
 
 - `worlds/decor/`: flags_trio (Tempo/Number Flags need music/numbers), balloons_bunch, statue_dragon, star_monument, crate_wood, barrel, rope_coil, sign_arrow_wood, post_banner (Alphabet Banner needs letters), treasure_chest (Treasure Basket stays the basket), rainbow_clouds, heart_crystal, sign_compass. Also apple_tree, sandpit, seesaw and trampoline (already in the folder) have no matching reward.
@@ -137,7 +141,7 @@ Opening a world hub (Dino Valley, Rainbow Village, Animal Forest, Storybook, Bel
 
 ## Offline and one-file build
 
-- `sw.js` cache is now `little-legends-m29-playable-fix1-art-v34` (v31 in Job 01, v32 in Job 02, v33 briefly in Job 04). On install it caches the core files, then every picture in the art manifest. A missing picture never blocks the install.
+- `sw.js` code cache is now `little-legends-m29-playable-fix1-art-v35` (v31 in Job 01, v32 in Job 02, v33–v34 briefly in Job 04). On install it caches only the core files. About 8 seconds after the game starts, the page asks it to fetch the rest of the pictures in the background, three at a time, so the game's own loading isn't slowed. This resumes on each visit until everything is cached. Pictures go in a separate cache, `little-legends-art-v1`, that survives code updates; bump that name only if pictures are redrawn under the same file name. (Job 04 changed this. Before, install downloaded all ~164 MB at once, which starved the game on a first visit to the live site.)
 - `npm run standalone`: all the art is ~99 MB on disk (~132 MB once embedded), over the 60 MB limit. So the one-file build embeds only the **starter set**: 101 pictures (Pip, Bunny, Rory, everything in Rory's Dino Picnic, the island, world icons, parent icons, core UI and effects). The file is ~32 MB. Other pictures show placeholders in that build only.
 - `npm run check` gained checks that: every art id in the map exists; numbers 0–20 and every letter have art; placeholders still draw when art is missing; art keeps its shape; Pip uses art in every state except sleepy; glows use the light blend; Dino Picnic preloads its food; and the offline cache covers the art.
 

@@ -148,7 +148,11 @@ async function artIdsForScene(game, name, data = {}) {
     if (id === '@rewards') ids.push(...Object.values(map.rewards ?? {}));
     else ids.push(id);
   }
-  if (name === 'island') ids.push(...Object.values(map.island ?? {}), ...Object.values(map.rewards ?? {}).filter(id => !id.startsWith('objects.hats') && !id.startsWith('objects.clothes')));
+  if (name === 'island') {
+    // Only rewards this child owns are on the island.
+    const owned = Object.values(game.save?.getProfileState?.()?.unlocks ?? {}).flat();
+    ids.push(...Object.values(map.island ?? {}), ...owned.map(id => map.rewards?.[id]).filter(Boolean));
+  }
   const cosmeticId = game.save?.getProfileState?.()?.pip?.outfit?.cosmeticId;
   if (cosmeticId && map.cosmetics?.[cosmeticId]) ids.push(map.cosmetics[cosmeticId]);
   const activities = game.activityEngine;
@@ -167,7 +171,7 @@ async function artIdsForScene(game, name, data = {}) {
     if (id) ids.push(...idsForActivity(activities.get?.(id), activities));
   }
   if (name === 'worldHub' && map.worlds?.[data.world]) ids.push(map.worlds[data.world]);
-  if (name === 'island' && data.celebrateReward) ids.push(...hatchArtIds(hatchTheme(data.celebrateReward, worldOfReward(game, data.celebrateReward)), data.celebrateReward));
+  if (name === 'island' && data.celebrateReward) ids.unshift(...hatchArtIds(hatchTheme(data.celebrateReward, worldOfReward(game, data.celebrateReward)), data.celebrateReward)); // first in the queue
   return [...new Set(ids.filter(Boolean))];
 }
 

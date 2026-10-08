@@ -2468,6 +2468,34 @@
   "url": "./assets/worlds/backgrounds/space/bg_space_workshop.png"
  },
  {
+  "id": "worlds.backgrounds.town.bg_town_bakery",
+  "url": "./assets/worlds/backgrounds/town/bg_town_bakery.png"
+ },
+ {
+  "id": "worlds.backgrounds.town.bg_town_construction",
+  "url": "./assets/worlds/backgrounds/town/bg_town_construction.png"
+ },
+ {
+  "id": "worlds.backgrounds.town.bg_town_fire_station",
+  "url": "./assets/worlds/backgrounds/town/bg_town_fire_station.png"
+ },
+ {
+  "id": "worlds.backgrounds.town.bg_town_fruit_shop",
+  "url": "./assets/worlds/backgrounds/town/bg_town_fruit_shop.png"
+ },
+ {
+  "id": "worlds.backgrounds.town.bg_town_garage",
+  "url": "./assets/worlds/backgrounds/town/bg_town_garage.png"
+ },
+ {
+  "id": "worlds.backgrounds.town.bg_town_hospital",
+  "url": "./assets/worlds/backgrounds/town/bg_town_hospital.png"
+ },
+ {
+  "id": "worlds.backgrounds.town.bg_town_train_station",
+  "url": "./assets/worlds/backgrounds/town/bg_town_train_station.png"
+ },
+ {
   "id": "worlds.beach.banner_sun",
   "url": "./assets/worlds/beach/banner_sun.png"
  },

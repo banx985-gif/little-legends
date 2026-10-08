@@ -1,6 +1,6 @@
 import { drawCloud, drawCandyButton } from '../utils/draw.js';
 import { PipController } from '../characters/PipController.js';
-import { drawArt, lookupArt, hatchTheme, worldOfReward } from '../core/art.js';
+import { art, drawArt, lookupArt, fxArt, hatchTheme, worldOfReward } from '../core/art.js';
 import { HatchSequence } from '../fx/HatchSequence.js';
 
 const CELEBRATE_SECONDS=4.5, HATCH_ART_WAIT=6;
@@ -89,7 +89,7 @@ export class WonderIslandScene {
     else if(o.type==='creature_dino')this.drawRewardCreature(ctx,o,'dino',active);
     else if(o.type==='creature_animal')this.drawRewardCreature(ctx,o,'animal',active);
     else if(o.type==='reward_vehicle')this.drawRewardVehicle(ctx,o,active);
-    else if(o.type==='reward_badge')this.drawRewardBadge(ctx,o,active);
+    else if(o.type==='reward_badge'||o.type==='creature_dragon')this.drawRewardBadge(ctx,o,active);
     if(this.placementMode){ctx.strokeStyle='#fff';ctx.lineWidth=6;ctx.setLineDash?.([12,10]);ctx.beginPath();ctx.roundRect(-o.w/2,-o.h/2,o.w,o.h,30);ctx.stroke();ctx.setLineDash?.([]);}ctx.restore();
   }
 
@@ -98,8 +98,9 @@ export class WonderIslandScene {
     const id=lookupArt('island',o.type)??lookupArt('rewards',o.id);if(!id)return false;
     if(o.type==='pond'){ctx.fillStyle='#4fc0ee';ctx.beginPath();ctx.ellipse(0,0,180,78,0,0,Math.PI*2);ctx.fill();} // lily pads sit on the drawn water
     const jump=o.type==='ball'&&active?Math.abs(Math.sin(this.t*9))*55:0;
+    if(o.type==='creature_dragon'&&art(id)){const calm=globalThis.__LL_REDUCED_MOTION;drawArt(ctx,fxArt('rareGlow')?.id,0,0,o.w*1.35,o.h*1.35,{alpha:calm?.45:.4+Math.sin(this.t*1.2)*.12,blend:'screen'});} // rare friend: slow soft glow, never flashing
     if(!drawArt(ctx,id,0,-jump,o.w,o.h))return false;
-    if(['creature_dino','creature_animal','reward_badge','reward_vehicle'].includes(o.type)){ctx.fillStyle='#fffdf0';ctx.beginPath();ctx.roundRect(-82,o.h/2-14,164,38,18);ctx.fill();ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='800 18px system-ui';ctx.fillText(String(o.label??o.name??'Friend').replace('Baby ','').slice(0,17),0,o.h/2+12);}
+    if(['creature_dino','creature_dragon','creature_animal','reward_badge','reward_vehicle'].includes(o.type)){ctx.fillStyle='#fffdf0';ctx.beginPath();ctx.roundRect(-82,o.h/2-14,164,38,18);ctx.fill();ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='800 18px system-ui';ctx.fillText(String(o.label??o.name??'Friend').replace('Baby ','').slice(0,17),0,o.h/2+12);}
     return true;
   }
 

@@ -1511,6 +1511,339 @@
           "voice": "The space base is spick and span!"
         }
       ]
+    },
+    {
+      "id": "town_who_helps",
+      "title": "Who Helps?",
+      "world": "town",
+      "guide": "pip",
+      "theme": "town_fire_station",
+      "reward": {
+        "type": "buildings",
+        "id": "town_fire_station",
+        "name": "Fire Station"
+      },
+      "steps": [
+        {
+          "id": "town_who_helps_intro",
+          "kind": "story",
+          "title": "Who Helps?",
+          "voice": "Busy Town has lots of helpers. Who helps who?"
+        },
+        {
+          "id": "town_who_helps_a1",
+          "kind": "activity",
+          "activityId": "town_fire_help"
+        },
+        {
+          "id": "town_who_helps_a2",
+          "kind": "activity",
+          "activityId": "town_hurt_help"
+        },
+        {
+          "id": "town_who_helps_a3",
+          "kind": "activity",
+          "activityId": "town_vehicle_tools"
+        },
+        {
+          "id": "town_who_helps_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "You know all the town helpers!"
+        }
+      ]
+    },
+    {
+      "id": "town_traffic_lights",
+      "title": "Traffic Lights",
+      "world": "town",
+      "guide": "pip",
+      "theme": "town_bakery",
+      "reward": {
+        "type": "decorations",
+        "id": "town_traffic_light",
+        "name": "Traffic Light"
+      },
+      "steps": [
+        {
+          "id": "town_traffic_lights_intro",
+          "kind": "story",
+          "title": "Traffic Lights",
+          "voice": "Red means stop. Green means go!"
+        },
+        {
+          "id": "town_traffic_lights_a1",
+          "kind": "activity",
+          "activityId": "town_red_light"
+        },
+        {
+          "id": "town_traffic_lights_a2",
+          "kind": "activity",
+          "activityId": "town_green_light"
+        },
+        {
+          "id": "town_traffic_lights_a3",
+          "kind": "activity",
+          "activityId": "town_light_order"
+        },
+        {
+          "id": "town_traffic_lights_a4",
+          "kind": "activity",
+          "activityId": "town_crossing"
+        },
+        {
+          "id": "town_traffic_lights_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "Stop, look and listen. Well done!"
+        }
+      ]
+    },
+    {
+      "id": "town_park_cars",
+      "title": "Park the Cars",
+      "world": "town",
+      "guide": "pip",
+      "theme": "town_garage",
+      "reward": {
+        "type": "vehicles",
+        "id": "town_fire_truck",
+        "name": "Fire Truck"
+      },
+      "steps": [
+        {
+          "id": "town_park_cars_intro",
+          "kind": "story",
+          "title": "Park the Cars",
+          "voice": "The garage is full of cars. Let’s park them!"
+        },
+        {
+          "id": "town_park_cars_a1",
+          "kind": "activity",
+          "activityId": "town_park_colours"
+        },
+        {
+          "id": "town_park_cars_a2",
+          "kind": "activity",
+          "activityId": "town_more_cars"
+        },
+        {
+          "id": "town_park_cars_a3",
+          "kind": "activity",
+          "activityId": "town_vehicle_sizes"
+        },
+        {
+          "id": "town_park_cars_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "Every car is parked!"
+        }
+      ]
+    },
+    {
+      "id": "town_shopping_day",
+      "title": "Shopping Day",
+      "world": "town",
+      "guide": "pip",
+      "theme": "town_fruit_shop",
+      "reward": {
+        "type": "buildings",
+        "id": "town_supermarket",
+        "name": "Supermarket"
+      },
+      "steps": [
+        {
+          "id": "town_shopping_day_intro",
+          "kind": "story",
+          "title": "Shopping Day",
+          "voice": "Pip has a shopping list!"
+        },
+        {
+          "id": "town_shopping_day_a1",
+          "kind": "activity",
+          "activityId": "town_shop_list"
+        },
+        {
+          "id": "town_shopping_day_a2",
+          "kind": "activity",
+          "activityId": "town_shop_apples"
+        },
+        {
+          "id": "town_shopping_day_a3",
+          "kind": "activity",
+          "activityId": "town_shop_or_toys"
+        },
+        {
+          "id": "town_shopping_day_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "The shopping is done. Yum!"
+        }
+      ]
+    },
+    {
+      "id": "town_deliveries",
+      "title": "Deliver the Parcels",
+      "world": "town",
+      "guide": "pip",
+      "theme": "town_train_station",
+      "reward": {
+        "type": "buildings",
+        "id": "town_post_office",
+        "name": "Post Office"
+      },
+      "steps": [
+        {
+          "id": "town_deliveries_intro",
+          "kind": "story",
+          "title": "Deliver the Parcels",
+          "voice": "The mail van is here with deliveries!"
+        },
+        {
+          "id": "town_deliveries_a1",
+          "kind": "activity",
+          "activityId": "town_find_mail_van"
+        },
+        {
+          "id": "town_deliveries_a2",
+          "kind": "activity",
+          "activityId": "town_deliver"
+        },
+        {
+          "id": "town_deliveries_a3",
+          "kind": "activity",
+          "activityId": "town_more_parcels"
+        },
+        {
+          "id": "town_deliveries_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "Everything is delivered!"
+        }
+      ]
+    },
+    {
+      "id": "town_bus_stop",
+      "title": "Bus Stop",
+      "world": "town",
+      "guide": "pip",
+      "theme": "town_train_station",
+      "reward": {
+        "type": "decorations",
+        "id": "town_bus_shelter",
+        "name": "Bus Shelter"
+      },
+      "steps": [
+        {
+          "id": "town_bus_stop_intro",
+          "kind": "story",
+          "title": "Bus Stop",
+          "voice": "All aboard! Let’s ride the bus."
+        },
+        {
+          "id": "town_bus_stop_a1",
+          "kind": "activity",
+          "activityId": "town_bus_stop_number"
+        },
+        {
+          "id": "town_bus_stop_a2",
+          "kind": "activity",
+          "activityId": "town_tickets"
+        },
+        {
+          "id": "town_bus_stop_a3",
+          "kind": "activity",
+          "activityId": "town_smallest_bus"
+        },
+        {
+          "id": "town_bus_stop_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "What a fun ride!"
+        }
+      ]
+    },
+    {
+      "id": "town_hospital",
+      "title": "Town Hospital",
+      "world": "town",
+      "guide": "pip",
+      "theme": "town_hospital",
+      "reward": {
+        "type": "decorations",
+        "id": "town_fountain",
+        "name": "Town Fountain"
+      },
+      "steps": [
+        {
+          "id": "town_hospital_intro",
+          "kind": "story",
+          "title": "Town Hospital",
+          "voice": "Doctors and nurses help us feel better."
+        },
+        {
+          "id": "town_hospital_a1",
+          "kind": "activity",
+          "activityId": "town_find_ambulance"
+        },
+        {
+          "id": "town_hospital_a2",
+          "kind": "activity",
+          "activityId": "town_helper_kits"
+        },
+        {
+          "id": "town_hospital_a3",
+          "kind": "activity",
+          "activityId": "town_kind_choice"
+        },
+        {
+          "id": "town_hospital_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "You are a kind helper!"
+        }
+      ]
+    },
+    {
+      "id": "town_building_site",
+      "title": "Building Site",
+      "world": "town",
+      "guide": "pip",
+      "theme": "town_construction",
+      "reward": {
+        "type": "buildings",
+        "id": "town_toy_shop",
+        "name": "Toy Shop"
+      },
+      "steps": [
+        {
+          "id": "town_building_site_intro",
+          "kind": "story",
+          "title": "Building Site",
+          "voice": "The builders are building a new toy shop!"
+        },
+        {
+          "id": "town_building_site_a1",
+          "kind": "activity",
+          "activityId": "town_site_vehicles"
+        },
+        {
+          "id": "town_building_site_a2",
+          "kind": "activity",
+          "activityId": "town_more_cones"
+        },
+        {
+          "id": "town_building_site_a3",
+          "kind": "activity",
+          "activityId": "town_signs_match"
+        },
+        {
+          "id": "town_building_site_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "The new toy shop is finished!"
+        }
+      ]
     }
   ]
 }

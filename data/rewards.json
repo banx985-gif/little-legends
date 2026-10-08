@@ -2242,6 +2242,312 @@
         "color": "orange",
         "label": "Lander Pod"
       }
+    },
+    {
+      "id": "dragon_number",
+      "type": "creatures",
+      "name": "Number Dragon",
+      "world": "dino",
+      "dragonWorld": "dino",
+      "rare": true,
+      "voice": "A rare Number Dragon!",
+      "interaction": "tap to make it glow and wave",
+      "stars": 3,
+      "unlockHint": "Finish every Dino Valley mission",
+      "island": {
+        "type": "creature_dragon",
+        "x": 1180,
+        "y": 470,
+        "w": 200,
+        "h": 190,
+        "zone": "creature",
+        "color": "green",
+        "label": "Number Dragon"
+      }
+    },
+    {
+      "id": "dragon_rainbow",
+      "type": "creatures",
+      "name": "Rainbow Dragon",
+      "world": "rainbow",
+      "dragonWorld": "rainbow",
+      "rare": true,
+      "voice": "A rare Rainbow Dragon!",
+      "interaction": "tap to make it glow and wave",
+      "stars": 3,
+      "unlockHint": "Finish every Rainbow Village mission",
+      "island": {
+        "type": "creature_dragon",
+        "x": 760,
+        "y": 450,
+        "w": 200,
+        "h": 190,
+        "zone": "creature",
+        "color": "purple",
+        "label": "Rainbow Dragon"
+      }
+    },
+    {
+      "id": "dragon_story",
+      "type": "creatures",
+      "name": "Story Dragon",
+      "world": "storybook",
+      "dragonWorld": "storybook",
+      "rare": true,
+      "voice": "A rare Story Dragon!",
+      "interaction": "tap to make it glow and wave",
+      "stars": 3,
+      "unlockHint": "Finish every Luna’s Storybook mission",
+      "island": {
+        "type": "creature_dragon",
+        "x": 560,
+        "y": 560,
+        "w": 200,
+        "h": 190,
+        "zone": "creature",
+        "color": "blue",
+        "label": "Story Dragon"
+      }
+    },
+    {
+      "id": "dragon_music",
+      "type": "creatures",
+      "name": "Music Dragon",
+      "world": "jungle",
+      "dragonWorld": "jungle",
+      "rare": true,
+      "voice": "A rare Music Dragon!",
+      "interaction": "tap to make it glow and wave",
+      "stars": 3,
+      "unlockHint": "Play all four Jungle Jam music games",
+      "island": {
+        "type": "creature_dragon",
+        "x": 1400,
+        "y": 640,
+        "w": 200,
+        "h": 190,
+        "zone": "creature",
+        "color": "orange",
+        "label": "Music Dragon"
+      }
+    },
+    {
+      "id": "dragon_puzzle",
+      "type": "creatures",
+      "name": "Puzzle Dragon",
+      "world": "town",
+      "dragonWorld": "town",
+      "rare": true,
+      "voice": "A rare Puzzle Dragon!",
+      "interaction": "tap to make it glow and wave",
+      "stars": 3,
+      "unlockHint": "Finish every Busy Town mission",
+      "island": {
+        "type": "creature_dragon",
+        "x": 1120,
+        "y": 760,
+        "w": 200,
+        "h": 190,
+        "zone": "creature",
+        "color": "pink",
+        "label": "Puzzle Dragon"
+      }
+    },
+    {
+      "id": "dragon_nature",
+      "type": "creatures",
+      "name": "Nature Dragon",
+      "world": "animal",
+      "dragonWorld": "animal",
+      "rare": true,
+      "voice": "A rare Nature Dragon!",
+      "interaction": "tap to make it glow and wave",
+      "stars": 3,
+      "unlockHint": "Finish every Animal Forest mission",
+      "island": {
+        "type": "creature_dragon",
+        "x": 400,
+        "y": 640,
+        "w": 200,
+        "h": 190,
+        "zone": "creature",
+        "color": "green",
+        "label": "Nature Dragon"
+      }
+    },
+    {
+      "id": "dragon_space",
+      "type": "creatures",
+      "name": "Space Dragon",
+      "world": "space",
+      "dragonWorld": "space",
+      "rare": true,
+      "voice": "A rare Space Dragon!",
+      "interaction": "tap to make it glow and wave",
+      "stars": 3,
+      "unlockHint": "Finish every Space Station mission",
+      "island": {
+        "type": "creature_dragon",
+        "x": 1300,
+        "y": 520,
+        "w": 200,
+        "h": 190,
+        "zone": "creature",
+        "color": "blue",
+        "label": "Space Dragon"
+      }
+    },
+    {
+      "id": "town_fire_station",
+      "type": "buildings",
+      "name": "Fire Station",
+      "world": "town",
+      "voice": "You earned Fire Station!",
+      "interaction": "tap to make it bounce and sparkle",
+      "stars": 2,
+      "island": {
+        "type": "reward_badge",
+        "x": 1300,
+        "y": 700,
+        "w": 170,
+        "h": 150,
+        "zone": "building",
+        "color": "red",
+        "label": "Fire Station"
+      }
+    },
+    {
+      "id": "town_traffic_light",
+      "type": "decorations",
+      "name": "Traffic Light",
+      "world": "town",
+      "voice": "You earned Traffic Light!",
+      "interaction": "tap to make it bounce and sparkle",
+      "stars": 2,
+      "island": {
+        "type": "reward_badge",
+        "x": 520,
+        "y": 720,
+        "w": 170,
+        "h": 150,
+        "zone": "decoration",
+        "color": "green",
+        "label": "Traffic Light"
+      }
+    },
+    {
+      "id": "town_fire_truck",
+      "type": "vehicles",
+      "name": "Fire Truck",
+      "world": "town",
+      "voice": "You earned Fire Truck!",
+      "interaction": "tap to make it bounce and sparkle",
+      "stars": 2,
+      "island": {
+        "type": "reward_vehicle",
+        "x": 760,
+        "y": 790,
+        "w": 170,
+        "h": 150,
+        "zone": "toy",
+        "color": "red",
+        "label": "Fire Truck"
+      }
+    },
+    {
+      "id": "town_supermarket",
+      "type": "buildings",
+      "name": "Supermarket",
+      "world": "town",
+      "voice": "You earned Supermarket!",
+      "interaction": "tap to make it bounce and sparkle",
+      "stars": 2,
+      "island": {
+        "type": "reward_badge",
+        "x": 1450,
+        "y": 470,
+        "w": 170,
+        "h": 150,
+        "zone": "building",
+        "color": "green",
+        "label": "Supermarket"
+      }
+    },
+    {
+      "id": "town_post_office",
+      "type": "buildings",
+      "name": "Post Office",
+      "world": "town",
+      "voice": "You earned Post Office!",
+      "interaction": "tap to make it bounce and sparkle",
+      "stars": 2,
+      "island": {
+        "type": "reward_badge",
+        "x": 1120,
+        "y": 470,
+        "w": 170,
+        "h": 150,
+        "zone": "building",
+        "color": "red",
+        "label": "Post Office"
+      }
+    },
+    {
+      "id": "town_bus_shelter",
+      "type": "decorations",
+      "name": "Bus Shelter",
+      "world": "town",
+      "voice": "You earned Bus Shelter!",
+      "interaction": "tap to make it bounce and sparkle",
+      "stars": 2,
+      "island": {
+        "type": "reward_badge",
+        "x": 380,
+        "y": 470,
+        "w": 170,
+        "h": 150,
+        "zone": "decoration",
+        "color": "blue",
+        "label": "Bus Shelter"
+      }
+    },
+    {
+      "id": "town_fountain",
+      "type": "decorations",
+      "name": "Town Fountain",
+      "world": "town",
+      "voice": "You earned Town Fountain!",
+      "interaction": "tap to make it bounce and sparkle",
+      "stars": 2,
+      "island": {
+        "type": "reward_badge",
+        "x": 640,
+        "y": 470,
+        "w": 170,
+        "h": 150,
+        "zone": "decoration",
+        "color": "blue",
+        "label": "Town Fountain"
+      }
+    },
+    {
+      "id": "town_toy_shop",
+      "type": "buildings",
+      "name": "Toy Shop",
+      "world": "town",
+      "voice": "You earned Toy Shop!",
+      "interaction": "tap to make it bounce and sparkle",
+      "stars": 2,
+      "island": {
+        "type": "reward_badge",
+        "x": 1500,
+        "y": 800,
+        "w": 170,
+        "h": 150,
+        "zone": "building",
+        "color": "pink",
+        "label": "Toy Shop"
+      }
     }
   ]
 }

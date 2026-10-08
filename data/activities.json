@@ -7240,6 +7240,1176 @@
         "COUNT_3"
       ],
       "adaptiveSkill": "COUNT_3"
+    },
+    {
+      "id": "town_fire_help",
+      "type": "StoryChoice",
+      "world": "town",
+      "theme": "town_fire_station",
+      "skills": [
+        "COMMUNITY_HELPERS"
+      ],
+      "pipBubble": "Who helps?",
+      "instructionText": "Which vehicle helps?",
+      "voiceText": "Oh no, there is a fire! Which vehicle comes to help?",
+      "storyText": "Oh no! There is a fire!",
+      "completeDetail": "Fire truck to the rescue!",
+      "choices": [
+        {
+          "kind": "thing",
+          "thing": "taxi",
+          "id": "taxi",
+          "label": "Taxi",
+          "x": 620,
+          "y": 700
+        },
+        {
+          "kind": "thing",
+          "thing": "fire_truck",
+          "id": "fire",
+          "label": "Fire truck",
+          "correct": true,
+          "resultText": "Nee-naw! Water on the fire!",
+          "x": 960,
+          "y": 700
+        },
+        {
+          "kind": "thing",
+          "thing": "school_bus",
+          "id": "bus",
+          "label": "School bus",
+          "x": 1300,
+          "y": 700
+        }
+      ]
+    },
+    {
+      "id": "town_hurt_help",
+      "type": "StoryChoice",
+      "world": "town",
+      "theme": "town_hospital",
+      "skills": [
+        "COMMUNITY_HELPERS"
+      ],
+      "pipBubble": "Who helps?",
+      "instructionText": "Who helps when someone is hurt?",
+      "voiceText": "Someone hurt their knee. Which vehicle takes them to the hospital?",
+      "storyText": "Someone hurt their knee.",
+      "completeDetail": "Ambulance to help!",
+      "choices": [
+        {
+          "kind": "thing",
+          "thing": "garbage_truck",
+          "id": "garbage",
+          "label": "Rubbish truck",
+          "x": 620,
+          "y": 700
+        },
+        {
+          "kind": "thing",
+          "thing": "tractor",
+          "id": "tractor",
+          "label": "Tractor",
+          "x": 960,
+          "y": 700
+        },
+        {
+          "kind": "thing",
+          "thing": "ambulance",
+          "id": "ambulance",
+          "label": "Ambulance",
+          "correct": true,
+          "resultText": "The ambulance helps!",
+          "x": 1300,
+          "y": 700
+        }
+      ]
+    },
+    {
+      "id": "town_vehicle_tools",
+      "type": "MatchPairs",
+      "world": "town",
+      "theme": "town_fire_station",
+      "skills": [
+        "COMMUNITY_HELPERS"
+      ],
+      "pipBubble": "Match the helpers!",
+      "instructionText": "Match each vehicle to its tool!",
+      "voiceText": "Every helper has a tool. Tap a vehicle, then tap its tool.",
+      "subtitle": "Tap a vehicle, then its tool",
+      "completeDetail": "Every helper has a tool!",
+      "pairs": [
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "fire_truck",
+              "id": "fire",
+              "size": 185
+            },
+            {
+              "kind": "thing",
+              "thing": "hose_reel",
+              "id": "hose",
+              "size": 185
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "ambulance",
+              "id": "amb",
+              "size": 185
+            },
+            {
+              "kind": "thing",
+              "thing": "first_aid_kit",
+              "id": "kit",
+              "size": 185
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "mail_van",
+              "id": "mail",
+              "size": 185
+            },
+            {
+              "kind": "thing",
+              "thing": "parcel",
+              "id": "parcel",
+              "size": 185
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "tow_truck",
+              "id": "tow",
+              "size": 185
+            },
+            {
+              "kind": "thing",
+              "thing": "toolbox",
+              "id": "tools",
+              "size": 185
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "town_red_light",
+      "type": "StoryChoice",
+      "world": "town",
+      "theme": "town_bakery",
+      "skills": [
+        "ROAD_SAFETY",
+        "RED"
+      ],
+      "pipBubble": "Red light!",
+      "instructionText": "Red light! What do cars do?",
+      "voiceText": "The traffic light is red. What should the cars do?",
+      "storyText": "The traffic light is red.",
+      "completeDetail": "Red means stop!",
+      "choices": [
+        {
+          "kind": "thing",
+          "thing": "sign_stop",
+          "id": "stop",
+          "label": "Stop",
+          "x": 760,
+          "y": 700,
+          "correct": true,
+          "resultText": "Red means stop!"
+        },
+        {
+          "kind": "thing",
+          "thing": "sign_arrow",
+          "id": "go",
+          "label": "Go",
+          "x": 1160,
+          "y": 700
+        }
+      ]
+    },
+    {
+      "id": "town_green_light",
+      "type": "TapRequestedObject",
+      "world": "town",
+      "theme": "town_bakery",
+      "skills": [
+        "ROAD_SAFETY",
+        "GREEN"
+      ],
+      "pipBubble": "Green means go!",
+      "instructionText": "Green means go! Tap green!",
+      "voiceText": "Green means go. Tap the green light.",
+      "completeDetail": "Go, go, go!",
+      "request": {
+        "kind": "circle",
+        "color": "green"
+      },
+      "objects": [
+        {
+          "kind": "circle",
+          "color": "red",
+          "label": "Stop",
+          "x": 620,
+          "y": 680,
+          "size": 180
+        },
+        {
+          "kind": "circle",
+          "color": "yellow",
+          "label": "Wait",
+          "x": 960,
+          "y": 680,
+          "size": 180
+        },
+        {
+          "kind": "circle",
+          "color": "green",
+          "label": "Go",
+          "x": 1300,
+          "y": 680,
+          "size": 180
+        }
+      ]
+    },
+    {
+      "id": "town_light_order",
+      "type": "PatternComplete",
+      "world": "town",
+      "theme": "town_bakery",
+      "skills": [
+        "ROAD_SAFETY",
+        "PATTERN"
+      ],
+      "pipBubble": "Which light?",
+      "instructionText": "Which light comes next?",
+      "voiceText": "Red, yellow, green, red, yellow. What comes next?",
+      "completeDetail": "Traffic lights fixed!",
+      "missingIndex": 5,
+      "sequence": [
+        {
+          "kind": "circle",
+          "color": "red"
+        },
+        {
+          "kind": "circle",
+          "color": "yellow"
+        },
+        {
+          "kind": "circle",
+          "color": "green"
+        },
+        {
+          "kind": "circle",
+          "color": "red"
+        },
+        {
+          "kind": "circle",
+          "color": "yellow"
+        }
+      ],
+      "choices": [
+        {
+          "id": "green",
+          "kind": "circle",
+          "color": "green",
+          "correct": true
+        },
+        {
+          "id": "red",
+          "kind": "circle",
+          "color": "red"
+        }
+      ]
+    },
+    {
+      "id": "town_crossing",
+      "type": "StoryChoice",
+      "world": "town",
+      "theme": "town_bakery",
+      "skills": [
+        "ROAD_SAFETY"
+      ],
+      "pipBubble": "Where do we cross?",
+      "instructionText": "Where do we cross the road?",
+      "voiceText": "Pip wants to cross the road. Where is the safe place to cross?",
+      "storyText": "Pip wants to cross the road.",
+      "completeDetail": "Safe crossing!",
+      "choices": [
+        {
+          "kind": "thing",
+          "thing": "fountain_town",
+          "id": "fountain",
+          "label": "Fountain",
+          "x": 620,
+          "y": 700
+        },
+        {
+          "kind": "thing",
+          "thing": "crossing_road",
+          "id": "crossing",
+          "label": "Crossing",
+          "correct": true,
+          "resultText": "Stop, look and listen!",
+          "x": 960,
+          "y": 700
+        },
+        {
+          "kind": "thing",
+          "thing": "cone",
+          "id": "cone",
+          "label": "Cone",
+          "x": 1300,
+          "y": 700
+        }
+      ]
+    },
+    {
+      "id": "town_park_colours",
+      "type": "SortObjects",
+      "world": "town",
+      "theme": "town_garage",
+      "skills": [
+        "RED",
+        "YELLOW",
+        "BLUE"
+      ],
+      "pipBubble": "Park by colour!",
+      "instructionText": "Park the cars by colour!",
+      "voiceText": "Red cars in the red space, yellow in yellow, blue in blue.",
+      "subtitle": "Match the colour",
+      "completeDetail": "All parked!",
+      "targets": [
+        {
+          "id": "red-bay",
+          "thing": "sign_parking",
+          "label": "RED",
+          "color": "red",
+          "x": 1150,
+          "y": 640,
+          "w": 260,
+          "h": 280,
+          "accepts": [
+            "red"
+          ]
+        },
+        {
+          "id": "yellow-bay",
+          "thing": "sign_parking",
+          "label": "YELLOW",
+          "color": "yellow",
+          "x": 1430,
+          "y": 640,
+          "w": 260,
+          "h": 280,
+          "accepts": [
+            "yellow"
+          ]
+        },
+        {
+          "id": "blue-bay",
+          "thing": "sign_parking",
+          "label": "BLUE",
+          "color": "blue",
+          "x": 1710,
+          "y": 640,
+          "w": 260,
+          "h": 280,
+          "accepts": [
+            "blue"
+          ]
+        }
+      ],
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "fire_truck",
+          "color": "red",
+          "x": 470,
+          "y": 520
+        },
+        {
+          "kind": "thing",
+          "thing": "taxi",
+          "color": "yellow",
+          "x": 720,
+          "y": 700
+        },
+        {
+          "kind": "thing",
+          "thing": "van",
+          "color": "blue",
+          "x": 900,
+          "y": 500
+        },
+        {
+          "kind": "thing",
+          "thing": "tow_truck",
+          "color": "red",
+          "x": 470,
+          "y": 860
+        },
+        {
+          "kind": "thing",
+          "thing": "bicycle",
+          "color": "blue",
+          "x": 760,
+          "y": 900
+        }
+      ]
+    },
+    {
+      "id": "town_more_cars",
+      "type": "QuantityCompare",
+      "world": "town",
+      "theme": "town_garage",
+      "rule": "more",
+      "object": "thing",
+      "thing": "taxi",
+      "skills": [
+        "MORE_LESS"
+      ],
+      "pipBubble": "More cars?",
+      "instructionText": "Which car park has more cars?",
+      "voiceText": "Look at the car parks. Which one has more cars?",
+      "completeDetail": "More cars!",
+      "choices": [
+        {
+          "id": "few",
+          "count": 2
+        },
+        {
+          "id": "many",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": "town_vehicle_sizes",
+      "type": "OrderBySize",
+      "world": "town",
+      "theme": "town_garage",
+      "direction": "small-to-big",
+      "skills": [
+        "BIG_SMALL",
+        "SEQUENCE"
+      ],
+      "pipBubble": "Small to big!",
+      "instructionText": "Tap from smallest to biggest!",
+      "voiceText": "Tap the bike, the car and the bus, from smallest to biggest.",
+      "completeDetail": "Small, medium, big!",
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "school_bus_b",
+          "id": "bus",
+          "label": "Bus",
+          "size": 230,
+          "sizeMetric": 3,
+          "x": 620,
+          "y": 760
+        },
+        {
+          "kind": "thing",
+          "thing": "bicycle",
+          "id": "bike",
+          "label": "Bike",
+          "size": 130,
+          "sizeMetric": 1,
+          "x": 960,
+          "y": 790
+        },
+        {
+          "kind": "thing",
+          "thing": "taxi",
+          "id": "car",
+          "label": "Car",
+          "size": 175,
+          "sizeMetric": 2,
+          "x": 1300,
+          "y": 770
+        }
+      ]
+    },
+    {
+      "id": "town_shop_apples",
+      "type": "CountAndPlace",
+      "world": "town",
+      "theme": "town_fruit_shop",
+      "character": "none",
+      "object": "apple",
+      "color": "red",
+      "targetCount": 3,
+      "skills": [
+        "COUNT_3"
+      ],
+      "adaptiveSkill": "COUNT_3",
+      "instructionText": "Put 3 apples in the basket!",
+      "voiceText": "The shopping list says three apples. Put three apples in the basket.",
+      "pipBubble": "Three apples!"
+    },
+    {
+      "id": "town_shop_list",
+      "type": "TapRequestedObject",
+      "world": "town",
+      "theme": "town_fruit_shop",
+      "skills": [
+        "VOCABULARY"
+      ],
+      "pipBubble": "Shopping list!",
+      "instructionText": "Find the {target}!",
+      "voiceText": "Let’s do the shopping list. Find the banana first.",
+      "subtitle": "Shopping list",
+      "completeDetail": "Shopping done!",
+      "targets": [
+        {
+          "kind": "banana"
+        },
+        {
+          "kind": "carrot"
+        },
+        {
+          "kind": "strawberry"
+        }
+      ],
+      "objects": [
+        {
+          "kind": "strawberry",
+          "color": "red",
+          "x": 560,
+          "y": 690,
+          "size": 175
+        },
+        {
+          "kind": "banana",
+          "color": "yellow",
+          "x": 870,
+          "y": 640,
+          "size": 175
+        },
+        {
+          "kind": "orange",
+          "color": "orange",
+          "x": 1180,
+          "y": 700,
+          "size": 175
+        },
+        {
+          "kind": "carrot",
+          "color": "orange",
+          "x": 1480,
+          "y": 650,
+          "size": 175
+        }
+      ]
+    },
+    {
+      "id": "town_shop_or_toys",
+      "type": "Categorise",
+      "world": "town",
+      "theme": "town_fruit_shop",
+      "skills": [
+        "CLASSIFICATION",
+        "TOY_SORTING"
+      ],
+      "pipBubble": "Food or toys?",
+      "instructionText": "Food shop or toy shop?",
+      "voiceText": "Food goes to the food shop. Toys go to the toy shop.",
+      "subtitle": "Where does it belong?",
+      "completeDetail": "All sorted!",
+      "targets": [
+        {
+          "id": "food",
+          "thing": "supermarket",
+          "label": "FOOD",
+          "x": 1300,
+          "y": 620,
+          "w": 320,
+          "h": 320,
+          "accepts": [
+            "food"
+          ]
+        },
+        {
+          "id": "toys",
+          "thing": "toy_shop",
+          "label": "TOYS",
+          "x": 1660,
+          "y": 620,
+          "w": 320,
+          "h": 320,
+          "accepts": [
+            "toy"
+          ]
+        }
+      ],
+      "objects": [
+        {
+          "kind": "apple",
+          "color": "red",
+          "category": "food",
+          "x": 460,
+          "y": 540
+        },
+        {
+          "kind": "thing",
+          "thing": "teddy",
+          "category": "toy",
+          "label": "Teddy",
+          "x": 720,
+          "y": 760
+        },
+        {
+          "kind": "banana",
+          "color": "yellow",
+          "category": "food",
+          "x": 940,
+          "y": 520
+        },
+        {
+          "kind": "thing",
+          "thing": "toy_car",
+          "category": "toy",
+          "label": "Toy car",
+          "x": 1000,
+          "y": 830
+        }
+      ]
+    },
+    {
+      "id": "town_deliver",
+      "type": "DragToTarget",
+      "world": "town",
+      "theme": "town_train_station",
+      "skills": [
+        "COMMUNITY_HELPERS"
+      ],
+      "pipBubble": "Deliveries!",
+      "instructionText": "Deliver each thing!",
+      "voiceText": "The parcel goes to the post office, the book to the library, the teddy to the toy shop.",
+      "subtitle": "Drag it to the right building",
+      "completeDetail": "Everything delivered!",
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "parcel",
+          "id": "parcel",
+          "label": "Parcel",
+          "x": 520,
+          "y": 520,
+          "targetId": "post"
+        },
+        {
+          "kind": "thing",
+          "thing": "storybook",
+          "id": "book",
+          "label": "Book",
+          "x": 760,
+          "y": 720,
+          "targetId": "library"
+        },
+        {
+          "kind": "thing",
+          "thing": "teddy",
+          "id": "teddy",
+          "label": "Teddy",
+          "x": 520,
+          "y": 880,
+          "targetId": "toyshop"
+        }
+      ],
+      "targets": [
+        {
+          "id": "post",
+          "thing": "post_office",
+          "label": "POST OFFICE",
+          "x": 1120,
+          "y": 560,
+          "w": 300,
+          "h": 300
+        },
+        {
+          "id": "library",
+          "thing": "library",
+          "label": "LIBRARY",
+          "x": 1440,
+          "y": 560,
+          "w": 300,
+          "h": 300
+        },
+        {
+          "id": "toyshop",
+          "thing": "toy_shop",
+          "label": "TOY SHOP",
+          "x": 1280,
+          "y": 860,
+          "w": 300,
+          "h": 260
+        }
+      ]
+    },
+    {
+      "id": "town_more_parcels",
+      "type": "QuantityCompare",
+      "world": "town",
+      "theme": "town_train_station",
+      "rule": "more",
+      "object": "thing",
+      "thing": "parcel",
+      "skills": [
+        "MORE_LESS"
+      ],
+      "pipBubble": "More parcels?",
+      "instructionText": "Which pile has more parcels?",
+      "voiceText": "Which pile has more parcels?",
+      "completeDetail": "More parcels!",
+      "choices": [
+        {
+          "id": "many",
+          "count": 5
+        },
+        {
+          "id": "few",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "id": "town_find_mail_van",
+      "type": "TapRequestedObject",
+      "world": "town",
+      "theme": "town_train_station",
+      "skills": [
+        "COMMUNITY_HELPERS"
+      ],
+      "pipBubble": "Mail van!",
+      "instructionText": "Which van brings the letters?",
+      "voiceText": "Which vehicle brings letters and parcels? Tap it.",
+      "completeDetail": "Mail van!",
+      "request": {
+        "matchKey": "thing",
+        "matchValue": "mail_van",
+        "value": "mail van"
+      },
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "police_car",
+          "x": 620,
+          "y": 680,
+          "size": 190
+        },
+        {
+          "kind": "thing",
+          "thing": "digger",
+          "x": 960,
+          "y": 680,
+          "size": 190
+        },
+        {
+          "kind": "thing",
+          "thing": "mail_van",
+          "x": 1300,
+          "y": 680,
+          "size": 190
+        }
+      ]
+    },
+    {
+      "id": "town_bus_stop_number",
+      "type": "NumberLine",
+      "world": "town",
+      "theme": "town_train_station",
+      "targetValue": 3,
+      "values": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "skills": [
+        "NUMERAL_3"
+      ],
+      "pipBubble": "Bus stop 3!",
+      "instructionText": "The bus stops at number 3. Tap 3!",
+      "voiceText": "The bus is going to bus stop number three. Tap three.",
+      "completeDetail": "Bus stop 3!"
+    },
+    {
+      "id": "town_tickets",
+      "type": "MatchPairs",
+      "world": "town",
+      "theme": "town_train_station",
+      "skills": [
+        "SAME_DIFFERENT",
+        "COMMUNITY_HELPERS"
+      ],
+      "pipBubble": "Match the tickets!",
+      "instructionText": "Match each ticket to its ride!",
+      "voiceText": "Tap the bus ticket, then the bus. Tap the train ticket, then the train.",
+      "subtitle": "Tap a ticket, then its ride",
+      "completeDetail": "Tickets matched!",
+      "pairs": [
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "ticket_bus",
+              "id": "tb",
+              "x": 560,
+              "y": 720,
+              "size": 185
+            },
+            {
+              "kind": "thing",
+              "thing": "school_bus",
+              "id": "bus",
+              "x": 1460,
+              "y": 720,
+              "size": 185
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "ticket_train",
+              "id": "tt",
+              "x": 1160,
+              "y": 720,
+              "size": 185
+            },
+            {
+              "kind": "thing",
+              "thing": "train_happy",
+              "id": "train",
+              "x": 860,
+              "y": 720,
+              "size": 185
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "town_smallest_bus",
+      "type": "SizeCompare",
+      "world": "town",
+      "theme": "town_train_station",
+      "rule": "smallest",
+      "skills": [
+        "BIG_SMALL"
+      ],
+      "pipBubble": "Smallest bus?",
+      "instructionText": "Which bus is the smallest?",
+      "voiceText": "Tap the smallest bus.",
+      "completeDetail": "Tiny bus!",
+      "objects": [
+        {
+          "id": "big",
+          "kind": "thing",
+          "thing": "school_bus",
+          "x": 640,
+          "y": 680,
+          "size": 260
+        },
+        {
+          "id": "medium",
+          "kind": "thing",
+          "thing": "school_bus",
+          "x": 1050,
+          "y": 700,
+          "size": 180
+        },
+        {
+          "id": "small",
+          "kind": "thing",
+          "thing": "school_bus",
+          "x": 1400,
+          "y": 720,
+          "size": 110
+        }
+      ]
+    },
+    {
+      "id": "town_helper_kits",
+      "type": "Categorise",
+      "world": "town",
+      "theme": "town_hospital",
+      "skills": [
+        "COMMUNITY_HELPERS"
+      ],
+      "pipBubble": "Doctor or firefighter?",
+      "instructionText": "Hospital or fire station?",
+      "voiceText": "Doctor things go to the hospital. Firefighter things go to the fire station.",
+      "subtitle": "Who uses it?",
+      "completeDetail": "Helpers ready!",
+      "targets": [
+        {
+          "id": "hospital",
+          "thing": "hospital",
+          "label": "HOSPITAL",
+          "x": 1300,
+          "y": 620,
+          "w": 320,
+          "h": 320,
+          "accepts": [
+            "doctor"
+          ]
+        },
+        {
+          "id": "fire",
+          "thing": "fire_station",
+          "label": "FIRE",
+          "x": 1660,
+          "y": 620,
+          "w": 320,
+          "h": 320,
+          "accepts": [
+            "fire"
+          ]
+        }
+      ],
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "first_aid_kit",
+          "category": "doctor",
+          "label": "First aid",
+          "x": 460,
+          "y": 540
+        },
+        {
+          "kind": "thing",
+          "thing": "hose_reel",
+          "category": "fire",
+          "label": "Hose",
+          "x": 720,
+          "y": 760
+        },
+        {
+          "kind": "thing",
+          "thing": "stretcher",
+          "category": "doctor",
+          "label": "Stretcher",
+          "x": 940,
+          "y": 520
+        },
+        {
+          "kind": "thing",
+          "thing": "fire_extinguisher",
+          "category": "fire",
+          "label": "Extinguisher",
+          "x": 1000,
+          "y": 830
+        }
+      ]
+    },
+    {
+      "id": "town_find_ambulance",
+      "type": "TapRequestedObject",
+      "world": "town",
+      "theme": "town_hospital",
+      "skills": [
+        "COMMUNITY_HELPERS"
+      ],
+      "pipBubble": "Ambulance!",
+      "instructionText": "Find the ambulance!",
+      "voiceText": "Nee-naw! Can you find the ambulance?",
+      "completeDetail": "Ambulance!",
+      "request": {
+        "matchKey": "thing",
+        "matchValue": "ambulance",
+        "value": "ambulance"
+      },
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "fire_truck",
+          "x": 620,
+          "y": 680,
+          "size": 190
+        },
+        {
+          "kind": "thing",
+          "thing": "ambulance",
+          "x": 960,
+          "y": 680,
+          "size": 190
+        },
+        {
+          "kind": "thing",
+          "thing": "police_car",
+          "x": 1300,
+          "y": 680,
+          "size": 190
+        }
+      ]
+    },
+    {
+      "id": "town_kind_choice",
+      "type": "StoryChoice",
+      "world": "town",
+      "theme": "town_hospital",
+      "skills": [
+        "FEELINGS",
+        "HELPING"
+      ],
+      "pipBubble": "What can we do?",
+      "instructionText": "What can we do?",
+      "voiceText": "Your friend fell over and is sad. What can you do?",
+      "storyText": "Your friend fell over and is sad.",
+      "completeDetail": "Kind helper!",
+      "choices": [
+        {
+          "kind": "thing",
+          "thing": "first_aid_kit",
+          "id": "help",
+          "label": "Get help",
+          "x": 760,
+          "y": 700,
+          "correct": true,
+          "resultText": "Getting help is kind!"
+        },
+        {
+          "kind": "thing",
+          "thing": "beach_ball",
+          "id": "play",
+          "label": "Keep playing",
+          "x": 1160,
+          "y": 700
+        }
+      ]
+    },
+    {
+      "id": "town_site_vehicles",
+      "type": "TapRequestedObject",
+      "world": "town",
+      "theme": "town_construction",
+      "skills": [
+        "VOCABULARY",
+        "COMMUNITY_HELPERS"
+      ],
+      "pipBubble": "Building trucks!",
+      "instructionText": "Find the {target}!",
+      "voiceText": "The builders need their trucks. Find the digger first.",
+      "subtitle": "Building site trucks",
+      "completeDetail": "Ready to build!",
+      "targets": [
+        {
+          "matchKey": "thing",
+          "matchValue": "digger",
+          "value": "digger"
+        },
+        {
+          "matchKey": "thing",
+          "matchValue": "crane_truck",
+          "value": "crane"
+        },
+        {
+          "matchKey": "thing",
+          "matchValue": "cement_mixer",
+          "value": "cement mixer"
+        }
+      ],
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "cement_mixer",
+          "x": 560,
+          "y": 690,
+          "size": 200
+        },
+        {
+          "kind": "thing",
+          "thing": "digger",
+          "x": 960,
+          "y": 640,
+          "size": 200
+        },
+        {
+          "kind": "thing",
+          "thing": "crane_truck",
+          "x": 1360,
+          "y": 690,
+          "size": 200
+        }
+      ]
+    },
+    {
+      "id": "town_more_cones",
+      "type": "QuantityCompare",
+      "world": "town",
+      "theme": "town_construction",
+      "rule": "less",
+      "object": "thing",
+      "thing": "cone",
+      "skills": [
+        "MORE_LESS"
+      ],
+      "pipBubble": "Fewer cones?",
+      "instructionText": "Which side has fewer cones?",
+      "voiceText": "Which group has fewer cones?",
+      "completeDetail": "Fewer cones!",
+      "choices": [
+        {
+          "id": "many",
+          "count": 5
+        },
+        {
+          "id": "few",
+          "count": 2
+        },
+        {
+          "id": "some",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "id": "town_signs_match",
+      "type": "MatchPairs",
+      "world": "town",
+      "theme": "town_construction",
+      "skills": [
+        "SAME_DIFFERENT",
+        "ROAD_SAFETY"
+      ],
+      "pipBubble": "Same signs!",
+      "instructionText": "Find the matching signs!",
+      "voiceText": "Tap two signs that are the same.",
+      "completeDetail": "Signs matched!",
+      "pairs": [
+        {
+          "kind": "thing",
+          "thing": "sign_stop",
+          "size": 175
+        },
+        {
+          "kind": "thing",
+          "thing": "sign_roadworks",
+          "size": 175
+        },
+        {
+          "kind": "thing",
+          "thing": "sign_crossing",
+          "size": 175
+        }
+      ]
     }
   ]
 }

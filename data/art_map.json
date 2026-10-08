@@ -212,7 +212,11 @@
       "town_hall": "worlds.town.town_hall",
       "toy_shop": "worlds.town.toy_shop",
       "train_station": "worlds.town.train_station",
-      "water_bottle": "objects.picnic.water_bottle"
+      "water_bottle": "objects.picnic.water_bottle",
+      "teddy": "objects.daily_life.teddy",
+      "toy_car": "objects.picnic.toy_car",
+      "storybook": "objects.literacy.storybook_open",
+      "beach_ball": "objects.play.beach_ball"
     }
   },
 
@@ -224,8 +228,25 @@
     "space_shape_lab": "worlds.backgrounds.space.bg_space_shape_lab",
     "space_observatory": "worlds.backgrounds.space.bg_space_observatory",
     "space_workshop": "worlds.backgrounds.space.bg_space_workshop",
-    "space_rocket_hangar": "worlds.backgrounds.space.bg_space_rocket_hangar"
+    "space_rocket_hangar": "worlds.backgrounds.space.bg_space_rocket_hangar",
+    "town": "worlds.backgrounds.town.bg_town_train_station",
+    "town_bakery": "worlds.backgrounds.town.bg_town_bakery",
+    "town_construction": "worlds.backgrounds.town.bg_town_construction",
+    "town_fire_station": "worlds.backgrounds.town.bg_town_fire_station",
+    "town_fruit_shop": "worlds.backgrounds.town.bg_town_fruit_shop",
+    "town_garage": "worlds.backgrounds.town.bg_town_garage",
+    "town_hospital": "worlds.backgrounds.town.bg_town_hospital",
+    "town_train_station": "worlds.backgrounds.town.bg_town_train_station"
   },
+
+  "townStreet": [
+    { "id": "worlds.town.supermarket", "x": 230, "w": 330 },
+    { "id": "worlds.town.cafe", "x": 560, "w": 280 },
+    { "id": "worlds.town.town_hall", "x": 900, "w": 360 },
+    { "id": "worlds.town.toy_shop", "x": 1230, "w": 280 },
+    { "id": "worlds.town.library", "x": 1560, "w": 330 },
+    { "id": "worlds.town.info_pillar", "x": 1810, "w": 120 }
+  ],
 
   "missionIcons": {
     "about": "Picture in each Little Mission's circle on its world hub.",
@@ -236,7 +257,15 @@
     "space_control_lights": "objects.space.control_panel",
     "space_moon_samples": "objects.space_base.jar_moon_rock",
     "space_lunch": "objects.space_base.food_tray",
-    "space_tidy_base": "objects.space_base.locker"
+    "space_tidy_base": "objects.space_base.locker",
+    "town_who_helps": "objects.vehicles.fire_truck",
+    "town_traffic_lights": "objects.town.traffic_light",
+    "town_park_cars": "objects.town.sign_parking",
+    "town_shopping_day": "objects.town_helpers.shopping_cart",
+    "town_deliveries": "objects.vehicles.mail_van",
+    "town_bus_stop": "objects.vehicles.sign_bus_stop",
+    "town_hospital": "objects.vehicles.ambulance",
+    "town_building_site": "objects.vehicles.digger"
   },
 
   "countTargets": {
@@ -336,9 +365,16 @@
       "catalog_pipkin_pony": { "theme": "farm" },
       "catalog_mango_monkey": { "theme": "jungle" },
       "catalog_honey_hedgehog": { "theme": "forest" },
-      "catalog_coral_crab": { "theme": "ocean" },
+      "catalog_coral_crab": { "theme": "ocean", "burst": "fx.hatch.burst_shell" },
       "catalog_noodle_alpaca": { "theme": "farm" },
-      "catalog_comet_koala": { "theme": "moon" }
+      "catalog_comet_koala": { "theme": "moon" },
+      "dragon_number": { "theme": "dino", "burst": "fx.hatch.burst_sparkle_spiral" },
+      "dragon_rainbow": { "theme": "rainbow", "burst": "fx.hatch.burst_light_rays" },
+      "dragon_story": { "theme": "moon", "burst": "fx.hatch.burst_light_rays" },
+      "dragon_music": { "theme": "jungle", "burst": "fx.hatch.burst_music" },
+      "dragon_puzzle": { "theme": "rainbow", "burst": "fx.hatch.burst_crystal_shards" },
+      "dragon_nature": { "theme": "forest", "burst": "fx.hatch.burst_sparkle_spiral" },
+      "dragon_space": { "theme": "moon", "burst": "fx.hatch.burst_sparkle_spiral" }
     }
   },
 
@@ -438,6 +474,21 @@
     "space_rover": "objects.space_base.rover",
     "space_satellite": "objects.space_base.solar_satellite",
     "space_lander": "objects.space_base.lander_pod",
+    "dragon_number": "creatures.dragons.dragon_number",
+    "dragon_rainbow": "creatures.dragons.dragon_rainbow",
+    "dragon_story": "creatures.dragons.dragon_story",
+    "dragon_music": "creatures.dragons.dragon_music",
+    "dragon_puzzle": "creatures.dragons.dragon_puzzle",
+    "dragon_nature": "creatures.dragons.dragon_nature",
+    "dragon_space": "creatures.dragons.dragon_space",
+    "town_fire_station": "worlds.town.fire_station",
+    "town_traffic_light": "objects.town.traffic_light",
+    "town_fire_truck": "objects.vehicles.fire_truck",
+    "town_supermarket": "worlds.town.supermarket",
+    "town_post_office": "worlds.town.post_office",
+    "town_bus_shelter": "worlds.town.bus_shelter",
+    "town_fountain": "worlds.town.fountain_town",
+    "town_toy_shop": "worlds.town.toy_shop",
 
     "catalog_rainbow_wagon": "worlds.rainbow_build.cart_rainbow",
     "catalog_story_train": "objects.vehicles.train_toy"
@@ -494,6 +545,7 @@
     "tab_cosmetics": "ui.menu.icon_wardrobe",
     "tab_decorations": "worlds.flowers.tulips",
     "tab_vehicles": "objects.vehicles.train_toy",
+    "tab_dragons": "creatures.dragons.dragon_rainbow",
     "parent_dashboard": "ui.parent.icon_progress",
     "parent_settings": "ui.parent.icon_settings",
     "parent_profiles": "ui.parent.profile_card",
@@ -512,7 +564,8 @@
     "ring_correct": { "id": "fx.ring_yellow", "blend": "screen" },
     "ring_drop": { "id": "fx.ring_blue", "blend": "screen" },
     "ring_incorrect": { "id": "fx.ring_pink", "blend": "screen" },
-    "place": { "id": "fx.magic.sparkle_orbs", "blend": "screen" }
+    "place": { "id": "fx.magic.sparkle_orbs", "blend": "screen" },
+    "rareGlow": { "id": "fx.fx_ring_stars_gold", "blend": "screen" }
   },
 
   "preload": {
@@ -526,12 +579,12 @@
       "fx.fx_glow_gold", "fx.fx_sparkles_gold", "fx.fx_star_burst", "fx.fx_confetti", "fx.ring_yellow", "fx.ring_blue", "fx.ring_pink", "fx.magic.sparkle_orbs"
     ],
     "scenes": {
-      "island": ["worlds.dino_cave", "worlds.rainbow_village.rainbow"],
+      "island": ["worlds.dino_cave", "worlds.rainbow_village.rainbow", "fx.fx_ring_stars_gold"],
       "worldSelect": ["ui.worlds.world_numbers", "ui.worlds.world_colours", "ui.worlds.world_animals", "ui.worlds.world_music", "ui.worlds.world_letters", "ui.worlds.world_feelings", "ui.worlds.world_space", "ui.worlds.world_helping"],
       "rainbowVillage": ["creatures.sea_dino.octopus", "worlds.rainbow_village.rainbow", "objects.art.palette", "objects.shapes.triangle_yellow", "worlds.rainbow_build.balloon_rainbow", "objects.shapes.star_yellow"],
       "jungleJam": ["objects.music_jungle.drum_kit", "objects.music_jungle.guitar", "objects.music.xylophone", "objects.stage.microphone"],
       "parentGate": ["ui.parent.toggle_on", "ui.lock_closed", "ui.lock_open", "ui.parent.icon_progress", "ui.parent.icon_settings", "ui.parent.profile_card", "ui.parent.timer", "rewards.medals.badge_check"],
-      "collection": ["@rewards", "ui.menu.icon_wardrobe", "worlds.flowers.tulips", "objects.vehicles.train_toy", "ui.lock_closed"],
+      "collection": ["@rewards", "fx.fx_ring_stars_gold", "ui.menu.icon_wardrobe", "worlds.flowers.tulips", "objects.vehicles.train_toy", "ui.lock_closed"],
       "adventure": ["objects.dino_egg", "creatures.sea_dino.octopus"]
     }
   }

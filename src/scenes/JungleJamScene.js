@@ -1,6 +1,10 @@
 import { drawActivityBackground, drawToken } from '../activities/activityDraw.js';
 import { drawCandyButton } from '../utils/draw.js';
+import { drawArt, lookupArt, hatchArtIds, hatchTheme } from '../core/art.js';
 import { PipController } from '../characters/PipController.js';
+
+// Music Dragon (rare): earned once the child has got each of the four music games right at least once.
+const DRAGON_ID='dragon_music',DRAGON_SKILLS=['FAST_SLOW','LOUD_QUIET','RHYTHM','SOUND_RECOGNITION'];
 
 const PERFORMERS=[
   {id:'tiko',name:'Tiko',role:'percussion',symbol:'DRUM',color:'orange'},
@@ -19,7 +23,13 @@ export class JungleJamScene{
     this.slots=Array.from({length:5},(_,i)=>({id:`slot-${i}`,x:390+i*285,y:555,w:220,h:250,role:null}));this.drag=null;this.mode='free';this.beatT=0;this.beat=0;this.game.audio?.stopWorldMusic?.();
   }
   exit(){this.game.audio?.stopWorldMusic?.();}
-  record(skills,outcome='success'){this.game.learning?.recordResponse?.({activityId:`jungle_jam_${this.mode}`,skillIds:skills,outcome});if(this.game.save?.saveLearning&&this.game.learning?.snapshot)this.game.save.saveLearning(this.game.learning.snapshot());}
+  record(skills,outcome='success'){this.game.learning?.recordResponse?.({activityId:`jungle_jam_${this.mode}`,skillIds:skills,outcome});if(this.game.save?.saveLearning&&this.game.learning?.snapshot)this.game.save.saveLearning(this.game.learning.snapshot());if(outcome==='success')this.checkDragon();}
+  checkDragon(){
+    const rewards=this.game.rewards;if(this.dragonWon||!rewards?.get?.(DRAGON_ID)||rewards.isUnlocked(DRAGON_ID))return;
+    const done=DRAGON_SKILLS.every(id=>{const s=this.game.learning?.getSkill?.(id);return (s?.independentSuccesses??0)+(s?.hintAssistedSuccesses??0)>0;});
+    if(!done)return;this.dragonWon=DRAGON_ID;rewards.award(DRAGON_ID);this.game.audio?.playCue?.('reward');this.pip?.react('celebrate',{duration:2});
+    this.game.assets?.loadArt?.(hatchArtIds(hatchTheme(DRAGON_ID,'jungle'),DRAGON_ID));
+  }
   modeRect(i){return{x:210+i*305,y:190,w:270,h:95};}
   performerAt(x,y){return[...this.performers].reverse().find(p=>Math.hypot(x-p.x,y-p.y)<=95)??null;}
   slotAt(x,y){return this.slots.find(s=>inRect(x,y,{x:s.x-s.w/2,y:s.y-s.h/2,w:s.w,h:s.h}))??null;}
@@ -48,7 +58,7 @@ export class JungleJamScene{
     if(e.type==='move'&&this.drag){this.drag.x=e.x+this.offset.x;this.drag.y=e.y+this.offset.y;return;}
     if(e.type==='up'||e.type==='cancel'){
       if(this.drag){const p=this.drag;this.drag=null;if(e.type==='up')this.finishDrag(p);else{p.x=p.homeX;p.y=p.homeY;}return;}
-      if(e.type==='up'&&this.modePressed){const chosen=this.modePressed;this.modePressed=null;if(chosen==='back'){this.game.scenes.change('worldSelect');return;}this.setMode(chosen);return;}
+      if(e.type==='up'&&this.modePressed){const chosen=this.modePressed;this.modePressed=null;if(chosen==='back'){if(this.dragonWon)this.game.scenes.change('island',{celebrateReward:this.dragonWon});else this.game.scenes.change('worldSelect');return;}this.setMode(chosen);return;}
       this.modePressed=null;
     }
   }
@@ -61,6 +71,7 @@ export class JungleJamScene{
     if(this.mode==='rhythm'){ctx.fillStyle=this.demoFlash?'#ffd85d':'#ec7ea2';ctx.beginPath();ctx.arc(960,760,145,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='900 80px system-ui';ctx.fillText('DRUM',960,785);ctx.font='700 28px system-ui';ctx.fillText('Tap 3 times with the beat',960,965);}
     if(this.mode==='sound'){ctx.fillStyle='#fff';ctx.font='900 31px system-ui';ctx.fillText(`Which friend makes the ${this.soundGoal.toUpperCase()} sound?`,960,745);}
     if(this.mode==='free'){ctx.fillStyle='#fff';ctx.font='800 27px system-ui';ctx.fillText(this.performers.some(p=>p.placed)?'Move friends around and make your own song!':'Drag a friend onto the stage!',960,745);}
+    if(this.dragonWon){ctx.fillStyle='#fffdf0ee';ctx.beginPath();ctx.roundRect(1300,30,580,130,50);ctx.fill();drawArt(ctx,lookupArt('rewards',this.dragonWon),1370,95,110,110);ctx.fillStyle='#5a3a73';ctx.textAlign='left';ctx.font='900 30px system-ui';ctx.fillText('A rare Music Dragon egg!',1435,88);ctx.font='700 22px system-ui';ctx.fillText('Tap BACK to hatch it on the island',1435,125);ctx.textAlign='center';}
     drawCandyButton(ctx,40,40,210,100,'BACK',this.modePressed==='back','back');
   }
 }

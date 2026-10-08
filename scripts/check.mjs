@@ -62,7 +62,7 @@ for (const file of jsFiles) execFileSync(process.execPath, ['--check', file], { 
 
 // The installable/offline build must cache every eagerly imported source module.
 const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v38"), 'Service worker cache version should advance with the real-art build');
+assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v39"), 'Service worker cache version should advance with the real-art build');
 for (const file of walk(path.join(root, 'src')).filter(file => file.endsWith('.js'))) {
   const rel = `./${path.relative(root, file).split(path.sep).join('/')}`;
   assert.ok(serviceWorkerSource.includes(`'${rel}'`), `Offline cache must include ${rel}`);
@@ -620,6 +620,37 @@ for (const reward of ['baby_triceratops','forest_treehouse','moon_book_nook','be
   const def=rewards.get(reward);assert.ok(contentSave.getProfileState().unlocks[def.type].includes(reward),`${reward} should persist after its adventure`);
 }
 
+// ---- Job 06: Space Station + Busy Town worlds, rare dragons ----
+for (const world of ['space','town']) {
+  const missions = adventureData.adventures.filter(a => a.world === world);
+  assert.ok(missions.length >= 8, `${world} needs at least 8 Little Missions`);
+  for (const m of missions) { assert.equal(m.guide, 'pip', `${m.id} is guided by Pip (no Zig Robot art yet)`); assert.ok(rewards.get(m.reward.id), `${m.id} reward ${m.reward.id} must be data-driven`); }
+}
+for (const id of ['dragon_space','dragon_puzzle','dragon_rainbow','dragon_nature','dragon_story']) assert.ok(contentSave.getProfileState().unlocks.creatures.includes(id), `Finishing every mission in a world hatches its rare dragon: ${id}`);
+assert.ok(!contentSave.getProfileState().unlocks.creatures.includes('dragon_music'), 'The Music Dragon comes from Jungle Jam, not missions');
+assert.equal(rewardData.rewards.filter(r => r.rare).length, 7, 'Seven rare dragons, one per learning theme');
+for (const r of rewardData.rewards.filter(r => r.rare)) assert.equal(r.type, 'creatures', 'Dragons are creature friends (no new save fields needed)');
+{ const dragonScene = new AdventureScene(contentGame); await dragonScene.enter({ adventureId: 'space_lunch', step: 0 }); contentGame.scenes.last = null; await dragonScene.finishAdventure(); assert.deepEqual(contentGame.scenes.last.data.celebrateNext, [], 'Replaying a finished world does not hatch its dragon again'); }
+{ const dragonSave = new SaveSystem({ indexedDBRef:null, storage:null }); await dragonSave.init(); await dragonSave.createProfile({ name:'Dee', age:4 });
+  const g = { save:dragonSave, learning:new LearningProfile(), audio:sceneAudio, assets:null, scenes:{ last:null, change(name,data){ this.last={name,data}; } } };
+  g.activityEngine = new ActivityEngine(g); g.activityEngine.setDefinitions(activityData); g.adventureEngine = new AdventureEngine(g); g.adventureEngine.setDefinitions(adventureData); g.rewards = new RewardSystem(g); g.rewards.setDefinitions(rewardData);
+  const town = adventureData.adventures.filter(a => a.world === 'town');
+  for (const a of town.slice(0, -1)) await dragonSave.saveAdventure(a.id, 0, { completed:true });
+  const last = new AdventureScene(g); await last.enter({ adventureId: town.at(-1).id, step: town.at(-1).steps.length - 1 }); await last.handlePointer({ type:'up', x:960, y:950 });
+  assert.equal(g.scenes.last.name, 'island'); assert.deepEqual(g.scenes.last.data.celebrateNext, ['dragon_puzzle'], 'The last Busy Town mission celebrates its reward, then hatches the Puzzle Dragon');
+  const isl = new WonderIslandScene(g); isl.enter(g.scenes.last.data); assert.equal(isl.celebrateReward, town.at(-1).reward.id); isl.update(5); assert.equal(isl.celebrateReward, 'dragon_puzzle', 'Island celebrates the dragon after the mission reward'); isl.render(fakeCtx); assert.equal(fakeCtx.depth, 0);
+  const col = new CollectionScene(g); col.enter({ tab:'dragons' }); assert.equal(col.items().length, 7); col.render(fakeCtx); assert.equal(fakeCtx.depth, 0, 'Dragons tab render must balance Canvas state');
+  await col.action('item:dragon_space'); assert.ok(!dragonSave.getProfileState().unlocks.creatures.includes('dragon_space'), 'Dragons cannot be bought with stars'); }
+{ const jamSave = new SaveSystem({ indexedDBRef:null, storage:null }); await jamSave.init(); await jamSave.createProfile({ name:'Jo', age:3 });
+  const jl = new LearningProfile(); const jg = { save:jamSave, learning:jl, audio:sceneAudio, scenes:{ last:null, change(name,data){ this.last={name,data}; } } }; jg.rewards = new RewardSystem(jg); jg.rewards.setDefinitions(rewardData);
+  for (const id of ['FAST_SLOW','LOUD_QUIET','RHYTHM','SOUND_RECOGNITION']) jl.recordResponse({ activityId:'jam', skillIds:[id], outcome:'success' });
+  const j = new JungleJamScene(jg); j.enter(); j.record(['RHYTHM']); await jamSave.writeChain; assert.ok(jamSave.getProfileState().unlocks.creatures.includes('dragon_music'), 'All four Jungle Jam games earn the Music Dragon');
+  j.render(fakeCtx); assert.equal(fakeCtx.depth, 0); j.handlePointer({ type:'down', x:100, y:90 }); j.handlePointer({ type:'up', x:100, y:90 }); assert.equal(jg.scenes.last.name, 'island'); assert.equal(jg.scenes.last.data.celebrateReward, 'dragon_music'); j.exit(); }
+const job06Map = JSON.parse(fs.readFileSync(path.join(root,'data/art_map.json'),'utf8')), job06Ids = new Set(JSON.parse(fs.readFileSync(path.join(root,'assets/art_manifest.json'),'utf8')).map(e => e.id));
+for (const [theme, id] of Object.entries(job06Map.backgrounds).filter(([k]) => k !== 'about')) assert.ok(job06Ids.has(id), `Background for ${theme} must exist`);
+for (const a of activityData.activities.filter(a => a.world === 'space' || a.world === 'town')) assert.ok(String(a.theme).startsWith(a.world), `${a.id} uses a ${a.world} scene`);
+for (const a of activityData.activities.filter(a => a.world === 'space' || a.world === 'town')) for (const o of [...(a.objects ?? []), ...(a.choices ?? []), ...(a.targets ?? []), ...(a.pairs ?? []).flatMap(p => p.items ?? [p]), ...(a.sequence ?? [])]) if (o.thing) assert.ok(job06Map.things.art[o.thing], `${a.id}: picture name '${o.thing}' is in art_map things`);
+
 // World select + generic hub navigation.
 const navGame={adventureEngine,save:contentSave,audio:sceneAudio,scenes:{last:null,change(name,data){this.last={name,data};}}};
 const worldSelect=new WorldSelectScene(navGame);worldSelect.enter();worldSelect.render(fakeCtx);assert.equal(fakeCtx.depth,0);
@@ -664,7 +695,7 @@ assert.ok(contentSave.getSettings().performanceMode,'Performance preference must
 // ---- Milestone 25: content scale pass ----
 assert.ok(expectedActivityTypes.size>=25&&expectedActivityTypes.size<=30,`V1 scale target is 25–30 activity families; got ${expectedActivityTypes.size}`);
 const coreSkills=Object.keys(TRACKED_SKILLS).filter(id=>!/^LETTER_[A-Z]$/.test(id));assert.ok(coreSkills.length>=50&&coreSkills.length<=70,`V1 core learning-skill target is 50–70; got ${coreSkills.length}`);
-assert.ok(adventureData.adventures.length>=30&&adventureData.adventures.length<=40,`V1 Little Mission target is 30–40; got ${adventureData.adventures.length}`);
+assert.ok(adventureData.adventures.length>=30&&adventureData.adventures.length<=50,`Little Mission target is 30–50 (Job 06 added Space Station and Busy Town); got ${adventureData.adventures.length}`);
 const rewardCounts=rewardData.rewards.reduce((m,r)=>(m[r.type]=(m[r.type]??0)+1,m),{});assert.ok((rewardCounts.creatures??0)>=30,'V1 needs 30+ interactive creature definitions');assert.ok((rewardCounts.cosmetics??0)>=40,'V1 needs 40+ Pip cosmetics');assert.ok((rewardCounts.decorations??0)>=60,'V1 needs 60+ decorations');assert.ok((rewardCounts.vehicles??0)>=8&&(rewardCounts.vehicles??0)<=10,'V1 needs 8–10 vehicles');
 const catalogSave=new SaveSystem({indexedDBRef:null,storage:null});await catalogSave.init();await catalogSave.createProfile({name:'Kit',age:4});await catalogSave.addDiscoveryStars(10);
 const catalogGame={save:catalogSave,audio:sceneAudio,scenes:{last:null,change(name,data){this.last={name,data};}}};catalogGame.rewards=new RewardSystem(catalogGame);catalogGame.rewards.setDefinitions(rewardData);

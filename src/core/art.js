@@ -85,7 +85,38 @@ export function countTargetArt(definition) {
   return t.byObject?.[definition?.object] ?? t.byCharacter?.[definition?.character] ?? t.default ?? null;
 }
 
+// Soft magic effect for an activity (data/art_map.json "ambient"), or null.
+export function ambientArt(definition) {
+  const a = artMap()?.ambient;
+  return a?.byActivity?.[definition?.id] ?? a?.byTheme?.[definition?.theme] ?? null;
+}
+
+// The world an adventure reward comes from (adventures.json), for picking its egg theme.
+export function worldOfReward(game, rewardId) {
+  return game?.adventureEngine?.list?.().find(a => a.reward?.id === rewardId)?.world ?? null;
+}
+
 export function characterArt(name) { return artMap()?.characters?.[String(name ?? '').toLowerCase()]?.id ?? null; }
+
+// ---- egg hatching (data/art_map.json "hatch"; played by fx/HatchSequence.js) ----
+
+export function hatchTheme(rewardId, world) {
+  const h = artMap()?.hatch;
+  if (!h) return null;
+  return h.rewards?.[rewardId]?.theme ?? h.worlds?.[world] ?? null;
+}
+
+export function hatchFrameIds(theme) {
+  const h = artMap()?.hatch;
+  if (!h || !theme) return [];
+  return h.frames.map(frame => h.id.replaceAll('{theme}', theme).replace('{frame}', frame));
+}
+
+export function hatchArtIds(theme, rewardId = null) {
+  const h = artMap()?.hatch;
+  if (!h || !theme) return [];
+  return [...hatchFrameIds(theme), h.bursts?.[theme], h.pedestal, lookupArt('rewards', rewardId)].filter(Boolean);
+}
 
 // ---- per-scene loading ----
 
@@ -104,6 +135,7 @@ function idsForActivity(definition, engine) {
   for (const token of tokensIn(definition)) for (const colour of ['strict', 'loose', 'uniform']) { const a = tokenArt(token, { colour }); if (a) ids.push(a.id); }
   for (const target of definition?.targets ?? []) { const a = tokenArt({ kind: 'letter', value: target?.label }); if (a) ids.push(a.id); }
   const who = characterArt(definition?.character); if (who) ids.push(who);
+  const ambient = ambientArt(definition); if (ambient) ids.push(ambient);
   if (definition?.type === 'CountAndPlace') { const box = countTargetArt(definition); if (box) ids.push(box); }
   return ids;
 }
@@ -127,6 +159,7 @@ async function artIdsForScene(game, name, data = {}) {
     for (const step of adventure?.steps ?? []) if (step.activityId) ids.push(...idsForActivity(activities?.get?.(step.activityId), activities));
     const guide = characterArt(adventure?.guide ?? (adventure?.world === 'rainbow' ? 'octo' : adventure?.world === 'dino' ? 'rory' : null)); if (guide) ids.push(guide);
     const reward = map.rewards?.[adventure?.reward?.id]; if (reward) ids.push(reward);
+    if ((adventure?.steps ?? []).some(step => step.kind === 'egg' || step.kind === 'hatch')) ids.push(...hatchArtIds(hatchTheme(adventure?.reward?.id, adventure?.world), adventure?.reward?.id));
   }
   if (name === 'activity' && activities) {
     await activities.ensureLoaded?.(game.assets);
@@ -134,6 +167,7 @@ async function artIdsForScene(game, name, data = {}) {
     if (id) ids.push(...idsForActivity(activities.get?.(id), activities));
   }
   if (name === 'worldHub' && map.worlds?.[data.world]) ids.push(map.worlds[data.world]);
+  if (name === 'island' && data.celebrateReward) ids.push(...hatchArtIds(hatchTheme(data.celebrateReward, worldOfReward(game, data.celebrateReward)), data.celebrateReward));
   return [...new Set(ids.filter(Boolean))];
 }
 

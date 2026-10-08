@@ -1,5 +1,5 @@
 import { drawCloud } from '../utils/draw.js';
-import { art, artMap, drawArt, tokenArt, characterArt, fxArt } from '../core/art.js';
+import { art, artMap, drawArt, tokenArt, characterArt, fxArt, ambientArt } from '../core/art.js';
 
 export const PALETTE = Object.freeze({
   red: '#e94d55',
@@ -36,6 +36,16 @@ export function drawActivityBackground(ctx, theme = 'meadow') {
     colors.forEach((color,i)=>{ ctx.strokeStyle=color; ctx.lineWidth=22; ctx.beginPath(); ctx.arc(1660,330,170-i*20,Math.PI,Math.PI*2); ctx.stroke(); });
     ctx.restore();
   }
+}
+
+// Soft weather/nature magic over an activity (data/art_map.json "ambient"): light blend, slow drift, no flashing.
+export function drawActivityAmbient(ctx, definition, t = 0) {
+  const id = ambientArt(definition);
+  if (!id) return false;
+  const calm = Boolean(globalThis.__LL_REDUCED_MOTION), alpha = 0.5 + (calm ? 0 : Math.sin(t * 0.8) * 0.12);
+  if (id.endsWith('sun_rays')) return drawArt(ctx, id, 300, 330, 640, 640, { alpha, blend: 'screen' });
+  const x = calm ? 1350 : 200 + ((t * 40) % 1520);
+  return drawArt(ctx, id, x, 360, 560, 560, { alpha, blend: 'screen' });
 }
 
 export function drawInstructionPanel(ctx, title, subtitle = '') {

@@ -1,5 +1,6 @@
 import { clamp, easeOutBack } from '../utils/easing.js';
 import { drawCandyButton } from '../utils/draw.js';
+import { drawActivityAmbient } from '../activities/activityDraw.js';
 import { PipController } from '../characters/PipController.js';
 import { HintController } from '../hints/HintController.js';
 
@@ -239,6 +240,7 @@ export class ActivityScene {
     }
 
     this.activity?.render?.(ctx);
+    if (this.activity) drawActivityAmbient(ctx, this.activity.definition, this.t);
 
     if (!this.completed) {
       this.drawHintDemonstration(ctx);

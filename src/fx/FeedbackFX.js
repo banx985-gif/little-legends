@@ -8,6 +8,7 @@ export class FeedbackFX {
     if(globalThis.__LL_REDUCED_MOTION&&['correct','drop'].includes(name))return;
     if(name==='incorrect'){this.rings.push({x,y,t:0,d:.32,color:'#ff8f92',r:35,art:'ring_incorrect'});return;}
     if(name==='drop'){this.rings.push({x,y,t:0,d:.3,color:'#7ee2d6',r:28,art:'ring_drop'});return;}
+    if(name==='place'){if((Number(globalThis.__LL_EFFECT_SCALE)||1)>=.4)this.bursts.push({x,y,t:0,d:.9,art:'place',size:300});return;}
     if(!['correct','reward','complete','count'].includes(name))return;
     const amount=name==='reward'||name==='complete'?14:name==='count'?4:8;
     const room=Math.max(0,this.budget()-this.particles.length);

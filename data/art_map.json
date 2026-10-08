@@ -152,7 +152,53 @@
     "objects.clothes.rain_boots": "none"
   },
 
+  "hatch": {
+    "about": "Egg hatch sets in rewards/hatch/<theme>/ (6 frames, same size, bottom-centred). Theme comes from the reward (below) or the adventure's world. baby: true only where the theme's hatched baby IS that reward; otherwise the egg cracks, the burst plays and the reward's own picture appears.",
+    "id": "rewards.hatch.{theme}.egg_{theme}_{frame}",
+    "frames": ["1_idle", "2_wobble", "3_crack_small", "4_crack_big", "5_peek", "6_hatched"],
+    "worlds": { "dino": "dino", "animal": "forest", "jungle": "jungle", "rainbow": "rainbow", "storybook": "moon", "life": "farm" },
+    "bursts": { "dino": "fx.hatch.burst_dino", "forest": "fx.hatch.burst_forest", "jungle": "fx.hatch.burst_jungle", "rainbow": "fx.hatch.burst_rainbow", "ocean": "fx.hatch.burst_ocean", "farm": "fx.hatch.burst_farm", "moon": "fx.hatch.puff_cloud_stars" },
+    "pedestal": "fx.magic.pedestal_glow",
+    "rewards": {
+      "baby_raptor": { "theme": "dino", "baby": true },
+      "duckling": { "theme": "farm", "baby": true },
+      "catalog_daisy_duck": { "theme": "farm", "baby": true },
+      "catalog_starry_owl": { "theme": "forest", "baby": true },
+      "catalog_sunny_gecko": { "theme": "jungle", "baby": true },
+      "catalog_mossy_turtle": { "theme": "ocean", "baby": true },
+      "catalog_bumble_bunny": { "theme": "farm" },
+      "catalog_tiny_toucan": { "theme": "jungle" },
+      "catalog_cloud_lamb": { "theme": "farm" },
+      "catalog_pebble_penguin": { "theme": "ocean" },
+      "catalog_moon_moth": { "theme": "moon" },
+      "catalog_puddle_otter": { "theme": "ocean" },
+      "catalog_berry_bear": { "theme": "forest" },
+      "catalog_sprout_frog": { "theme": "forest" },
+      "catalog_cocoa_capybara": { "theme": "jungle" },
+      "catalog_twinkle_deer": { "theme": "forest" },
+      "catalog_bubble_seal": { "theme": "ocean" },
+      "catalog_pipkin_pony": { "theme": "farm" },
+      "catalog_mango_monkey": { "theme": "jungle" },
+      "catalog_honey_hedgehog": { "theme": "forest" },
+      "catalog_coral_crab": { "theme": "ocean" },
+      "catalog_noodle_alpaca": { "theme": "farm" },
+      "catalog_comet_koala": { "theme": "moon" }
+    }
+  },
+
+  "ambient": {
+    "about": "Soft magic effects drawn lightly over an activity (light blend). Picked by activity id first, then by theme.",
+    "byActivity": { "m20_weather_rain": "fx.magic.rain_drops", "m20_weather_sun": "fx.magic.sun_rays", "m20_weather_cold": "fx.magic.clouds_soft", "m19_vocab_garden": "fx.magic.petal_swirl" },
+    "byTheme": { "forest": "fx.magic.leaf_wind" }
+  },
+
   "rewards": {
+    "luna_star": "worlds.decor.star_trophy_happy",
+    "catalog_moon_lamp": "worlds.decor.moon_crystal_sleepy",
+    "catalog_kindness_sign": "worlds.decor.sign_heart",
+    "catalog_star_path": "worlds.decor.signpost_three",
+    "catalog_shell_garden": "worlds.beach.shell_garland",
+    "catalog_story_lantern": "worlds.decor.lantern_star",
     "baby_raptor": "creatures.rory.rory_idle",
     "baby_triceratops": "creatures.sea_dino.triceratops",
     "baby_stegosaurus": "creatures.dinos.stegosaurus",
@@ -242,7 +288,8 @@
     "ball": "objects.play.beach_ball",
     "drum": "objects.play.drum",
     "dinosaur_home": "worlds.dino_cave",
-    "rainbow_arch": "worlds.rainbow_village.rainbow"
+    "rainbow_arch": "worlds.rainbow_village.rainbow",
+    "portalSwirl": "fx.magic.portal_swirl"
   },
 
   "worlds": {
@@ -297,7 +344,8 @@
     "complete": { "id": "fx.fx_confetti" },
     "ring_correct": { "id": "fx.ring_yellow", "blend": "screen" },
     "ring_drop": { "id": "fx.ring_blue", "blend": "screen" },
-    "ring_incorrect": { "id": "fx.ring_pink", "blend": "screen" }
+    "ring_incorrect": { "id": "fx.ring_pink", "blend": "screen" },
+    "place": { "id": "fx.magic.sparkle_orbs", "blend": "screen" }
   },
 
   "preload": {
@@ -308,7 +356,7 @@
       "creatures.bunny.bunny_tpose", "creatures.rory.rory_idle",
       "ui.icon_parent_area", "ui.icon_home", "objects.town.sign_arrow", "ui.icon_play", "ui.map_pin_star", "ui.menu.icon_collection", "ui.build.move_arrows", "ui.icon_star",
       "worlds.buildings.cottage_blue", "worlds.buildings.portal_gate", "worlds.nature.tree_big", "worlds.pond.lily_pads", "worlds.bunny_house", "objects.play.slide", "objects.play.beach_ball", "objects.play.drum",
-      "fx.fx_glow_gold", "fx.fx_sparkles_gold", "fx.fx_star_burst", "fx.fx_confetti", "fx.ring_yellow", "fx.ring_blue", "fx.ring_pink"
+      "fx.fx_glow_gold", "fx.fx_sparkles_gold", "fx.fx_star_burst", "fx.fx_confetti", "fx.ring_yellow", "fx.ring_blue", "fx.ring_pink", "fx.magic.sparkle_orbs"
     ],
     "scenes": {
       "island": ["worlds.dino_cave", "worlds.rainbow_village.rainbow"],

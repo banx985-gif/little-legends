@@ -492,6 +492,54 @@
   "url": "./assets/fx/fx_water_splash.png"
  },
  {
+  "id": "fx.hatch.burst_crystal_shards",
+  "url": "./assets/fx/hatch/burst_crystal_shards.png"
+ },
+ {
+  "id": "fx.hatch.burst_dino",
+  "url": "./assets/fx/hatch/burst_dino.png"
+ },
+ {
+  "id": "fx.hatch.burst_farm",
+  "url": "./assets/fx/hatch/burst_farm.png"
+ },
+ {
+  "id": "fx.hatch.burst_forest",
+  "url": "./assets/fx/hatch/burst_forest.png"
+ },
+ {
+  "id": "fx.hatch.burst_jungle",
+  "url": "./assets/fx/hatch/burst_jungle.png"
+ },
+ {
+  "id": "fx.hatch.burst_light_rays",
+  "url": "./assets/fx/hatch/burst_light_rays.png"
+ },
+ {
+  "id": "fx.hatch.burst_music",
+  "url": "./assets/fx/hatch/burst_music.png"
+ },
+ {
+  "id": "fx.hatch.burst_ocean",
+  "url": "./assets/fx/hatch/burst_ocean.png"
+ },
+ {
+  "id": "fx.hatch.burst_rainbow",
+  "url": "./assets/fx/hatch/burst_rainbow.png"
+ },
+ {
+  "id": "fx.hatch.burst_shell",
+  "url": "./assets/fx/hatch/burst_shell.png"
+ },
+ {
+  "id": "fx.hatch.burst_sparkle_spiral",
+  "url": "./assets/fx/hatch/burst_sparkle_spiral.png"
+ },
+ {
+  "id": "fx.hatch.puff_cloud_stars",
+  "url": "./assets/fx/hatch/puff_cloud_stars.png"
+ },
+ {
   "id": "fx.magic.butterflies_glow",
   "url": "./assets/fx/magic/butterflies_glow.png"
  },
@@ -1742,6 +1790,174 @@
  {
   "id": "rewards.eggs.egg_rainbow",
   "url": "./assets/rewards/eggs/egg_rainbow.png"
+ },
+ {
+  "id": "rewards.hatch.dino.egg_dino_1_idle",
+  "url": "./assets/rewards/hatch/dino/egg_dino_1_idle.png"
+ },
+ {
+  "id": "rewards.hatch.dino.egg_dino_2_wobble",
+  "url": "./assets/rewards/hatch/dino/egg_dino_2_wobble.png"
+ },
+ {
+  "id": "rewards.hatch.dino.egg_dino_3_crack_small",
+  "url": "./assets/rewards/hatch/dino/egg_dino_3_crack_small.png"
+ },
+ {
+  "id": "rewards.hatch.dino.egg_dino_4_crack_big",
+  "url": "./assets/rewards/hatch/dino/egg_dino_4_crack_big.png"
+ },
+ {
+  "id": "rewards.hatch.dino.egg_dino_5_peek",
+  "url": "./assets/rewards/hatch/dino/egg_dino_5_peek.png"
+ },
+ {
+  "id": "rewards.hatch.dino.egg_dino_6_hatched",
+  "url": "./assets/rewards/hatch/dino/egg_dino_6_hatched.png"
+ },
+ {
+  "id": "rewards.hatch.farm.egg_farm_1_idle",
+  "url": "./assets/rewards/hatch/farm/egg_farm_1_idle.png"
+ },
+ {
+  "id": "rewards.hatch.farm.egg_farm_2_wobble",
+  "url": "./assets/rewards/hatch/farm/egg_farm_2_wobble.png"
+ },
+ {
+  "id": "rewards.hatch.farm.egg_farm_3_crack_small",
+  "url": "./assets/rewards/hatch/farm/egg_farm_3_crack_small.png"
+ },
+ {
+  "id": "rewards.hatch.farm.egg_farm_4_crack_big",
+  "url": "./assets/rewards/hatch/farm/egg_farm_4_crack_big.png"
+ },
+ {
+  "id": "rewards.hatch.farm.egg_farm_5_peek",
+  "url": "./assets/rewards/hatch/farm/egg_farm_5_peek.png"
+ },
+ {
+  "id": "rewards.hatch.farm.egg_farm_6_hatched",
+  "url": "./assets/rewards/hatch/farm/egg_farm_6_hatched.png"
+ },
+ {
+  "id": "rewards.hatch.forest.egg_forest_1_idle",
+  "url": "./assets/rewards/hatch/forest/egg_forest_1_idle.png"
+ },
+ {
+  "id": "rewards.hatch.forest.egg_forest_2_wobble",
+  "url": "./assets/rewards/hatch/forest/egg_forest_2_wobble.png"
+ },
+ {
+  "id": "rewards.hatch.forest.egg_forest_3_crack_small",
+  "url": "./assets/rewards/hatch/forest/egg_forest_3_crack_small.png"
+ },
+ {
+  "id": "rewards.hatch.forest.egg_forest_4_crack_big",
+  "url": "./assets/rewards/hatch/forest/egg_forest_4_crack_big.png"
+ },
+ {
+  "id": "rewards.hatch.forest.egg_forest_5_peek",
+  "url": "./assets/rewards/hatch/forest/egg_forest_5_peek.png"
+ },
+ {
+  "id": "rewards.hatch.forest.egg_forest_6_hatched",
+  "url": "./assets/rewards/hatch/forest/egg_forest_6_hatched.png"
+ },
+ {
+  "id": "rewards.hatch.jungle.egg_jungle_1_idle",
+  "url": "./assets/rewards/hatch/jungle/egg_jungle_1_idle.png"
+ },
+ {
+  "id": "rewards.hatch.jungle.egg_jungle_2_wobble",
+  "url": "./assets/rewards/hatch/jungle/egg_jungle_2_wobble.png"
+ },
+ {
+  "id": "rewards.hatch.jungle.egg_jungle_3_crack_small",
+  "url": "./assets/rewards/hatch/jungle/egg_jungle_3_crack_small.png"
+ },
+ {
+  "id": "rewards.hatch.jungle.egg_jungle_4_crack_big",
+  "url": "./assets/rewards/hatch/jungle/egg_jungle_4_crack_big.png"
+ },
+ {
+  "id": "rewards.hatch.jungle.egg_jungle_5_peek",
+  "url": "./assets/rewards/hatch/jungle/egg_jungle_5_peek.png"
+ },
+ {
+  "id": "rewards.hatch.jungle.egg_jungle_6_hatched",
+  "url": "./assets/rewards/hatch/jungle/egg_jungle_6_hatched.png"
+ },
+ {
+  "id": "rewards.hatch.moon.egg_moon_1_idle",
+  "url": "./assets/rewards/hatch/moon/egg_moon_1_idle.png"
+ },
+ {
+  "id": "rewards.hatch.moon.egg_moon_2_wobble",
+  "url": "./assets/rewards/hatch/moon/egg_moon_2_wobble.png"
+ },
+ {
+  "id": "rewards.hatch.moon.egg_moon_3_crack_small",
+  "url": "./assets/rewards/hatch/moon/egg_moon_3_crack_small.png"
+ },
+ {
+  "id": "rewards.hatch.moon.egg_moon_4_crack_big",
+  "url": "./assets/rewards/hatch/moon/egg_moon_4_crack_big.png"
+ },
+ {
+  "id": "rewards.hatch.moon.egg_moon_5_peek",
+  "url": "./assets/rewards/hatch/moon/egg_moon_5_peek.png"
+ },
+ {
+  "id": "rewards.hatch.moon.egg_moon_6_hatched",
+  "url": "./assets/rewards/hatch/moon/egg_moon_6_hatched.png"
+ },
+ {
+  "id": "rewards.hatch.ocean.egg_ocean_1_idle",
+  "url": "./assets/rewards/hatch/ocean/egg_ocean_1_idle.png"
+ },
+ {
+  "id": "rewards.hatch.ocean.egg_ocean_2_wobble",
+  "url": "./assets/rewards/hatch/ocean/egg_ocean_2_wobble.png"
+ },
+ {
+  "id": "rewards.hatch.ocean.egg_ocean_3_crack_small",
+  "url": "./assets/rewards/hatch/ocean/egg_ocean_3_crack_small.png"
+ },
+ {
+  "id": "rewards.hatch.ocean.egg_ocean_4_crack_big",
+  "url": "./assets/rewards/hatch/ocean/egg_ocean_4_crack_big.png"
+ },
+ {
+  "id": "rewards.hatch.ocean.egg_ocean_5_peek",
+  "url": "./assets/rewards/hatch/ocean/egg_ocean_5_peek.png"
+ },
+ {
+  "id": "rewards.hatch.ocean.egg_ocean_6_hatched",
+  "url": "./assets/rewards/hatch/ocean/egg_ocean_6_hatched.png"
+ },
+ {
+  "id": "rewards.hatch.rainbow.egg_rainbow_1_idle",
+  "url": "./assets/rewards/hatch/rainbow/egg_rainbow_1_idle.png"
+ },
+ {
+  "id": "rewards.hatch.rainbow.egg_rainbow_2_wobble",
+  "url": "./assets/rewards/hatch/rainbow/egg_rainbow_2_wobble.png"
+ },
+ {
+  "id": "rewards.hatch.rainbow.egg_rainbow_3_crack_small",
+  "url": "./assets/rewards/hatch/rainbow/egg_rainbow_3_crack_small.png"
+ },
+ {
+  "id": "rewards.hatch.rainbow.egg_rainbow_4_crack_big",
+  "url": "./assets/rewards/hatch/rainbow/egg_rainbow_4_crack_big.png"
+ },
+ {
+  "id": "rewards.hatch.rainbow.egg_rainbow_5_peek",
+  "url": "./assets/rewards/hatch/rainbow/egg_rainbow_5_peek.png"
+ },
+ {
+  "id": "rewards.hatch.rainbow.egg_rainbow_6_hatched",
+  "url": "./assets/rewards/hatch/rainbow/egg_rainbow_6_hatched.png"
  },
  {
   "id": "rewards.medals.badge_check",

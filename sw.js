@@ -1,4 +1,4 @@
-const CACHE = 'little-legends-m29-playable-fix1-art-v32';
+const CACHE = 'little-legends-m29-playable-fix1-art-v33';
 const CORE = [
   './',
   './index.html',
@@ -52,6 +52,7 @@ const CORE = [
   './src/core/PerformanceManager.js',
   './src/core/SceneManager.js',
   './src/fx/FeedbackFX.js',
+  './src/fx/HatchSequence.js',
   './src/hints/HintController.js',
   './src/input/InputManager.js',
   './src/learning/ActivityScheduler.js',

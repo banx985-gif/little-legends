@@ -1,9 +1,13 @@
 import { PipController } from '../characters/PipController.js';
 import { HintController } from '../hints/HintController.js';
-import { drawActivityBackground, drawInstructionPanel, drawToken } from '../activities/activityDraw.js';
+import { drawActivityBackground, drawInstructionPanel, drawToken, drawActivityAmbient } from '../activities/activityDraw.js';
 import { drawCandyButton } from '../utils/draw.js';
 import { EGG_STATES } from '../rewards/EggSystem.js';
-import { drawArt, characterArt } from '../core/art.js';
+import { drawArt, characterArt, hatchTheme } from '../core/art.js';
+import { HatchSequence } from '../fx/HatchSequence.js';
+
+// Tap-to-hatch keeps its taps; each egg state shows the next hatch frame.
+const EGG_FRAME={RECEIVED:0,READY:0,INTERACTION_1:1,INTERACTION_2:2,CRACK:3,HATCH:4};
 
 function pointInRect(x,y,r){return x>=r.x&&x<=r.x+r.w&&y>=r.y&&y<=r.y+r.h;}
 
@@ -48,6 +52,8 @@ export class AdventureScene {
   async startStep(){
     this.activity?.cleanup?.(); this.hints?.stop?.(); this.activity=null; this.hints=null; this.completedStep=false; this.pressed=null; this.bigChoice=null; this.patternChoice=null;
     this.step=this.definition.steps[this.stepIndex];
+    const rewardId=this.definition.reward?.id??'baby_raptor';
+    this.hatch=['egg','hatch'].includes(this.step.kind)?new HatchSequence({theme:hatchTheme(rewardId,this.definition.world),rewardId}).showStage(0):null;
     await this.game.save?.saveAdventure?.(this.definition.id,this.stepIndex);
     if(this.step.kind==='activity'){
       this.activity=this.game.activityEngine.create(this.step.activityId,this);
@@ -85,7 +91,7 @@ export class AdventureScene {
   }
 
   update(dt){
-    this.t+=dt;this.pip?.update(dt);this.game.rewards?.update?.(dt); if(this.speechT>0)this.speechT=Math.max(0,this.speechT-dt);
+    this.t+=dt;this.pip?.update(dt);this.hatch?.update(dt);this.game.rewards?.update?.(dt); if(this.speechT>0)this.speechT=Math.max(0,this.speechT-dt);
     if(this.activity&&!this.completedStep){this.activity.update(dt);this.hints?.update(dt);if(this.hintDemo)this.hintDemoT=(this.hintDemoT??0)+dt;}
   }
 
@@ -113,7 +119,7 @@ export class AdventureScene {
     if(this.step.kind==='hatch'){
       const egg=await this.game.eggs?.interact?.('rory-dino-egg');
       this.game.audio?.playCue?.(egg?.state===EGG_STATES.CREATURE_UNLOCKED?'reward':'correct');
-      if(egg?.state===EGG_STATES.CREATURE_UNLOCKED){this.completedStep=true;this.game.rewards?.beginReveal?.('baby_raptor');this.pip.react('celebrate',{duration:1.8});}
+      if(egg?.state===EGG_STATES.CREATURE_UNLOCKED){this.hatch?.reveal();this.completedStep=true;this.game.rewards?.beginReveal?.('baby_raptor');this.pip.react('celebrate',{duration:1.8});}
       return;
     }
     if(this.step.kind==='place'){
@@ -151,7 +157,7 @@ export class AdventureScene {
   drawSpeech(ctx){if(!this.speech||this.speechT<=0)return;ctx.save();ctx.fillStyle='#fffdf4';ctx.beginPath();ctx.roundRect(70,80,440,125,45);ctx.fill();ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='800 31px system-ui';ctx.fillText(this.speech,290,151);ctx.restore();}
 
   render(ctx){
-    if(this.activity){this.activity.render(ctx);this.pip.render(ctx);this.drawSpeech(ctx);if(this.completedStep)this.drawContinue(ctx);return;}
+    if(this.activity){this.activity.render(ctx);drawActivityAmbient(ctx,this.activity.definition,this.t);this.pip.render(ctx);this.drawSpeech(ctx);if(this.completedStep)this.drawContinue(ctx);return;}
     const worldTheme={rainbow:'rainbow',dino:'dino',animal:'forest',storybook:'storybook',life:'life'}[this.definition?.world]??'dino';drawActivityBackground(ctx,worldTheme); this.drawGuide(ctx); this.pip.render(ctx); this.drawSpeech(ctx);
     drawInstructionPanel(ctx,this.step.title,`${this.stepIndex+1} of ${this.definition.steps.length}`);
     if(this.step.kind==='story')this.renderStory(ctx);
@@ -166,7 +172,16 @@ export class AdventureScene {
   renderStory(ctx){ctx.fillStyle='#ffffffcc';ctx.beginPath();ctx.roundRect(560,360,780,250,70);ctx.fill();ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='900 54px system-ui';ctx.fillText(this.step.title??this.definition.title,950,465);ctx.font='700 32px system-ui';const fallback={rainbow:'Octo needs our help!',animal:'Bella found an animal mystery!',storybook:'Luna has a story for us!',life:'Bella is ready for today!',dino:'Rory needs our help.'}[this.definition.world]??'Let’s help!';const detail=this.step.voice??fallback;ctx.fillText(detail.length>54?detail.slice(0,52)+'…':detail,950,535);}
   renderSize(ctx){for(const b of this.blankets()){ctx.fillStyle=b.color;ctx.beginPath();ctx.roundRect(b.x-b.w/2,b.y-b.h/2,b.w,b.h,45);ctx.fill();ctx.fillStyle='#ffffff55';for(let i=0;i<4;i++){ctx.beginPath();ctx.arc(b.x-b.w*.3+i*b.w*.2,b.y,16,0,Math.PI*2);ctx.fill();}}}
   renderPattern(ctx){const xs=[520,760,1000,1240];const colors=['red','blue','red',null];for(let i=0;i<4;i++){ctx.fillStyle=colors[i]==='red'?'#e94d55':colors[i]==='blue'?'#4d8ee8':'#ffffffaa';ctx.beginPath();ctx.roundRect(xs[i]-85,470,170,170,45);ctx.fill();if(!colors[i]){ctx.fillStyle='#8b69db';ctx.textAlign='center';ctx.font='900 95px system-ui';ctx.fillText('?',xs[i],585);}}for(const [x,c] of [[690,'#4d8ee8'],[990,'#f7cf4f']]){ctx.fillStyle=c;ctx.beginPath();ctx.roundRect(x,760,240,150,45);ctx.fill();}}
-  renderEgg(ctx,hatched){const egg=this.game.eggs?.get?.('rory-dino-egg');if(!hatched||!egg||egg.state!==EGG_STATES.CREATURE_UNLOCKED){const progress=this.game.eggs?.progress?.('rory-dino-egg')??0;drawToken(ctx,{kind:'egg',color:'#fff2c7',x:960,y:600,size:420},{highlight:true});if(hatched){ctx.strokeStyle='#8b69db';ctx.lineWidth=14;for(let i=0;i<Math.floor(progress*6);i++){ctx.beginPath();ctx.moveTo(900+i*22,530+i%2*15);ctx.lineTo(920+i*22,570-i%2*10);ctx.stroke();}ctx.fillStyle='#fff';ctx.textAlign='center';ctx.font='800 34px system-ui';ctx.fillText('Tap the egg to help it hatch!',960,840);}}else{this.drawRory(ctx,960,650,0.72);ctx.fillStyle='#fff';ctx.textAlign='center';ctx.font='900 48px system-ui';ctx.fillText('BABY RAPTOR!',960,820);}}
+  renderEgg(ctx,hatched){const egg=this.game.eggs?.get?.('rory-dino-egg');
+    if(this.hatch?.ready){
+      const unlocked=hatched&&egg?.state===EGG_STATES.CREATURE_UNLOCKED;
+      if(!unlocked)this.hatch.showStage(hatched?EGG_FRAME[egg?.state]??0:0);else if(this.hatch.manualStage!==null)this.hatch.skip();
+      this.hatch.render(ctx,960,780,400);
+      ctx.fillStyle='#fff';ctx.textAlign='center';
+      if(unlocked){ctx.font='900 48px system-ui';ctx.fillText(`${String(this.game.rewards?.get?.(this.definition.reward?.id)?.name??'Baby Raptor').toUpperCase()}!`,960,845);}
+      else if(hatched){ctx.font='800 34px system-ui';ctx.fillText('Tap the egg to help it hatch!',960,845);}
+      return;
+    }if(!hatched||!egg||egg.state!==EGG_STATES.CREATURE_UNLOCKED){const progress=this.game.eggs?.progress?.('rory-dino-egg')??0;drawToken(ctx,{kind:'egg',color:'#fff2c7',x:960,y:600,size:420},{highlight:true});if(hatched){ctx.strokeStyle='#8b69db';ctx.lineWidth=14;for(let i=0;i<Math.floor(progress*6);i++){ctx.beginPath();ctx.moveTo(900+i*22,530+i%2*15);ctx.lineTo(920+i*22,570-i%2*10);ctx.stroke();}ctx.fillStyle='#fff';ctx.textAlign='center';ctx.font='800 34px system-ui';ctx.fillText('Tap the egg to help it hatch!',960,840);}}else{this.drawRory(ctx,960,650,0.72);ctx.fillStyle='#fff';ctx.textAlign='center';ctx.font='900 48px system-ui';ctx.fillText('BABY RAPTOR!',960,820);}}
   renderPlace(ctx){ctx.fillStyle='#b77d4e';ctx.beginPath();ctx.roundRect(780,570,420,260,80);ctx.fill();ctx.fillStyle='#7ccf6a';ctx.beginPath();ctx.ellipse(990,585,250,80,0,0,Math.PI*2);ctx.fill();this.drawRory(ctx,980,680,0.48);ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='800 34px system-ui';ctx.fillText(this.completedStep?'Perfect home!':'Tap to place Baby Raptor here',990,900);}
   drawContinue(ctx,label='CONTINUE'){drawCandyButton(ctx,720,880,480,125,label,false,label==='HOME'?'home':'play');}
 }

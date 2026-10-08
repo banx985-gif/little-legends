@@ -28,7 +28,8 @@ import { ChildTestRecorder } from '../src/testing/ChildTestRecorder.js';
 import { ReleaseQualification, RELEASE_MANUAL_CHECKS } from '../src/testing/ReleaseQualification.js';
 import { PRIVACY_GUARANTEES } from '../src/privacy/PrivacyPolicy.js';
 import { FeedbackFX } from '../src/fx/FeedbackFX.js';
-import { art, tokenArt, artIdsForScene, countTargetArt } from '../src/core/art.js';
+import { art, tokenArt, artIdsForScene, countTargetArt, hatchTheme, hatchFrameIds } from '../src/core/art.js';
+import { HatchSequence } from '../src/fx/HatchSequence.js';
 import { drawToken, drawBin, drawBasket } from '../src/activities/activityDraw.js';
 import { drawCandyButton } from '../src/utils/draw.js';
 
@@ -61,7 +62,7 @@ for (const file of jsFiles) execFileSync(process.execPath, ['--check', file], { 
 
 // The installable/offline build must cache every eagerly imported source module.
 const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v32"), 'Service worker cache version should advance with the real-art build');
+assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v33"), 'Service worker cache version should advance with the real-art build');
 for (const file of walk(path.join(root, 'src')).filter(file => file.endsWith('.js'))) {
   const rel = `./${path.relative(root, file).split(path.sep).join('/')}`;
   assert.ok(serviceWorkerSource.includes(`'${rel}'`), `Offline cache must include ${rel}`);
@@ -750,6 +751,20 @@ const bones=activityData.activities.find(a=>a.id==='m16_less_bones');assert.equa
 const btnCtx=new ArtCanvasContext();loadedArt.set('objects.town.sign_arrow',fakePicture);drawCandyButton(btnCtx,40,40,210,100,'BACK',false,'back');assert.equal(btnCtx.images.length,1,'BACK button shows the arrow');assert.equal(btnCtx.depth,0);
 for(const id of await artIdsForScene(artGame,'adventure',{adventureId:'rory_dino_picnic'}))assert.ok(artIds.has(id));
 assert.ok((await artIdsForScene(artGame,'adventure',{adventureId:'rory_dino_picnic'})).includes('objects.daily_life.plate'),"Dino Picnic preloads Rory's plate");
+// Job 04: egg hatching — 6 frames per theme, gentle, skippable; the theme's baby only shows when it IS the reward.
+for(const theme of new Set([...Object.values(artMapData.hatch.worlds),...Object.values(artMapData.hatch.rewards).map(r=>r.theme)])){const frames=hatchFrameIds(theme);assert.equal(frames.length,6);for(const id of frames)assert.ok(artIds.has(id),'Hatch frame missing '+id);assert.ok(artIds.has(artMapData.hatch.bursts[theme]),'Hatch burst missing for '+theme);}
+assert.equal(hatchTheme('baby_raptor','dino'),'dino');assert.equal(hatchTheme('fox_cub','animal'),'forest');assert.equal(hatchTheme('catalog_mossy_turtle',null),'ocean');
+for(const r of rewardData.rewards.filter(r=>r.type==='creatures'&&r.catalog))assert.ok(artMapData.hatch.rewards[r.id],'Catalogue creature needs an egg theme: '+r.id);
+for(const id of hatchFrameIds('dino'))loadedArt.set(id,{...fakePicture,id});loadedArt.set('fx.hatch.burst_dino',fakePicture);loadedArt.set('fx.magic.pedestal_glow',fakePicture);
+const hatchRun=new HatchSequence({theme:'dino',rewardId:'baby_raptor'}).play();const seen=[];for(let i=0;i<40;i++){hatchRun.update(.08);seen.push(hatchRun.frameIndex());const c=new ArtCanvasContext();assert.equal(hatchRun.render(c,960,780,400),true);assert.equal(c.depth,0);}
+assert.deepEqual([...new Set(seen)],[0,1,2,3,4,5],'Hatch plays idle → wobble → small crack → big crack → peek → hatched in order');assert.ok(hatchRun.finished,'Hatch finishes in about 3 seconds');
+const skipped=new HatchSequence({theme:'dino',rewardId:'baby_raptor'}).play();skipped.update(.1);skipped.skip();assert.ok(skipped.finished,'Tap skips the hatch');
+const notBaby=new HatchSequence({theme:'dino',rewardId:'baby_triceratops'}).play();notBaby.update(2.6);const nbCtx=new ArtCanvasContext();notBaby.render(nbCtx,960,780,400);assert.ok(!nbCtx.images.some(im=>[4,5].map(i=>hatchFrameIds('dino')[i]).includes(im.img.id)),'Another reward never shows the theme baby (peek/hatched)');assert.equal(notBaby.showBaby,false,'Another reward must not show the theme baby');
+const hatchBurstCtx=new ArtCanvasContext();const burstRun=new HatchSequence({theme:'dino',rewardId:'baby_raptor'}).reveal();burstRun.update(.4);burstRun.render(hatchBurstCtx,960,780,400);assert.equal(hatchBurstCtx.blend,'screen','Hatch burst uses the light blend');
+const manual=new HatchSequence({theme:'dino',rewardId:'baby_raptor'}).showStage(3);manual.update(5);assert.equal(manual.frameIndex(),3,'Tap-to-hatch holds the frame for the current egg state');assert.equal(manual.finished,false);
+const islandHatch=await artIdsForScene(artGame,'island',{celebrateReward:'fox_cub'});assert.ok(islandHatch.includes('rewards.hatch.forest.egg_forest_1_idle'),'Island preloads the forest egg for Fox Cub');
+assert.ok((await artIdsForScene(artGame,'adventure',{adventureId:'rory_dino_picnic'})).includes('rewards.hatch.dino.egg_dino_6_hatched'),'Dino Picnic preloads its hatch');
+assert.ok(serviceWorkerSource.includes("'./src/fx/HatchSequence.js'"));
 delete globalThis.__LL_ASSETS;
 assert.ok(serviceWorkerSource.includes("'./assets/art_manifest.json'")&&serviceWorkerSource.includes('cacheArt('),'Offline cache should include every picture in the art manifest');
 

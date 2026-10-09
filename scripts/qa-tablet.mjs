@@ -333,7 +333,14 @@ class Driver {
 
   async toIslandIdle() {
     // Let the reward celebration play (tap skips a hatch), then the island is free.
-    for (let i = 0; i < 30; i++) { const s = await this.state(); if (s.scene !== 'island') return; if (!s.celebrate) return; if (s.hatchActive) await this.tap(960, 600); await sleep(400); }
+    for (let i = 0; i < 30; i++) { const s = await this.state(); if (s.scene !== 'island') return; if (!s.celebrate) break; if (s.hatchActive) await this.tap(960, 600); await sleep(400); }
+    // Job 14: the next-mission offer (home / next). Take home so the play-through stays in charge.
+    for (let i = 0; i < 10; i++) {
+      const offer = await this.page.evaluate(() => { const sc = window.__littleLegends.scenes.current; return window.__littleLegends.scenes.currentName === 'island' && Boolean(sc.offerShowing?.()); });
+      if (offer) { if (!this.sawOffer) { this.sawOffer = true; await this.snap('next_mission_offer'); } await this.tap(720, 600); await sleep(300); return; }
+      if (!(await this.page.evaluate(() => Boolean(window.__littleLegends.scenes.current?.nextOffer)))) return;
+      await sleep(300);
+    }
   }
 }
 
@@ -349,7 +356,7 @@ async function runViewport(browser, vp, base, worlds) {
   const d = new Driver(page, vp, log);
   page.on('console', m => { if (m.type() === 'error') d.flag('console-error', m.text().slice(0, 300), 'console'); });
   page.on('pageerror', e => d.flag('page-error', String(e?.message ?? e).slice(0, 300), 'page'));
-  page.on('requestfailed', r => { if (!r.url().includes('favicon')) d.flag('request-failed', `${r.url().replace(base, '')} ${r.failure()?.errorText ?? ''}`, 'network'); });
+  page.on('requestfailed', r => { if (!r.url().includes('favicon') && !(r.url().includes('/assets/audio/') && /ABORTED/.test(r.failure()?.errorText ?? ''))) /* a music player cancelling its download on a track change is normal */ d.flag('request-failed', `${r.url().replace(base, '')} ${r.failure()?.errorText ?? ''}`, 'network'); });
   page.on('dialog', async dialog => { const m = dialog.message(); await dialog.accept(m.includes('name') ? 'Mia' : m.includes('age') ? '4' : 'en-AU'); });
   page.on('response', r => { if (r.status() >= 400) d.flag('http-error', `${r.status()} ${r.url().replace(base, '')}`, 'network'); });
 
@@ -398,7 +405,7 @@ async function runViewport(browser, vp, base, worlds) {
       await d.snap(`${world}_hub_all_done`);
       // Jungle (Job 12): the music Jam is a button on its mission hub.
       if (world === 'jungle') { await d.tap(1640, 972); await playJungle(d); }
-      await d.tap(145, 90); await d.waitScene('worldSelect'); await d.tap(145, 90); await d.waitScene('island');
+      await d.tap(130, 100); await d.waitScene('island'); // Job 14: the home picture goes straight home
     }
   }
 
@@ -464,9 +471,9 @@ async function playJungle(d) {
     }
     await sleep(500);
   }
-  await d.tap(145, 90);
+  await d.tap(130, 100);
   const s = await d.settle(500);
-  if (s.scene === 'worldHub') return; // back on the Jungle hub
+  if (s.scene === 'island') { await d.toIslandIdle(); await d.tap(1060, 957); await d.waitScene('worldSelect'); await d.tap(270, 570); await d.waitScene('worldHub'); return; } // Job 14: Jam home → island
   else if (s.scene === 'island') { await sleep(900); await d.snap('jungle_dragon_on_island'); await d.toIslandIdle(); await d.tap(1060, 957); await d.waitScene('worldSelect'); await d.tap(270, 570); await d.waitScene('worldHub'); }
   else d.flag('stuck', `Jungle Jam BACK went to ${s.scene}`, 'jungleJam');
 }

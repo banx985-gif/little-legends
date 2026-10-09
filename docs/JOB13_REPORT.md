@@ -90,7 +90,7 @@ All 80 of your sound files are now in the game and committed (`assets/audio/`).
 - **Up front:** the core effects, the sound map and the voice list are in the offline cache.
 - **On first play:** music, ambience and the other sounds are cached the first time they play. That cache survives updates, like the pictures.
 - **Audio players:** they ask for parts of a file, and the cache answers those properly.
-- **Offline cache:** **v49**.
+- **Offline cache:** **v50** (v49 at the Job 13 commit; v50 adds the QA fixes).
 
 ## Credits
 Parent Area → DATA now ends with the credits line: "Credits — sounds: Epic Stock Media (Vibrant Game, Pirate Game), Sonniss GDC 2026 / 344 Audio, TomMusic."
@@ -107,7 +107,58 @@ These are the same gaps as in your intake notes:
 The game keeps Pip's spoken words or the synth tones there. Recorded voice lines can now be dropped in (Job 14 and `docs/VOICE_LINES.csv`).
 
 ## Checks
-QA_PLACEHOLDER
+- **`npm run check` passes.** The new Job 13 block checks:
+  - every file in the sound map exists, and every delivered sound is used;
+  - effects stay below the voice level, and the T-Rex roar is quieter;
+  - the tones play when nothing is decoded;
+  - at most 4 effects play at once, and a repeat within 60 ms is skipped;
+  - Lite lets go of sounds; music streams;
+  - the Jam stems are let go;
+  - core sounds are cached offline, and music is cached with byte ranges;
+  - the credits and the "MB sound" stat are there.
+- **`npm run standalone` passes.** Offline cache v50.
+- **In real Chrome:**
+  - core effects decode at the first touch;
+  - island music and the beach bed stream;
+  - Dino Valley switches to the dino track;
+  - the Jam's 6 stems load, play and are let go on leaving;
+  - quiet mode switches to calm;
+  - no console errors.
+
+### Re-runs after Jobs 13 and 14 (the ones the memory stop cut short)
+**Tablet QA play-through, Android 1280×800 (`npm run qa:tablet -- --only=android`)**
+- It was run one world at a time, because the PC was short of memory.
+- **All 8 worlds played start to finish: every mission, plus all 5 Jungle Jam modes, the Collection tabs and the Parent Area.**
+
+| World | Screenshots | Findings |
+| --- | --- | --- |
+| Dino Valley | 97 | 11 name tags too small → **fixed** (tags keep full size whatever the depth) |
+| Rainbow Village | 71 | 0 |
+| Space Station | 69 | 1: the moon-base background hadn't finished loading when the hub was photographed (slow loading on the busy PC; it appears a moment later) |
+| Animal Forest | 71 | 2 "aborted" music downloads: the music player cancels its download on a track change, which is normal. The QA script now ignores that case. |
+| Jungle (missions + Jam) | 77 | 0 |
+| Luna's Storybook | 72 | 0 |
+| Bella's Day | 76 | 0 |
+| Busy Town | 84 | 1: two name tags overlapped in MOVE THINGS mode → **fixed** (only the thing being moved shows its tag) |
+
+- The new next-mission offer appears after every mission's reward; the run takes the home button each time.
+- The Job 14 navigation was followed throughout: home pictures go to the island, and the Jam's home goes to the island.
+
+**Low-end Lite check (`npm run qa:release -- --only=lite`, CPU slowed 4×, now also the island, Collection and Jam)**
+- **Picture memory: PASS.** At most 88 MB (town hub) against Lite's 100 MB budget.
+- **Frame time: FAIL, but only because the PC was swapping.**
+  - Free memory was 0.3–0.9 GB the whole time, with Unity, WSL and other programs open.
+  - Two runs gave wildly different numbers for the same screens: island 64 ms, then 19 ms; jungle hub 14 ms, then 38 ms; storybook stalled with 0 frames in the first run.
+  - In the second run every screen ran about 40+ frames per second, and most frames took 11–28 ms of work. The check's strict line is 16.7 ms, half of the 33 ms a 30 FPS frame allows.
+  - **To make sure Jobs 13–14 didn't slow anything down,** I ran the Job 12 build and this build side by side, Lite mode, CPU 4× slower, twice each.
+    - The island draws *faster* now: p95 8–10 ms against 16–39 ms (fewer things on it).
+    - The Collection and the world hubs are about the same (13–29 ms against 12–82 ms, all noisy).
+  - **Please run `npm run qa:release -- --only=lite` once with Unity and WSL closed,** and look at the picture-stats overlay on the real tablet. The Job 10 runs on a quiet PC passed with plenty of room.
+
+**Android app rebuilt:**
+- `app-android/dist/LittleLegends-debug.apk` (80 MB).
+- It contains all 80 sounds, the sound map and all the Job 13 and 14 code.
+- It still needs its first try on a real tablet.
 
 ## What to test on the tablet
 1. **First touch:** music starts on "Who is playing?". On the island you hear the island tune and soft waves. Tap things: each has its own sound, and Baby T-Rex's roar is gentle.

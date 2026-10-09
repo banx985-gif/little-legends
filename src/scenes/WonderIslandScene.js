@@ -237,7 +237,7 @@ export class WonderIslandScene {
     if(o.type==='creature_dragon'&&art(id)){const calm=globalThis.__LL_REDUCED_MOTION;drawArt(ctx,fxArt('rareGlow')?.id,0,0,o.w*1.35,o.h*1.35,{alpha:calm?.45:.4+Math.sin(this.t*1.2)*.12,blend:'screen'});} // rare friend: slow soft glow, never flashing
     if(!drawArt(ctx,id,0,-jump,o.w,o.h))return false;
     if(o.type==='pond'&&active){const p=1-this.interactionT/1.2;drawArt(ctx,lookupArt('island','pondSplash'),0,-30-p*20,150+p*60,150+p*60,{alpha:1-p});} // tap: a little splash
-    if(this.showTag(o)&&['creature_dino','creature_dragon','creature_animal','reward_badge','reward_vehicle'].includes(o.type)){ctx.fillStyle='#fffdf0';ctx.beginPath();ctx.roundRect(-100,o.h/2-16,200,44,20);ctx.fill();ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='800 22px system-ui';ctx.fillText(String(o.label??o.name??'Friend').replace('Baby ','').slice(0,17),0,o.h/2+14,186);}
+    if(this.showTag(o)&&['creature_dino','creature_dragon','creature_animal','reward_badge','reward_vehicle','catalog_item'].includes(o.type)){const k=o.k??1;ctx.save();ctx.translate(0,o.h/2);ctx.scale(1/k,1/k); /* the name tag keeps its full size whatever the depth (Job 14) */ctx.fillStyle='#fffdf0';ctx.beginPath();ctx.roundRect(-100,-16,200,44,20);ctx.fill();ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='800 22px system-ui';ctx.fillText(String(o.label??o.name??'Friend').replace('Baby ','').slice(0,17),0,14,186);ctx.restore();}
     return true;
   }
 
@@ -259,7 +259,7 @@ export class WonderIslandScene {
   depth(o){return o.ground?-1e4+o.y:(o.y+o.h*(o.k??1)/2)+(o.over?140:0);}
   sortByDepth(){this.objects.sort((a,b)=>this.depth(a)-this.depth(b));}
   // Name tags show when a thing is tapped, just won, or being moved, so a full island doesn't turn into a wall of labels.
-  showTag(o){return this.placementMode||(this.interaction===o.id&&this.interactionT>0)||this.celebrateReward===o.id;}
+  showTag(o){return (this.placementMode&&this.drag===o)||(this.interaction===o.id&&this.interactionT>0)||this.celebrateReward===o.id;} /* move mode: only the thing being moved (Job 14: tags never pile up) */
   async finishDrag(o){o.x=clamp(o.x,350,1580);o.y=clamp(o.y,410,820);this.sortByDepth();this.game.fx?.cue?.('place',{x:o.x,y:o.y});await this.game.save?.saveIslandPlacement?.(o.id,{x:o.x,y:o.y,zone:o.zone});}
   interact(o){this.interaction=o.id;this.interactionT=1.2;const hello=this.helloFor(o);this.hello=hello?{id:o.id,text:hello,t:HELLO_SECONDS}:null;if(o.type==='drum')this.game.audio?.playCue?.('count',{count:2});else this.game.audio?.playCue?.(this.tapSound(o)); /* Job 13: each thing's own sound */if(o.type==='slide')this.pip?.react('bounce',{duration:1.2});if(o.type==='ball')this.pip?.lookAt(o,.8);}
 

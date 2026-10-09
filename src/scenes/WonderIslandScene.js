@@ -1,4 +1,4 @@
-import { drawCloud, drawCandyButton, drawSpeechBubble } from '../utils/draw.js';
+import { drawCloud, drawCandyButton, drawSpeechBubble, nudgeScale } from '../utils/draw.js';
 import { PipController } from '../characters/PipController.js';
 import { wornRewards } from '../characters/Wardrobe.js';
 import { art, artMap, drawArt, lookupArt, fxArt, hatchTheme, worldOfReward } from '../core/art.js';
@@ -6,6 +6,10 @@ import { ISLAND_BUILD_LIMIT } from '../save/SaveSystem.js';
 import { HatchSequence } from '../fx/HatchSequence.js';
 
 const CELEBRATE_SECONDS=4.5, HATCH_ART_WAIT=6, HELLO_SECONDS=1.6;
+// Job 14: after a mission's reward, the next one starts by itself unless the child taps home.
+export const NEXT_OFFER_SECONDS=6;
+const OFFER_NEXT={x:1200,y:600,r:150},OFFER_HOME={x:720,y:600,r:115};
+const inCircle=(e,c)=>(e.x-c.x)**2+(e.y-c.y)**2<=(c.r+20)**2;
 // What a tapped friend says in its speech bubble (first match on its picture; 'Hi!' otherwise).
 const HELLO=[[/dragons./,'Rawr!'],[/chicken|toucan|parrot|owl|flamingo|peacock/,'Tweet!'],[/.pig$/,'Oink!'],[/.cow$/,'Moo!'],[/duck/,'Quack!'],[/fish|seahorse|dolphin|seal/,'Blub!'],[/lion|tiger|dino|rory|saurus|triceratops|stegosaurus/,'Roar!'],[/frog/,'Ribbit!'],[/sheep|lamb/,'Baa!']];
 
@@ -30,15 +34,39 @@ function overlap(a,b){const w=Math.min(a.x+a.w/2,b.x+b.w/2)-Math.max(a.x-a.w/2,b
 // already on the island, they go to the nearest free spot so a full island doesn't become one pile.
 // The portal and Pip's house are drawn, not objects: rewards never land on them (Job 11: the Story Tree sat in the portal).
 const FIXED_PLACES=[{x:960,y:470,w:300,h:390,fixed:true},{x:1585,y:512,w:370,h:340,fixed:true}];
+// Job 14: proper spots on the grass for friends and things (inside the green, clear of the buttons, the portal,
+// Pip's house and Pip). Each one goes to the nearest spot where it doesn't overlap anything; only a very full island
+// has to accept a small overlap. Things a child moved by hand stay where they were put.
+function offLimits(x,y){return (x>790&&x<1130&&y<700)||(x>1380&&y<710)||(x<450&&y>630);} // portal, Pip's house, Pip
+const GRASS_SPOTS=[];
+for(let y=470;y<=820;y+=70)for(let x=330;x<=1600;x+=95){
+  if(((x-960)/700)**2+((y-770)/285)**2>0.92)continue;
+  if(offLimits(x,y))continue;
+  GRASS_SPOTS.push([x,y]);
+}
+// Further back on the grass looks further away: a little smaller, and drawn behind (depth sort).
+export function depthScale(y){return 0.7+0.2*clamp((y-450)/(820-450),0,1);}
+function scaledBox(o,x=o.x,y=o.y,k=o.k??1){return{x,y,w:o.w*k,h:o.h*k};}
+const BOTTOM_LIMIT=885;
+// At most this many things the child didn't place by hand stand on the island (Job 14: no piles; fewer pictures for cheap tablets).
+// The newest win first; tapping an owned thing in the Collection pins it here too.
+export const ISLAND_SHOWN=10; // the big buttons start at 900
 function spreadOut(objects,placements){
   const placed=[...FIXED_PLACES];
+  for(const o of objects)if(o.base||o.ground)placed.push(scaledBox(o));
   for(const o of objects){
-    if(placements[o.id]||o.base){placed.push(o);continue;}
-    if(placed.some(p=>overlap(o,p)>(p.fixed?.2:.35))){
-      const free=FREE_SPOTS.map(([x,y])=>({x,y,d:Math.hypot(x-o.x,y-o.y)})).filter(c=>!placed.some(p=>overlap({...o,x:c.x,y:c.y},p)>.18)).sort((a,b)=>a.d-b.d)[0];
-      if(free){o.x=free.x;o.y=free.y;}
+    if(o.base||o.ground)continue;
+    if(placements[o.id]||o.type==='built'){o.k=o.type==='built'?1:depthScale(o.y);placed.push(scaledBox(o));continue;}
+    let best=null;
+    for(const [x,y] of [[o.x,o.y],...GRASS_SPOTS]){
+      const k=depthScale(y),b=scaledBox(o,x,y,k);
+      if(y+b.h/2>BOTTOM_LIMIT||y<450||offLimits(x,y)||((x-960)/700)**2+((y-770)/285)**2>0.95)continue;
+      let worst=0;for(const p of placed){worst=Math.max(worst,overlap(b,p),overlap(p,b));if(worst>.5)break;}
+      const score=(worst>.04?1e5+worst*1e5:0)+Math.hypot(x-o.x,y-o.y); // any overlap counts far more than distance
+      if(!best||score<best.score)best={x,y,k,score};
     }
-    placed.push(o);
+    if(best){o.x=best.x;o.y=best.y;o.k=best.k;}else o.k=depthScale(o.y);
+    placed.push(scaledBox(o));
   }
   return objects;
 }
@@ -51,13 +79,13 @@ function trayCell(i){return{x:TRAY_COLS[i%2],y:TRAY_TOP+Math.floor(i/2)*TRAY_STE
 function onGrass(o){return o.x>=350&&o.x<=1580&&o.y>=410&&o.y<=820;}
 function overTray(x,y){return x>=TRAY.x&&x<=TRAY.x+TRAY.w&&y>=TRAY.y&&y<=TRAY.y+TRAY.h;}
 
-function contains(o,x,y,extra=25){return x>=o.x-o.w/2-extra&&x<=o.x+o.w/2+extra&&y>=o.y-o.h/2-extra&&y<=o.y+o.h/2+extra;}
+function contains(o,x,y,extra=25){const k=o.k??1;return x>=o.x-o.w*k/2-extra&&x<=o.x+o.w*k/2+extra&&y>=o.y-o.h*k/2-extra&&y<=o.y+o.h*k/2+extra;}
 function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
 
 export class WonderIslandScene {
   constructor(game){this.game=game;this.t=0;this.portalPressed=false;this.rainbowPressed=false;this.parentPressed=false;this.modePressed=false;this.collectionPressed=false;this.placementMode=false;this.drag=null;this.trayPressed=null;this.dragOffset={x:0,y:0};this.objects=[];this.pip=null;this.interaction=null;this.interactionT=0;this.celebrateReward=null;}
   enter(data={}){
-    this.t=0;this.celebrateReward=null;this.celebrateQueue=[data.celebrateReward,...(data.celebrateNext??[])].filter(Boolean);
+    this.t=0;this.celebrateReward=null;this.nextOffer=data.fromMission?{after:data.fromMission,t:0}:null;this.celebrateQueue=[data.celebrateReward,...(data.celebrateNext??[])].filter(Boolean);
     const state=this.game.save?.getProfileState?.();const placements=state?.island?.placements??{};const looks=this.game.rewards?wornRewards(state?.pip?.outfit,this.game.rewards):[];this.pip=new PipController({x:300,y:760,scale:.72,looks,onVoiceEvent:e=>this.voiceEvent(e)});this.speech='';this.speechT=0;
     const buildings=new Set([...(state?.unlocks?.buildings??[])]),decorations=new Set([...(state?.unlocks?.decorations??[])]),creatures=new Set([...(state?.unlocks?.creatures??[])]);
     this.objects=BASE_OBJECTS.map(o=>({...o,base:true,...(placements[o.id]??{})}));
@@ -84,13 +112,37 @@ export class WonderIslandScene {
     const pieces=artMap()?.islandBuild?.pieces??{};
     for(const b of state?.island?.built??[]){const p=pieces[b.piece];if(!p)continue;this.objects.push({id:b.id,type:'built',piece:b.piece,art:p.id,x:960,y:620,w:p.w,h:p.h,ground:Boolean(p.ground),over:Boolean(p.over),zone:'build',...(placements[b.id]??{})});}
     // Back-to-front by depth: things lower on the grass stand in front (taps pick the front one).
+    this.objects=this.chooseShown(this.objects,placements,state);
     spreadOut(this.objects,placements);this.sortByDepth();
     this.hatch=null;this.celebrateT=0;this.startCelebration(this.celebrateQueue.shift()??null);
     // A new child's first steps (Job 12): DINO PICNIC glows until the first mission is done, then EXPLORE WORLDS once.
     const done=state?.adventure?.completed??[];this.firstStep=done.length===0?'play':done.length===1?'explore':null;
-    if(this.firstStep&&!this.celebrateReward)this.pip.say('island_first_steps',{text:this.firstStep==='play'?'Let’s go on a Dino Picnic! Tap the green play button.':'There are more worlds to explore! Tap Explore Worlds.',bubbleText:this.firstStep==='play'?'Tap DINO PICNIC!':'Tap EXPLORE WORLDS!',duration:2.8,reaction:'point'});
+    if(this.firstStep&&!this.celebrateReward&&!this.nextOffer)this.pip.say('island_first_steps',{text:this.firstStep==='play'?'Let’s go on a Dino Picnic! Tap the big green play button.':'There are more worlds to explore! Tap Explore Worlds.',bubbleText:this.firstStep==='play'?'Tap PLAY!':'Tap EXPLORE WORLDS!',duration:2.8,reaction:'point'});
   }
+  // The mission to play now: one left half-way first, otherwise the next unfinished one (AdventureEngine.next).
+  async playNext(after=null){
+    if(this.starting)return;this.starting=true;
+    const engine=this.game.adventureEngine;await engine?.ensureLoaded?.(this.game.assets);
+    const a=this.game.save?.getProfileState?.()?.adventure??{},done=a.completed??[];
+    const resume=!after&&a.currentId&&a.step>0&&!done.includes(a.currentId)&&engine?.get?.(a.currentId)?a.currentId:null;
+    this.game.scenes.change('adventure',{adventureId:resume??engine?.next?.(done,after)?.id??'rory_dino_picnic'});
+  }
+  offerShowing(){return Boolean(this.nextOffer)&&!this.celebrateQueue?.length&&(!this.celebrateReward||this.celebrateT>=CELEBRATE_SECONDS);}
+  // Two huge picture buttons: home (stay on the island) and next (starts by itself when the ring is full).
+  renderNextOffer(ctx){if(!this.offerShowing())return;const p=Math.min(1,this.nextOffer.t/NEXT_OFFER_SECONDS),fade=Math.min(1,this.nextOffer.t/.4);
+    ctx.save();ctx.globalAlpha=fade;ctx.fillStyle='#3d2b5288';ctx.fillRect(0,0,1920,1080);
+    for(const [c,id,col] of [[OFFER_HOME,'homeButton','#4d8ee8'],[OFFER_NEXT,'playButton','#66bd62']]){ctx.fillStyle='#fffdf0';ctx.beginPath();ctx.arc(c.x,c.y,c.r+18,0,Math.PI*2);ctx.fill();if(!drawArt(ctx,lookupArt('ui',id),c.x,c.y,c.r*2,c.r*2)){ctx.fillStyle=col;ctx.beginPath();ctx.arc(c.x,c.y,c.r,0,Math.PI*2);ctx.fill();}}
+    ctx.strokeStyle='#ffcc3d';ctx.lineWidth=18;ctx.lineCap='round';ctx.beginPath();ctx.arc(OFFER_NEXT.x,OFFER_NEXT.y,OFFER_NEXT.r+18,-Math.PI/2,-Math.PI/2+Math.PI*2*p);ctx.stroke();ctx.restore();}
   voiceEvent(e){if(e.type==='start'){this.speech=e.bubbleText??e.text??'';this.speechT=e.duration??1.5;if(e.text)this.game.audio?.speak?.(e.text);}else this.speechT=0;}
+  chooseShown(objects,placements,state){
+    const handPlaced=o=>Number.isFinite(placements[o.id]?.x);
+    const fromEnd=new Map();for(const list of Object.values(state?.unlocks??{}))(list??[]).forEach((id,i)=>fromEnd.set(id,Math.min(fromEnd.get(id)??1e9,list.length-1-i)));
+    const celebrate=new Set(this.celebrateQueue);
+    const rank=o=>celebrate.has(o.id)?-2:placements[o.id]?.pinned?-1:(fromEnd.get(o.id)??1e9);
+    const fixed=objects.filter(o=>o.base||o.type==='built'||handPlaced(o));
+    const auto=objects.filter(o=>!fixed.includes(o)).sort((a,b)=>rank(a)-rank(b)).slice(0,ISLAND_SHOWN);
+    return [...fixed,...auto];
+  }
   // A new creature friend hatches from its world's egg; tap skips. Other rewards keep the banner only.
   // Several wins (a mission reward, then a world's dragon) celebrate one after another.
   startCelebration(id){
@@ -99,7 +151,7 @@ export class WonderIslandScene {
     this.hatch=won?.type==='creatures'?new HatchSequence({theme:hatchTheme(won.id,won.dragonWorld??worldOfReward(this.game,won.id)),rewardId:won.id}).play():null;
     if(id){this.pip?.react('celebrate',{duration:2});this.game.audio?.playCue?.('reward');}
   }
-  update(dt){this.t+=dt;this.pip?.update(dt);if(this.speechT>0)this.speechT=Math.max(0,this.speechT-dt);this.hatch?.update(dt);
+  update(dt){this.t+=dt;this.idleT=(this.idleT??0)+dt;if(this.idleT>=5&&!this.pointed&&!this.placementMode&&!this.celebrateReward){this.pointed=true;this.pip?.react('point',{duration:1.4,target:{x:575,y:957}});}if(this.offerShowing()){this.nextOffer.t+=dt;if(this.nextOffer.t>=NEXT_OFFER_SECONDS){const after=this.nextOffer.after;this.nextOffer=null;this.playNext(after);}}this.pip?.update(dt);if(this.speechT>0)this.speechT=Math.max(0,this.speechT-dt);this.hatch?.update(dt);
     // The celebration clock waits for the egg pictures; if they never arrive, carry on with the banner only.
     this.celebrateClock=(this.celebrateClock??0)+dt;
     if(this.hatch&&!this.hatch.ready&&this.celebrateClock>HATCH_ART_WAIT)this.hatch=null;if(!this.hatch||this.hatch.ready)this.celebrateT+=dt;
@@ -114,12 +166,13 @@ export class WonderIslandScene {
     const glow=1+Math.sin(this.t*4)*.05;ctx.save();ctx.translate(960,470);ctx.scale(glow,glow);if(drawArt(ctx,lookupArt('island','portal'),0,0,300,390)){ctx.translate(0,-18);ctx.rotate(this.t*.35);drawArt(ctx,lookupArt('island','portalSwirl'),0,0,150,190,{alpha:.5,blend:'screen'});ctx.restore();return;}ctx.strokeStyle='#7e53e8';ctx.lineWidth=30;ctx.beginPath();ctx.ellipse(0,0,125,165,0,0,Math.PI*2);ctx.stroke();ctx.strokeStyle='#f7d6ff';ctx.lineWidth=13;ctx.beginPath();ctx.ellipse(0,0,92,130,0,0,Math.PI*2);ctx.stroke();ctx.fillStyle='#ad80ff88';ctx.beginPath();ctx.ellipse(0,0,76,116,0,0,Math.PI*2);ctx.fill();ctx.restore();
   }
 
-  render(ctx){
+  render(ctx){this.renderIsland(ctx);this.renderNextOffer(ctx);}
+  renderIsland(ctx){
     this.drawIsland(ctx);for(const o of this.objects)this.drawObject(ctx,o);this.pip?.render(ctx);this.drawHello(ctx);
     ctx.fillStyle='#5b3b72';ctx.textAlign='center';ctx.font='900 64px ui-rounded,system-ui';ctx.fillText('Wonder Island',960,95);ctx.fillStyle='#fff';ctx.font='700 30px system-ui';ctx.fillText(this.placementMode?'Move your things anywhere on the grass.':'Tap the island toys — or start an adventure!',960,140);
     if(this.firstStep&&!this.placementMode){const r=this.firstStep==='play'?[360,900,430,115]:[810,900,500,115];ctx.save();ctx.globalAlpha=globalThis.__LL_REDUCED_MOTION?.5:.3+.3*(1+Math.sin(this.t*3))/2;ctx.fillStyle='#fff7a0';ctx.beginPath();ctx.roundRect(r[0]-16,r[1]-16,r[2]+32,r[3]+32,70);ctx.fill();ctx.restore();} // the next thing to tap glows softly
     if(this.speechT>0&&!this.placementMode)drawSpeechBubble(ctx,this.speech,110,330,430,112,Math.min(1,this.speechT/.18));
-    drawCandyButton(ctx,360,900,430,115,'DINO PICNIC',this.portalPressed,'play');
+    {const k=this.placementMode?1:nudgeScale(this.t,this.idleT??0);ctx.save();ctx.translate(575,957);ctx.scale(k,k);ctx.translate(-575,-957);drawCandyButton(ctx,360,900,430,115,'PLAY',this.portalPressed,'play');ctx.restore();} // bounces after 5 s with no touch
     drawCandyButton(ctx,810,900,500,115,'EXPLORE WORLDS',this.rainbowPressed,'explore');
     drawCandyButton(ctx,1330,910,390,95,this.placementMode?'DONE MOVING':'MOVE THINGS',this.modePressed,'move');
     if(!drawArt(ctx,lookupArt('ui','parent'),90,85,118,118)){ctx.fillStyle='#ffffffdd';ctx.beginPath();ctx.arc(90,85,54,0,Math.PI*2);ctx.fill();ctx.fillStyle='#5b3b72';ctx.font='900 46px system-ui';ctx.fillText('⚙',90,101);}drawCandyButton(ctx,1510,36,330,94,'COLLECTION',this.collectionPressed,'collection');
@@ -152,7 +205,7 @@ export class WonderIslandScene {
   async removePiece(o){this.objects=this.objects.filter(x=>x!==o);this.game.audio?.playCue?.('drop');await this.game.save?.removeIslandPiece?.(o.id);}
 
   drawObject(ctx,o){
-    const active=this.interaction===o.id&&this.interactionT>0;ctx.save();ctx.translate(o.x,o.y);if(active&&o.type!=='ball')ctx.scale(1+Math.sin(this.t*16)*.04,1+Math.sin(this.t*16)*.04);
+    const active=this.interaction===o.id&&this.interactionT>0;ctx.save();ctx.translate(o.x,o.y);if(o.k&&o.k!==1)ctx.scale(o.k,o.k);if(active&&o.type!=='ball')ctx.scale(1+Math.sin(this.t*16)*.04,1+Math.sin(this.t*16)*.04);
     if(this.placementMode&&this.drag===o){ctx.save();ctx.scale(1,.32);const where=o.type==='built'&&overTray(o.x,o.y)?null:onGrass(o)?'placeOk':'placeBlocked';drawArt(ctx,lookupArt('ui',where),0,(o.h/2-8)/.32,o.w*1.2,o.w*1.2,{alpha:.9});ctx.restore();} // green ring: fine here; red cross: it will hop back onto the grass
     else if(this.placementMode&&!o.ground){ctx.save();ctx.scale(1,.32);drawArt(ctx,lookupArt('ui','placeSpot'),0,(o.h/2-8)/.32,o.w*1.15,o.w*1.15,{alpha:.8,blend:'screen'});ctx.restore();} // soft spot under things you can move
     if(this.drawObjectArt(ctx,o,active)){/* real picture drawn */}else
@@ -200,7 +253,7 @@ export class WonderIslandScene {
 
   objectAt(x,y){return[...this.objects].reverse().find(o=>contains(o,x,y));}
   // Ground tiles lie under everything; doors, windows and roofs sit in front of a wall they are put on.
-  depth(o){return o.ground?-1e4+o.y:(o.y+o.h/2)+(o.over?140:0);}
+  depth(o){return o.ground?-1e4+o.y:(o.y+o.h*(o.k??1)/2)+(o.over?140:0);}
   sortByDepth(){this.objects.sort((a,b)=>this.depth(a)-this.depth(b));}
   // Name tags show when a thing is tapped, just won, or being moved, so a full island doesn't turn into a wall of labels.
   showTag(o){return this.placementMode||(this.interaction===o.id&&this.interactionT>0)||this.celebrateReward===o.id;}
@@ -208,6 +261,8 @@ export class WonderIslandScene {
   interact(o){this.interaction=o.id;this.interactionT=1.2;const hello=this.helloFor(o);this.hello=hello?{id:o.id,text:hello,t:HELLO_SECONDS}:null;if(o.type==='drum')this.game.audio?.playCue?.('count',{count:2});else this.game.audio?.playCue?.('correct');if(o.type==='slide')this.pip?.react('bounce',{duration:1.2});if(o.type==='ball')this.pip?.lookAt(o,.8);}
 
   handlePointer(e){
+    if(e.type==='down'){this.idleT=0;this.pointed=false;}
+    if(this.offerShowing()){if(e.type==='up'){if(inCircle(e,OFFER_NEXT)){const after=this.nextOffer.after;this.nextOffer=null;this.playNext(after);}else if(inCircle(e,OFFER_HOME)){this.nextOffer=null;this.game.audio?.playCue?.('correct');}}return;}
     if(this.hatch?.ready&&!this.hatch.finished&&this.celebrateT<CELEBRATE_SECONDS){if(e.type==='up')this.hatch.skip();return;}
     const portal=e.x>=340&&e.x<=800&&e.y>=875&&e.y<=1045;const rainbow=e.x>=790&&e.x<=1330&&e.y>=875&&e.y<=1045;const parent=(e.x-90)**2+(e.y-85)**2<=75**2;const mode=e.x>=1320&&e.x<=1740&&e.y>=885&&e.y<=1045;const collection=e.x>=1490&&e.x<=1860&&e.y>=30&&e.y<=140;
     if(e.type==='down'){
@@ -216,12 +271,12 @@ export class WonderIslandScene {
       if(this.placementMode&&!portal&&!rainbow&&!parent&&!mode&&!collection&&!overTray(e.x,e.y)){const o=this.objectAt(e.x,e.y);if(o){this.drag=o;this.dragOffset.x=e.x-o.x;this.dragOffset.y=e.y-o.y;}}
       return;
     }
-    if(e.type==='move'&&this.drag){this.drag.x=e.x-this.dragOffset.x;this.drag.y=e.y-this.dragOffset.y;return;}
+    if(e.type==='move'&&this.drag){this.drag.x=e.x-this.dragOffset.x;this.drag.y=e.y-this.dragOffset.y;if(!this.drag.base&&this.drag.type!=='built')this.drag.k=depthScale(this.drag.y);return;}
     if(e.type==='up'||e.type==='cancel'){
       if(this.trayPressed){const key=this.trayPressed;this.trayPressed=null;if(e.type==='up'&&this.trayPieceAt(e.x,e.y)===key)this.addPiece(key);return;}
       if(this.drag){const o=this.drag;this.drag=null;if(o.type==='built'&&overTray(o.x,o.y)){this.removePiece(o);return;}if(e.type==='up')this.finishDrag(o);return;}
       const go=e.type==='up'&&this.portalPressed&&portal,goRainbow=e.type==='up'&&this.rainbowPressed&&rainbow,pg=e.type==='up'&&this.parentPressed&&parent,toggle=e.type==='up'&&this.modePressed&&mode,goCollection=e.type==='up'&&this.collectionPressed&&collection;this.portalPressed=this.rainbowPressed=this.parentPressed=this.modePressed=this.collectionPressed=false;
-      if(go){this.game.scenes.change('adventure',{adventureId:'rory_dino_picnic'});return;}if(goRainbow){this.game.scenes.change('worldSelect');return;}if(goCollection){this.game.scenes.change('collection');return;}if(pg){this.game.scenes.change('parentGate',{returnTo:'island'});return;}if(toggle){this.placementMode=!this.placementMode;return;}
+      if(go){this.playNext();return;}if(goRainbow){this.game.scenes.change('worldSelect');return;}if(goCollection){this.game.scenes.change('collection');return;}if(pg){this.game.scenes.change('parentGate',{returnTo:'island'});return;}if(toggle){this.placementMode=!this.placementMode;return;}
       if(e.type==='up'&&!this.placementMode){const o=this.objectAt(e.x,e.y);if(o)this.interact(o);}
     }
   }

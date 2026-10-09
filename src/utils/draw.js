@@ -77,3 +77,17 @@ export function drawSpeechBubble(ctx, text, x, y, w = 440, h = 112, alpha = 1) {
   lines.forEach((line, i) => ctx.fillText(line, x + w / 2, y + height / 2 + 2 + (i - (lines.length - 1) / 2) * 40, room));
   ctx.restore();
 }
+
+// Job 14: the big round home picture (no words) in the top-left of every screen outside a mission.
+// Tapped anywhere in x 40–250, y 40–150 (the old BACK button's area). Falls back to the candy BACK button.
+export const HOME_BUTTON = { x: 130, y: 100, r: 72 };
+export function drawHomeButton(ctx, pressed = false) {
+  const { x, y, r } = HOME_BUTTON, s = pressed ? 0.92 : 1;
+  ctx.save(); ctx.translate(x, y); ctx.scale(s, s);
+  ctx.fillStyle = '#fffdf0'; ctx.beginPath(); ctx.arc(0, 0, r + 10, 0, Math.PI * 2); ctx.fill();
+  const ok = drawArt(ctx, lookupArt('ui', 'homeButton'), 0, 0, r * 2, r * 2);
+  ctx.restore();
+  if (!ok) drawCandyButton(ctx, 40, 40, 210, 100, 'HOME', pressed, 'home');
+}
+// A gentle "tap me" bounce scale for the thing a child should tap next (still when motion is reduced).
+export function nudgeScale(t, idle, after = 5) { return idle >= after && !globalThis.__LL_REDUCED_MOTION ? 1 + Math.abs(Math.sin(t * 5)) * 0.06 : 1; }

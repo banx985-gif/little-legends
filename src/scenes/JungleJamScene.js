@@ -1,5 +1,5 @@
 import { drawActivityBackground, drawToken } from '../activities/activityDraw.js';
-import { drawCandyButton } from '../utils/draw.js';
+import { drawCandyButton, drawHomeButton, nudgeScale } from '../utils/draw.js';
 import { artMap, drawArt, lookupArt, hatchArtIds, hatchTheme } from '../core/art.js';
 import { PipController } from '../characters/PipController.js';
 
@@ -19,7 +19,7 @@ function inRect(x,y,r){return x>=r.x&&x<=r.x+r.w&&y>=r.y&&y<=r.y+r.h;}
 export class JungleJamScene{
   constructor(game){this.game=game;this.t=0;this.pip=null;this.performers=[];this.slots=[];this.drag=null;this.offset={x:0,y:0};this.mode='free';this.tempo='slow';this.loudness=.65;this.beatT=0;this.beat=0;this.goal='fast';this.soundGoal='percussion';this.rhythmTaps=[];this.demoFlash=0;this.modePressed=null;}
   enter(){
-    this.t=0;this.pip=new PipController({x:175,y:860,scale:.62});this.performers=PERFORMERS.map((p,i)=>({...p,x:250+i*300,y:890,homeX:250+i*300,homeY:890,placed:false,slot:null,size:126}));
+    this.t=0;this.pip=new PipController({x:1790,y:1030,scale:.5}); /* bottom-right corner, clear of the band (Job 14) */ this.performers=PERFORMERS.map((p,i)=>({...p,x:250+i*300,y:890,homeX:250+i*300,homeY:890,placed:false,slot:null,size:126}));
     this.slots=Array.from({length:5},(_,i)=>({id:`slot-${i}`,x:390+i*285,y:555,w:220,h:250,role:null}));this.drag=null;this.mode='free';this.beatT=0;this.beat=0;this.game.audio?.stopWorldMusic?.();
   }
   exit(){this.game.audio?.stopWorldMusic?.();}
@@ -58,13 +58,14 @@ export class JungleJamScene{
     if(e.type==='move'&&this.drag){this.drag.x=e.x+this.offset.x;this.drag.y=e.y+this.offset.y;return;}
     if(e.type==='up'||e.type==='cancel'){
       if(this.drag){const p=this.drag;this.drag=null;if(e.type==='up')this.finishDrag(p);else{p.x=p.homeX;p.y=p.homeY;}return;}
-      if(e.type==='up'&&this.modePressed){const chosen=this.modePressed;this.modePressed=null;if(chosen==='back'){if(this.dragonWon)this.game.scenes.change('island',{celebrateReward:this.dragonWon});else this.game.scenes.change('worldHub',{world:'jungle'});return;}this.setMode(chosen);return;}
+      if(e.type==='up'&&this.modePressed){const chosen=this.modePressed;this.modePressed=null;if(chosen==='back'){if(this.dragonWon)this.game.scenes.change('island',{celebrateReward:this.dragonWon});else this.game.scenes.change('island');return;}this.setMode(chosen);return;}
       this.modePressed=null;
     }
   }
   render(ctx){
     drawActivityBackground(ctx,'jungle');this.pip?.render(ctx);ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='900 68px ui-rounded,system-ui';ctx.fillText('Jungle Jam',960,105);ctx.fillStyle='#fff';ctx.font='700 28px system-ui';ctx.fillText('Build your band — every friend adds a sound!',960,150);
-    MODES.forEach((m,i)=>{const r=this.modeRect(i);ctx.fillStyle=this.mode===m[0]?'#fff2a8':'#ffffffd8';ctx.beginPath();ctx.roundRect(r.x,r.y,r.w,r.h,38);ctx.fill();ctx.fillStyle='#5a3a73';ctx.font='900 22px system-ui';ctx.fillText(m[1],r.x+r.w/2,r.y+58);});
+    // Each mode has a picture (data/art_map.json jam.modeIcons) so pre-readers can choose.
+    MODES.forEach((m,i)=>{const r=this.modeRect(i);ctx.fillStyle=this.mode===m[0]?'#fff2a8':'#ffffffd8';ctx.beginPath();ctx.roundRect(r.x,r.y,r.w,r.h,38);ctx.fill();const icon=drawArt(ctx,artMap()?.jam?.modeIcons?.[m[0]],r.x+52,r.y+r.h/2,74,74);ctx.fillStyle='#5a3a73';ctx.font='900 22px system-ui';ctx.fillText(m[1],icon?r.x+165:r.x+r.w/2,r.y+58,icon?175:r.w-16);});
     for(const slot of this.slots){ctx.fillStyle='#ffffff88';ctx.beginPath();ctx.roundRect(slot.x-slot.w/2,slot.y-slot.h/2,slot.w,slot.h,55);ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=7;ctx.stroke();}
     const rings=artMap()?.jam?.rings;if(rings)for(const p of this.performers){if(!p.placed||!rings[p.color])continue;ctx.save();ctx.translate(p.x,p.y+92);ctx.scale(1,.42);drawArt(ctx,rings[p.color],0,0,230,230,{alpha:.55+this.demoFlash*2.5,blend:'screen'});ctx.restore();}
     for(const p of this.performers)drawToken(ctx,{kind:'instrument',symbol:p.symbol,label:p.name,color:p.color,x:p.x,y:p.y,size:p.size},{highlight:p===this.drag});
@@ -75,6 +76,6 @@ export class JungleJamScene{
     if(this.mode==='sound'){ctx.fillStyle='#fff';ctx.font='900 31px system-ui';ctx.fillText(`Which friend makes the ${this.soundGoal.toUpperCase()} sound?`,960,745);}
     if(this.mode==='free'){ctx.fillStyle='#fff';ctx.font='800 27px system-ui';ctx.fillText(this.performers.some(p=>p.placed)?'Move friends around and make your own song!':'Drag a friend onto the stage!',960,745);}
     if(this.dragonWon){ctx.fillStyle='#fffdf0ee';ctx.beginPath();ctx.roundRect(1300,30,580,130,50);ctx.fill();drawArt(ctx,lookupArt('rewards',this.dragonWon),1370,95,110,110);ctx.fillStyle='#5a3a73';ctx.textAlign='left';ctx.font='900 30px system-ui';ctx.fillText('A rare Music Dragon egg!',1435,88);ctx.font='700 22px system-ui';ctx.fillText('Tap BACK to hatch it on the island',1435,125);ctx.textAlign='center';}
-    drawCandyButton(ctx,40,40,210,100,'BACK',this.modePressed==='back','back');
+    drawHomeButton(ctx,this.modePressed==='back');
   }
 }

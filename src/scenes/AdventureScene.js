@@ -7,10 +7,15 @@ import { drawArt, characterArt, hatchTheme, worldTheme, dragonForWorld, artMap, 
 import { HatchSequence } from '../fx/HatchSequence.js';
 import { HoldToLeave } from '../ui/HoldToLeave.js';
 import { ActivityScene } from './ActivityScene.js';
+import { pipSpot, PIP_SPOTS } from '../activities/layout.js';
 import { VOICE_REPEAT_SECONDS, MISSES_FOR_HINT } from '../hints/HintController.js';
 
 // Tap-to-hatch keeps its taps; each egg state shows the next hatch frame.
 const EGG_FRAME={RECEIVED:0,READY:0,INTERACTION_1:1,INTERACTION_2:2,CRACK:3,HATCH:4};
+
+// Job 14: missions move on by themselves. A finished activity goes on after AUTO_AFTER_DONE s; a story page after
+// AUTO_STORY s (Pip has said it by then). After NUDGE_AFTER s with no touch the big play button bounces and Pip points.
+export const AUTO_AFTER_DONE=3, AUTO_STORY=7, NUDGE_AFTER=5;
 
 function pointInRect(x,y,r){return x>=r.x&&x<=r.x+r.w&&y>=r.y&&y<=r.y+r.h;}
 
@@ -55,8 +60,9 @@ export class AdventureScene {
   hideHintDemo(){this.hintDemo=null;this.hintDemoT=0;}
 
   async startStep(){
-    this.activity?.cleanup?.(); this.hints?.stop?.(); this.activity=null; this.hints=null; this.hintDemo=null; this.idleT=0; this.idleRepeats=0; this.stepMisses=0; this.freshTap=false; this.completedStep=false; this.pressed=null; this.bigChoice=null; this.patternChoice=null;
+    this.activity?.cleanup?.(); this.hints?.stop?.(); this.activity=null; this.hints=null; this.hintDemo=null; this.idleT=0; this.waitT=0; this.nudged=false; this.idleRepeats=0; this.stepMisses=0; this.freshTap=false; this.completedStep=false; this.pressed=null; this.bigChoice=null; this.patternChoice=null;
     this.step=this.definition.steps[this.stepIndex];
+    if(this.pip)Object.assign(this.pip,PIP_SPOTS[0]); // back to his usual spot (an activity may move him aside)
     this.pip?.clearQueue?.({keepActive:false}); // the new step's words come straight away, not after the last cheer
     const rewardId=this.definition.reward?.id??'baby_raptor';
     this.hatch=['egg','hatch'].includes(this.step.kind)?new HatchSequence({theme:hatchTheme(rewardId,this.definition.world),rewardId}).showStage(0):null;
@@ -64,6 +70,7 @@ export class AdventureScene {
     if(this.step.kind==='activity'){
       this.activity=this.game.activityEngine.create(this.step.activityId,this);
       await this.activity.load(); this.activity.start(); this.hints=new HintController({host:this,learning:this.game.learning});
+      Object.assign(this.pip,pipSpot(this.activity)); // Job 14: Pip steps aside if he would cover something to tap
     } else if(this.step.voice){
       this.pip.say(this.step.id,{text:this.step.voice,bubbleText:this.step.title,duration:2.4,reaction:'wave'});
     }
@@ -80,8 +87,19 @@ export class AdventureScene {
   completeActivity(){this.completedStep=true;this.freshTap=false;this.hints?.stop?.();this.game.scheduler?.record?.(this.activity?.definition);this.pip.react('celebrate',{duration:1.3});}
 
   async advance(){
-    if(this.stepIndex>=this.definition.steps.length-1){await this.finishAdventure();return;}
-    this.stepIndex++; await this.startStep();
+    if(this.advancing)return;this.advancing=true;
+    try{
+      if(this.stepIndex>=this.definition.steps.length-1){await this.finishAdventure();return;}
+      this.stepIndex++; await this.startStep();
+    }finally{this.advancing=false;}
+  }
+  // Waiting on the child to move on (a finished step, or a story page): bounce the play button, then go on alone.
+  autoAdvance(dt){
+    const waiting=this.completedStep||(!this.activity&&['story','egg'].includes(this.step?.kind));
+    if(!waiting||this.advancing||this.finishSaved)return;
+    this.waitT=(this.waitT??0)+dt;
+    if(this.waitT>=NUDGE_AFTER&&!this.nudged){this.nudged=true;this.pip?.react('point',{duration:1.2,target:{x:960,y:940}});}
+    if(this.waitT>=(this.completedStep?(this.step.kind==='hatch'?AUTO_AFTER_DONE+2:AUTO_AFTER_DONE):AUTO_STORY))this.advance(); // a hatch gets time to finish
   }
 
   async finishAdventure(){
@@ -103,7 +121,7 @@ export class AdventureScene {
     const dragon=this.earnedDragon();
     if(dragon&&!this.game.rewards.isUnlocked(dragon.id)){await this.game.rewards.award(dragon.id);this.dragonAwarded=dragon.id;}
     const celebrate=[rewardId,this.lookAwarded,dragon?.id].filter(Boolean);
-    this.game.scenes.change('island',{celebrateReward:celebrate[0]??null,celebrateNext:celebrate.slice(1)});
+    this.game.scenes.change('island',{celebrateReward:celebrate[0]??null,celebrateNext:celebrate.slice(1),fromMission:this.definition.id});
   }
 
   earnedDragon(){
@@ -118,12 +136,13 @@ export class AdventureScene {
     this.t+=dt;this.crackT=Math.max(0,(this.crackT??0)-dt);this.leave?.update(dt);this.pip?.update(dt);this.hatch?.update(dt);this.game.rewards?.update?.(dt); if(this.speechT>0)this.speechT=Math.max(0,this.speechT-dt);
     // Story, choice and egg steps: say the step again after a while with no touch (activities do this in HintController).
     if(!this.activity&&!this.completedStep){this.idleT+=dt;if(this.idleT>=VOICE_REPEAT_SECONDS&&this.idleRepeats<4){this.idleT=0;this.idleRepeats++;this.repeatInstruction();}}
+    this.autoAdvance(dt);
     if(this.activity&&!this.completedStep){this.activity.update(dt);this.hints?.update(dt);if(this.hintDemo)this.hintDemoT=(this.hintDemoT??0)+dt;}
   }
 
   async handlePointer(e){
     if(this.leave?.handlePointer(e))return;
-    this.idleT=0;this.idleRepeats=0;
+    this.idleT=0;this.idleRepeats=0;if(e.type==='down')this.waitT=Math.min(this.waitT??0,1);
     if(this.activity&&!this.completedStep){this.hints?.onInput?.();this.activity.handlePointer(e);return;}
     // A finished step moves on with a fresh tap: the finger lifting at the end of a trace or drag must not skip the "well done".
     if(e.type==='down'){this.freshTap=true;return;}
@@ -182,7 +201,10 @@ export class AdventureScene {
 
   drawBella(ctx,x=1510,y=690,scale=1){ctx.save();ctx.translate(x,y);ctx.scale(scale,scale);ctx.fillStyle='#c98b58';ctx.beginPath();ctx.arc(0,-48,112,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(-75,-130,42,0,Math.PI*2);ctx.arc(75,-130,42,0,Math.PI*2);ctx.fill();ctx.fillStyle='#f2c99d';ctx.beginPath();ctx.ellipse(0,-20,70,58,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(-38,-70,18,0,Math.PI*2);ctx.arc(38,-70,18,0,Math.PI*2);ctx.fill();ctx.fillStyle='#3d3348';ctx.beginPath();ctx.arc(-34,-68,7,0,Math.PI*2);ctx.arc(42,-68,7,0,Math.PI*2);ctx.fill();ctx.fillStyle='#5a3a73';ctx.beginPath();ctx.arc(0,-30,13,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#6b4c55';ctx.lineWidth=8;ctx.beginPath();ctx.arc(0,-12,34,.12*Math.PI,.88*Math.PI);ctx.stroke();ctx.restore();}
 
-  drawGuide(ctx){const world=this.definition?.world;if(this.definition?.guide==='pip')return;/* Pip leads (no art yet for Zig Robot) */if(this.definition?.guide==='octo'||world==='rainbow')this.drawOcto(ctx);else if(this.definition?.guide==='luna'||world==='storybook')this.drawLuna(ctx);else if(this.definition?.guide==='bella'||world==='animal'||world==='life')this.drawBella(ctx);else this.drawRory(ctx);}
+  drawGuide(ctx){const world=this.definition?.world;if(this.definition?.guide==='pip')return;/* Pip leads (no art yet for Zig Robot) */
+    // Job 14: on steps with things to tap (blankets, pattern, egg, home) the guide stands small in the bottom-right corner.
+    const aside=['size','pattern','hatch','place','egg'].includes(this.step?.kind),at=aside?[1790,930,.45]:[1510,690,1];
+    if(this.definition?.guide==='octo'||world==='rainbow')this.drawOcto(ctx,...at);else if(this.definition?.guide==='luna'||world==='storybook')this.drawLuna(ctx,...at);else if(this.definition?.guide==='bella'||world==='animal'||world==='life')this.drawBella(ctx,...at);else this.drawRory(ctx,...at);}
 
   // Under the instruction panel (it used to sit behind it and get cut off), pointing at Pip.
   drawSpeech(ctx){if(!this.speech||this.speechT<=0)return;drawSpeechBubble(ctx,this.speech,30,240,440,112,Math.min(1,this.speechT/.18));}
@@ -190,7 +212,7 @@ export class AdventureScene {
   render(ctx){this.renderStep(ctx);this.leave?.render(ctx);}
 
   renderStep(ctx){
-    if(this.activity){this.activity.render(ctx);drawActivityAmbient(ctx,this.activity.definition,this.t);this.drawHintDemonstration(ctx);this.pip.render(ctx);this.drawSpeech(ctx);if(this.completedStep)this.drawContinue(ctx);return;}
+    if(this.activity){let pipDrawn=false;globalThis.__LL_UNDER_ITEMS=c=>{pipDrawn=true;this.pip.render(c);};this.activity.render(ctx);globalThis.__LL_UNDER_ITEMS=null;drawActivityAmbient(ctx,this.activity.definition,this.t);this.drawHintDemonstration(ctx);if(!pipDrawn)this.pip.render(ctx); /* Pip under the things to tap (Job 14) */this.drawSpeech(ctx);if(this.completedStep)this.drawContinue(ctx);return;}
     drawActivityBackground(ctx,this.step.theme??this.definition.theme??worldTheme(this.definition?.world)); this.drawGuide(ctx); this.pip.render(ctx); this.drawSpeech(ctx);
     drawInstructionPanel(ctx,this.step.title,`${this.stepIndex+1} of ${this.definition.steps.length}`);
     if(this.step.kind==='story')this.renderStory(ctx);
@@ -230,5 +252,6 @@ export class AdventureScene {
       return;
     }if(!hatched||!egg||egg.state!==EGG_STATES.CREATURE_UNLOCKED){const progress=this.game.eggs?.progress?.('rory-dino-egg')??0;drawToken(ctx,{kind:'egg',color:'#fff2c7',x:960,y:600,size:420},{highlight:true});if(hatched){ctx.strokeStyle='#8b69db';ctx.lineWidth=14;for(let i=0;i<Math.floor(progress*6);i++){ctx.beginPath();ctx.moveTo(900+i*22,530+i%2*15);ctx.lineTo(920+i*22,570-i%2*10);ctx.stroke();}ctx.fillStyle='#fff';ctx.textAlign='center';ctx.font='800 34px system-ui';ctx.fillText('Tap the egg to help it hatch!',960,840);}}else{this.drawRory(ctx,960,650,0.72);ctx.fillStyle='#fff';ctx.textAlign='center';ctx.font='900 48px system-ui';ctx.fillText('BABY RAPTOR!',960,820);}}
   renderPlace(ctx){ctx.fillStyle='#b77d4e';ctx.beginPath();ctx.roundRect(780,570,420,260,80);ctx.fill();ctx.fillStyle='#7ccf6a';ctx.beginPath();ctx.ellipse(990,585,250,80,0,0,Math.PI*2);ctx.fill();this.drawRory(ctx,980,680,0.48);ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='800 34px system-ui';ctx.fillText(this.completedStep?'Perfect home!':'Tap to place Baby Raptor here',990,900);}
-  drawContinue(ctx,label='CONTINUE'){drawCandyButton(ctx,720,880,480,125,label,false,label==='HOME'?'home':'play');}
+  // The big play button; it bounces softly once the child has waited a while (NUDGE_AFTER).
+  drawContinue(ctx,label='CONTINUE'){const bounce=(this.waitT??0)>=NUDGE_AFTER&&!globalThis.__LL_REDUCED_MOTION?1+Math.abs(Math.sin(this.t*5))*.06:1;ctx.save();ctx.translate(960,942);ctx.scale(bounce,bounce);ctx.translate(-960,-942);drawCandyButton(ctx,720,880,480,125,label,false,label==='HOME'?'home':'play');ctx.restore();}
 }

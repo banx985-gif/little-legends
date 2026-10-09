@@ -4,6 +4,11 @@ import { drawActivityAmbient } from '../activities/activityDraw.js';
 import { PipController } from '../characters/PipController.js';
 import { HintController } from '../hints/HintController.js';
 import { HoldToLeave } from '../ui/HoldToLeave.js';
+import { drawArt, lookupArt } from '../core/art.js';
+import { pipSpot } from '../activities/layout.js';
+// Finish screen (Job 14): big round home and next buttons; next starts by itself.
+export const AUTO_NEXT_SECONDS = 5;
+const FINISH_BUTTONS = { island: { x: 760, y: 900, r: 95, art: 'homeButton' }, next: { x: 1160, y: 900, r: 120, art: 'playButton' } };
 
 export class ActivityScene {
   constructor(game) {
@@ -53,6 +58,7 @@ export class ActivityScene {
       this.activity = this.game.activityEngine.create(this.activityId, this);
       await this.activity.load();
       this.activity.start();
+      if (this.pip) Object.assign(this.pip, pipSpot(this.activity)); // Job 14: Pip steps aside if he would cover something to tap
       const age = this.game.save?.getActiveProfile?.()?.age ?? 3;
       const developmentalLevel = age <= 2 ? 'early' : age >= 5 ? 'growing' : 'young';
       const multiplier = this.activity.definition.hintDelayMultiplier ?? 1;
@@ -160,7 +166,16 @@ export class ActivityScene {
       this.activity?.update?.(dt);
       this.hints?.update?.(dt);
       if (this.hintDemo) this.hintDemoT += dt;
-    } else this.completeT += dt;
+    } else {
+      this.completeT += dt;
+      // Job 14: the next activity starts by itself (the ring round the big arrow fills), unless home is tapped.
+      if (this.completeT >= AUTO_NEXT_SECONDS && !this.leaving) { this.leaving = true; this.goNext(); }
+    }
+  }
+
+  goNext() {
+    const nextId = this.game.scheduler?.pickNext?.(this.activityId) ?? this.game.activityEngine.nextId(this.activityId);
+    this.game.scenes.change('activity', { activityId: nextId });
   }
 
   handlePointer(e) {
@@ -182,17 +197,13 @@ export class ActivityScene {
     else if (e.type === 'up' || e.type === 'cancel') {
       const chosen = e.type === 'up' && control === this.pressed ? this.pressed : null;
       this.pressed = null;
-      if (chosen === 'island') this.game.scenes.change('island');
-      if (chosen === 'next') {
-        const nextId = this.game.scheduler?.pickNext?.(this.activityId) ?? this.game.activityEngine.nextId(this.activityId);
-        this.game.scenes.change('activity', { activityId: nextId });
-      }
+      if (chosen === 'island') { this.leaving = true; this.game.scenes.change('island'); }
+      if (chosen === 'next' && !this.leaving) { this.leaving = true; this.goNext(); }
     }
   }
 
   completionControlAt(e) {
-    if (e.x >= 500 && e.x <= 910 && e.y >= 840 && e.y <= 1010) return 'island';
-    if (e.x >= 1010 && e.x <= 1420 && e.y >= 840 && e.y <= 1010) return 'next';
+    for (const [id, c] of Object.entries(FINISH_BUTTONS)) if ((e.x - c.x) ** 2 + (e.y - c.y) ** 2 <= (c.r + 25) ** 2) return id;
     return null;
   }
 
@@ -232,12 +243,15 @@ export class ActivityScene {
       return;
     }
 
+    let pipDrawn = false;
+    if (!this.completed) globalThis.__LL_UNDER_ITEMS = c => { pipDrawn = true; this.pip?.render(c); }; // Pip under the things to tap
     this.activity?.render?.(ctx);
+    globalThis.__LL_UNDER_ITEMS = null;
     if (this.activity) drawActivityAmbient(ctx, this.activity.definition, this.t);
 
     if (!this.completed) {
       this.drawHintDemonstration(ctx);
-      this.pip?.render(ctx);
+      if (!pipDrawn) this.pip?.render(ctx);
       this.drawPipSpeech(ctx);
       this.leave?.render(ctx);
       return;
@@ -273,9 +287,18 @@ export class ActivityScene {
     ctx.font = '800 36px system-ui'; ctx.fillText(this.completeDetail, 0, 50);
     ctx.restore();
 
+    // Two huge picture buttons, no words: home, and next (the default: its ring fills and it starts by itself).
     if (this.completeT > 0.32) {
-      drawCandyButton(ctx, 500, 850, 410, 135, 'ISLAND', this.pressed === 'island', 'home');
-      drawCandyButton(ctx, 1010, 850, 410, 135, 'NEXT', this.pressed === 'next', 'next');
+      for (const [id, c] of Object.entries(FINISH_BUTTONS)) {
+        const s2 = this.pressed === id ? 0.94 : 1;
+        ctx.save(); ctx.translate(c.x, c.y); ctx.scale(s2, s2);
+        ctx.fillStyle = '#fffdf0'; ctx.beginPath(); ctx.arc(0, 0, c.r + 14, 0, Math.PI * 2); ctx.fill();
+        if (!drawArt(ctx, lookupArt('ui', c.art), 0, 0, c.r * 2, c.r * 2)) drawCandyButton(ctx, -c.r, -c.r / 2, c.r * 2, c.r, id === 'next' ? 'NEXT' : 'ISLAND', false, id === 'next' ? 'next' : 'home');
+        ctx.restore();
+      }
+      const n = FINISH_BUTTONS.next, p = clamp(this.completeT / AUTO_NEXT_SECONDS, 0, 1);
+      ctx.save(); ctx.strokeStyle = '#ffcc3d'; ctx.lineWidth = 14; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.arc(n.x, n.y, n.r + 14, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * p); ctx.stroke(); ctx.restore();
     }
   }
 }

@@ -68,7 +68,7 @@ for (const file of jsFiles) execFileSync(process.execPath, ['--check', file], { 
 
 // The installable/offline build must cache every eagerly imported source module.
 const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v47"), 'Service worker cache version should advance with the real-art build');
+assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v48"), 'Service worker cache version should advance with the real-art build');
 for (const file of walk(path.join(root, 'src')).filter(file => file.endsWith('.js'))) {
   const rel = `./${path.relative(root, file).split(path.sep).join('/')}`;
   assert.ok(serviceWorkerSource.includes(`'${rel}'`), `Offline cache must include ${rel}`);
@@ -1122,7 +1122,7 @@ assert.ok(serviceWorkerSource.includes("'./assets/art_manifest.json'")&&serviceW
   const jh = new WorldHubScene(ng); await jh.enter({ world: 'jungle' }); assert.ok(jh.missions.length >= 8); jh.render(fakeCtx); assert.equal(fakeCtx.depth, 0);
   jh.handlePointer({ type: 'down', x: 1640, y: 970 }); jh.handlePointer({ type: 'up', x: 1640, y: 970 }); assert.equal(ng.scenes.last.name, 'jungleJam', 'JUNGLE JAM button opens the Jam');
   const jj = new JungleJamScene({ ...ng, learning: new LearningProfile() }); jj.enter(); jj.handlePointer({ type: 'down', x: 100, y: 90 }); jj.handlePointer({ type: 'up', x: 100, y: 90 });
-  assert.deepEqual([ng.scenes.last.name, ng.scenes.last.data?.world], ['worldHub', 'jungle'], 'Jam BACK returns to the Jungle hub');
+  assert.equal(ng.scenes.last.name, 'island', 'Job 14: the Jam’s round home button goes home to Wonder Island');
   // A finished world shows its certificate on the hub and a badge on its card.
   for (const m of jh.missions) await s12.saveAdventure(m.id, 0, { completed: true });
   const certPics = new Map([map12.certificate.scroll, map12.certificate.frame, map12.ui.worldBadge].map(id => [id, { width: 100, height: 100, id }]));
@@ -1148,6 +1148,71 @@ assert.ok(serviceWorkerSource.includes("'./assets/art_manifest.json'")&&serviceW
   assert.ok(androidManifest.includes('android:allowBackup="false"') && androidManifest.includes('sensorLandscape'), 'Android app: no cloud backup, landscape');
   assert.ok(fs.readFileSync(path.join(root, 'src/main.js'), 'utf8').startsWith("import './utils/compat.js';"), 'Older-tablet fallbacks load first');
   for (const doc of ['docs/GOOGLE_PLAY_STEPS.md', 'docs/STILL_TO_DRAW.md', 'docs/JOB12_REPORT.md']) assert.ok(fs.existsSync(path.join(root, doc)), `${doc} exists`);
+}
+
+// ---- Job 14: playtest fixes — things move on by themselves, one obvious action, tidy island, characters never cover taps, voice ----
+{
+  const { pipSpot, pipBox, interactiveRects } = await import('../src/activities/layout.js');
+  const { voiceLineId } = await import('../src/audio/voiceLines.js');
+  const { AUTO_AFTER_DONE, AUTO_STORY } = await import('../src/scenes/AdventureScene.js');
+  const { NEXT_OFFER_SECONDS, ISLAND_SHOWN, depthScale } = await import('../src/scenes/WonderIslandScene.js');
+  const { AUTO_NEXT_SECONDS } = await import('../src/scenes/ActivityScene.js');
+  const mk = async name => { const s = new SaveSystem({ indexedDBRef: null, storage: null }); await s.init(); await s.createProfile({ name, age: 3 }); const g = { save: s, learning: new LearningProfile(), audio: sceneAudio, assets: null, scenes: { last: null, change(n, d) { this.last = { name: n, data: d }; } } }; g.activityEngine = new ActivityEngine(g); g.activityEngine.setDefinitions(activityData); g.adventureEngine = new AdventureEngine(g); g.adventureEngine.setDefinitions(adventureData); g.rewards = new RewardSystem(g); g.rewards.setDefinitions(rewardData); return g; };
+  // 1. Missions move on by themselves: a finished activity, a story page, then the next mission after the reward.
+  const g = await mk('Ada');
+  const sc = new AdventureScene(g); await sc.enter({ adventureId: 'rainbow_sweet_shapes', step: 0 });
+  assert.equal(sc.step.kind, 'story'); sc.update(AUTO_STORY + 0.1); await sc.advancing; await new Promise(r => setTimeout(r, 0));
+  assert.equal(sc.stepIndex, 1, 'A story page moves on by itself');
+  completeThroughPublicInput(sc.activity, sc.activity.definition); assert.ok(sc.completedStep); sc.update(AUTO_AFTER_DONE + 0.1); await new Promise(r => setTimeout(r, 0));
+  assert.equal(sc.stepIndex, 2, 'A finished activity moves on by itself');
+  assert.equal(g.adventureEngine.next([], null).id, 'rory_dino_picnic', 'A new child starts with Rory’s Dino Picnic');
+  assert.equal(g.adventureEngine.next(['rory_dino_picnic'], 'rory_dino_picnic').world, 'dino', 'After a mission comes the next one in the same world');
+  const all = adventureData.adventures.map(a => a.id); assert.ok(g.adventureEngine.next(all, 'town_big_helpers'), 'With everything finished, play still goes on');
+  await g.save.saveAdventure('rory_dino_picnic', 0, { completed: true });
+  const isl = new WonderIslandScene(g); isl.enter({ celebrateReward: 'baby_raptor', fromMission: 'rory_dino_picnic' });
+  assert.ok(!isl.offerShowing(), 'The next-mission offer waits for the reward celebration');
+  isl.update(7); isl.update(5); assert.ok(isl.offerShowing(), 'After the reward: big home and next buttons');
+  isl.render(fakeCtx); assert.equal(fakeCtx.depth, 0);
+  isl.update(NEXT_OFFER_SECONDS + 0.1); await new Promise(r => setTimeout(r, 0));
+  assert.equal(g.scenes.last?.name, 'adventure', 'The next mission starts by itself'); assert.notEqual(g.scenes.last.data.adventureId, 'rory_dino_picnic');
+  const isl2 = new WonderIslandScene(g); isl2.enter({ fromMission: 'rory_dino_picnic' }); isl2.update(.1); g.scenes.last = null;
+  isl2.handlePointer({ type: 'down', x: 720, y: 600 }); isl2.handlePointer({ type: 'up', x: 720, y: 600 }); isl2.update(NEXT_OFFER_SECONDS + 1);
+  assert.equal(g.scenes.last, null, 'Home on the offer stays on the island');
+  isl2.handlePointer({ type: 'down', x: 575, y: 957 }); isl2.handlePointer({ type: 'up', x: 575, y: 957 }); await new Promise(r => setTimeout(r, 0));
+  assert.equal(g.scenes.last?.name, 'adventure', 'The big PLAY button starts the next mission');
+  // Free-play finish screen: picture buttons, next starts by itself.
+  const ag = await mk('Bo'); const as = new ActivityScene(ag); await as.enter({ activityId: 'feed_bunny_3' }); completeThroughPublicInput(as.activity, as.activity.definition); as.update(0.1);
+  if (as.completed) { as.update(AUTO_NEXT_SECONDS + 0.1); assert.equal(ag.scenes.last?.name, 'activity', 'A finished activity goes on to the next one by itself'); as.render(fakeCtx); assert.equal(fakeCtx.depth, 0); }
+  // 2. One obvious action: round home pictures instead of BACK words.
+  for (const file of ['WorldSelectScene', 'WorldHubScene', 'CollectionScene', 'JungleJamScene']) assert.ok(!fs.readFileSync(path.join(root, `src/scenes/${file}.js`), 'utf8').includes("'BACK'"), `${file}: home picture, no BACK word`);
+  const hub = new WorldHubScene({ ...g, scenes: { last: null, change(n, d) { this.last = { name: n, data: d }; } } }); await hub.enter({ world: 'dino' }); hub.handlePointer({ type: 'down', x: 130, y: 100 }); hub.handlePointer({ type: 'up', x: 130, y: 100 });
+  assert.equal(hub.game.scenes.last.name, 'island', 'Home on a world hub goes home');
+  hub.update(6); assert.ok(hub.pointed, 'After 5 s with no touch Pip points at the next mission');
+  // 3. Wonder Island: no overlaps between things placed for the child, smaller further back, clear of the buttons.
+  const many = await mk('Cy'); for (const r of rewardData.rewards.filter(r => !r.hidden && r.type !== 'cosmetics' && (r.island || r.catalog)).slice(0, 60)) await many.save.award(r.type, r.id);
+  const full = new WonderIslandScene(many); full.enter({});
+  const auto = full.objects.filter(o => !o.base && o.type !== 'built');
+  assert.ok(auto.length <= ISLAND_SHOWN + 6, 'A full island shows at most a dozen things placed for the child (plus the fixed ones)');
+  const box = o => ({ x: o.x - o.w * (o.k ?? 1) / 2, y: o.y - o.h * (o.k ?? 1) / 2, w: o.w * (o.k ?? 1), h: o.h * (o.k ?? 1) });
+  const ov = (a, b) => Math.max(0, Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x)) * Math.max(0, Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y));
+  let pairs = 0; for (let i = 0; i < auto.length; i++) for (let j = i + 1; j < auto.length; j++) if (ov(box(auto[i]), box(auto[j])) > 0.15 * Math.min(box(auto[i]).w * box(auto[i]).h, box(auto[j]).w * box(auto[j]).h)) pairs++;
+  assert.ok(pairs <= 2, `Island things don't pile up (${pairs} overlapping pairs)`);
+  for (const o of auto) assert.ok(o.y + o.h * (o.k ?? 1) / 2 <= 890, `${o.id} stays clear of the buttons`);
+  assert.ok(depthScale(460) < depthScale(800), 'Further back is smaller');
+  // 4. Characters never cover things to tap: Pip steps aside in every activity.
+  const lh = { pip: { say() {}, react() {}, lookAt() {}, clearQueue() {} }, completeActivity() {}, getLearningAssistance: () => ({}) };
+  for (const def of activityData.activities) {
+    const a = activityEngine.create(def.id, lh); a.start();
+    const p = pipBox(pipSpot(a)); const covered = interactiveRects(a).filter(r => ov(p, r) > 400);
+    assert.equal(covered.length, 0, `${def.id}: Pip never stands on something to tap`);
+  }
+  // 5. Voice: recorded lines by a stable id; a recording plays instead of the device voice.
+  assert.equal(voiceLineId('Let’s go on a Dino Picnic! Tap the big green play button.'), voiceLineId('Let’s go on a Dino Picnic! Tap the big green play button.'));
+  assert.match(voiceLineId('Put 3 apples in Bunny’s basket!'), /^put_3_apples_in_bunnys_basket_[0-9a-f]{5}$/);
+  const va = new AudioManager({ contextFactory: () => null }); va.voiceIndex = new Set(['pip/' + voiceLineId('Hello there!')]); let filed = null; va.playVoiceFile = async key => { filed = key; return true; };
+  va.speak('Hello there!'); assert.equal(filed, 'pip/' + voiceLineId('Hello there!'), 'A recorded line plays its file');
+  const csv = fs.readFileSync(path.join(root, 'docs/VOICE_LINES.csv'), 'utf8'); assert.ok(csv.startsWith('character,line_id,text') && csv.split('\n').length > 300, 'docs/VOICE_LINES.csv lists the spoken lines');
+  assert.ok(fs.existsSync(path.join(root, 'docs/JOB14_REPORT.md')), 'Job 14 report written');
 }
 
 console.log(`Little Legends M0-M29 qualification implementation check passed (M26/M29 human gates still pending): ${required.length} required files, ${jsFiles.length} JS syntax checks, ${activityEngine.list().length} JSON activities across ${expectedActivityTypes.size} reusable families, ${adventureData.adventures.length} Little Missions, privacy/child-test support, launch FX, save recovery, performance instrumentation and offline PWA verified.`);

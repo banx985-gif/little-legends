@@ -1,3 +1,4 @@
+import { voiceLineId, DEFAULT_SPEAKER } from './voiceLines.js';
 export const AUDIO_CHANNELS = Object.freeze({
   MUSIC: 'music',
   VOICE: 'voice',
@@ -53,6 +54,9 @@ export class AudioManager {
     this.worldMusicPendingTheme = null;
     this.worldMusicStopping = false;
     this.liveSources = new Set();
+    this.voiceIndex = null; // recorded voice lines that exist (assets/audio/voice/index.json)
+    this.voiceBuffers = new Map();
+    this.chosenVoice = undefined;
   }
 
   get isSupported() {
@@ -75,6 +79,7 @@ export class AudioManager {
     }
     if (this.ctx.state === 'suspended') this.ctx.resume?.().catch?.(() => {});
     this.unlocked = true;
+    this.loadVoiceIndex();
     this.flushPendingSpeech();
     if (this.worldMusicTheme) this.ensureWorldMusicTimer();
     return true;
@@ -196,7 +201,65 @@ export class AudioManager {
     return typeof window !== 'undefined' && Boolean(window.speechSynthesis) && typeof SpeechSynthesisUtterance !== 'undefined';
   }
 
-  speak(text, { rate = 0.92, pitch = 1.08, volume = 1, onStart = null, onEnd = null } = {}) {
+  // Job 14: the friendliest voice this device has. Only on-device voices (an online voice would send the words to a
+  // server, and nothing leaves the tablet). Prefers natural/neural/Google voices, a female English voice, then the
+  // child's English (Australian, British, American).
+  pickVoice() {
+    if (this.chosenVoice !== undefined) return this.chosenVoice;
+    const synth = typeof window !== 'undefined' ? window.speechSynthesis : null;
+    const voices = (synth?.getVoices?.() ?? []).filter(v => /^en/i.test(v.lang ?? '') && v.localService !== false);
+    if (!voices.length) return null; // not ready yet; ask again next time
+    if (!this.voicesHooked && synth?.addEventListener) { this.voicesHooked = true; synth.addEventListener('voiceschanged', () => { this.chosenVoice = undefined; }); }
+    const score = v => {
+      const n = `${v.name} ${v.voiceURI ?? ''}`.toLowerCase();
+      return (/natural|neural|premium|enhanced/.test(n) ? 6 : 0) + (/google/.test(n) ? 4 : 0)
+        + (/female|samantha|karen|serena|moira|tessa|aria|jenny|libby|sonia|natasha|catherine|zira|hazel|susan|fiona|victoria|allison|ava/.test(n) ? 3 : 0)
+        + ({ 'en-au': 3, 'en-gb': 2, 'en-us': 1 }[String(v.lang).toLowerCase().replace('_', '-')] ?? 0) - (/compact|espeak/.test(n) ? 5 : 0);
+    };
+    this.chosenVoice = [...voices].sort((a, b) => score(b) - score(a))[0] ?? null;
+    return this.chosenVoice;
+  }
+
+  // assets/audio/voice/index.json lists the recorded lines that exist ("pip/<line_id>"); missing index = none.
+  loadVoiceIndex(url = './assets/audio/voice/index.json') {
+    if (this.voiceIndex || typeof fetch !== 'function' || globalThis.location?.protocol === 'file:') return Promise.resolve(this.voiceIndex);
+    this.voiceIndex = new Set();
+    return fetch(url).then(r => (r.ok ? r.json() : [])).then(list => { for (const id of Array.isArray(list) ? list : list?.lines ?? []) this.voiceIndex.add(id); return this.voiceIndex; }).catch(() => this.voiceIndex);
+  }
+
+  // Plays a recorded line through the voice channel (music ducks as for speech). Resolves false if it can't.
+  async playVoiceFile(key, { volume = 1, onStart = null, onEnd = null } = {}) {
+    if (!this.unlock() || typeof this.ctx?.decodeAudioData !== 'function') return false;
+    let buffer = this.voiceBuffers.get(key);
+    if (!buffer) {
+      const data = await fetch(`./assets/audio/voice/${key}.ogg`).then(r => (r.ok ? r.arrayBuffer() : null)).catch(() => null);
+      if (!data) return false;
+      buffer = await new Promise((resolve, reject) => { const p = this.ctx.decodeAudioData(data, resolve, reject); if (p?.then) p.then(resolve, reject); }).catch(() => null);
+      if (!buffer) return false;
+      this.voiceBuffers.set(key, buffer);
+      if (this.voiceBuffers.size > 24) this.voiceBuffers.delete(this.voiceBuffers.keys().next().value); // keep memory small
+    }
+    this.stopSpeech();
+    if (this.currentVoice) { try { this.currentVoice.source.stop(); } catch {} }
+    const played = this.playBuffer(AUDIO_CHANNELS.VOICE, buffer, { gain: volume });
+    if (!played) return false;
+    this.currentVoice = played; this.setMusicDuck(true); onStart?.();
+    played.source.onended = () => { if (this.currentVoice === played) this.currentVoice = null; this.liveSources.delete(played.source); this.setMusicDuck(false, 0.22); onEnd?.(); };
+    return true;
+  }
+
+  speak(text, { rate = 0.9, pitch = 1.12, volume = 1, onStart = null, onEnd = null, speaker = DEFAULT_SPEAKER } = {}) {
+    if (!text) return false;
+    const key = `${speaker}/${voiceLineId(text)}`;
+    if (this.voiceIndex?.has(key)) {
+      // A recording exists: play it; if it can't play here, fall back to the device voice.
+      this.playVoiceFile(key, { volume, onStart, onEnd }).then(ok => { if (!ok) this.speakWithDevice(text, { rate, pitch, volume, onStart, onEnd }); });
+      return true;
+    }
+    return this.speakWithDevice(text, { rate, pitch, volume, onStart, onEnd });
+  }
+
+  speakWithDevice(text, { rate = 0.9, pitch = 1.12, volume = 1, onStart = null, onEnd = null } = {}) {
     if (!text || !this.canSpeak()) return false;
     const options = { rate, pitch, volume, onStart, onEnd };
     if (!this.unlocked) {
@@ -211,6 +274,8 @@ export class AudioManager {
     }
     this.stopSpeech();
     const utterance = new SpeechSynthesisUtterance(text);
+    const voice = this.pickVoice();
+    if (voice) { utterance.voice = voice; utterance.lang = voice.lang; }
     utterance.rate = rate;
     utterance.pitch = pitch;
     utterance.volume = clamp01(this.masterVolume * this.getChannelVolume(AUDIO_CHANNELS.VOICE) * volume);

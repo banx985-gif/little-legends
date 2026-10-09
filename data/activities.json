@@ -9260,7 +9260,7 @@
       ],
       "pipBubble": "Road, sea or sky?",
       "instructionText": "Road, sea or sky?",
-      "voiceText": "Some vehicles drive on the road, some float on the sea and some fly in the sky. Put each one where it goes.",
+      "voiceText": "Road, sea or sky? Put each one where it goes.",
       "subtitle": "Where does it go?",
       "completeDetail": "Road, sea and sky!",
       "targets": [

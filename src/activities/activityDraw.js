@@ -17,7 +17,15 @@ export function resolveColor(value, fallback = '#8b69db') {
   return PALETTE[value] ?? value ?? fallback;
 }
 
+// Every activity draws its background first. Job 14: a scene can hand over a drawing (Pip) that goes right after the
+// background, so all the things to tap are drawn on top of the characters (globalThis.__LL_UNDER_ITEMS, used once).
 export function drawActivityBackground(ctx, theme = 'meadow') {
+  drawBackgroundOnly(ctx, theme);
+  const under = globalThis.__LL_UNDER_ITEMS;
+  if (under) { globalThis.__LL_UNDER_ITEMS = null; under(ctx); }
+}
+
+function drawBackgroundOnly(ctx, theme = 'meadow') {
   const meadowArt = art('art.meadow_picnic_clearing') ?? globalThis.__LL_ASSETS?.get?.('meadow-picnic-bg');
   if (theme === 'meadow' && meadowArt?.width) { drawFullScreen(ctx, meadowArt); return; }
   const scene = art(backgroundArt(theme));

@@ -1883,7 +1883,9 @@
         "rewards.podiums.podium_gold",
         "ui.build.place_spot_glow",
         "rewards.reward_pedestal",
-        "ui.speech_bubble"
+        "ui.speech_bubble",
+        "ui.btn_home",
+        "ui.btn_play"
       ],
       "worldSelect": [
         "ui.worlds.world_numbers",
@@ -1896,7 +1898,8 @@
         "ui.worlds.world_helping",
         "characters.pip.pip_back",
         "fx.fx_portal",
-        "ui.menu.icon_badge"
+        "ui.menu.icon_badge",
+        "ui.btn_home"
       ],
       "rainbowVillage": [
         "creatures.sea_dino.octopus",
@@ -1918,7 +1921,13 @@
         "fx.ring_purple",
         "fx.ring_blue",
         "fx.ring_green",
-        "fx.ring_pink"
+        "fx.ring_pink",
+        "worlds.jungle_stage.sign_music",
+        "objects.music.drum",
+        "creatures.tropical.sloth",
+        "objects.music_jungle.speaker",
+        "ui.icon_sound_on",
+        "ui.btn_home"
       ],
       "parentGate": [
         "ui.parent.toggle_on",
@@ -1947,7 +1956,8 @@
         "rewards.eggs.egg_rainbow",
         "rewards.eggs.egg_moon",
         "rewards.eggs.egg_jungle",
-        "rewards.eggs.egg_forest"
+        "rewards.eggs.egg_forest",
+        "ui.btn_home"
       ],
       "adventure": [
         "objects.dino_egg",
@@ -1963,6 +1973,10 @@
         "ui.btn_home"
       ],
       "profile": [
+        "ui.btn_play"
+      ],
+      "activity": [
+        "ui.btn_home",
         "ui.btn_play"
       ]
     }
@@ -1994,6 +2008,13 @@
       "blue": "fx.ring_blue",
       "green": "fx.ring_green",
       "pink": "fx.ring_pink"
+    },
+    "modeIcons": {
+      "free": "worlds.jungle_stage.sign_music",
+      "rhythm": "objects.music.drum",
+      "tempo": "creatures.tropical.sloth",
+      "dynamics": "objects.music_jungle.speaker",
+      "sound": "ui.icon_sound_on"
     }
   },
   "wardrobe": {

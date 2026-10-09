@@ -1,3 +1,4 @@
+import './utils/compat.js';
 import { Game } from './core/Game.js';
 import { BootScene } from './scenes/BootScene.js';
 import { ProfileSelectScene } from './scenes/ProfileSelectScene.js';
@@ -48,7 +49,9 @@ game.start(initialScene, sceneData).catch(error => {
   ctx.fillText('Little Legends could not start. Reload to try again.', 40, 80);
 });
 
-if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+// The Android app (app-android/, Capacitor) has every file inside it already: no offline cache needed there.
+const nativeApp = Boolean(window.Capacitor?.isNativePlatform?.());
+if ('serviceWorker' in navigator && location.protocol !== 'file:' && !nativeApp) {
   window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(console.warn));
   // Once the game has loaded what it needs, let the offline cache fetch the remaining pictures in the background.
   // First visit: the pictures already on screen were loaded before the offline cache existed. Hand their addresses to it

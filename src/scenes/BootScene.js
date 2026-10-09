@@ -1,4 +1,4 @@
-import { artMap } from '../core/art.js';
+import { artMap, drawArt } from '../core/art.js';
 
 const STARTER_MAX_WAIT = 3.5;
 
@@ -55,6 +55,12 @@ export class BootScene {
     ctx.fillStyle = '#ff6f61';
     ctx.fillText('LEGENDS', 0, 62);
     ctx.restore();
+    // Splash: Pip waves hello beside the title (he is in the starter pictures, so he appears as soon as he has loaded).
+    drawArt(ctx, artMap()?.pip?.poses?.wave?.id, 1330, 640, 330, 430, { anchor: 'bottom', alpha: Math.min(1, this.t / 0.3) });
+    ctx.fillStyle = '#5c3b76';
+    ctx.textAlign = 'center';
+    ctx.font = '800 44px ui-rounded, system-ui, sans-serif';
+    ctx.fillText('Magic World', w / 2, 705);
     ctx.fillStyle = '#ffffffcc';
     ctx.beginPath();
     ctx.roundRect(660, 760, 600, 34, 17);

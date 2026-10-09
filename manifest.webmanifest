@@ -1,25 +1,45 @@
 {
+  "id": "./",
   "name": "Little Legends: Magic World",
   "short_name": "Little Legends",
+  "description": "A gentle learning adventure for children aged 2–5: counting, colours, shapes, letters, animals and everyday routines with Pip. Works offline, no ads, nothing leaves the device.",
+  "lang": "en",
+  "dir": "ltr",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "orientation": "landscape-primary",
   "background_color": "#75d8ff",
   "theme_color": "#75d8ff",
-  "description": "A tablet-first learning adventure for young children.",
-  "scope": "./",
+  "categories": [
+    "education",
+    "kids",
+    "games"
+  ],
   "icons": [
     {
       "src": "./assets/icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "./assets/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/icons/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "./assets/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

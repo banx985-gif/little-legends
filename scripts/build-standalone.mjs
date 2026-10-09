@@ -13,6 +13,7 @@ function moduleId(file){return path.relative(root,file).split(path.sep).join('/'
 function resolveImport(fromId,spec){if(!spec.startsWith('.'))throw new Error(`Standalone build only supports local imports: ${spec}`);return path.posix.normalize(path.posix.join(path.posix.dirname(fromId),spec));}
 function transform(file){
   const id=moduleId(file);let source=fs.readFileSync(file,'utf8');const exports=[];
+  source=source.replace(/^import\s+['"]([^'"]+)['"];?\s*$/gm,(_all,spec)=>`__require(${JSON.stringify(resolveImport(id,spec))});`); // side-effect import (src/utils/compat.js)
   source=source.replace(/^import\s+\{([\s\S]*?)\}\s+from\s+['"]([^'"]+)['"];?\s*$/gm,(_all,names,spec)=>{const bindings=names.split(',').map(part=>part.trim()).filter(Boolean).map(part=>{const m=part.match(/^(\w+)\s+as\s+(\w+)$/);return m?`${m[1]}: ${m[2]}`:part;}).join(', ');return `const { ${bindings} } = __require(${JSON.stringify(resolveImport(id,spec))});`;});
   source=source.replace(/^export\s+(class|const|function|let|var)\s+(\w+)/gm,(_all,kind,name)=>{exports.push([name,name]);return `${kind} ${name}`;});
   source=source.replace(/^export\s*\{([^}]+)\};?\s*$/gm,(_all,names)=>{for(const part of names.split(',')){const text=part.trim();if(!text)continue;const m=text.match(/^(\w+)\s+as\s+(\w+)$/);exports.push(m?[m[2],m[1]]:[text,text]);}return '';});

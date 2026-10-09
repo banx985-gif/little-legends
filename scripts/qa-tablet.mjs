@@ -371,7 +371,6 @@ async function runViewport(browser, vp, base, worlds) {
     if (world === WORLD_ORDER[0]) await d.snap('world_select');
     const pos = { dino: [0, 0], rainbow: [1, 0], space: [2, 0], animal: [3, 0], jungle: [0, 1], storybook: [1, 1], life: [2, 1], town: [3, 1] }[world];
     await d.tap(60 + pos[0] * 445 + 210, (pos[1] ? 465 : 215) + 105);
-    if (world === 'jungle') { await playJungle(d); continue; }
     if (!await d.waitScene('worldHub')) { d.flag('stuck', `${world} card did not open the hub`, 'worldSelect'); continue; }
     await d.snap(`${world}_hub`);
     const missions = await page.evaluate(() => window.__littleLegends.scenes.current.missions.map(m => m.id));
@@ -395,7 +394,12 @@ async function runViewport(browser, vp, base, worlds) {
     }
     // Hub with medals after the world is done.
     await d.tap(1060, 957); await d.waitScene('worldSelect'); await d.tap(60 + pos[0] * 445 + 210, (pos[1] ? 465 : 215) + 105);
-    if (await d.waitScene('worldHub')) { await d.snap(`${world}_hub_all_done`); await d.tap(145, 90); await d.waitScene('worldSelect'); await d.tap(145, 90); await d.waitScene('island'); }
+    if (await d.waitScene('worldHub')) {
+      await d.snap(`${world}_hub_all_done`);
+      // Jungle (Job 12): the music Jam is a button on its mission hub.
+      if (world === 'jungle') { await d.tap(1640, 972); await playJungle(d); }
+      await d.tap(145, 90); await d.waitScene('worldSelect'); await d.tap(145, 90); await d.waitScene('island');
+    }
   }
 
   await d.snap('island_after_all_worlds');
@@ -444,7 +448,7 @@ async function holdToLeaveCheck(d, world) {
 }
 
 async function playJungle(d) {
-  if (!await d.waitScene('jungleJam')) { d.flag('stuck', 'Jungle Jam did not open', 'worldSelect'); return; }
+  if (!await d.waitScene('jungleJam')) { d.flag('stuck', 'Jungle Jam did not open', 'jungle hub'); return; }
   await d.snap('jungle_free_jam');
   const page = d.page;
   for (const [i, mode] of ['rhythm', 'tempo', 'dynamics', 'sound'].entries()) {
@@ -462,8 +466,8 @@ async function playJungle(d) {
   }
   await d.tap(145, 90);
   const s = await d.settle(500);
-  if (s.scene === 'worldSelect') { await d.tap(145, 90); await d.waitScene('island'); }
-  else if (s.scene === 'island') { await sleep(900); await d.snap('jungle_dragon_on_island'); await d.toIslandIdle(); }
+  if (s.scene === 'worldHub') return; // back on the Jungle hub
+  else if (s.scene === 'island') { await sleep(900); await d.snap('jungle_dragon_on_island'); await d.toIslandIdle(); await d.tap(1060, 957); await d.waitScene('worldSelect'); await d.tap(270, 570); await d.waitScene('worldHub'); }
   else d.flag('stuck', `Jungle Jam BACK went to ${s.scene}`, 'jungleJam');
 }
 

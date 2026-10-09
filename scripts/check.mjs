@@ -26,9 +26,9 @@ import { CollectionScene, DECOR_TABS, decorTab } from '../src/scenes/CollectionS
 import { PerformanceManager, PERFORMANCE_MODES, autoStartMode } from '../src/core/PerformanceManager.js';
 import { ChildTestRecorder } from '../src/testing/ChildTestRecorder.js';
 import { ReleaseQualification, RELEASE_MANUAL_CHECKS } from '../src/testing/ReleaseQualification.js';
-import { PRIVACY_GUARANTEES } from '../src/privacy/PrivacyPolicy.js';
+import { PRIVACY_GUARANTEES, STORED_DATA } from '../src/privacy/PrivacyPolicy.js';
 import { FeedbackFX } from '../src/fx/FeedbackFX.js';
-import { art, drawArt, tokenArt, artIdsForScene, settleSceneArt, countTargetArt, hatchTheme, hatchFrameIds } from '../src/core/art.js';
+import { art, drawArt, tokenArt, artIdsForScene, settleSceneArt, countTargetArt, hatchTheme, hatchFrameIds, dragonForWorld } from '../src/core/art.js';
 import { AssetLoader, drawnSize } from '../src/core/AssetLoader.js';
 import { findUnusedArt } from './art-unused.mjs';
 import { HatchSequence } from '../src/fx/HatchSequence.js';
@@ -68,7 +68,7 @@ for (const file of jsFiles) execFileSync(process.execPath, ['--check', file], { 
 
 // The installable/offline build must cache every eagerly imported source module.
 const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v46"), 'Service worker cache version should advance with the real-art build');
+assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v47"), 'Service worker cache version should advance with the real-art build');
 for (const file of walk(path.join(root, 'src')).filter(file => file.endsWith('.js'))) {
   const rel = `./${path.relative(root, file).split(path.sep).join('/')}`;
   assert.ok(serviceWorkerSource.includes(`'${rel}'`), `Offline cache must include ${rel}`);
@@ -1062,6 +1062,92 @@ assert.ok(serviceWorkerSource.includes("'./assets/art_manifest.json'")&&serviceW
   assert.ok(['arch', 'pedestal', 'gold'].every(k => lastCtx.images.some(i => i.img.id === map11.trophies[k])), 'World complete: gold trophy on the crystal pedestal under the rainbow arch');
   const midCtx = new ArtCanvasContext(); const mid = new AdventureScene(tg); await mid.enter({ adventureId: townMissions[0].id, step: 1 }); mid.render(midCtx); assert.ok(!midCtx.images.some(i => i.img.id === map11.trophies.podium), 'No trophy before the last step');
   delete globalThis.__LL_ASSETS;
+}
+
+// ---- Job 12: finish line — every picture used, no grey placeholders, 8+ missions per world, release-ready ----
+{
+  const map12 = JSON.parse(fs.readFileSync(path.join(root, 'data/art_map.json'), 'utf8'));
+  const manifest12 = new Set(JSON.parse(fs.readFileSync(path.join(root, 'assets/art_manifest.json'), 'utf8')).map(e => e.id));
+  const unused12 = findUnusedArt(root);
+  assert.equal(unused12.unused.length, 0, `Every delivered picture is used (art:unused): ${unused12.unused.map(u => u.id).join(', ')}`);
+  assert.equal(new Set(unused12.kept.map(k => k.why)).size, 3, 'Only the explorer boy, Pip rig parts and small scene cards are left out');
+  // Every world: 8+ Little Missions, a world prize (its dragon, or Bella's Golden Star), a picture on every mission card.
+  const g12 = { rewards: new RewardSystem({}) }; g12.rewards.setDefinitions(rewardData);
+  for (const world of ['dino', 'rainbow', 'space', 'animal', 'jungle', 'storybook', 'life', 'town']) {
+    const missions = adventureData.adventures.filter(a => a.world === world);
+    assert.ok(missions.length >= 8, `${world} has 8+ Little Missions (got ${missions.length})`);
+    const prize = dragonForWorld(g12, world); assert.ok(prize && map12.rewards[prize.id], `${world} has a world prize with a picture`);
+    for (const m of missions) {
+      assert.ok(manifest12.has(map12.missionIcons[m.id]), `${m.id} has a picture on its mission card`);
+      const r = rewardData.rewards.find(x => x.id === m.reward.id); assert.ok(r && !r.hidden, `${m.id} gives a reward that is shown (${m.reward.id})`);
+      for (const step of m.steps) if (step.art) assert.ok(manifest12.has(step.art), `${m.id}: story picture ${step.art} exists`);
+    }
+  }
+  assert.equal(dragonForWorld(g12, 'life').id, 'life_golden_star', 'Bella’s Day (no dragon) gives the Golden Star');
+  // No grey placeholders: every shown reward has a picture; hidden ones are never offered or drawn.
+  const stillToDraw = fs.readFileSync(path.join(root, 'docs/STILL_TO_DRAW.md'), 'utf8');
+  for (const r of rewardData.rewards) {
+    const pic = map12.rewards[r.id] ?? (r.type === 'cosmetics' ? map12.cosmetics[r.id] : null);
+    if (r.hidden) { assert.ok(!pic, `${r.id} is hidden only while it has no picture`); assert.ok(stillToDraw.includes(r.name), `${r.name} is listed in docs/STILL_TO_DRAW.md`); continue; }
+    assert.ok(pic && manifest12.has(pic), `${r.id} has a picture`);
+  }
+  const hidden = rewardData.rewards.filter(r => r.hidden);
+  for (const a of adventureData.adventures) assert.ok(!hidden.some(r => r.id === a.reward?.id || r.id === a.bonusLook), `${a.id} never gives a hidden reward`);
+  assert.ok(!g12.rewards.listCatalog().some(r => r.hidden), 'Hidden rewards are not offered in the Collection');
+  // Mission activities show pictures, not word cards (drawn coloured shapes are fine: they are the real shape).
+  globalThis.__LL_ASSETS = { artMap: map12, get: () => undefined, requestArt() {} };
+  const DRAWN = new Set(['circle', 'square', 'triangle', 'rectangle', 'star', 'heart', 'egg', 'dinosaur']);
+  const inMissions = new Set(adventureData.adventures.flatMap(a => a.steps.map(s => s.activityId).filter(Boolean)));
+  for (const def of activityData.activities.filter(a => inMissions.has(a.id))) {
+    for (const t of [...(def.objects ?? []), ...(def.choices ?? []), ...(def.cards ?? []), ...(def.sequence ?? []), ...(def.pairs ?? []).flatMap(p => p.items ?? [p])]) {
+      if (!t?.kind || DRAWN.has(t.kind)) continue;
+      assert.ok(tokenArt(t, { colour: 'loose' }), `${def.id}: '${t.symbol ?? t.thing ?? t.animalType ?? t.value ?? t.kind}' has a picture (no word card)`);
+    }
+  }
+  // Island: an owned hidden reward is not drawn; friends say hello; Baby T-Rex grins while tapped.
+  const s12 = new SaveSystem({ indexedDBRef: null, storage: null }); await s12.init(); await s12.createProfile({ name: 'Ivy', age: 4 });
+  await s12.award('creatures', 'baby_pterosaur'); await s12.award('creatures', 'baby_trex');
+  const ig = { save: s12, audio: sceneAudio, scenes: { change() {} } }; ig.rewards = new RewardSystem(ig); ig.rewards.setDefinitions(rewardData);
+  const isl12 = new WonderIslandScene(ig); isl12.enter({});
+  assert.ok(!isl12.objects.some(o => o.id === 'baby_pterosaur'), 'A hidden reward a child already owns stays in the save but is not drawn');
+  const trex = isl12.objects.find(o => o.id === 'baby_trex'); assert.ok(trex); isl12.interact(trex); assert.equal(isl12.hello?.text, 'Roar!', 'A tapped friend says hello');
+  const grin = map12.rewardTapped.baby_trex, shown = new Map([[grin, { width: 100, height: 100, id: grin }], [map12.ui.speechBubble, { width: 100, height: 60, id: map12.ui.speechBubble }]]);
+  globalThis.__LL_ASSETS = { artMap: map12, get: id => shown.get(id), requestArt() {} };
+  const islCtx = new ArtCanvasContext(); isl12.render(islCtx); assert.equal(islCtx.depth, 0);
+  assert.ok(islCtx.images.some(i => i.img.id === grin) && islCtx.images.some(i => i.img.id === map12.ui.speechBubble), 'Baby T-Rex grins in a speech bubble while tapped');
+  // Jungle: a mission hub like every world, with the Jam one tap away; the Jam's BACK returns to the hub.
+  const ng = { adventureEngine, save: s12, audio: sceneAudio, scenes: { last: null, change(name, data) { this.last = { name, data }; } } };
+  const ws12 = new WorldSelectScene(ng); ws12.enter(); ws12.handlePointer({ type: 'down', x: 270, y: 570 }); ws12.handlePointer({ type: 'up', x: 270, y: 570 }); ws12.update(1);
+  assert.deepEqual([ng.scenes.last?.name, ng.scenes.last?.data?.world], ['worldHub', 'jungle'], 'The Jungle card opens its mission hub');
+  const jh = new WorldHubScene(ng); await jh.enter({ world: 'jungle' }); assert.ok(jh.missions.length >= 8); jh.render(fakeCtx); assert.equal(fakeCtx.depth, 0);
+  jh.handlePointer({ type: 'down', x: 1640, y: 970 }); jh.handlePointer({ type: 'up', x: 1640, y: 970 }); assert.equal(ng.scenes.last.name, 'jungleJam', 'JUNGLE JAM button opens the Jam');
+  const jj = new JungleJamScene({ ...ng, learning: new LearningProfile() }); jj.enter(); jj.handlePointer({ type: 'down', x: 100, y: 90 }); jj.handlePointer({ type: 'up', x: 100, y: 90 });
+  assert.deepEqual([ng.scenes.last.name, ng.scenes.last.data?.world], ['worldHub', 'jungle'], 'Jam BACK returns to the Jungle hub');
+  // A finished world shows its certificate on the hub and a badge on its card.
+  for (const m of jh.missions) await s12.saveAdventure(m.id, 0, { completed: true });
+  const certPics = new Map([map12.certificate.scroll, map12.certificate.frame, map12.ui.worldBadge].map(id => [id, { width: 100, height: 100, id }]));
+  globalThis.__LL_ASSETS = { artMap: map12, get: id => certPics.get(id), requestArt() {} };
+  const certCtx = new ArtCanvasContext(); jh.render(certCtx); assert.equal(certCtx.depth, 0); assert.ok(certCtx.images.some(i => i.img.id === map12.certificate.scroll), 'A finished world shows its certificate');
+  const badgeCtx = new ArtCanvasContext(); ws12.render(badgeCtx); assert.ok(badgeCtx.images.some(i => i.img.id === map12.ui.worldBadge), 'A finished world gets a badge on its card');
+  delete globalThis.__LL_ASSETS;
+  // A mission that hands out a Collection thing still gives its stars the first time.
+  const starSave = new SaveSystem({ indexedDBRef: null, storage: null }); await starSave.init(); await starSave.createProfile({ name: 'Sol', age: 5 });
+  const sg12 = { save: starSave, learning: new LearningProfile(), audio: sceneAudio, assets: null, scenes: { last: null, change(name, data) { this.last = { name, data }; } } };
+  sg12.activityEngine = new ActivityEngine(sg12); sg12.activityEngine.setDefinitions(activityData); sg12.adventureEngine = new AdventureEngine(sg12); sg12.adventureEngine.setDefinitions(adventureData); sg12.rewards = new RewardSystem(sg12); sg12.rewards.setDefinitions(rewardData);
+  const concert = adventureData.adventures.find(a => a.id === 'jungle_grand_concert'); const fin = new AdventureScene(sg12); await fin.enter({ adventureId: concert.id, step: concert.steps.length - 1 }); await fin.finishAdventure();
+  assert.equal(starSave.getProfileState().discoveryStars, concert.reward.stars, 'Mission stars are given for a Collection reward');
+  // Release-ready: privacy says exactly what is kept; icons; the Android wrapper has no permissions and no cloud backup.
+  assert.ok(STORED_DATA.length >= 6 && PRIVACY_GUARANTEES.some(p => p.id === 'nothing-leaves'), 'Privacy lists what is stored and that nothing leaves the device');
+  const privacyPage = fs.readFileSync(path.join(root, 'privacy.html'), 'utf8'); for (const item of STORED_DATA) assert.ok(privacyPage.includes(item.title), `privacy.html lists ${item.title}`);
+  const pg12 = new ParentGateScene({ ...parentGame }); pg12.enter({ skipGate: true, tab: 'privacy' }); pg12.render(fakeCtx); assert.equal(fakeCtx.depth, 0);
+  const webManifest = JSON.parse(fs.readFileSync(path.join(root, 'manifest.webmanifest'), 'utf8'));
+  for (const icon of webManifest.icons) assert.ok(fs.existsSync(path.join(root, icon.src)), `${icon.src} exists`);
+  assert.ok(webManifest.icons.some(i => i.purpose === 'maskable') && webManifest.icons.some(i => i.purpose === 'any'), 'Install icons: normal and maskable');
+  const androidManifest = fs.readFileSync(path.join(root, 'app-android/android/app/src/main/AndroidManifest.xml'), 'utf8');
+  assert.deepEqual(androidManifest.match(/android:name="android.permission.[A-Z_]+"/g), ['android:name="android.permission.INTERNET"'], 'The Android app asks for nothing beyond INTERNET for the web view (no camera, mic, location, storage)');
+  assert.ok(androidManifest.includes('android:allowBackup="false"') && androidManifest.includes('sensorLandscape'), 'Android app: no cloud backup, landscape');
+  assert.ok(fs.readFileSync(path.join(root, 'src/main.js'), 'utf8').startsWith("import './utils/compat.js';"), 'Older-tablet fallbacks load first');
+  for (const doc of ['docs/GOOGLE_PLAY_STEPS.md', 'docs/STILL_TO_DRAW.md', 'docs/JOB12_REPORT.md']) assert.ok(fs.existsSync(path.join(root, doc)), `${doc} exists`);
 }
 
 console.log(`Little Legends M0-M29 qualification implementation check passed (M26/M29 human gates still pending): ${required.length} required files, ${jsFiles.length} JS syntax checks, ${activityEngine.list().length} JSON activities across ${expectedActivityTypes.size} reusable families, ${adventureData.adventures.length} Little Missions, privacy/child-test support, launch FX, save recovery, performance instrumentation and offline PWA verified.`);

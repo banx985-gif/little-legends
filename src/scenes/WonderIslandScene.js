@@ -1,4 +1,4 @@
-import { drawCloud, drawCandyButton } from '../utils/draw.js';
+import { drawCloud, drawCandyButton, drawSpeechBubble } from '../utils/draw.js';
 import { PipController } from '../characters/PipController.js';
 import { wornRewards } from '../characters/Wardrobe.js';
 import { art, artMap, drawArt, lookupArt, fxArt, hatchTheme, worldOfReward } from '../core/art.js';
@@ -58,7 +58,7 @@ export class WonderIslandScene {
   constructor(game){this.game=game;this.t=0;this.portalPressed=false;this.rainbowPressed=false;this.parentPressed=false;this.modePressed=false;this.collectionPressed=false;this.placementMode=false;this.drag=null;this.trayPressed=null;this.dragOffset={x:0,y:0};this.objects=[];this.pip=null;this.interaction=null;this.interactionT=0;this.celebrateReward=null;}
   enter(data={}){
     this.t=0;this.celebrateReward=null;this.celebrateQueue=[data.celebrateReward,...(data.celebrateNext??[])].filter(Boolean);
-    const state=this.game.save?.getProfileState?.();const placements=state?.island?.placements??{};const looks=this.game.rewards?wornRewards(state?.pip?.outfit,this.game.rewards):[];this.pip=new PipController({x:300,y:760,scale:.72,looks});
+    const state=this.game.save?.getProfileState?.();const placements=state?.island?.placements??{};const looks=this.game.rewards?wornRewards(state?.pip?.outfit,this.game.rewards):[];this.pip=new PipController({x:300,y:760,scale:.72,looks,onVoiceEvent:e=>this.voiceEvent(e)});this.speech='';this.speechT=0;
     const buildings=new Set([...(state?.unlocks?.buildings??[])]),decorations=new Set([...(state?.unlocks?.decorations??[])]),creatures=new Set([...(state?.unlocks?.creatures??[])]);
     this.objects=BASE_OBJECTS.map(o=>({...o,base:true,...(placements[o.id]??{})}));
     if(buildings.has('dinosaur_home'))this.objects.push({id:'dinosaur_home',type:'dinosaur_home',x:1460,y:650,w:290,h:220,zone:'creature',...(placements.dinosaur_home??{})});
@@ -86,7 +86,11 @@ export class WonderIslandScene {
     // Back-to-front by depth: things lower on the grass stand in front (taps pick the front one).
     spreadOut(this.objects,placements);this.sortByDepth();
     this.hatch=null;this.celebrateT=0;this.startCelebration(this.celebrateQueue.shift()??null);
+    // A new child's first steps (Job 12): DINO PICNIC glows until the first mission is done, then EXPLORE WORLDS once.
+    const done=state?.adventure?.completed??[];this.firstStep=done.length===0?'play':done.length===1?'explore':null;
+    if(this.firstStep&&!this.celebrateReward)this.pip.say('island_first_steps',{text:this.firstStep==='play'?'Let’s go on a Dino Picnic! Tap the green play button.':'There are more worlds to explore! Tap Explore Worlds.',bubbleText:this.firstStep==='play'?'Tap DINO PICNIC!':'Tap EXPLORE WORLDS!',duration:2.8,reaction:'point'});
   }
+  voiceEvent(e){if(e.type==='start'){this.speech=e.bubbleText??e.text??'';this.speechT=e.duration??1.5;if(e.text)this.game.audio?.speak?.(e.text);}else this.speechT=0;}
   // A new creature friend hatches from its world's egg; tap skips. Other rewards keep the banner only.
   // Several wins (a mission reward, then a world's dragon) celebrate one after another.
   startCelebration(id){
@@ -95,7 +99,7 @@ export class WonderIslandScene {
     this.hatch=won?.type==='creatures'?new HatchSequence({theme:hatchTheme(won.id,won.dragonWorld??worldOfReward(this.game,won.id)),rewardId:won.id}).play():null;
     if(id){this.pip?.react('celebrate',{duration:2});this.game.audio?.playCue?.('reward');}
   }
-  update(dt){this.t+=dt;this.pip?.update(dt);this.hatch?.update(dt);
+  update(dt){this.t+=dt;this.pip?.update(dt);if(this.speechT>0)this.speechT=Math.max(0,this.speechT-dt);this.hatch?.update(dt);
     // The celebration clock waits for the egg pictures; if they never arrive, carry on with the banner only.
     this.celebrateClock=(this.celebrateClock??0)+dt;
     if(this.hatch&&!this.hatch.ready&&this.celebrateClock>HATCH_ART_WAIT)this.hatch=null;if(!this.hatch||this.hatch.ready)this.celebrateT+=dt;
@@ -113,6 +117,8 @@ export class WonderIslandScene {
   render(ctx){
     this.drawIsland(ctx);for(const o of this.objects)this.drawObject(ctx,o);this.pip?.render(ctx);this.drawHello(ctx);
     ctx.fillStyle='#5b3b72';ctx.textAlign='center';ctx.font='900 64px ui-rounded,system-ui';ctx.fillText('Wonder Island',960,95);ctx.fillStyle='#fff';ctx.font='700 30px system-ui';ctx.fillText(this.placementMode?'Move your things anywhere on the grass.':'Tap the island toys — or start an adventure!',960,140);
+    if(this.firstStep&&!this.placementMode){const r=this.firstStep==='play'?[360,900,430,115]:[810,900,500,115];ctx.save();ctx.globalAlpha=globalThis.__LL_REDUCED_MOTION?.5:.3+.3*(1+Math.sin(this.t*3))/2;ctx.fillStyle='#fff7a0';ctx.beginPath();ctx.roundRect(r[0]-16,r[1]-16,r[2]+32,r[3]+32,70);ctx.fill();ctx.restore();} // the next thing to tap glows softly
+    if(this.speechT>0&&!this.placementMode)drawSpeechBubble(ctx,this.speech,110,330,430,112,Math.min(1,this.speechT/.18));
     drawCandyButton(ctx,360,900,430,115,'DINO PICNIC',this.portalPressed,'play');
     drawCandyButton(ctx,810,900,500,115,'EXPLORE WORLDS',this.rainbowPressed,'explore');
     drawCandyButton(ctx,1330,910,390,95,this.placementMode?'DONE MOVING':'MOVE THINGS',this.modePressed,'move');

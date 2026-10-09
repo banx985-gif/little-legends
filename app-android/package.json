@@ -1,0 +1,14 @@
+{
+  "name": "little-legends-android",
+  "private": true,
+  "description": "Android app wrapper (Capacitor) for Little Legends. The game itself lives one folder up; this only packs it.",
+  "scripts": {
+    "build": "node build.mjs",
+    "build:release": "node build.mjs --release"
+  },
+  "devDependencies": {
+    "@capacitor/android": "8.5.2",
+    "@capacitor/cli": "8.5.2",
+    "@capacitor/core": "8.5.2"
+  }
+}

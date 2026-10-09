@@ -19,7 +19,10 @@ const OUT = path.join(root, 'docs', 'qa_shots');
 const SHOTS = path.join(OUT, 'release');
 const args = Object.fromEntries(process.argv.slice(2).map(a => a.replace(/^--/, '').split('=')).map(([k, v]) => [k, v ?? true]));
 const HISTORY_ZIP = path.resolve(root, '../../08_BUILD_HISTORY/LITTLE_LEGENDS_BUILD_M0_M29_PLAYABLE_FIX1.zip');
-const WORLDS = ['dino', 'rainbow', 'space', 'animal', 'storybook', 'life', 'town'];
+const WORLDS = ['dino', 'rainbow', 'space', 'animal', 'jungle', 'storybook', 'life', 'town'];
+// Job 12: screens outside the worlds that are heavy on pictures, measured too.
+const EXTRA_SCENES = [['island', {}, 'island'], ['collection', { tab: 'decorations' }, 'collection decor'], ['collection', { tab: 'vehicles' }, 'collection rides'], ['jungleJam', {}, 'jungle jam']];
+const LITE_PICTURE_MB = 100; // Job 10 budget for Lite mode
 
 const results = [];
 const record = (id, label, ok, detail) => { results.push({ id, label, status: ok ? 'pass' : 'fail', detail }); console.log(`  ${ok ? 'PASS' : 'FAIL'}  ${label} — ${detail}`); };
@@ -174,7 +177,8 @@ async function lite(browser, base) {
   for (const world of WORLDS) {
     const mission = await page.evaluate(async w => { const g = window.__littleLegends; await g.adventureEngine.ensureLoaded(g.assets); return g.adventureEngine.list().find(a => a.world === w && a.steps.some(s => s.kind === 'activity')); }, world);
     const step = mission.steps.findIndex(s => s.kind === 'activity');
-    for (const [scene, data, name] of [['worldHub', { world }, `${world} hub`], ['adventure', { adventureId: mission.id, step }, `${world} mission`]]) {
+    const scenes = [['worldHub', { world }, `${world} hub`], ['adventure', { adventureId: mission.id, step }, `${world} mission`], ...(world === WORLDS.at(-1) ? EXTRA_SCENES : [])];
+    for (const [scene, data, name] of scenes) {
       await goScene(page, scene, data); await sleep(3000);
       // Headless Chrome's own refresh timer swings wildly (2–140 Hz), so FPS there means nothing. What the game controls is
       // the work per frame (update + draw): Lite mode keeps 30 FPS while that stays well under 33 ms. Freezes > 100 ms count too.
@@ -184,12 +188,15 @@ async function lite(browser, base) {
         const obs = new PerformanceObserver(list => { for (const e of list.getEntries()) long.push(e.duration); }); obs.observe({ entryTypes: ['longtask'] });
         setTimeout(() => { g.loop.onFrame = onFrame; obs.disconnect(); work.sort((x, y) => x - y); const P = window.__parts ?? []; window.__parts = []; const q = (arr) => { arr.sort((x, y) => x - y); return arr[Math.floor(arr.length * .95)] ?? 0; }; resolve({ updP95: q(P.map(x => x[0])), drawP95: q(P.map(x => x[1])), steps: P.reduce((n, x) => n + x[2], 0) / Math.max(1, P.length), frames: work.length, workP95: work[Math.floor(work.length * .95)] ?? 99, workMax: work.at(-1) ?? 99, longest: Math.max(0, ...long), quality: globalThis.__LL_QUALITY }); }, 5000);
       }));
-      rows.push({ name, ...m });
+      const imageMB = await page.evaluate(() => window.__littleLegends.debugStats?.().imageMB ?? 0);
+      rows.push({ name, ...m, imageMB });
     }
   }
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
   const worst = rows.reduce((x, y) => (y.workP95 > x.workP95 ? y : x));
   const freeze = rows.reduce((x, y) => (y.longest > x.longest ? y : x));
+  const heaviest = rows.reduce((x, y) => (y.imageMB > x.imageMB ? y : x));
+  record('lite-pictures', `Lite mode keeps picture memory within its ${LITE_PICTURE_MB} MB budget`, heaviest.imageMB <= LITE_PICTURE_MB * 1.15, `most ${heaviest.imageMB.toFixed(0)} MB (${heaviest.name}); budget ${LITE_PICTURE_MB} MB, released between screens`);
   const ok = rows.every(r => r.quality === 'lite' && r.frames > 20 && r.workP95 < 16.7 && r.longest < 100) && !errors.length;
   record('lite-30fps', 'Lite mode has room for 30 FPS on every world (CPU slowed 4×)', ok, `frame work p95 at most ${worst.workP95.toFixed(1)} ms (${worst.name}) of the 33 ms a 30 FPS frame allows; longest freeze ${Math.round(freeze.longest)} ms (${freeze.name}); ${rows.length} scenes`);
   await context.close();

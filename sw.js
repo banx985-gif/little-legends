@@ -1,4 +1,4 @@
-const CACHE = 'little-legends-m29-playable-fix1-art-v46';
+const CACHE = 'little-legends-m29-playable-fix1-art-v47';
 const CORE = [
   './',
   './index.html',
@@ -6,6 +6,9 @@ const CORE = [
   './manifest.webmanifest',
   './assets/icons/icon-192.png',
   './assets/icons/icon-512.png',
+  './assets/icons/icon-maskable-192.png',
+  './assets/icons/icon-maskable-512.png',
+  './assets/icons/apple-touch-icon.png',
   './assets/art/meadow_picnic_clearing.png',
   './assets/art_manifest.json',
   './data/art_map.json',
@@ -78,6 +81,7 @@ const CORE = [
   './src/scenes/WorldSelectScene.js',
   './src/testing/ChildTestRecorder.js',
   './src/testing/ReleaseQualification.js',
+  './src/utils/compat.js',
   './src/utils/draw.js',
   './src/ui/HoldToLeave.js',
   './src/utils/easing.js'

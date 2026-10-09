@@ -212,7 +212,7 @@ export class AdventureScene {
     const done=new Set([...(this.game.save?.getProfileState?.()?.adventure?.completed??[]),this.definition.id]),n=missions.filter(m=>done.has(m.id)).length,complete=n>=missions.length;
     const tier=complete?'gold':n*3>=missions.length*2?'gold':n*3>=missions.length?'silver':'bronze',rise=Math.min(1,(this.t??0)/.5);
     // The star podium is a little winner's stage: the trophy stands in front of it. The crystal pedestal has a flat top: the trophy sits on it.
-    if(complete){const beam=fxArt('worldBeam');drawArt(ctx,beam?.id,950,880,330,470,{anchor:'bottom',alpha:rise*.75,blend:beam?.blend});drawArt(ctx,t.arch,950,875,440,330,{anchor:'bottom',alpha:rise});drawArt(ctx,t.pedestal,950,875,200,170,{anchor:'bottom',alpha:rise});drawArt(ctx,t.gold,950,792,120,135,{anchor:'bottom',alpha:rise});}
+    if(complete){const beam=fxArt('worldBeam');drawArt(ctx,beam?.id,950,880,300,265,{anchor:'bottom',alpha:rise*.7,blend:beam?.blend}); /* stays below the story card's words */drawArt(ctx,t.arch,950,875,440,330,{anchor:'bottom',alpha:rise});drawArt(ctx,t.pedestal,950,875,200,170,{anchor:'bottom',alpha:rise});drawArt(ctx,t.gold,950,792,120,135,{anchor:'bottom',alpha:rise});}
     else{drawArt(ctx,t.podium,950,858,290,200,{anchor:'bottom',alpha:rise});drawArt(ctx,t[tier],950,880,125,145,{anchor:'bottom',alpha:rise});}} // whole sentence on up to two lines (it used to be cut off with …)
   drawHintDemonstration(ctx){ActivityScene.prototype.drawHintDemonstration.call(this,ctx);}
   // After two wrong taps the right answer glows softly.

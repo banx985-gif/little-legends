@@ -15,3 +15,6 @@ desktop.ini
 
 # Full-size originals waiting to be moved into ../../04_ART/MASTERS_FULL_SIZE
 _masters_pending/
+
+# Browser QA screenshots (npm run qa:tablet)
+docs/qa_shots/

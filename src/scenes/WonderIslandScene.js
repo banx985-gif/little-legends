@@ -18,6 +18,25 @@ const BASE_OBJECTS=[
 const CATALOG_SPOTS=[];
 for(const y of [470,610,750])for(let x=380;x<=1540;x+=145)if(!(x>780&&x<1140&&y<680)&&!(x>1380&&y<690))CATALOG_SPOTS.push([x,y]);
 
+// Free spots for a reward whose usual place is already taken (clear of the portal, Pip's house and Pip).
+const FREE_SPOTS=[];
+for(let y=450;y<=830;y+=95)for(let x=380;x<=1560;x+=118)if(!(x>780&&x<1140&&y<690)&&!(x>1380&&y<690)&&!(x<470&&y>650))FREE_SPOTS.push([x,y]);
+function overlap(a,b){const w=Math.min(a.x+a.w/2,b.x+b.w/2)-Math.max(a.x-a.w/2,b.x-b.w/2),h=Math.min(a.y+a.h/2,b.y+b.h/2)-Math.max(a.y-a.h/2,b.y-b.h/2);return w>0&&h>0?w*h/(a.w*a.h):0;}
+// Rewards keep the spot the child moved them to. Otherwise, if their usual place is mostly covered by something
+// already on the island, they go to the nearest free spot so a full island doesn't become one pile.
+function spreadOut(objects,placements){
+  const placed=[];
+  for(const o of objects){
+    if(placements[o.id]||o.base){placed.push(o);continue;}
+    if(placed.some(p=>overlap(o,p)>.35)){
+      const free=FREE_SPOTS.map(([x,y])=>({x,y,d:Math.hypot(x-o.x,y-o.y)})).filter(c=>!placed.some(p=>overlap({...o,x:c.x,y:c.y},p)>.18)).sort((a,b)=>a.d-b.d)[0];
+      if(free){o.x=free.x;o.y=free.y;}
+    }
+    placed.push(o);
+  }
+  return objects;
+}
+
 function contains(o,x,y,extra=25){return x>=o.x-o.w/2-extra&&x<=o.x+o.w/2+extra&&y>=o.y-o.h/2-extra&&y<=o.y+o.h/2+extra;}
 function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
 
@@ -27,7 +46,7 @@ export class WonderIslandScene {
     this.t=0;this.celebrateReward=null;this.celebrateQueue=[data.celebrateReward,...(data.celebrateNext??[])].filter(Boolean);
     const state=this.game.save?.getProfileState?.();const placements=state?.island?.placements??{};const cosmeticId=state?.pip?.outfit?.cosmeticId;const cosmetic=cosmeticId?this.game.rewards?.get?.(cosmeticId):null;this.pip=new PipController({x:300,y:760,scale:.72,cosmetic});
     const buildings=new Set([...(state?.unlocks?.buildings??[])]),decorations=new Set([...(state?.unlocks?.decorations??[])]),creatures=new Set([...(state?.unlocks?.creatures??[])]);
-    this.objects=BASE_OBJECTS.map(o=>({...o,...(placements[o.id]??{})}));
+    this.objects=BASE_OBJECTS.map(o=>({...o,base:true,...(placements[o.id]??{})}));
     if(buildings.has('dinosaur_home'))this.objects.push({id:'dinosaur_home',type:'dinosaur_home',x:1460,y:650,w:290,h:220,zone:'creature',...(placements.dinosaur_home??{})});
     if(buildings.has('rainbow_arch'))this.objects.push({id:'rainbow_arch',type:'rainbow_arch',x:500,y:430,w:300,h:230,zone:'decoration',...(placements.rainbow_arch??{})});
     if(decorations.has('shape_garden'))this.objects.push({id:'shape_garden',type:'shape_garden',x:760,y:460,w:300,h:190,zone:'decoration',...(placements.shape_garden??{})});
@@ -47,6 +66,8 @@ export class WonderIslandScene {
       const [x,y]=CATALOG_SPOTS[spot++%CATALOG_SPOTS.length];
       this.objects.push({id:reward.id,type:'catalog_item',x,y,w:reward.type==='buildings'?190:140,h:reward.type==='buildings'?170:130,zone:'decoration',name:reward.name,color:reward.color,label:reward.name,...(placements[reward.id]??{})});known.add(reward.id);
     }
+    // Back-to-front by depth: things lower on the grass stand in front (taps pick the front one).
+    spreadOut(this.objects,placements);this.sortByDepth();
     this.hatch=null;this.celebrateT=0;this.startCelebration(this.celebrateQueue.shift()??null);
   }
   // A new creature friend hatches from its world's egg; tap skips. Other rewards keep the banner only.
@@ -78,7 +99,7 @@ export class WonderIslandScene {
     drawCandyButton(ctx,360,900,430,115,'DINO PICNIC',this.portalPressed,'play');
     drawCandyButton(ctx,810,900,500,115,'EXPLORE WORLDS',this.rainbowPressed,'explore');
     drawCandyButton(ctx,1330,910,390,95,this.placementMode?'DONE MOVING':'MOVE THINGS',this.modePressed,'move');
-    if(!drawArt(ctx,lookupArt('ui','parent'),90,85,118,118)){ctx.fillStyle='#ffffffdd';ctx.beginPath();ctx.arc(90,85,54,0,Math.PI*2);ctx.fill();ctx.fillStyle='#5b3b72';ctx.font='900 46px system-ui';ctx.fillText('⚙',90,101);}drawCandyButton(ctx,1510,42,330,82,'COLLECTION',this.collectionPressed,'collection');
+    if(!drawArt(ctx,lookupArt('ui','parent'),90,85,118,118)){ctx.fillStyle='#ffffffdd';ctx.beginPath();ctx.arc(90,85,54,0,Math.PI*2);ctx.fill();ctx.fillStyle='#5b3b72';ctx.font='900 46px system-ui';ctx.fillText('⚙',90,101);}drawCandyButton(ctx,1510,36,330,94,'COLLECTION',this.collectionPressed,'collection');
     if(this.placementMode){ctx.strokeStyle='#fff8';ctx.setLineDash?.([18,16]);ctx.lineWidth=8;ctx.beginPath();ctx.roundRect(300,300,1330,565,70);ctx.stroke();ctx.setLineDash?.([]);}
     if(this.hatch?.ready&&this.celebrateT<CELEBRATE_SECONDS){ctx.save();ctx.globalAlpha=Math.min(1,(CELEBRATE_SECONDS-this.celebrateT)/.5)*.7;ctx.fillStyle='#fffdf0';ctx.beginPath();ctx.ellipse(960,620,260,240,0,0,Math.PI*2);ctx.fill();ctx.restore();this.hatch.render(ctx,960,780,340);}
     // Other wins (decorations, buildings, rides) stand on the reward podium while the banner shows.
@@ -115,19 +136,22 @@ export class WonderIslandScene {
     const jump=o.type==='ball'&&active?Math.abs(Math.sin(this.t*9))*55:0;
     if(o.type==='creature_dragon'&&art(id)){const calm=globalThis.__LL_REDUCED_MOTION;drawArt(ctx,fxArt('rareGlow')?.id,0,0,o.w*1.35,o.h*1.35,{alpha:calm?.45:.4+Math.sin(this.t*1.2)*.12,blend:'screen'});} // rare friend: slow soft glow, never flashing
     if(!drawArt(ctx,id,0,-jump,o.w,o.h))return false;
-    if(['creature_dino','creature_dragon','creature_animal','reward_badge','reward_vehicle'].includes(o.type)){ctx.fillStyle='#fffdf0';ctx.beginPath();ctx.roundRect(-82,o.h/2-14,164,38,18);ctx.fill();ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='800 18px system-ui';ctx.fillText(String(o.label??o.name??'Friend').replace('Baby ','').slice(0,17),0,o.h/2+12);}
+    if(this.showTag(o)&&['creature_dino','creature_dragon','creature_animal','reward_badge','reward_vehicle'].includes(o.type)){ctx.fillStyle='#fffdf0';ctx.beginPath();ctx.roundRect(-100,o.h/2-16,200,44,20);ctx.fill();ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='800 22px system-ui';ctx.fillText(String(o.label??o.name??'Friend').replace('Baby ','').slice(0,17),0,o.h/2+14,186);}
     return true;
   }
 
   drawBabyRaptor(ctx,x,y){ctx.save();ctx.translate(x,y);ctx.fillStyle='#68c66c';ctx.beginPath();ctx.ellipse(0,0,62,40,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(52,-40,38,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(64,-49,9,0,Math.PI*2);ctx.fill();ctx.fillStyle='#333';ctx.beginPath();ctx.arc(67,-48,4,0,Math.PI*2);ctx.fill();ctx.restore();}
 
   rewardColor(value){const map={red:'#e94d55',blue:'#4d8ee8',yellow:'#f7cf4f',green:'#66bd62',orange:'#f39a45',purple:'#8b69db',pink:'#ec7ea2',cream:'#fff3dc'};return map[value]??value??'#8b69db';}
-  drawRewardCreature(ctx,o,family,active){const c=this.rewardColor(o.color);const bob=active?Math.abs(Math.sin(this.t*10))*26:Math.sin(this.t*3)*5;ctx.translate(0,-bob);ctx.fillStyle=c;ctx.beginPath();ctx.ellipse(0,15,72,48,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(family==='dino'?58:0,-38,46,0,Math.PI*2);ctx.fill();if(family==='dino'){ctx.beginPath();ctx.moveTo(-62,12);ctx.lineTo(-125,-20);ctx.lineTo(-60,42);ctx.closePath();ctx.fill();}else{ctx.beginPath();ctx.arc(-34,-73,18,0,Math.PI*2);ctx.arc(34,-73,18,0,Math.PI*2);ctx.fill();}ctx.fillStyle='#fff';const ex=family==='dino'?72:18;ctx.beginPath();ctx.arc(ex,-46,10,0,Math.PI*2);ctx.fill();ctx.fillStyle='#3d3348';ctx.beginPath();ctx.arc(ex+2,-45,4,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fffdf0';ctx.beginPath();ctx.roundRect(-82,70,164,38,18);ctx.fill();ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='800 18px system-ui';ctx.fillText(String(o.label??o.name??'Friend').replace('Baby ',''),0,96);}
-  drawRewardBadge(ctx,o,active){const c=this.rewardColor(o.color);ctx.fillStyle='#fffdf0';ctx.beginPath();ctx.roundRect(-82,-65,164,130,38);ctx.fill();ctx.strokeStyle=c;ctx.lineWidth=12;ctx.stroke();ctx.fillStyle=c;ctx.beginPath();ctx.arc(0,-10,30+(active?Math.sin(this.t*14)*5:0),0,Math.PI*2);ctx.fill();ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='900 17px system-ui';ctx.fillText(String(o.label??o.name??'Reward').slice(0,17),0,48);}
+  drawRewardCreature(ctx,o,family,active){const c=this.rewardColor(o.color);const bob=active?Math.abs(Math.sin(this.t*10))*26:Math.sin(this.t*3)*5;ctx.translate(0,-bob);ctx.fillStyle=c;ctx.beginPath();ctx.ellipse(0,15,72,48,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(family==='dino'?58:0,-38,46,0,Math.PI*2);ctx.fill();if(family==='dino'){ctx.beginPath();ctx.moveTo(-62,12);ctx.lineTo(-125,-20);ctx.lineTo(-60,42);ctx.closePath();ctx.fill();}else{ctx.beginPath();ctx.arc(-34,-73,18,0,Math.PI*2);ctx.arc(34,-73,18,0,Math.PI*2);ctx.fill();}ctx.fillStyle='#fff';const ex=family==='dino'?72:18;ctx.beginPath();ctx.arc(ex,-46,10,0,Math.PI*2);ctx.fill();ctx.fillStyle='#3d3348';ctx.beginPath();ctx.arc(ex+2,-45,4,0,Math.PI*2);ctx.fill();if(this.showTag(o)){ctx.fillStyle='#fffdf0';ctx.beginPath();ctx.roundRect(-100,68,200,44,20);ctx.fill();ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='800 22px system-ui';ctx.fillText(String(o.label??o.name??'Friend').replace('Baby ',''),0,98,186);}}
+  drawRewardBadge(ctx,o,active){const c=this.rewardColor(o.color);ctx.fillStyle='#fffdf0';ctx.beginPath();ctx.roundRect(-82,-65,164,130,38);ctx.fill();ctx.strokeStyle=c;ctx.lineWidth=12;ctx.stroke();ctx.fillStyle=c;ctx.beginPath();ctx.arc(0,-10,30+(active?Math.sin(this.t*14)*5:0),0,Math.PI*2);ctx.fill();ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='900 21px system-ui';ctx.fillText(String(o.label??o.name??'Reward').slice(0,17),0,50,150);}
   drawRewardVehicle(ctx,o,active){const c=this.rewardColor(o.color);ctx.fillStyle=c;ctx.beginPath();ctx.roundRect(-85,-38,170,78,25);ctx.fill();ctx.fillStyle='#fff3dc';ctx.beginPath();ctx.roundRect(-35,-85,85,52,18);ctx.fill();ctx.fillStyle='#5a3a73';for(const x of [-55,55]){ctx.beginPath();ctx.arc(x,48+(active?Math.sin(this.t*12+x)*4:0),22,0,Math.PI*2);ctx.fill();}}
 
   objectAt(x,y){return[...this.objects].reverse().find(o=>contains(o,x,y));}
-  async finishDrag(o){o.x=clamp(o.x,350,1580);o.y=clamp(o.y,410,820);this.game.fx?.cue?.('place',{x:o.x,y:o.y});await this.game.save?.saveIslandPlacement?.(o.id,{x:o.x,y:o.y,zone:o.zone});}
+  sortByDepth(){this.objects.sort((a,b)=>(a.y+a.h/2)-(b.y+b.h/2));}
+  // Name tags show when a thing is tapped, just won, or being moved, so a full island doesn't turn into a wall of labels.
+  showTag(o){return this.placementMode||(this.interaction===o.id&&this.interactionT>0)||this.celebrateReward===o.id;}
+  async finishDrag(o){this.sortByDepth();o.x=clamp(o.x,350,1580);o.y=clamp(o.y,410,820);this.game.fx?.cue?.('place',{x:o.x,y:o.y});await this.game.save?.saveIslandPlacement?.(o.id,{x:o.x,y:o.y,zone:o.zone});}
   interact(o){this.interaction=o.id;this.interactionT=1.2;if(o.type==='drum')this.game.audio?.playCue?.('count',{count:2});else this.game.audio?.playCue?.('correct');if(o.type==='slide')this.pip?.react('bounce',{duration:1.2});if(o.type==='ball')this.pip?.lookAt(o,.8);}
 
   handlePointer(e){

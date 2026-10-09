@@ -4,6 +4,12 @@ const DEFAULT_DELAYS = Object.freeze({
   growing: 7.0
 });
 
+// With no touch, Pip says the instruction again every VOICE_REPEAT_SECONDS (a few times, then waits for a touch).
+export const VOICE_REPEAT_SECONDS = 8;
+const VOICE_REPEAT_MAX = 4;
+// Wrong answers in a row before the picture hint shows (object, then where it goes).
+export const MISSES_FOR_HINT = 2;
+
 export class HintController {
   constructor({ host, learning = null, developmentalLevel = 'young', delays = DEFAULT_DELAYS } = {}) {
     this.host = host;
@@ -13,6 +19,9 @@ export class HintController {
     this.currentLevel = 0;
     this.elapsed = 0;
     this.active = true;
+    this.voiceIdle = 0;
+    this.voiceRepeats = 0;
+    this.misses = 0;
   }
 
   get delay() { return this.delays[this.developmentalLevel] ?? this.delays.young; }
@@ -32,10 +41,23 @@ export class HintController {
 
   onInput() {
     this.elapsed = 0;
+    this.voiceIdle = 0;
+    this.voiceRepeats = 0;
     this.host.hideHintDemo?.();
   }
 
-  onProgress() { this.reset({ clearVisuals: true }); }
+  onProgress() { this.misses = 0; this.reset({ clearVisuals: true }); }
+
+  // A wrong answer. After MISSES_FOR_HINT in a row the picture hint shows straight away (the instruction is said again
+  // and the next object and its place glow), instead of waiting for the idle timer.
+  onMiss() {
+    if (!this.active) return false;
+    this.misses++;
+    if (this.misses < MISSES_FOR_HINT) return false;
+    while (this.currentLevel < 3 && this.advance()) {}
+    this.elapsed = 0;
+    return true;
+  }
 
   stop() {
     this.active = false;
@@ -45,6 +67,12 @@ export class HintController {
   update(dt) {
     if (!this.active || !this.host.activity || this.host.completed) return;
     this.elapsed += dt;
+    this.voiceIdle += dt;
+    if (this.voiceIdle >= VOICE_REPEAT_SECONDS && this.voiceRepeats < VOICE_REPEAT_MAX) {
+      this.voiceIdle = 0;
+      this.voiceRepeats++;
+      this.host.repeatInstruction?.();
+    }
     if (this.elapsed < this.delay) return;
     this.elapsed = 0;
     if (this.currentLevel >= 5) {
@@ -66,7 +94,7 @@ export class HintController {
     this.learning?.recordHint?.({ activityId: activity?.id ?? null, level: this.currentLevel, skillIds });
     this.host?.game?.childTest?.recordHint?.(this.currentLevel);
 
-    if (this.currentLevel === 1) this.host.repeatInstruction?.();
+    if (this.currentLevel === 1) { this.host.repeatInstruction?.(); this.voiceIdle = 0; }
     if (this.currentLevel === 4) {
       const target = context?.target ?? context?.object;
       if (target) this.host.pip?.react('point', { duration: 1.5, target, tag: 'hint-point', replaceTag: true, priority: 1 });

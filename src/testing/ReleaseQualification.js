@@ -20,6 +20,20 @@ export const RELEASE_MANUAL_CHECKS = Object.freeze([
   { id:'privacy-legal', group:'PARENT', label:'Store/legal privacy wording reviewed' }
 ]);
 
+// Checks a computer ran on this build in real Chrome at tablet sizes before release (Job 08: npm run qa:tablet and
+// npm run qa:release). They are evidence, not a replacement: the matching device item in the RELEASE list shows
+// "COMPUTER ✓" but stays for a person to confirm on the real tablet.
+export const BUILD_QA = Object.freeze({
+  job: 'Job 08', date: '2026-10-09',
+  checks: Object.freeze([
+    { id: 'tablet-playthrough', label: 'Every world and mission played start to finish (iPad, Android, phone sizes)', status: 'pass', detail: 'all 8 worlds, 46 missions, island, Collection, Looks, Parent area' },
+    { id: 'offline', manualId: 'offline-cold-start', label: 'Offline reload keeps the game and the world just played', status: 'pass', detail: 'also when the tablet goes offline straight after the first visit' },
+    { id: 'save-migration', manualId: 'prior-save-migration', label: 'Saves from older builds load with progress and rewards', status: 'pass', detail: 'build history M29 fix 1 and the live build' },
+    { id: 'lite-30fps', manualId: 'lite-performance', label: 'Lite mode 30 FPS pacing fixed; frame cost fits on every world', status: 'warn', detail: 'drawing a frame takes 1–26 ms of the 33 ms allowed with the PC slowed 4×, but the PC test browser itself stalls at random — measure on the real tablet' },
+    { id: 'toddler-rules', manualId: 'hint-recovery', label: 'Instructions spoken + repeated after 8 s; hint after 2 misses', status: 'pass', detail: 'every activity type' }
+  ])
+});
+
 export const RELEASE_STATUSES = Object.freeze(['pending','pass','fail','na']);
 
 function clone(value) { return value == null ? value : JSON.parse(JSON.stringify(value)); }
@@ -65,7 +79,7 @@ export class ReleaseQualification {
   }
 
   getState() { return clone(this.state); }
-  getManualChecks() { return RELEASE_MANUAL_CHECKS.map(item => ({ ...item, ...(this.state.manual[item.id] ?? {}) })); }
+  getManualChecks() { return RELEASE_MANUAL_CHECKS.map(item => ({ ...item, ...(this.state.manual[item.id] ?? {}), computer: BUILD_QA.checks.find(c => c.manualId === item.id) ?? null })); }
 
   summary() {
     const checks = this.getManualChecks();
@@ -160,6 +174,7 @@ export class ReleaseQualification {
       check('runtime-errors','No recovered runtime errors this session',(Number(this.game?.runtimeErrorCount)||0)===0 ? 'pass':'warn',`${Number(this.game?.runtimeErrorCount)||0} error(s)`),
       check('performance-samples','Performance instrumentation active',perf?.sampleCount>0 ? 'pass':'warn',perf?.sampleCount>0?`${perf.averageFps.toFixed(1)} FPS / ${perf.quality}`:'play for a few seconds to sample'),
       check('privacy-mode','Child build has no commerce enabled',!globalThis.__LL_COMMERCE_ENABLED ? 'pass':'warn',globalThis.__LL_COMMERCE_ENABLED?'commerce enabled — verify parent gate':'commerce disabled'),
+      ...BUILD_QA.checks.map(c => check(`build-${c.id}`, `${BUILD_QA.job} computer check: ${c.label}`, c.status, `${c.detail} (${BUILD_QA.date})`)),
       check('standalone-offline','Standalone package is self-contained',globalThis.__LL_STANDALONE ? 'pass':'warn',globalThis.__LL_STANDALONE?'embedded-data build':'installed PWA must be tested offline on device')
     ];
     this.state.automated = { at:this.clock(), build:safeString(globalThis.__LL_BUILD,'development'), checks };

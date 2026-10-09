@@ -1,8 +1,9 @@
 import { clamp, easeOutBack } from '../utils/easing.js';
-import { drawCandyButton } from '../utils/draw.js';
+import { drawCandyButton, drawSpeechBubble } from '../utils/draw.js';
 import { drawActivityAmbient } from '../activities/activityDraw.js';
 import { PipController } from '../characters/PipController.js';
 import { HintController } from '../hints/HintController.js';
+import { HoldToLeave } from '../ui/HoldToLeave.js';
 
 export class ActivityScene {
   constructor(game) {
@@ -37,6 +38,7 @@ export class ActivityScene {
     this.pipSpeech = '';
     this.pipSpeechT = 0;
     this.pipVoiceUsesSpeech = false;
+    this.leave = new HoldToLeave({ onLeave: () => this.game.scenes.change('island') });
 
     this.pip = new PipController({
       x: 225,
@@ -104,8 +106,8 @@ export class ActivityScene {
 
   repeatInstruction() {
     if (!this.activity) return;
-    const voice = this.activity.definition.voiceText ?? this.activity.definition.instructionText ?? '';
-    const bubble = this.activity.definition.pipBubble ?? this.activity.definition.instructionText ?? voice;
+    const voice = this.activity.spokenInstruction?.() ?? this.activity.definition.voiceText ?? '';
+    const bubble = this.activity.definition.pipBubble ?? voice;
     if (!voice) return;
     this.pip?.say(`${this.activityId}_hint_repeat`, {
       text: voice,
@@ -151,6 +153,7 @@ export class ActivityScene {
 
   update(dt) {
     this.t += dt;
+    this.leave?.update(dt);
     this.pip?.update(dt);
     if (this.pipSpeechT > 0) this.pipSpeechT = Math.max(0, this.pipSpeechT - dt);
     if (!this.completed) {
@@ -167,6 +170,7 @@ export class ActivityScene {
     }
 
     if (!this.completed) {
+      if (this.leave?.handlePointer(e)) return;
       this.hints?.onInput?.();
       this.activity?.handlePointer?.(e);
       return;
@@ -194,19 +198,8 @@ export class ActivityScene {
 
   drawPipSpeech(ctx) {
     if (!this.pipSpeech || this.pipSpeechT <= 0) return;
-    const x = this.completed ? 170 : 25;
-    const y = this.completed ? 285 : 75;
-    const w = 390, h = 118;
-    ctx.save();
-    ctx.globalAlpha = clamp(this.pipSpeechT / 0.18, 0, 1);
-    ctx.fillStyle = '#fffdf7';
-    ctx.beginPath(); ctx.roundRect(x, y, w, h, 44); ctx.fill();
-    ctx.beginPath(); ctx.moveTo(x + 92, y + h - 4); ctx.lineTo(x + 132, y + h + 48); ctx.lineTo(x + 166, y + h - 4); ctx.closePath(); ctx.fill();
-    ctx.fillStyle = '#5a3a73';
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.font = '800 32px ui-rounded, system-ui, sans-serif';
-    ctx.fillText(this.pipSpeech, x + w / 2, y + h / 2 + 2);
-    ctx.restore();
+    // Left of the instruction panel (which starts at x 400) while playing; above Pip on the celebration screen.
+    drawSpeechBubble(ctx, this.pipSpeech, this.completed ? 170 : 20, this.completed ? 285 : 75, this.completed ? 420 : 370, 112, clamp(this.pipSpeechT / 0.18, 0, 1));
   }
 
   drawHintDemonstration(ctx) {
@@ -246,6 +239,7 @@ export class ActivityScene {
       this.drawHintDemonstration(ctx);
       this.pip?.render(ctx);
       this.drawPipSpeech(ctx);
+      this.leave?.render(ctx);
       return;
     }
 

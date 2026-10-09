@@ -1,4 +1,4 @@
-const CACHE = 'little-legends-m29-playable-fix1-art-v41';
+const CACHE = 'little-legends-m29-playable-fix1-art-v42';
 const CORE = [
   './',
   './index.html',
@@ -78,6 +78,7 @@ const CORE = [
   './src/testing/ChildTestRecorder.js',
   './src/testing/ReleaseQualification.js',
   './src/utils/draw.js',
+  './src/ui/HoldToLeave.js',
   './src/utils/easing.js'
 ];
 // Pictures live in their own cache, which survives code updates (they would otherwise re-download every
@@ -101,17 +102,28 @@ function cacheArt() {
     })
     .catch(() => null);
 }
+// Pictures the page already loaded before this worker took over (first visit): cache them straight away,
+// so the world the child just played still has its pictures if the tablet goes offline soon after.
+function cacheUrls(urls) {
+  const list = (Array.isArray(urls) ? urls : []).filter(url => typeof url === 'string' && isArt(new URL(url, self.location.href).href));
+  return caches.open(ART_CACHE).then(cache => Promise.all(list.map(url => caches.match(url).then(hit => hit || cache.add(url)).catch(() => null)))).catch(() => null);
+}
 function isArt(url) { return new URL(url).pathname.includes('/assets/') && url.endsWith('.png'); }
 
+let firstInstall = false;
 self.addEventListener('install', event => {
+  firstInstall = !self.registration.active;
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(CORE)));
 });
 self.addEventListener('activate', event => {
-  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE && key !== ART_CACHE).map(key => caches.delete(key)))));
-  // Do not claim active clients: a newly installed version waits until the current play session closes.
+  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE && key !== ART_CACHE).map(key => caches.delete(key))))
+    // First install only: look after the page that is already open, so what it loads next is cached for offline play.
+    // An update never claims: a newly installed version waits until the current play session closes.
+    .then(() => firstInstall ? self.clients.claim() : null));
 });
 self.addEventListener('message', event => {
   if (event.data === 'cache-art') event.waitUntil(cacheArt());
+  if (event.data?.type === 'cache-urls') event.waitUntil(cacheUrls(event.data.urls));
 });
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;

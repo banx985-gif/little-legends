@@ -43,7 +43,9 @@ export class GameLoop {
   tick(now) {
     if (!this.running) return;
     const rawFrameMs = now - this.last;
-    if (rawFrameMs + 0.25 < this.minFrameMs) {
+    // A few ms of slack: screen refreshes wobble, and a too-strict check skips a whole extra refresh
+    // (30 FPS mode was landing on ~28, with drops to 20, on a 60 Hz screen).
+    if (rawFrameMs + 3 < this.minFrameMs) {
       this.raf = requestAnimationFrame(this.tick);
       return;
     }

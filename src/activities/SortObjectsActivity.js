@@ -7,6 +7,7 @@ export class SortObjectsActivity extends DragBaseActivity {
     this.tokens=(this.definition.objects??[]).map((o,i)=>this.makeToken(o,i));
     super.start();
   }
+  fallbackInstruction(){const names=this.targets.map(t=>String(t.label??'').toLowerCase()).filter(Boolean);return names.length>1?`Sort them into the right places: ${names.slice(0,-1).join(', ')} or ${names.at(-1)}.`:'Sort them into the right places.';}
   validTargets(token){return this.targets.filter(target=>this.accepts(target,token));}
   nearestTarget(token){
     return this.validTargets(token).reduce((best,t)=>!best||Math.hypot(token.x-t.x,token.y-t.y)<Math.hypot(token.x-best.x,token.y-best.y)?t:best,null);

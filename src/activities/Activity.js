@@ -15,7 +15,7 @@ export class Activity {
 
   start() {
     this.game.childTest?.recordActivityStart?.(this.id);
-    const voice = this.definition.voiceText ?? this.definition.instructionText ?? '';
+    const voice = this.spokenInstruction();
     const bubble = this.definition.pipBubble ?? voice;
     if (voice) {
       const duration = Math.max(0.9, Math.min(3.2, 0.45 + voice.split(/\s+/).length * 0.32));
@@ -27,6 +27,13 @@ export class Activity {
       });
     }
   }
+
+  // What Pip says out loud: the written instruction, the story question, or what the panel shows on screen.
+  spokenInstruction() {
+    const d = this.definition;
+    return d.voiceText ?? d.instructionText ?? d.storyText ?? this.fallbackInstruction() ?? '';
+  }
+  fallbackInstruction() { return null; }
 
   update(dt) { this.t += dt; }
   render() {}
@@ -51,7 +58,7 @@ export class Activity {
       correction: options.correction ?? (outcome === 'success' && this.hadIncorrect)
     }) ?? null;
     this.game.childTest?.recordResponse?.(event);
-    if (outcome === 'incorrect') this.hadIncorrect = true;
+    if (outcome === 'incorrect') { this.hadIncorrect = true; this.host.hints?.onMiss?.(); }
     if (outcome === 'success') { this.host.hints?.onProgress?.(); this.hadIncorrect = false; }
     if (event && this.game.save?.saveLearning) this.game.save.saveLearning(this.game.learning.snapshot());
     return event;

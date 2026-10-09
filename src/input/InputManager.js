@@ -44,7 +44,12 @@ export class InputManager {
 
     this.canvas.addEventListener('pointerdown', e => {
       e.preventDefault();
-      if (this.activePointerId !== null && this.activePointerId !== e.pointerId) return;
+      if (this.activePointerId !== null && this.activePointerId !== e.pointerId) {
+        // A new *first* finger means the old one has gone, even if its lift was never reported (system gesture,
+        // dropped event): let go of it instead of ignoring every touch from now on. A genuine second finger is still ignored.
+        if (!e.isPrimary) return;
+        this.cancelActive();
+      }
       this.activePointerId = e.pointerId;
       this.pointer.down = true;
       try { this.canvas.setPointerCapture(e.pointerId); } catch {}
@@ -62,11 +67,12 @@ export class InputManager {
       e.preventDefault();
       this.emit(type, e);
       this.pointer.down = false;
+      this.activePointerId = null; // before releasing, so the lostpointercapture that follows is ignored
       try { this.canvas.releasePointerCapture(e.pointerId); } catch {}
-      this.activePointerId = null;
     };
 
     this.canvas.addEventListener('pointerup', e => finish('up', e), { passive: false });
     this.canvas.addEventListener('pointercancel', e => finish('cancel', e), { passive: false });
+    this.canvas.addEventListener('lostpointercapture', e => { if (this.activePointerId === e.pointerId) finish('cancel', e); });
   }
 }

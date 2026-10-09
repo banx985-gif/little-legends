@@ -51,7 +51,12 @@ game.start(initialScene, sceneData).catch(error => {
 if ('serviceWorker' in navigator && location.protocol !== 'file:') {
   window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(console.warn));
   // Once the game has loaded what it needs, let the offline cache fetch the remaining pictures in the background.
-  setTimeout(() => navigator.serviceWorker.ready.then(registration => registration.active?.postMessage('cache-art')).catch(() => {}), 8000);
+  // First visit: the pictures already on screen were loaded before the offline cache existed. Hand their addresses to it
+  // as soon as it is ready (and again with the background job) so a world played on the first visit works offline.
+  const firstVisit = !navigator.serviceWorker.controller;
+  const cacheLoaded = registration => { const urls = game.assets.loadedArtUrls?.() ?? []; if (urls.length) registration.active?.postMessage({ type: 'cache-urls', urls }); };
+  if (firstVisit) navigator.serviceWorker.ready.then(cacheLoaded).catch(() => {});
+  setTimeout(() => navigator.serviceWorker.ready.then(registration => { if (firstVisit) cacheLoaded(registration); registration.active?.postMessage('cache-art'); }).catch(() => {}), 8000);
 }
 
 window.__littleLegends = game;

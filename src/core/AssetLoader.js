@@ -93,6 +93,7 @@ export class AssetLoader {
   }
 
   requestArt(id) { if (this.artUrls?.has(id) && !this.cache.has(id) && !this.artPending?.has(id)) this.loadArt([id]); }
+  loadedArtUrls() { const urls = []; for (const [id, img] of this.cache) if (img && this.artUrls?.has(id)) urls.push(this.artUrls.get(id)); return urls; }
   loadedArtCount() { let n = 0; for (const id of this.cache.keys()) if (this.artUrls?.has(id)) n++; return n; }
   releaseArt(keep = new Set()) { for (const id of [...this.cache.keys()]) if (this.artUrls?.has(id) && !keep.has(id)) this.release(id); }
 

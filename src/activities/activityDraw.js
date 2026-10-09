@@ -82,11 +82,11 @@ export function drawInstructionPanel(ctx, title, subtitle = '') {
   ctx.textBaseline = 'alphabetic';
   const uiScale=Math.max(1,Math.min(1.3,Number(globalThis.__LL_UI_SCALE)||1));
   ctx.font = `900 ${Math.round(54*uiScale)}px ui-rounded, system-ui, sans-serif`;
-  ctx.fillText(title, 960, 126);
+  ctx.fillText(title, 960, 126, 1060);
   if (subtitle) {
     ctx.fillStyle = '#71657e';
     ctx.font = `700 ${Math.round(30*uiScale)}px ui-rounded, system-ui, sans-serif`;
-    ctx.fillText(subtitle, 960, 174);
+    ctx.fillText(subtitle, 960, 174, 1060);
   }
 }
 
@@ -150,7 +150,7 @@ function drawTokenArt(ctx, token, picture, size, color) {
     ctx.strokeStyle = color; ctx.lineWidth = Math.max(7, size * 0.055); ctx.stroke();
     drawArt(ctx, picture.id, 0, -size * 0.07, box, box * 0.86);
     const label = token.label ?? token.symbol;
-    if (label) { ctx.fillStyle = '#5a3a73'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = `800 ${Math.max(18, Math.round(size * 0.13))}px ui-rounded, system-ui, sans-serif`; ctx.fillText(String(label).slice(0, 12), 0, size * 0.32); }
+    if (label) { ctx.fillStyle = '#5a3a73'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = `800 ${Math.max(21, Math.round(size * 0.13))}px ui-rounded, system-ui, sans-serif`; ctx.fillText(String(label).slice(0, 12), 0, size * 0.32, size * 0.78); }
     return;
   }
   if (picture.labelled) { drawArt(ctx, picture.id, 0, -size * 0.06, box, box); if (token.label) drawTokenLabel(ctx, token.label, size); return; }
@@ -246,10 +246,11 @@ function drawSymbolToken(ctx, text, size, color, { fontScale = 0.55, sublabel = 
   ctx.strokeStyle = color; ctx.lineWidth = Math.max(7, size * 0.055); ctx.stroke();
   ctx.fillStyle = color; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
   ctx.font = `900 ${Math.max(34, Math.round(size * fontScale))}px ui-rounded, system-ui, sans-serif`;
-  ctx.fillText(text, 0, sublabel ? -size * 0.05 : 0);
+  // Placeholder words stay inside the card (a long word like SWIMSUIT used to spill over its neighbours).
+  ctx.fillText(text, 0, sublabel ? -size * 0.05 : 0, r * 1.7);
   if (sublabel) {
     ctx.fillStyle = '#5a3a73'; ctx.font = `800 ${Math.max(18, Math.round(size * 0.16))}px ui-rounded, system-ui, sans-serif`;
-    ctx.fillText(String(sublabel).slice(0, 12), 0, size * 0.29);
+    ctx.fillText(String(sublabel), 0, size * 0.29, r * 1.35);
   }
 }
 
@@ -273,8 +274,9 @@ function drawAnimalToken(ctx, token, size, color) {
 
 function drawTokenLabel(ctx, label, size) {
   ctx.fillStyle = '#5a3a73'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.font = `800 ${Math.max(18, Math.round(size * .15))}px ui-rounded, system-ui, sans-serif`;
-  ctx.fillText(String(label).slice(0, 14), 0, size * .47);
+  // Big enough to read on an iPad; squeezes to the picture's width instead of running into its neighbour.
+  ctx.font = `800 ${Math.max(22, Math.round(size * .15))}px ui-rounded, system-ui, sans-serif`;
+  ctx.fillText(String(label).slice(0, 14), 0, size * .47, size * 1.1);
 }
 
 function drawStarPath(ctx, x, y, outer, inner) {

@@ -31,7 +31,10 @@ import { FeedbackFX } from '../src/fx/FeedbackFX.js';
 import { art, tokenArt, artIdsForScene, countTargetArt, hatchTheme, hatchFrameIds } from '../src/core/art.js';
 import { HatchSequence } from '../src/fx/HatchSequence.js';
 import { drawToken, drawBin, drawBasket } from '../src/activities/activityDraw.js';
-import { drawCandyButton } from '../src/utils/draw.js';
+import { drawCandyButton, drawSpeechBubble } from '../src/utils/draw.js';
+import { HoldToLeave } from '../src/ui/HoldToLeave.js';
+import { GameLoop } from '../src/core/GameLoop.js';
+import { VOICE_REPEAT_SECONDS } from '../src/hints/HintController.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const required = [
@@ -62,7 +65,7 @@ for (const file of jsFiles) execFileSync(process.execPath, ['--check', file], { 
 
 // The installable/offline build must cache every eagerly imported source module.
 const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v41"), 'Service worker cache version should advance with the real-art build');
+assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v42"), 'Service worker cache version should advance with the real-art build');
 for (const file of walk(path.join(root, 'src')).filter(file => file.endsWith('.js'))) {
   const rel = `./${path.relative(root, file).split(path.sep).join('/')}`;
   assert.ok(serviceWorkerSource.includes(`'${rel}'`), `Offline cache must include ${rel}`);
@@ -509,20 +512,20 @@ flowGame.activityEngine=new ActivityEngine(flowGame);flowGame.activityEngine.set
 flowGame.adventureEngine=new AdventureEngine(flowGame);flowGame.adventureEngine.setDefinitions(adventureData);
 flowGame.rewards=new RewardSystem(flowGame);flowGame.rewards.setDefinitions(rewardData);flowGame.eggs=new EggSystem(flowGame);
 const flow=new AdventureScene(flowGame);await flow.enter({adventureId:'rory_dino_picnic',step:0});
-await flow.handlePointer({type:'up',x:960,y:940});
+await flow.handlePointer({type:'down',x:960,y:940});await flow.handlePointer({type:'up',x:960,y:940});
 assert.equal(flow.step.id,'find_dinos');
 for(const token of flow.activity.tokens.filter(t=>t.kind==='dinosaur')) flow.activity.handlePointer({type:'up',x:token.x,y:token.y});
-assert.equal(flow.completedStep,true);await flow.handlePointer({type:'up',x:960,y:940});
+assert.equal(flow.completedStep,true);await flow.handlePointer({type:'up',x:960,y:940});assert.equal(flow.step.id,'find_dinos','The finger lifting at the end of an activity must not skip the well-done moment');await flow.handlePointer({type:'down',x:960,y:940});await flow.handlePointer({type:'up',x:960,y:940});
 assert.equal(flow.step.id,'feed_dinos');for(const token of [...flow.activity.tokens]) drag(flow.activity,token,flow.activity.target);
-assert.equal(flow.completedStep,true);await flow.handlePointer({type:'up',x:960,y:940});
+assert.equal(flow.completedStep,true);await flow.handlePointer({type:'down',x:960,y:940});await flow.handlePointer({type:'up',x:960,y:940});
 assert.equal(flow.step.id,'sort_fruit');for(const token of [...flow.activity.tokens]){const target=flow.activity.targets.find(t=>flow.activity.accepts(t,token));drag(flow.activity,token,target);}
-assert.equal(flow.completedStep,true);await flow.handlePointer({type:'up',x:960,y:940});
-assert.equal(flow.step.id,'big_blanket');await flow.handlePointer({type:'up',x:870,y:500});assert.equal(flow.completedStep,true);await flow.handlePointer({type:'up',x:960,y:940});
-assert.equal(flow.step.id,'pattern');await flow.handlePointer({type:'up',x:800,y:820});assert.equal(flow.completedStep,true);await flow.handlePointer({type:'up',x:960,y:940});
-assert.equal(flow.step.id,'egg_reward');await flow.handlePointer({type:'up',x:960,y:940});
-assert.equal(flow.step.id,'return_island');await flow.handlePointer({type:'up',x:960,y:940});
+assert.equal(flow.completedStep,true);await flow.handlePointer({type:'down',x:960,y:940});await flow.handlePointer({type:'up',x:960,y:940});
+assert.equal(flow.step.id,'big_blanket');await flow.handlePointer({type:'up',x:870,y:500});assert.equal(flow.completedStep,true);await flow.handlePointer({type:'down',x:960,y:940});await flow.handlePointer({type:'up',x:960,y:940});
+assert.equal(flow.step.id,'pattern');await flow.handlePointer({type:'up',x:800,y:820});assert.equal(flow.completedStep,true);await flow.handlePointer({type:'down',x:960,y:940});await flow.handlePointer({type:'up',x:960,y:940});
+assert.equal(flow.step.id,'egg_reward');await flow.handlePointer({type:'down',x:960,y:940});await flow.handlePointer({type:'up',x:960,y:940});
+assert.equal(flow.step.id,'return_island');await flow.handlePointer({type:'down',x:960,y:940});await flow.handlePointer({type:'up',x:960,y:940});
 assert.equal(flow.step.id,'hatch');for(let i=0;i<5;i++)await flow.handlePointer({type:'up',x:960,y:600});assert.equal(flow.completedStep,true);
-await flow.handlePointer({type:'up',x:960,y:940});assert.equal(flow.step.id,'place_home');await flow.handlePointer({type:'up',x:960,y:680});assert.equal(flow.completedStep,true);await flow.handlePointer({type:'up',x:960,y:940});
+await flow.handlePointer({type:'down',x:960,y:940});await flow.handlePointer({type:'up',x:960,y:940});assert.equal(flow.step.id,'place_home');await flow.handlePointer({type:'up',x:960,y:680});assert.equal(flow.completedStep,true);await flow.handlePointer({type:'down',x:960,y:940});await flow.handlePointer({type:'up',x:960,y:940});
 await flowSave.writeChain;assert.equal(flowGame.scenes.last.name,'island');assert.ok(flowSave.getProfileState().unlocks.creatures.includes('baby_raptor'));assert.ok(flowSave.getProfileState().unlocks.buildings.includes('dinosaur_home'));assert.ok(flowSave.getProfileState().adventure.completed.includes('rory_dino_picnic'));
 
 
@@ -570,7 +573,7 @@ const rainbowScene=new AdventureScene(rainbowGame);await rainbowScene.enter({adv
 let guard=0;
 while(rainbowGame.scenes.last?.name!=='island'&&guard++<20){
   if(rainbowScene.activity&&!rainbowScene.completedStep){completeThroughPublicInput(rainbowScene.activity,rainbowScene.activity.definition);}
-  await rainbowScene.handlePointer({type:'up',x:960,y:950});
+  await rainbowScene.handlePointer({type:'down',x:960,y:950});await rainbowScene.handlePointer({type:'up',x:960,y:950});
 }
 assert.equal(rainbowGame.scenes.last?.name,'island','Rainbow adventure should return to Wonder Island');
 assert.ok(save.getProfileState().unlocks.buildings.includes('rainbow_arch'),'Completing The Missing Rainbow should persist its Wonder Island reward');
@@ -610,7 +613,7 @@ contentGame.adventureEngine=new AdventureEngine(contentGame); contentGame.advent
 contentGame.rewards=new RewardSystem(contentGame); contentGame.rewards.setDefinitions(rewardData); contentGame.eggs=new EggSystem(contentGame); contentGame.scheduler=new ActivityScheduler(contentGame);
 async function completeGenericAdventure(id){
   contentGame.scenes.last=null;const scene=new AdventureScene(contentGame);await scene.enter({adventureId:id,step:0});let guard=0;
-  while(contentGame.scenes.last?.name!=='island'&&guard++<30){if(scene.activity&&!scene.completedStep)completeThroughPublicInput(scene.activity,scene.activity.definition);await scene.handlePointer({type:'up',x:960,y:950});}
+  while(contentGame.scenes.last?.name!=='island'&&guard++<30){if(scene.activity&&!scene.completedStep)completeThroughPublicInput(scene.activity,scene.activity.definition);await scene.handlePointer({type:'down',x:960,y:950});await scene.handlePointer({type:'up',x:960,y:950});}
   assert.equal(contentGame.scenes.last?.name,'island',`${id} should return to Wonder Island`);return scene;
 }
 const genericAdventureIds = adventureData.adventures.filter(a => a.id !== 'rory_dino_picnic' && a.steps.every(step => ['story','activity'].includes(step.kind))).map(a => a.id);
@@ -636,7 +639,7 @@ for (const r of rewardData.rewards.filter(r => r.rare)) assert.equal(r.type, 'cr
   g.activityEngine = new ActivityEngine(g); g.activityEngine.setDefinitions(activityData); g.adventureEngine = new AdventureEngine(g); g.adventureEngine.setDefinitions(adventureData); g.rewards = new RewardSystem(g); g.rewards.setDefinitions(rewardData);
   const town = adventureData.adventures.filter(a => a.world === 'town');
   for (const a of town.slice(0, -1)) await dragonSave.saveAdventure(a.id, 0, { completed:true });
-  const last = new AdventureScene(g); await last.enter({ adventureId: town.at(-1).id, step: town.at(-1).steps.length - 1 }); await last.handlePointer({ type:'up', x:960, y:950 });
+  const last = new AdventureScene(g); await last.enter({ adventureId: town.at(-1).id, step: town.at(-1).steps.length - 1 }); await last.handlePointer({type:'down',x:960,y:950});await last.handlePointer({type:'up',x:960,y:950});
   assert.equal(g.scenes.last.name, 'island'); assert.deepEqual(g.scenes.last.data.celebrateNext, ['dragon_puzzle'], 'The last Busy Town mission celebrates its reward, then hatches the Puzzle Dragon');
   const isl = new WonderIslandScene(g); isl.enter(g.scenes.last.data); assert.equal(isl.celebrateReward, town.at(-1).reward.id); isl.update(5); assert.equal(isl.celebrateReward, 'dragon_puzzle', 'Island celebrates the dragon after the mission reward'); isl.render(fakeCtx); assert.equal(fakeCtx.depth, 0);
   const col = new CollectionScene(g); col.enter({ tab:'dragons' }); assert.equal(col.items().length, 7); col.render(fakeCtx); assert.equal(fakeCtx.depth, 0, 'Dragons tab render must balance Canvas state');
@@ -706,7 +709,8 @@ const soundVisual=activityData.activities.find(a=>a.id==='m17_sound_cow');assert
 
 // ---- Milestone 23: offline PWA pass ----
 const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.webmanifest'),'utf8'));assert.equal(manifest.display,'standalone');assert.equal(manifest.orientation,'landscape-primary');assert.ok((manifest.icons??[]).some(i=>i.sizes==='192x192'));assert.ok((manifest.icons??[]).some(i=>i.sizes==='512x512'));
-assert.ok(!serviceWorkerSource.includes('skipWaiting()'),'PWA updates must wait rather than replace the service worker mid-session');assert.ok(!serviceWorkerSource.includes('clients.claim()'),'PWA updates must not claim an active child session');assert.ok(serviceWorkerSource.includes("'./assets/icons/icon-192.png'"));assert.ok(serviceWorkerSource.includes("'./assets/icons/icon-512.png'"));
+assert.ok(!serviceWorkerSource.includes('skipWaiting()'),'PWA updates must wait rather than replace the service worker mid-session');// Claiming is only allowed on the very first install (no earlier version running), never on an update.
+assert.ok((serviceWorkerSource.match(/clients.claim()/g)??[]).length<=1&&!/[^?]s*self.clients.claim()/.test(serviceWorkerSource.replace('firstInstall ? self.clients.claim()','')),'PWA updates must not claim an active child session');assert.ok(serviceWorkerSource.includes('firstInstall = !self.registration.active'),'Only a first install may look after the open page');assert.ok(serviceWorkerSource.includes("'./assets/icons/icon-192.png'"));assert.ok(serviceWorkerSource.includes("'./assets/icons/icon-512.png'"));
 
 // ---- Milestone 24: measurable performance pass ----
 const qualityEvents=[];const perf=new PerformanceManager({onQualityChange:(q,reason)=>qualityEvents.push({q,reason})});perf.start();
@@ -826,5 +830,49 @@ assert.ok(/ART_PARALLEL = [1-4];/.test(serviceWorkerSource)&&serviceWorkerSource
 assert.ok(!serviceWorkerSource.includes('cache.addAll(CORE).then(() => cacheArt'),'Install must not download every picture at once');
 delete globalThis.__LL_ASSETS;
 assert.ok(serviceWorkerSource.includes("'./assets/art_manifest.json'")&&serviceWorkerSource.includes('cacheArt('),'Offline cache should include every picture in the art manifest');
+
+// ---- Job 08: toddler rules (spoken + repeated instructions, hints after two misses, a grown-up way out) ----
+{
+  const said = [];
+  const sayHost = { activity: null, completed: false, pip: { react() {}, say(id, o) { said.push(o.text); return true; } }, repeatInstruction() { said.push('repeat'); }, hideHintDemo() {}, showHintDemo() {} };
+  sayHost.activity = { setHint() {}, getHintContext: () => null, configuredSkills: () => [] };
+  const idle = new HintController({ host: sayHost, delays: { young: 99 } });
+  idle.update(VOICE_REPEAT_SECONDS - 0.1); assert.equal(said.length, 0);
+  idle.update(0.2); assert.equal(said.length, 1, 'With no touch for ~8 s Pip says the instruction again');
+  idle.onInput(); idle.update(VOICE_REPEAT_SECONDS - 0.5); assert.equal(said.length, 1, 'A touch restarts the 8 s wait');
+  for (let i = 0; i < 10; i++) idle.update(VOICE_REPEAT_SECONDS); assert.ok(said.length <= 5, 'Repeats stop after a few until the child touches again');
+  const misses = new HintController({ host: sayHost, delays: { young: 99 } });
+  misses.onMiss(); assert.equal(misses.currentLevel, 0, 'One miss: no hint yet');
+  misses.onMiss(); assert.ok(misses.currentLevel >= 3, 'Two misses in a row: the picture hint shows');
+  misses.onProgress(); misses.onMiss(); assert.equal(misses.currentLevel, 0, 'A right answer resets the miss count');
+  // Every activity used in a mission has a spoken instruction, with real words (never "{target}").
+  const missionActivityIds = new Set(adventureData.adventures.flatMap(a => a.steps.map(s => s.activityId)).filter(Boolean));
+  for (const id of missionActivityIds) {
+    const host = makeHost(id), activity = activityEngine.create(id, host); activity.start();
+    const text = activity.spokenInstruction();
+    assert.ok(text && !/[{}]|undefined/.test(text), `${id} must say its instruction out loud (got "${text}")`);
+  }
+  // Hold to leave: a tap does nothing, a 1.5 s hold leaves.
+  let left = 0; const leave = new HoldToLeave({ onLeave: () => left++ });
+  assert.equal(leave.handlePointer({ type: 'down', x: 1830, y: 100 }), true); leave.update(0.3); leave.handlePointer({ type: 'up', x: 1830, y: 100 }); leave.update(2);
+  assert.equal(left, 0, 'A quick tap on the home button must not leave the mission');
+  leave.handlePointer({ type: 'down', x: 1830, y: 100 }); leave.update(0.8); leave.update(0.8); assert.equal(left, 1, 'Holding the home button leaves');
+  assert.equal(leave.handlePointer({ type: 'down', x: 960, y: 600 }), false, 'Taps elsewhere still reach the activity');
+  leave.render(fakeCtx); assert.equal(fakeCtx.depth, 0);
+  drawSpeechBubble(fakeCtx, 'A very long thing for Pip to say that would not fit in the bubble', 30, 240); assert.equal(fakeCtx.depth, 0);
+}
+
+// ---- Job 08: 30 FPS (Lite) pacing holds on real screens, whose refreshes wobble by a millisecond or so ----
+{
+  globalThis.requestAnimationFrame ??= () => 0; globalThis.cancelAnimationFrame ??= () => {};
+  const paced = (screenHz, targetFps, seconds = 10) => {
+    let renders = 0; const loop = new GameLoop({ update() {}, render() { renders++; }, targetFps });
+    loop.running = true; loop.last = 0; const period = 1000 / screenHz;
+    for (let i = 1; i <= screenHz * seconds; i++) loop.tick(i * period + Math.sin(i * 12.9898) * 0.8);
+    return renders / seconds;
+  };
+  for (const hz of [60, 120]) assert.ok(paced(hz, 30) >= 29.5 && paced(hz, 30) <= 30.5, `Lite mode should draw 30 FPS on a ${hz} Hz screen (got ${paced(hz, 30).toFixed(1)})`);
+  assert.ok(paced(60, 60) >= 59, 'High mode should draw every refresh on a 60 Hz screen');
+}
 
 console.log(`Little Legends M0-M29 qualification implementation check passed (M26/M29 human gates still pending): ${required.length} required files, ${jsFiles.length} JS syntax checks, ${activityEngine.list().length} JSON activities across ${expectedActivityTypes.size} reusable families, ${adventureData.adventures.length} Little Missions, privacy/child-test support, launch FX, save recovery, performance instrumentation and offline PWA verified.`);

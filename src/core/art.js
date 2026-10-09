@@ -175,6 +175,10 @@ function idsForActivity(definition, engine) {
   const who = characterArt(definition?.character); if (who) ids.push(who);
   const ambient = ambientArt(definition); if (ambient) ids.push(ambient);
   if (definition?.type === 'CountAndPlace') { const box = countTargetArt(definition); if (box) ids.push(box); }
+  const map = artMap();
+  if (definition?.type === 'WashSwipe') ids.push(...(map?.fx?.washClean ?? []));
+  if (definition?.type === 'PaintSwipe') ids.push(map?.fx?.paintSplat?.[definition.paintColor]);
+  if (definition?.type === 'NumberLine') ids.push(map?.numberTile);
   ids.push(...themeArtIds(definition?.theme));
   return ids;
 }
@@ -205,6 +209,7 @@ async function artIdsForScene(game, name, data = {}) {
     // Only rewards this child owns are on the island.
     const owned = Object.values(game.save?.getProfileState?.()?.unlocks ?? {}).flat();
     ids.push(...Object.values(map.island ?? {}), ...owned.map(id => map.rewards?.[id]).filter(Boolean));
+    ids.push(...owned.map(id => map.rewardTapped?.[id]).filter(Boolean)); // a friend's tapped picture (Baby T-Rex's grin)
     // Pieces built on the island; the build tray's own pictures load when MOVE THINGS is opened.
     const pieces = map.islandBuild?.pieces ?? {};
     ids.push(...(game.save?.getProfileState?.()?.island?.built ?? []).map(b => pieces[b.piece]?.id).filter(Boolean));
@@ -224,7 +229,11 @@ async function artIdsForScene(game, name, data = {}) {
     // Last mission left in its world: the world's dragon egg hatches on the island afterwards.
     const dragon = dragonForWorld(game, adventure?.world), done = game.save?.getProfileState?.()?.adventure?.completed ?? [];
     const lastOne = game.adventureEngine.list().filter(a => a.world === adventure?.world && a.id !== adventure.id).every(a => done.includes(a.id));
-    if (dragon && lastOne && !game.rewards?.isUnlocked?.(dragon.id)) ids.push(...hatchArtIds(hatchTheme(dragon.id, adventure?.world), dragon.id));
+    if (dragon && lastOne && !game.rewards?.isUnlocked?.(dragon.id)) ids.push(...(dragon.type === 'creatures' ? hatchArtIds(hatchTheme(dragon.id, adventure?.world), dragon.id) : [map.rewards?.[dragon.id]]));
+    if (lastOne) ids.push(map.fx?.worldBeam?.id); // the world-complete light beam behind the gold trophy
+    if ((adventure?.steps ?? []).some(step => step.art)) ids.push(...adventure.steps.map(step => step.art)); // pictures on story steps
+    if (adventure?.steps?.some(step => step.kind === 'hatch')) ids.push(map.fx?.eggCrack);
+    ids.push(map.ui?.missionStar, map.ui?.homeButton);
     const reward = map.rewards?.[adventure?.reward?.id]; if (reward) ids.push(reward);
     ids.push(...['bronze', 'silver', 'gold', 'podium', 'arch', 'pedestal'].map(k => map.trophies?.[k])); // the mission-finish trophy
     // The reward egg (for the hatch steps, and so the island celebration has it ready on arrival).
@@ -282,13 +291,15 @@ function settleSceneArt(game, name, data = {}, ids = []) {
 }
 
 // Each world's look (scene theme) for hubs and story steps.
-const WORLD_THEMES = { rainbow: 'rainbow', dino: 'dino', animal: 'forest', storybook: 'storybook', life: 'life', space: 'space_moon_base', town: 'town' };
+const WORLD_THEMES = { rainbow: 'rainbow', dino: 'dino', animal: 'forest', storybook: 'storybook', life: 'life', space: 'space_moon_base', town: 'town', jungle: 'jungle' };
 export function worldTheme(world) { return WORLD_THEMES[world] ?? 'dino'; }
 
-// The rare dragon a world gives once every one of its Little Missions is done (data/rewards.json "dragonWorld").
+// The prize a world gives once every one of its Little Missions is done: its rare dragon (data/rewards.json "dragonWorld"),
+// or for a world with no dragon (Bella's Day) its world reward ("worldReward").
 export function dragonForWorld(game, world) {
   if (!world) return null;
-  return game?.rewards?.list?.().find(r => r.dragonWorld === world) ?? null;
+  const list = game?.rewards?.list?.() ?? [];
+  return list.find(r => r.dragonWorld === world) ?? list.find(r => r.worldReward === world) ?? null;
 }
 
 export { artIdsForScene, prepareSceneArt, settleSceneArt };

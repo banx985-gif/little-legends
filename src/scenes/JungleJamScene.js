@@ -58,7 +58,7 @@ export class JungleJamScene{
     if(e.type==='move'&&this.drag){this.drag.x=e.x+this.offset.x;this.drag.y=e.y+this.offset.y;return;}
     if(e.type==='up'||e.type==='cancel'){
       if(this.drag){const p=this.drag;this.drag=null;if(e.type==='up')this.finishDrag(p);else{p.x=p.homeX;p.y=p.homeY;}return;}
-      if(e.type==='up'&&this.modePressed){const chosen=this.modePressed;this.modePressed=null;if(chosen==='back'){if(this.dragonWon)this.game.scenes.change('island',{celebrateReward:this.dragonWon});else this.game.scenes.change('worldSelect');return;}this.setMode(chosen);return;}
+      if(e.type==='up'&&this.modePressed){const chosen=this.modePressed;this.modePressed=null;if(chosen==='back'){if(this.dragonWon)this.game.scenes.change('island',{celebrateReward:this.dragonWon});else this.game.scenes.change('worldHub',{world:'jungle'});return;}this.setMode(chosen);return;}
       this.modePressed=null;
     }
   }
@@ -66,6 +66,7 @@ export class JungleJamScene{
     drawActivityBackground(ctx,'jungle');this.pip?.render(ctx);ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='900 68px ui-rounded,system-ui';ctx.fillText('Jungle Jam',960,105);ctx.fillStyle='#fff';ctx.font='700 28px system-ui';ctx.fillText('Build your band — every friend adds a sound!',960,150);
     MODES.forEach((m,i)=>{const r=this.modeRect(i);ctx.fillStyle=this.mode===m[0]?'#fff2a8':'#ffffffd8';ctx.beginPath();ctx.roundRect(r.x,r.y,r.w,r.h,38);ctx.fill();ctx.fillStyle='#5a3a73';ctx.font='900 22px system-ui';ctx.fillText(m[1],r.x+r.w/2,r.y+58);});
     for(const slot of this.slots){ctx.fillStyle='#ffffff88';ctx.beginPath();ctx.roundRect(slot.x-slot.w/2,slot.y-slot.h/2,slot.w,slot.h,55);ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=7;ctx.stroke();}
+    const rings=artMap()?.jam?.rings;if(rings)for(const p of this.performers){if(!p.placed||!rings[p.color])continue;ctx.save();ctx.translate(p.x,p.y+92);ctx.scale(1,.42);drawArt(ctx,rings[p.color],0,0,230,230,{alpha:.55+this.demoFlash*2.5,blend:'screen'});ctx.restore();}
     for(const p of this.performers)drawToken(ctx,{kind:'instrument',symbol:p.symbol,label:p.name,color:p.color,x:p.x,y:p.y,size:p.size},{highlight:p===this.drag});
     // Friends on stage get a music note that bobs gently with the beat (still when motion is reduced).
     const notes=artMap()?.jam?.notes;this.performers.forEach((p,i)=>{if(!p.placed||!Array.isArray(notes))return;const bob=globalThis.__LL_REDUCED_MOTION?0:Math.sin(this.t*3+i)*10;drawArt(ctx,notes[i%notes.length],p.x+70,p.y-125+bob,56,66,{alpha:.95});});

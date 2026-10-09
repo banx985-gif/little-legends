@@ -214,7 +214,10 @@
       "zebra": "creatures.zoo.zebra",
       "squirrel": "creatures.forest.squirrel",
       "seahorse": "creatures.sea_dino.seahorse",
-      "parasaurolophus": "creatures.dinos.parasaurolophus"
+      "parasaurolophus": "creatures.dinos.parasaurolophus",
+      "crab": "creatures.sea_dino.crab",
+      "turtle": "creatures.wild.turtle",
+      "toucan": "creatures.tropical.toucan"
     }
   },
   "symbols": {
@@ -498,7 +501,49 @@
       "tile_path": "worlds.tiles.tile_path",
       "tile_pond": "worlds.tiles.tile_pond",
       "cloud": "objects.weather.cloud",
-      "tap": "objects.bathroom.tap"
+      "tap": "objects.bathroom.tap",
+      "candy_circle": "objects.shapes_candy.circle_red",
+      "candy_heart": "objects.shapes_candy.heart_pink",
+      "candy_square": "objects.shapes_candy.square_blue",
+      "candy_triangle": "objects.shapes_candy.triangle_yellow",
+      "candy_star": "objects.shapes_candy.star_green",
+      "candy_rectangle": "objects.shapes_candy.rectangle_purple",
+      "fish": "creatures.sea_dino.fish",
+      "crab": "creatures.sea_dino.crab",
+      "seahorse": "creatures.sea_dino.seahorse",
+      "letter_stone_a": "objects.literacy.letter_stone_a",
+      "word_card_apple": "objects.literacy.word_card_apple",
+      "child_hungry": "ui.parent.child_hungry",
+      "child_surprised": "ui.parent.child_surprised",
+      "toy_box": "objects.bathroom.toy_box",
+      "alarm_clock": "objects.daily_life.alarm_clock",
+      "pyjamas": "objects.daily_life.pyjamas",
+      "tshirt": "objects.clothes.tshirt",
+      "scarf": "objects.clothes.scarf",
+      "rain_boots": "objects.clothes.rain_boots",
+      "sun_hat": "objects.clothes.sun_hat",
+      "drum": "objects.music.drum",
+      "maracas": "objects.music_jungle.maracas",
+      "guitar": "objects.music_jungle.guitar",
+      "trumpet": "objects.music_jungle.trumpet",
+      "xylophone": "objects.music.xylophone",
+      "tambourine": "objects.music.tambourine",
+      "triangle_bell": "objects.music.triangle",
+      "handbells": "objects.music.handbells",
+      "drum_kit": "objects.music_jungle.drum_kit",
+      "leaf_stool": "worlds.jungle_stage.leaf_stool",
+      "dino_egg_nest": "objects.dino_egg_nest",
+      "nest_leaf": "objects.dino.nest_leaf",
+      "nest_empty": "objects.nest",
+      "footprint_dino": "objects.dino.footprint_dino",
+      "footprint_paw": "objects.dino.footprint_paw",
+      "food_bowl_dino": "objects.dino.food_bowl_dino",
+      "plate": "objects.daily_life.plate",
+      "den_cave": "worlds.animal_forest.den_cave",
+      "burrow": "worlds.animal_forest.burrow",
+      "bird_nest": "worlds.animal_forest.nest_bird_eggs",
+      "tractor_toy": "objects.vehicles.tractor",
+      "banana": "objects.food.banana"
     }
   },
   "backgrounds": {
@@ -553,7 +598,7 @@
   ],
   "missionIcons": {
     "about": "Picture in each Little Mission's circle on its world hub.",
-    "space_build_rocket_mission": "objects.space.rocket",
+    "space_build_rocket_mission": "ui.worlds.rocket_engine",
     "space_robot_helper": "objects.robot_build.robot_head",
     "space_count_stars": "objects.space.star",
     "space_shape_lab": "objects.shape_slots.slot_star_yellow",
@@ -570,7 +615,58 @@
     "town_hospital": "objects.vehicles.ambulance",
     "town_building_site": "objects.vehicles.digger",
     "town_vehicle_parade": "objects.vehicles.special.parade_float",
-    "town_big_helpers": "objects.vehicles.air.helicopter_rescue"
+    "town_big_helpers": "objects.vehicles.air.helicopter_rescue",
+    "rainbow_sweet_shapes": "objects.shapes_candy.heart_pink",
+    "rainbow_sea_friends": "creatures.sea_dino.fish",
+    "rainbow_colour_splash": "objects.art.paint_pot_rainbow",
+    "animal_farm_morning": "creatures.farm.chicken",
+    "animal_muddy_piglet": "creatures.farm.pig",
+    "animal_moo_parade": "creatures.farm.cow",
+    "storybook_a_is_for_apple": "objects.literacy.word_card_apple",
+    "storybook_moon_story": "objects.literacy.moon_sleepy_pedestal",
+    "storybook_word_builders": "rewards.books.quill_magic",
+    "life_how_do_i_feel": "ui.emotions.face_happy",
+    "life_bedtime": "objects.daily_life.pyjamas",
+    "life_tidy_helpers": "objects.bathroom.toy_box",
+    "jungle_hello_drums": "objects.music.drum",
+    "jungle_animal_band": "objects.music_jungle.maracas",
+    "jungle_big_and_small": "objects.music.handbells",
+    "jungle_lion_lullaby": "creatures.safari.lion",
+    "jungle_flamingo_dance": "creatures.tropical.flamingo",
+    "jungle_stage_builders": "worlds.jungle_stage.tiki_torch",
+    "jungle_sloth_slowdown": "creatures.tropical.sloth",
+    "jungle_grand_concert": "worlds.island_decor.adventure.stage_tiki",
+    "dino_nest_check": "objects.dino_egg_nest",
+    "rory_dino_picnic": "objects.picnic_blanket",
+    "dino_nest_number_hunt": "worlds.dino_valley.number_stone_1",
+    "dino_hungry_herd": "objects.food.apple_green",
+    "dino_more_or_less": "objects.dino_egg",
+    "dino_same_nest": "objects.dino.nest_leaf",
+    "dino_giant_beds": "worlds.dino_valley.dino_bed_leaf",
+    "dino_fossil_number_trail": "objects.dino.fossil_trex",
+    "dino_train_sequence": "ui.worlds.world_logic",
+    "dino_plus_one_picnic": "objects.picnic.sandwich",
+    "dino_ten_egg_rescue": "creatures.dinos.stegosaurus",
+    "rainbow_missing_rainbow": "worlds.rainbow_village.rainbow",
+    "rainbow_octo_paint_party": "objects.art.palette",
+    "rainbow_shape_house_rescue": "ui.worlds.world_shapes",
+    "rainbow_balloon_sort_mission": "worlds.rainbow_build.balloon_rainbow",
+    "rainbow_build_parade_float": "objects.vehicles.special.parade_float",
+    "animal_who_lives_here": "ui.worlds.world_nature",
+    "animal_baby_rescue": "worlds.animal_forest.burrow",
+    "animal_forest_breakfast": "objects.food.strawberry",
+    "animal_feather_fur_scales": "objects.tracks.feather",
+    "animal_pond_parade": "creatures.farm.duck",
+    "storybook_letter_garden": "ui.emotions.world_stories",
+    "storybook_big_little": "objects.letters.letter_b",
+    "storybook_first_sounds": "objects.letters_lower.lower_s",
+    "storybook_my_name": "ui.parent.avatar_child",
+    "storybook_word_hunt": "objects.literacy.storybook_open",
+    "life_bella_gets_ready": "objects.clothes.tshirt",
+    "life_rainy_dressup": "objects.clothes.umbrella",
+    "life_toy_tidy_party": "objects.daily_life.teddy",
+    "life_feelings_picnic": "ui.emotions.face_excited",
+    "life_helping_hands": "objects.bathroom.toothbrush"
   },
   "countTargets": {
     "about": "Empty container drawn as the drop target in counting activities. Checked first by object, then by helper character. Food/eggs are drawn on top and must stay countable, so only empty containers belong here.",
@@ -580,7 +676,14 @@
       "space_lunch_berries": "objects.daily_life.plate",
       "m17_bunny_bowl": "objects.bowl_paw",
       "town_count_buses": "worlds.town.bus_shelter",
-      "feed_bunny_2_carrots": "objects.plate_paw"
+      "feed_bunny_2_carrots": "objects.plate_paw",
+      "rainbow_sea_count_fish": "worlds.tiles.tile_pond",
+      "animal_farm_count_eggs": "objects.nest",
+      "jungle_count_bananas": "objects.daily_life.plate",
+      "jungle_toucan_berries": "objects.daily_life.plate",
+      "jungle_stage_stools": "worlds.tiles.tile_meadow",
+      "jungle_concert_bananas": "objects.daily_life.plate",
+      "life_tidy_cars": "worlds.rainbow_build.basket_rainbow"
     },
     "byObject": {
       "egg": "objects.nest"
@@ -660,6 +763,12 @@
         "id": "characters.pip.pip_crouch_play",
         "h": 250,
         "faces": "left",
+        "head": null
+      },
+      "back": {
+        "id": "characters.pip.pip_back",
+        "h": 400,
+        "faces": "front",
         "head": null
       }
     },
@@ -1039,6 +1148,21 @@
       },
       "catalog_heart_red": {
         "theme": "rainbow"
+      },
+      "farm_chick": {
+        "theme": "farm"
+      },
+      "farm_piglet": {
+        "theme": "farm"
+      },
+      "farm_calf": {
+        "theme": "farm"
+      },
+      "rainbow_fish": {
+        "theme": "ocean"
+      },
+      "jungle_lion_cub": {
+        "theme": "jungle"
       }
     }
   },
@@ -1554,7 +1678,23 @@
     "decor_moon_crystal_sleepy": "worlds.decor.moon_crystal_sleepy",
     "decor_signpost_three": "worlds.decor.signpost_three",
     "decor_star_trophy_happy": "worlds.decor.star_trophy_happy",
-    "decor_pink_flowers": "worlds.flowers.pink_flowers"
+    "decor_pink_flowers": "worlds.flowers.pink_flowers",
+    "shape_garden": "worlds.rainbow_village.shape_sorter_board",
+    "prism_butterfly": "fx.magic.butterflies_glow",
+    "fossil_arch": "objects.dino.footprint_dino",
+    "volcano_lamp": "objects.dino.food_bowl_dino",
+    "feather_mobile": "objects.tracks.feather",
+    "letter_kite": "objects.literacy.letter_stone_a",
+    "weather_spinner": "objects.clothes.umbrella",
+    "catalog_moon_buggy": "objects.space_base.rover",
+    "catalog_star_trike": "objects.vehicles.bicycle",
+    "giant_dino_bed": "worlds.dino_valley.dino_bed_leaf",
+    "farm_chick": "creatures.farm.chicken",
+    "farm_piglet": "creatures.farm.pig",
+    "farm_calf": "creatures.farm.cow",
+    "rainbow_fish": "creatures.sea_dino.fish",
+    "jungle_lion_cub": "creatures.safari.lion",
+    "life_golden_star": "rewards.reward_star"
   },
   "island": {
     "pipHouse": "worlds.buildings.cottage_blue",
@@ -1633,7 +1773,14 @@
     "child_avatar": "ui.parent.avatar_child",
     "parent_goals": "ui.parent.icon_goals",
     "podium_bronze": "rewards.podiums.podium_bronze",
-    "podium_silver": "rewards.podiums.podium_silver"
+    "podium_silver": "rewards.podiums.podium_silver",
+    "homeButton": "ui.btn_home",
+    "playButton": "ui.btn_play",
+    "settingsButton": "ui.btn_settings",
+    "speechBubble": "ui.speech_bubble",
+    "worldBadge": "ui.menu.icon_badge",
+    "rewardPedestal": "rewards.reward_pedestal",
+    "missionStar": "rewards.medals.star_gold"
   },
   "fx": {
     "about": "blend 'screen' = light blend for glows; omitted = normal.",
@@ -1672,7 +1819,24 @@
       "id": "fx.fx_ring_stars_gold",
       "blend": "screen"
     },
-    "paintDrop": "fx.drops.drop_{colour}"
+    "paintDrop": "fx.drops.drop_{colour}",
+    "worldBeam": {
+      "id": "fx.fx_beam_pink",
+      "blend": "screen"
+    },
+    "portalOpen": {
+      "id": "fx.fx_portal",
+      "blend": "screen"
+    },
+    "eggCrack": "fx.fx_egg_crack",
+    "paintSplat": {
+      "green": "fx.fx_slime_splat"
+    },
+    "washClean": [
+      "objects.bathroom.bubbles",
+      "objects.bathroom.water_splash",
+      "objects.bathroom.fx_sparkle_gold"
+    ]
   },
   "preload": {
     "about": "Art loaded for each scene (plus pictures for the activities inside an adventure, worked out from data). 'starter' stays loaded and is what the one-file test build embeds.",
@@ -1717,7 +1881,9 @@
         "worlds.rainbow_village.rainbow",
         "fx.fx_ring_stars_gold",
         "rewards.podiums.podium_gold",
-        "ui.build.place_spot_glow"
+        "ui.build.place_spot_glow",
+        "rewards.reward_pedestal",
+        "ui.speech_bubble"
       ],
       "worldSelect": [
         "ui.worlds.world_numbers",
@@ -1727,7 +1893,10 @@
         "ui.worlds.world_letters",
         "ui.worlds.world_feelings",
         "ui.worlds.world_space",
-        "ui.worlds.world_helping"
+        "ui.worlds.world_helping",
+        "characters.pip.pip_back",
+        "fx.fx_portal",
+        "ui.menu.icon_badge"
       ],
       "rainbowVillage": [
         "creatures.sea_dino.octopus",
@@ -1744,7 +1913,12 @@
         "objects.stage.microphone",
         "fx.note_blue",
         "fx.note_gold",
-        "fx.note_pink"
+        "fx.note_pink",
+        "fx.ring_red",
+        "fx.ring_purple",
+        "fx.ring_blue",
+        "fx.ring_green",
+        "fx.ring_pink"
       ],
       "parentGate": [
         "ui.parent.toggle_on",
@@ -1754,7 +1928,8 @@
         "ui.parent.icon_settings",
         "ui.parent.profile_card",
         "ui.parent.timer",
-        "rewards.medals.badge_check"
+        "rewards.medals.badge_check",
+        "ui.btn_settings"
       ],
       "collection": [
         "@rewards",
@@ -1782,7 +1957,13 @@
         "rewards.medals.medal_bronze",
         "rewards.medals.medal_silver",
         "rewards.medals.medal_gold",
-        "rewards.medals.trophy"
+        "rewards.medals.trophy",
+        "rewards.books.scroll_certificate",
+        "rewards.books.frame_card_blank",
+        "ui.btn_home"
+      ],
+      "profile": [
+        "ui.btn_play"
       ]
     }
   },
@@ -1806,7 +1987,14 @@
       "fx.note_blue",
       "fx.note_gold",
       "fx.note_pink"
-    ]
+    ],
+    "rings": {
+      "orange": "fx.ring_red",
+      "purple": "fx.ring_purple",
+      "blue": "fx.ring_blue",
+      "green": "fx.ring_green",
+      "pink": "fx.ring_pink"
+    }
   },
   "wardrobe": {
     "about": "Pip's wardrobe (Job 09). items: art id -> slot (head, eyes, body, back, extra) and parts. Each part is the picture, or a band of it (from: [top, bottom] as 0-1 of its height; fromX the same across), centred at x, y with width w, all in pixels of pip_front (ref = its size). on other poses, hats follow Pip's head (space 'head'), glasses his eyes ('eyes') and the rest his body ('body') (poses: where a point of pip_front lands on that pose's picture). Poses not listed show Pip front-on while he wears a look; the wave pose too while he wears an outfit. headOver: Pip's head (above this y) is drawn back over an outfit's collar. reveal: Pip's face (ellipse x, y, rx, ry) shows through a onesie's or hood's face hole. frontOnly: Pip stays front-on while wearing it. covers: other slots this look takes up. hideOn: poses where it is hidden.",
@@ -2878,5 +3066,15 @@
     "podium": "rewards.trophies.podium_star",
     "arch": "rewards.trophies.arch_rainbow_stars",
     "pedestal": "rewards.trophies.pedestal_crystal"
+  },
+  "numberTile": "objects.numbers.number_tile_blank",
+  "certificate": {
+    "about": "World-complete certificate on a finished world's hub (Job 12).",
+    "scroll": "rewards.books.scroll_certificate",
+    "frame": "rewards.books.frame_card_blank"
+  },
+  "rewardTapped": {
+    "about": "Picture an island friend shows while it is tapped (Job 12).",
+    "baby_trex": "creatures.dino_orange.dino_orange_grin"
   }
 }

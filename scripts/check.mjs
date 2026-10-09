@@ -68,7 +68,7 @@ for (const file of jsFiles) execFileSync(process.execPath, ['--check', file], { 
 
 // The installable/offline build must cache every eagerly imported source module.
 const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v45"), 'Service worker cache version should advance with the real-art build');
+assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v46"), 'Service worker cache version should advance with the real-art build');
 for (const file of walk(path.join(root, 'src')).filter(file => file.endsWith('.js'))) {
   const rel = `./${path.relative(root, file).split(path.sep).join('/')}`;
   assert.ok(serviceWorkerSource.includes(`'${rel}'`), `Offline cache must include ${rel}`);
@@ -553,7 +553,7 @@ for(let i=2;i<preview.length;i++){const a=activityEngine.get(preview[i-2])?.type
 
 // ---- Milestone 15: Rainbow Village + Gate 3 system reuse ----
 const rainbowAdventures=adventureData.adventures.filter(a=>a.world==='rainbow');
-assert.equal(rainbowAdventures.length,5,'Rainbow Village should launch with five starter adventures');
+assert.ok(rainbowAdventures.length>=8,'Rainbow Village has a full set of Little Missions (Job 12: 8+)');
 for(const adventure of rainbowAdventures){
   assert.ok(adventure.steps.every(step=>['story','activity'].includes(step.kind)),`${adventure.id} should use reusable story/activity flow rather than custom world-specific step code`);
   for(const step of adventure.steps.filter(step=>step.kind==='activity'))assert.ok(activityEngine.get(step.activityId),`${adventure.id} references reusable activity ${step.activityId}`);
@@ -584,7 +584,7 @@ const islandWithRainbow=new WonderIslandScene({save,audio:sceneAudio,rewards:rai
 
 // ---- Milestones 16–20: production content worlds ----
 const dinoAdventures = adventureData.adventures.filter(a => a.world === 'dino');
-assert.equal(dinoAdventures.length, 10, 'Dino Valley full pass should expose ten Little Missions including Rory’s picnic');
+assert.ok(dinoAdventures.length >= 10, 'Dino Valley full pass should expose ten or more Little Missions including Rory’s picnic');
 for (const group of ['counting','numerals','more_less','same_amount','size','addition','sequence']) {
   assert.ok(activityData.activities.filter(a => a.world === 'dino' && a.contentGroup === group).length >= 4, `Dino Valley needs at least four ${group} variants`);
 }
@@ -593,19 +593,19 @@ for (const id of ['MORE_LESS','SAME_AMOUNT','ADDITION_PREP','SEQUENCE']) assert.
 assert.ok(rewardData.rewards.filter(r => r.world === 'dino').length >= 8, 'Dino Valley should have at least eight data-driven rewards');
 
 const animalAdventures = adventureData.adventures.filter(a => a.world === 'animal');
-assert.equal(animalAdventures.length, 5, 'Animal Forest should contain the five planned starter adventures');
+assert.ok(animalAdventures.length >= 8, 'Animal Forest has a full set of Little Missions (Job 12: 8+)');
 for (const id of ['ANIMAL_NAMES','ANIMAL_SOUNDS','HABITATS','BABY_PARENT','LAND_WATER_AIR','ANIMAL_FOOD','BODY_FEATURES','CLASSIFICATION']) assert.ok(TRACKED_SKILLS[id], `Animal Forest tracks ${id}`);
 for (const adventure of animalAdventures) assert.ok(adventure.steps.every(step => ['story','activity'].includes(step.kind)), `${adventure.id} should reuse generic story/activity flow`);
 
 const storyAdventures = adventureData.adventures.filter(a => a.world === 'storybook');
-assert.equal(storyAdventures.length, 5, 'Storybook literacy foundation should contain five starter adventures');
+assert.ok(storyAdventures.length >= 8, 'Storybook has a full set of Little Missions (Job 12: 8+)');
 for (const id of ['VOCABULARY','LETTER_RECOGNITION','UPPER_LOWER','FIRST_SOUNDS','NAME_LETTER']) assert.ok(TRACKED_SKILLS[id], `Literacy foundation tracks ${id}`);
 for (const letter of 'ABCDEFGHIJKLMNOPQRSTUVWXYZ') assert.ok(TRACKED_SKILLS[`LETTER_${letter}`], `A–Z architecture tracks ${letter}`);
 const lettersRepresented = new Set(activityData.activities.filter(a => a.world === 'storybook').flatMap(a => a.skills ?? []).filter(id => /^LETTER_[A-Z]$/.test(id)).map(id => id.slice(-1)));
 assert.equal(lettersRepresented.size, 26, 'Storybook content should represent all A–Z letters in data');
 
 const lifeAdventures = adventureData.adventures.filter(a => a.world === 'life');
-assert.equal(lifeAdventures.length, 5, 'Bella’s Day should contain five playful life-skill missions');
+assert.ok(lifeAdventures.length >= 8, 'Bella’s Day has a full set of Little Missions (Job 12: 8+)');
 for (const id of ['HAND_WASHING','TEETH_BRUSHING','WEATHER_CLOTHES','TOY_SORTING','FEELINGS','HELPING','ROUTINES']) assert.ok(TRACKED_SKILLS[id], `Life skills track ${id}`);
 
 // Generic second/third/fourth-world adventures must complete through public activity touch paths.
@@ -633,7 +633,8 @@ for (const world of ['space','town']) {
   for (const m of missions) { assert.equal(m.guide, 'pip', `${m.id} is guided by Pip (no Zig Robot art yet)`); assert.ok(rewards.get(m.reward.id), `${m.id} reward ${m.reward.id} must be data-driven`); }
 }
 for (const id of ['dragon_space','dragon_puzzle','dragon_rainbow','dragon_nature','dragon_story']) assert.ok(contentSave.getProfileState().unlocks.creatures.includes(id), `Finishing every mission in a world hatches its rare dragon: ${id}`);
-assert.ok(!contentSave.getProfileState().unlocks.creatures.includes('dragon_music'), 'The Music Dragon comes from Jungle Jam, not missions');
+assert.ok(contentSave.getProfileState().unlocks.creatures.includes('dragon_music'), 'Job 12: finishing every Jungle mission also hatches the Music Dragon (the Jam games still do too)');
+assert.ok(contentSave.getProfileState().unlocks.decorations.includes('life_golden_star'), 'Job 12: Bella’s Day has no dragon; finishing it gives Bella’s Golden Star');
 assert.equal(rewardData.rewards.filter(r => r.rare).length, 7, 'Seven rare dragons, one per learning theme');
 for (const r of rewardData.rewards.filter(r => r.rare)) assert.equal(r.type, 'creatures', 'Dragons are creature friends (no new save fields needed)');
 { const dragonScene = new AdventureScene(contentGame); await dragonScene.enter({ adventureId: 'space_lunch', step: 0 }); contentGame.scenes.last = null; await dragonScene.finishAdventure(); assert.deepEqual(contentGame.scenes.last.data.celebrateNext, [], 'Replaying a finished world does not hatch its dragon again'); }
@@ -684,8 +685,8 @@ for (const id of ['m17_meet_new_animals','m17_whose_footprints','m20_name_the_fe
 // World select + generic hub navigation.
 const navGame={adventureEngine,save:contentSave,audio:sceneAudio,scenes:{last:null,change(name,data){this.last={name,data};}}};
 const worldSelect=new WorldSelectScene(navGame);worldSelect.enter();worldSelect.render(fakeCtx);assert.equal(fakeCtx.depth,0);
-worldSelect.handlePointer({type:'down',x:1400,y:400});worldSelect.handlePointer({type:'up',x:1400,y:400});assert.equal(navGame.scenes.last.name,'worldHub');assert.equal(navGame.scenes.last.data.world,'animal');
-const dinoHub=new WorldHubScene(navGame);await dinoHub.enter({world:'dino'});assert.equal(dinoHub.missions.length,10);dinoHub.render(fakeCtx);assert.equal(fakeCtx.depth,0);dinoHub.handlePointer({type:'down',x:1100,y:970});dinoHub.handlePointer({type:'up',x:1100,y:970});assert.equal(dinoHub.page,1,'Dino Valley hub should page through more than six missions');dinoHub.exit();
+worldSelect.handlePointer({type:'down',x:1400,y:400});worldSelect.handlePointer({type:'up',x:1400,y:400});assert.equal(navGame.scenes.last,null,'Job 12: Pip walks into the portal first');worldSelect.render(fakeCtx);assert.equal(fakeCtx.depth,0);worldSelect.update(.6);assert.equal(navGame.scenes.last.name,'worldHub');assert.equal(navGame.scenes.last.data.world,'animal');
+const dinoHub=new WorldHubScene(navGame);await dinoHub.enter({world:'dino'});assert.equal(dinoHub.missions.length,adventureData.adventures.filter(a=>a.world==='dino').length);dinoHub.render(fakeCtx);assert.equal(fakeCtx.depth,0);dinoHub.handlePointer({type:'down',x:1100,y:970});dinoHub.handlePointer({type:'up',x:1100,y:970});assert.equal(dinoHub.page,1,'Dino Valley hub should page through more than six missions');dinoHub.exit();
 
 // Jungle Jam: free placement plus tempo/dynamics/rhythm/sound learning modes.
 const jamLearning=new LearningProfile();const jamGame={learning:jamLearning,audio:sceneAudio,save:contentSave,scenes:{last:null,change(name,data){this.last={name,data};}}};
@@ -726,7 +727,7 @@ assert.ok(contentSave.getSettings().performanceMode,'Performance preference must
 // ---- Milestone 25: content scale pass ----
 assert.ok(expectedActivityTypes.size>=25&&expectedActivityTypes.size<=30,`V1 scale target is 25–30 activity families; got ${expectedActivityTypes.size}`);
 const coreSkills=Object.keys(TRACKED_SKILLS).filter(id=>!/^LETTER_[A-Z]$/.test(id));assert.ok(coreSkills.length>=50&&coreSkills.length<=70,`V1 core learning-skill target is 50–70; got ${coreSkills.length}`);
-assert.ok(adventureData.adventures.length>=30&&adventureData.adventures.length<=50,`Little Mission target is 30–50 (Job 06 added Space Station and Busy Town); got ${adventureData.adventures.length}`);
+assert.ok(adventureData.adventures.length>=64&&adventureData.adventures.length<=90,`Little Mission target is 8+ in each of the 8 worlds (Job 12); got ${adventureData.adventures.length}`);
 const rewardCounts=rewardData.rewards.reduce((m,r)=>(m[r.type]=(m[r.type]??0)+1,m),{});assert.ok((rewardCounts.creatures??0)>=30,'V1 needs 30+ interactive creature definitions');assert.ok((rewardCounts.cosmetics??0)>=40,'V1 needs 40+ Pip cosmetics');assert.ok((rewardCounts.decorations??0)>=60,'V1 needs 60+ decorations');assert.ok((rewardCounts.vehicles??0)>=8,'V1 needs 8+ vehicles (Job 10 added the 60 vehicle pictures as rides)');
 const catalogSave=new SaveSystem({indexedDBRef:null,storage:null});await catalogSave.init();await catalogSave.createProfile({name:'Kit',age:4});await catalogSave.addDiscoveryStars(10);
 const catalogGame={save:catalogSave,audio:sceneAudio,scenes:{last:null,change(name,data){this.last={name,data};}}};catalogGame.rewards=new RewardSystem(catalogGame);catalogGame.rewards.setDefinitions(rewardData);
@@ -1036,7 +1037,7 @@ assert.ok(serviceWorkerSource.includes("'./assets/art_manifest.json'")&&serviceW
   for (const [r, pic] of [['catalog_moon_lamp', 'lights.lamp_moon'], ['catalog_firefly_jar', 'lights.jar_firefly'], ['catalog_star_gazebo', 'houses.gazebo_crystal'], ['catalog_colour_windmill', 'magic.windmill_rainbow'], ['catalog_star_path', 'paths.stepping_stones_star'], ['catalog_music_flowers', 'magic.flower_music'], ['moon_book_nook', 'houses.tower_wizard'], ['story_tree', 'trees.tree_lanterns'], ['luna_star', 'lights.lamp_star'], ['catalog_shape_stones', 'paths.stepping_stones_grey'], ['kindness_garden', 'plants.flowers_star']])
     assert.equal(map11.rewards[r], `worlds.island_decor.${pic}`, `${r} has its decoration picture`);
   for (const pic of ['worlds.decor.moon_crystal_sleepy', 'worlds.decor.star_trophy_happy', 'worlds.decor.signpost_three', 'worlds.flowers.pink_flowers']) assert.ok(Object.values(map11.rewards).includes(pic), `${pic} stays in the game as its own decoration`);
-  const decor = rewardData.rewards.filter(r => r.type === 'decorations' && r.catalog && !r.season);
+  const decor = rewardData.rewards.filter(r => r.type === 'decorations' && r.catalog && !r.season && !r.hidden); // Job 12: hidden ones wait for a picture
   for (const [id] of DECOR_TABS) assert.ok(decor.filter(r => decorTab(r) === id).length >= 5, `DECOR ${id} group has decorations`);
   const decorSave = new SaveSystem({ indexedDBRef: null, storage: null }); await decorSave.init(); await decorSave.createProfile({ name: 'Dot', age: 4 });
   const dg = { save: decorSave, audio: sceneAudio, scenes: { last: null, change(name, data) { this.last = { name, data }; } } }; dg.rewards = new RewardSystem(dg); dg.rewards.setDefinitions(rewardData);

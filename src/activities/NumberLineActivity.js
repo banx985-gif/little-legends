@@ -1,5 +1,8 @@
 import { TapRequestedObjectActivity } from './TapRequestedObjectActivity.js';
+import { artMap, drawArt } from '../core/art.js';
 export class NumberLineActivity extends TapRequestedObjectActivity {
+  // Each number sits on a blank number tile (data/art_map.json numberTile).
+  drawUnder(ctx,t){drawArt(ctx,artMap()?.numberTile,t.x,t.y,t.size*1.15,t.size*1.15);}
   start(){
     const values=this.definition.values??[1,2,3,4,5];
     const target=Number(this.definition.targetValue??values[Math.floor(values.length/2)]);

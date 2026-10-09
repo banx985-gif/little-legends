@@ -32,6 +32,9 @@ export class PaintSwipeActivity extends SwipeCoverageActivity {
     }
     ctx.restore();
     this.drawSpots(ctx, '#ffffffcc');
+    // A painted spot gets a splat of its paint where there is one (green: the slime splat).
+    const splat = artMap()?.fx?.paintSplat?.[this.definition.paintColor];
+    if (splat) for (const spot of this.spots) if (spot.cleared) drawArt(ctx, splat, spot.x, spot.y, spot.r * 2.2, spot.r * 2.2, { alpha: 0.9 });
     // A paint drop of this colour on the corner of the board, so the colour to use is always in sight.
     drawArt(ctx, artMap()?.fx?.paintDrop?.replace('{colour}', this.definition.paintColor ?? 'purple'), 1430, 395, 120, 120);
     if (this.active) {

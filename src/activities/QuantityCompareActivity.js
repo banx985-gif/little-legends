@@ -30,7 +30,7 @@ export class QuantityCompareActivity extends Activity {
     const cols=choice.count<=4?2:choice.count<=6?3:4;const gap=Math.min(80,(choice.w-80)/Math.max(1,cols));const rows=Math.ceil(choice.count/cols);const totalH=(rows-1)*75;const startY=choice.y-totalH/2;
     for(let i=0;i<choice.count;i++){
       const col=i%cols,row=Math.floor(i/cols);const colsThis=Math.min(cols,choice.count-row*cols);const x=choice.x+(col-(colsThis-1)/2)*gap,y=startY+row*75;
-      drawToken(ctx,{kind:choice.kind??this.definition.object??'egg',color:choice.color??this.definition.color??'yellow',symbol:choice.symbol??this.definition.symbol,thing:choice.thing??this.definition.thing,x,y,size:72},{colour:'uniform',plain:true});
+      drawToken(ctx,{kind:choice.kind??this.definition.object??'egg',color:choice.color??this.definition.color??'yellow',symbol:choice.symbol??this.definition.symbol,thing:choice.thing??this.definition.thing,animalType:choice.animalType??this.definition.animalType,x,y,size:72},{colour:'uniform',plain:true});
     }
     ctx.restore();
   }
@@ -38,7 +38,7 @@ export class QuantityCompareActivity extends Activity {
     drawActivityBackground(ctx,this.definition.theme??'dino');
     if(this.referenceCount>0){
       ctx.fillStyle='#fff7d0';ctx.beginPath();ctx.roundRect(720,255,480,180,55);ctx.fill();
-      for(let i=0;i<this.referenceCount;i++){const cols=Math.min(5,this.referenceCount);const row=Math.floor(i/cols),col=i%cols;drawToken(ctx,{kind:this.definition.object??'egg',color:this.definition.color??'purple',symbol:this.definition.symbol,x:850+(col-(cols-1)/2)*55,y:325+row*62,size:55},{colour:'uniform',plain:true});}
+      for(let i=0;i<this.referenceCount;i++){const cols=Math.min(5,this.referenceCount);const row=Math.floor(i/cols),col=i%cols;drawToken(ctx,{kind:this.definition.object??'egg',color:this.definition.color??'purple',symbol:this.definition.symbol,thing:this.definition.thing,animalType:this.definition.animalType,x:850+(col-(cols-1)/2)*55,y:325+row*62,size:55},{colour:'uniform',plain:true});}
     }
     for(const choice of this.choices)this.drawGroup(ctx,choice);
     drawInstructionPanel(ctx,this.definition.instructionText??(this.rule==='same'?'Which group has the same amount?':`Which group has ${this.rule}?`),this.definition.subtitle??'Look at the groups, then tap your answer');

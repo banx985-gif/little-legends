@@ -1,4 +1,4 @@
-import { artMap, drawArt } from '../core/art.js';
+import { artMap, drawArt, lookupArt } from '../core/art.js';
 import { drawCloud, drawCandyButton } from '../utils/draw.js';
 import { LearningProfile } from '../learning/LearningProfile.js';
 
@@ -29,7 +29,8 @@ export class ProfileSelectScene {
     ctx.save();ctx.fillStyle=active?'#fff7cf':'#ffffffdd';ctx.beginPath();ctx.roundRect(r.x,r.y,r.w,r.h,58);ctx.fill();
     ctx.fillStyle=COLORS[p.favoriteColor]??'#8b69db';ctx.beginPath();ctx.arc(r.x+105,r.y+105,70,0,Math.PI*2);ctx.fill();
     const faces=artMap()?.pipFaces?.cards??[];if(!drawArt(ctx,faces[i%Math.max(1,faces.length)],r.x+105,r.y+108,150,150)){ctx.fillStyle='#fff';ctx.textAlign='center';ctx.font='900 45px system-ui';ctx.fillText((p.name?.[0]??'L').toUpperCase(),r.x+105,r.y+120);} // a different Pip face per child
-    ctx.fillStyle='#5a3a73';ctx.textAlign='left';ctx.font='900 44px system-ui';ctx.fillText(p.name,r.x+205,r.y+92);ctx.font='650 28px system-ui';ctx.fillStyle='#746a7e';ctx.fillText(`Age ${p.age} • ${p.language}`,r.x+205,r.y+137);ctx.fillText(active?'Current profile':'Tap to play',r.x+205,r.y+178);ctx.restore();
+    ctx.fillStyle='#5a3a73';ctx.textAlign='left';ctx.font='900 44px system-ui';ctx.fillText(p.name,r.x+205,r.y+92,260);ctx.font='650 28px system-ui';ctx.fillStyle='#746a7e';ctx.fillText(`Age ${p.age} • ${p.language}`,r.x+205,r.y+137,260);ctx.fillText(active?'Current profile':'Tap to play',r.x+205,r.y+178,260);
+    drawArt(ctx,lookupArt('ui','playButton'),r.x+r.w-72,r.y+r.h/2,104,104);ctx.restore(); // the round play button: tap a card to play
   }
 
   async beginCreate(){

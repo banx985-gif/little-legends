@@ -3,7 +3,7 @@ import { HintController } from '../hints/HintController.js';
 import { drawActivityBackground, drawInstructionPanel, drawToken, drawActivityAmbient } from '../activities/activityDraw.js';
 import { drawCandyButton, drawSpeechBubble, wrapLines } from '../utils/draw.js';
 import { EGG_STATES } from '../rewards/EggSystem.js';
-import { drawArt, characterArt, hatchTheme, worldTheme, dragonForWorld, artMap } from '../core/art.js';
+import { drawArt, characterArt, hatchTheme, worldTheme, dragonForWorld, artMap, fxArt, lookupArt } from '../core/art.js';
 import { HatchSequence } from '../fx/HatchSequence.js';
 import { HoldToLeave } from '../ui/HoldToLeave.js';
 import { ActivityScene } from './ActivityScene.js';
@@ -88,7 +88,7 @@ export class AdventureScene {
     const rewardId=this.definition.reward?.id??null;
     if(!this.finishSaved){
       this.finishSaved=true;
-      if(rewardId&&this.game.rewards?.get?.(rewardId)) await this.game.rewards.award(rewardId);
+      if(rewardId&&this.game.rewards?.get?.(rewardId)) await this.game.rewards.award(rewardId,{stars:this.definition.reward?.stars??null}); // a mission can give stars for a Collection thing it hands out
       // Some missions also give Pip a new look (data/adventures.json bonusLook), the first time it is won.
       const look=this.definition.bonusLook;
       if(look&&this.game.rewards?.get?.(look)&&!this.game.rewards.isUnlocked(look)){await this.game.rewards.award(look);this.lookAwarded=look;}
@@ -115,7 +115,7 @@ export class AdventureScene {
   }
 
   update(dt){
-    this.t+=dt;this.leave?.update(dt);this.pip?.update(dt);this.hatch?.update(dt);this.game.rewards?.update?.(dt); if(this.speechT>0)this.speechT=Math.max(0,this.speechT-dt);
+    this.t+=dt;this.crackT=Math.max(0,(this.crackT??0)-dt);this.leave?.update(dt);this.pip?.update(dt);this.hatch?.update(dt);this.game.rewards?.update?.(dt); if(this.speechT>0)this.speechT=Math.max(0,this.speechT-dt);
     // Story, choice and egg steps: say the step again after a while with no touch (activities do this in HintController).
     if(!this.activity&&!this.completedStep){this.idleT+=dt;if(this.idleT>=VOICE_REPEAT_SECONDS&&this.idleRepeats<4){this.idleT=0;this.idleRepeats++;this.repeatInstruction();}}
     if(this.activity&&!this.completedStep){this.activity.update(dt);this.hints?.update(dt);if(this.hintDemo)this.hintDemoT=(this.hintDemoT??0)+dt;}
@@ -147,7 +147,7 @@ export class AdventureScene {
       return;
     }
     if(this.step.kind==='hatch'){
-      const egg=await this.game.eggs?.interact?.('rory-dino-egg');
+      const egg=await this.game.eggs?.interact?.('rory-dino-egg');this.crackT=.45; // a little crack of light on every tap
       this.game.audio?.playCue?.(egg?.state===EGG_STATES.CREATURE_UNLOCKED?'reward':'correct');
       if(egg?.state===EGG_STATES.CREATURE_UNLOCKED){this.hatch?.reveal();this.completedStep=true;this.game.rewards?.beginReveal?.('baby_raptor');this.pip.react('celebrate',{duration:1.8});}
       return;
@@ -202,14 +202,17 @@ export class AdventureScene {
     if(this.completedStep||['story','egg'].includes(this.step.kind))this.drawContinue(ctx,this.step.kind==='place'&&this.completedStep?'HOME':'CONTINUE');
   }
 
-  renderStory(ctx){ctx.fillStyle='#ffffffcc';ctx.beginPath();ctx.roundRect(560,360,780,250,70);ctx.fill();ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='900 54px system-ui';ctx.fillText(this.step.title??this.definition.title,950,465);ctx.font='700 32px system-ui';const fallback={space:'Pip is ready for take-off!',town:'Busy Town needs a helper!',rainbow:'Octo needs our help!',animal:'Bella found an animal mystery!',storybook:'Luna has a story for us!',life:'Bella is ready for today!',dino:'Rory needs our help.'}[this.definition.world]??'Let’s help!';const detail=this.step.voice??fallback;const lines=wrapLines(ctx,detail,720,2);lines.forEach((line,i)=>ctx.fillText(line,950,lines.length>1?520+i*42:535,740));if(this.stepIndex>=this.definition.steps.length-1)this.drawTrophy(ctx);}
+  renderStory(ctx){ctx.fillStyle='#ffffffcc';ctx.beginPath();ctx.roundRect(560,360,780,250,70);ctx.fill();ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='900 54px system-ui';ctx.fillText(this.step.title??this.definition.title,950,465);ctx.font='700 32px system-ui';const fallback={space:'Pip is ready for take-off!',town:'Busy Town needs a helper!',rainbow:'Octo needs our help!',animal:'Bella found an animal mystery!',storybook:'Luna has a story for us!',life:'Bella is ready for today!',dino:'Rory needs our help.'}[this.definition.world]??'Let’s help!';const detail=this.step.voice??fallback;const lines=wrapLines(ctx,detail,720,2);lines.forEach((line,i)=>ctx.fillText(line,950,lines.length>1?520+i*42:535,740));if(this.stepIndex>=this.definition.steps.length-1){this.drawTrophy(ctx);this.drawStars(ctx);}else if(this.step.art)drawArt(ctx,this.step.art,950,868,300,250,{anchor:'bottom',alpha:Math.min(1,(this.t??0)/.4)});}
+  // First win of a mission: the Discovery Stars it gives, as gold stars beside the trophy.
+  drawStars(ctx){const id=this.definition.reward?.id,reward=this.game.rewards?.get?.(id);if(!reward||this.game.rewards.isUnlocked?.(id))return;const n=Math.min(3,Number(this.definition.reward?.stars??reward.stars)||0);const pic=lookupArt('ui','missionStar');
+    for(let i=0;i<n;i++)drawArt(ctx,pic,1190+i*78,800-(i%2)*26,84,84,{alpha:Math.min(1,Math.max(0,((this.t??0)-.3-i*.15)/.3))});}
   // Mission finished (Job 11): a bronze, silver or gold trophy on the star podium, by how much of the world is done.
   // The world's last mission: the gold trophy on the crystal pedestal under the rainbow arch.
   drawTrophy(ctx){const t=artMap()?.trophies;if(!t)return;const world=this.definition.world,missions=this.game.adventureEngine?.list?.().filter(a=>a.world===world)??[];if(!missions.length)return;
     const done=new Set([...(this.game.save?.getProfileState?.()?.adventure?.completed??[]),this.definition.id]),n=missions.filter(m=>done.has(m.id)).length,complete=n>=missions.length;
     const tier=complete?'gold':n*3>=missions.length*2?'gold':n*3>=missions.length?'silver':'bronze',rise=Math.min(1,(this.t??0)/.5);
     // The star podium is a little winner's stage: the trophy stands in front of it. The crystal pedestal has a flat top: the trophy sits on it.
-    if(complete){drawArt(ctx,t.arch,950,875,440,330,{anchor:'bottom',alpha:rise});drawArt(ctx,t.pedestal,950,875,200,170,{anchor:'bottom',alpha:rise});drawArt(ctx,t.gold,950,792,120,135,{anchor:'bottom',alpha:rise});}
+    if(complete){const beam=fxArt('worldBeam');drawArt(ctx,beam?.id,950,880,330,470,{anchor:'bottom',alpha:rise*.75,blend:beam?.blend});drawArt(ctx,t.arch,950,875,440,330,{anchor:'bottom',alpha:rise});drawArt(ctx,t.pedestal,950,875,200,170,{anchor:'bottom',alpha:rise});drawArt(ctx,t.gold,950,792,120,135,{anchor:'bottom',alpha:rise});}
     else{drawArt(ctx,t.podium,950,858,290,200,{anchor:'bottom',alpha:rise});drawArt(ctx,t[tier],950,880,125,145,{anchor:'bottom',alpha:rise});}} // whole sentence on up to two lines (it used to be cut off with …)
   drawHintDemonstration(ctx){ActivityScene.prototype.drawHintDemonstration.call(this,ctx);}
   // After two wrong taps the right answer glows softly.
@@ -220,7 +223,7 @@ export class AdventureScene {
     if(this.hatch?.ready){
       const unlocked=hatched&&egg?.state===EGG_STATES.CREATURE_UNLOCKED;
       if(!unlocked)this.hatch.showStage(hatched?EGG_FRAME[egg?.state]??0:0);else if(this.hatch.manualStage!==null)this.hatch.skip();
-      this.hatch.render(ctx,960,780,400);
+      this.hatch.render(ctx,960,780,400);if(this.crackT>0&&hatched&&!unlocked)drawArt(ctx,fxArt('eggCrack'),960,600,300,300,{alpha:this.crackT/.45});
       ctx.fillStyle='#fff';ctx.textAlign='center';
       if(unlocked){ctx.font='900 48px system-ui';ctx.fillText(`${String(this.game.rewards?.get?.(this.definition.reward?.id)?.name??'Baby Raptor').toUpperCase()}!`,960,845);}
       else if(hatched){ctx.font='800 34px system-ui';ctx.fillText('Tap the egg to help it hatch!',960,845);}

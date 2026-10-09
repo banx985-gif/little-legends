@@ -85,8 +85,8 @@
     {
       "id": "prism_butterfly",
       "type": "creatures",
-      "name": "Prism Butterfly",
-      "voice": "A prism butterfly!",
+      "name": "Prism Butterflies",
+      "voice": "You earned Prism Butterflies!",
       "interaction": "Flutters around Wonder Island",
       "stars": 1,
       "island": {
@@ -209,14 +209,15 @@
         "zone": "creature",
         "color": "yellow",
         "label": "Baby Pterosaur"
-      }
+      },
+      "hidden": true
     },
     {
       "id": "fossil_arch",
       "type": "decorations",
-      "name": "Fossil Arch",
+      "name": "Fossil Footprint",
       "world": "dino",
-      "voice": "You earned Fossil Arch!",
+      "voice": "You earned Fossil Footprint!",
       "interaction": "tap to make it bounce and sparkle",
       "stars": 2,
       "island": {
@@ -227,7 +228,7 @@
         "h": 155,
         "zone": "decoration",
         "color": "cream",
-        "label": "Fossil Arch"
+        "label": "Fossil Footprint"
       }
     },
     {
@@ -252,9 +253,9 @@
     {
       "id": "volcano_lamp",
       "type": "decorations",
-      "name": "Volcano Lamp",
+      "name": "Dino Picnic Bowl",
       "world": "dino",
-      "voice": "You earned Volcano Lamp!",
+      "voice": "You earned Dino Picnic Bowl!",
       "interaction": "tap to make it bounce and sparkle",
       "stars": 2,
       "island": {
@@ -265,7 +266,7 @@
         "h": 155,
         "zone": "decoration",
         "color": "orange",
-        "label": "Volcano Lamp"
+        "label": "Dino Picnic Bowl"
       }
     },
     {
@@ -347,9 +348,9 @@
     {
       "id": "feather_mobile",
       "type": "decorations",
-      "name": "Feather Mobile",
+      "name": "Big Feather",
       "world": "animal",
-      "voice": "You earned Feather Mobile!",
+      "voice": "You earned Big Feather!",
       "interaction": "tap to make it bounce and sparkle",
       "stars": 1,
       "island": {
@@ -360,7 +361,7 @@
         "h": 155,
         "zone": "decoration",
         "color": "purple",
-        "label": "Feather Mobile"
+        "label": "Big Feather"
       }
     },
     {
@@ -404,9 +405,9 @@
     {
       "id": "letter_kite",
       "type": "decorations",
-      "name": "Letter Kite",
+      "name": "Letter A Stone",
       "world": "storybook",
-      "voice": "You earned Letter Kite!",
+      "voice": "You earned Letter A Stone!",
       "interaction": "tap to make it bounce and sparkle",
       "stars": 1,
       "island": {
@@ -417,7 +418,7 @@
         "h": 155,
         "zone": "decoration",
         "color": "blue",
-        "label": "Letter Kite"
+        "label": "Letter A Stone"
       }
     },
     {
@@ -499,9 +500,9 @@
     {
       "id": "weather_spinner",
       "type": "decorations",
-      "name": "Weather Spinner",
+      "name": "Rainy Day Umbrella",
       "world": "life",
-      "voice": "You earned Weather Spinner!",
+      "voice": "You earned Rainy Day Umbrella!",
       "interaction": "tap to make it bounce and sparkle",
       "stars": 1,
       "island": {
@@ -512,7 +513,7 @@
         "h": 155,
         "zone": "decoration",
         "color": "blue",
-        "label": "Weather Spinner"
+        "label": "Rainy Day Umbrella"
       }
     },
     {
@@ -583,7 +584,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "red",
-      "style": 0
+      "style": 0,
+      "hidden": true
     },
     {
       "id": "catalog_mossy_turtle",
@@ -648,7 +650,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "purple",
-      "style": 1
+      "style": 1,
+      "hidden": true
     },
     {
       "id": "catalog_moon_moth",
@@ -661,7 +664,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "pink",
-      "style": 2
+      "style": 2,
+      "hidden": true
     },
     {
       "id": "catalog_puddle_otter",
@@ -674,7 +678,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "cream",
-      "style": 3
+      "style": 3,
+      "hidden": true
     },
     {
       "id": "catalog_berry_bear",
@@ -713,7 +718,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "yellow",
-      "style": 2
+      "style": 2,
+      "hidden": true
     },
     {
       "id": "catalog_twinkle_deer",
@@ -752,7 +758,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "purple",
-      "style": 1
+      "style": 1,
+      "hidden": true
     },
     {
       "id": "catalog_mango_monkey",
@@ -830,7 +837,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "green",
-      "style": 3
+      "style": 3,
+      "hidden": true
     },
     {
       "id": "catalog_comet_koala",
@@ -899,7 +907,8 @@
       "starCost": 2,
       "color": "green",
       "style": 3,
-      "look": "hats"
+      "look": "hats",
+      "hidden": true
     },
     {
       "id": "catalog_star_crown",
@@ -927,7 +936,8 @@
       "starCost": 4,
       "color": "purple",
       "style": 1,
-      "look": "hats"
+      "look": "hats",
+      "hidden": true
     },
     {
       "id": "catalog_explorer_hat",
@@ -955,7 +965,8 @@
       "starCost": 3,
       "color": "cream",
       "style": 3,
-      "look": "hats"
+      "look": "hats",
+      "hidden": true
     },
     {
       "id": "catalog_storybook_hood",
@@ -969,7 +980,8 @@
       "starCost": 4,
       "color": "red",
       "style": 0,
-      "look": "hats"
+      "look": "hats",
+      "hidden": true
     },
     {
       "id": "catalog_jungle_headband",
@@ -983,7 +995,8 @@
       "starCost": 2,
       "color": "blue",
       "style": 1,
-      "look": "hats"
+      "look": "hats",
+      "hidden": true
     },
     {
       "id": "catalog_cloud_cap",
@@ -997,7 +1010,8 @@
       "starCost": 3,
       "color": "yellow",
       "style": 2,
-      "look": "hats"
+      "look": "hats",
+      "hidden": true
     },
     {
       "id": "catalog_sun_visor",
@@ -1011,7 +1025,8 @@
       "starCost": 4,
       "color": "green",
       "style": 3,
-      "look": "hats"
+      "look": "hats",
+      "hidden": true
     },
     {
       "id": "catalog_frog_hat",
@@ -1039,7 +1054,8 @@
       "starCost": 3,
       "color": "purple",
       "style": 1,
-      "look": "hats"
+      "look": "hats",
+      "hidden": true
     },
     {
       "id": "catalog_bunny_ears",
@@ -1081,7 +1097,8 @@
       "starCost": 3,
       "color": "red",
       "style": 0,
-      "look": "hats"
+      "look": "hats",
+      "hidden": true
     },
     {
       "id": "catalog_rocket_helmet",
@@ -1151,7 +1168,8 @@
       "starCost": 2,
       "color": "purple",
       "style": 1,
-      "look": "hats"
+      "look": "hats",
+      "hidden": true
     },
     {
       "id": "catalog_stripe_scarf",
@@ -1235,7 +1253,8 @@
       "starCost": 2,
       "color": "green",
       "style": 3,
-      "look": "backs"
+      "look": "backs",
+      "hidden": true
     },
     {
       "id": "catalog_tiny_cape",
@@ -1249,7 +1268,8 @@
       "starCost": 3,
       "color": "orange",
       "style": 0,
-      "look": "backs"
+      "look": "backs",
+      "hidden": true
     },
     {
       "id": "catalog_rainbow_cape",
@@ -1263,7 +1283,8 @@
       "starCost": 4,
       "color": "purple",
       "style": 1,
-      "look": "backs"
+      "look": "backs",
+      "hidden": true
     },
     {
       "id": "catalog_moon_cape",
@@ -1277,7 +1298,8 @@
       "starCost": 2,
       "color": "pink",
       "style": 2,
-      "look": "backs"
+      "look": "backs",
+      "hidden": true
     },
     {
       "id": "catalog_comet_cape",
@@ -1291,7 +1313,8 @@
       "starCost": 3,
       "color": "cream",
       "style": 3,
-      "look": "backs"
+      "look": "backs",
+      "hidden": true
     },
     {
       "id": "catalog_heart_glasses",
@@ -1347,7 +1370,8 @@
       "starCost": 4,
       "color": "green",
       "style": 3,
-      "look": "extras"
+      "look": "extras",
+      "hidden": true
     },
     {
       "id": "catalog_rain_boots",
@@ -1375,7 +1399,8 @@
       "starCost": 3,
       "color": "purple",
       "style": 1,
-      "look": "extras"
+      "look": "extras",
+      "hidden": true
     },
     {
       "id": "catalog_rainbow_bench",
@@ -1431,7 +1456,8 @@
       "starCost": 2,
       "color": "green",
       "style": 3,
-      "decor": "adventure"
+      "decor": "adventure",
+      "hidden": true
     },
     {
       "id": "catalog_bubble_fountain",
@@ -1515,7 +1541,8 @@
       "starCost": 2,
       "color": "blue",
       "style": 1,
-      "decor": "magic"
+      "decor": "magic",
+      "hidden": true
     },
     {
       "id": "catalog_picnic_rug",
@@ -1599,7 +1626,8 @@
       "starCost": 2,
       "color": "cream",
       "style": 3,
-      "decor": "adventure"
+      "decor": "adventure",
+      "hidden": true
     },
     {
       "id": "catalog_number_flags",
@@ -1613,7 +1641,8 @@
       "starCost": 3,
       "color": "red",
       "style": 0,
-      "decor": "adventure"
+      "decor": "adventure",
+      "hidden": true
     },
     {
       "id": "catalog_kindness_sign",
@@ -1641,7 +1670,8 @@
       "starCost": 2,
       "color": "yellow",
       "style": 2,
-      "decor": "adventure"
+      "decor": "adventure",
+      "hidden": true
     },
     {
       "id": "catalog_toy_shelf",
@@ -1655,7 +1685,8 @@
       "starCost": 3,
       "color": "green",
       "style": 3,
-      "decor": "houses"
+      "decor": "houses",
+      "hidden": true
     },
     {
       "id": "catalog_treasure_basket",
@@ -1711,7 +1742,8 @@
       "starCost": 4,
       "color": "cream",
       "style": 3,
-      "decor": "adventure"
+      "decor": "adventure",
+      "hidden": true
     },
     {
       "id": "catalog_dino_footprints",
@@ -1767,7 +1799,8 @@
       "starCost": 2,
       "color": "green",
       "style": 3,
-      "decor": "adventure"
+      "decor": "adventure",
+      "hidden": true
     },
     {
       "id": "catalog_forest_log",
@@ -1837,7 +1870,8 @@
       "starCost": 4,
       "color": "red",
       "style": 0,
-      "decor": "houses"
+      "decor": "houses",
+      "hidden": true
     },
     {
       "id": "catalog_book_stack",
@@ -1851,7 +1885,8 @@
       "starCost": 2,
       "color": "blue",
       "style": 1,
-      "decor": "adventure"
+      "decor": "adventure",
+      "hidden": true
     },
     {
       "id": "catalog_letter_arch",
@@ -1865,7 +1900,8 @@
       "starCost": 3,
       "color": "yellow",
       "style": 2,
-      "decor": "adventure"
+      "decor": "adventure",
+      "hidden": true
     },
     {
       "id": "catalog_word_wall",
@@ -1879,7 +1915,8 @@
       "starCost": 4,
       "color": "green",
       "style": 3,
-      "decor": "adventure"
+      "decor": "adventure",
+      "hidden": true
     },
     {
       "id": "catalog_sunflower_row",
@@ -1907,7 +1944,8 @@
       "starCost": 3,
       "color": "purple",
       "style": 1,
-      "decor": "magic"
+      "decor": "magic",
+      "hidden": true
     },
     {
       "id": "catalog_colour_windmill",
@@ -1935,7 +1973,8 @@
       "starCost": 2,
       "color": "cream",
       "style": 3,
-      "decor": "adventure"
+      "decor": "adventure",
+      "hidden": true
     },
     {
       "id": "catalog_jungle_drum",
@@ -1977,7 +2016,8 @@
       "starCost": 2,
       "color": "yellow",
       "style": 2,
-      "decor": "adventure"
+      "decor": "adventure",
+      "hidden": true
     },
     {
       "id": "catalog_handwash_poster",
@@ -2019,7 +2059,8 @@
       "starCost": 2,
       "color": "purple",
       "style": 1,
-      "decor": "magic"
+      "decor": "magic",
+      "hidden": true
     },
     {
       "id": "catalog_helping_hands_sign",
@@ -2033,7 +2074,8 @@
       "starCost": 3,
       "color": "pink",
       "style": 2,
-      "decor": "adventure"
+      "decor": "adventure",
+      "hidden": true
     },
     {
       "id": "catalog_routine_clock",
@@ -2074,7 +2116,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "red",
-      "style": 0
+      "style": 0,
+      "hidden": true
     },
     {
       "id": "catalog_rainbow_wagon",
@@ -2170,9 +2213,9 @@
     {
       "id": "catalog_star_trike",
       "type": "vehicles",
-      "name": "Star Trike",
+      "name": "Star Bike",
       "world": "storybook",
-      "voice": "You found Star Trike!",
+      "voice": "You earned Star Bike!",
       "interaction": "Tap to make the ride zoom.",
       "stars": 0,
       "catalog": true,
@@ -3097,7 +3140,7 @@
       "voice": "A rare Music Dragon!",
       "interaction": "tap to make it glow and wave",
       "stars": 3,
-      "unlockHint": "Play all four Jungle Jam music games",
+      "unlockHint": "Finish Jungle missions or play all 4 Jam games",
       "island": {
         "type": "creature_dragon",
         "x": 1400,
@@ -7609,6 +7652,143 @@
       "catalog": true,
       "starCost": 4,
       "look": "outfits"
+    },
+    {
+      "id": "giant_dino_bed",
+      "type": "decorations",
+      "name": "Giant Dino Bed",
+      "world": "dino",
+      "voice": "You earned the Giant Dino Bed!",
+      "interaction": "tap to make it bounce and sparkle",
+      "stars": 1,
+      "decor": "houses",
+      "island": {
+        "type": "reward_badge",
+        "x": 1500,
+        "y": 430,
+        "w": 220,
+        "h": 150,
+        "zone": "decoration",
+        "color": "green",
+        "label": "Giant Dino Bed"
+      }
+    },
+    {
+      "id": "farm_chick",
+      "type": "creatures",
+      "name": "Little Chick",
+      "world": "animal",
+      "voice": "Little Chick!",
+      "interaction": "tap to make it bounce and say hello",
+      "stars": 1,
+      "island": {
+        "type": "creature_animal",
+        "x": 560,
+        "y": 520,
+        "w": 180,
+        "h": 160,
+        "zone": "creature",
+        "color": "yellow",
+        "label": "Little Chick"
+      }
+    },
+    {
+      "id": "farm_piglet",
+      "type": "creatures",
+      "name": "Little Piglet",
+      "world": "animal",
+      "voice": "Little Piglet!",
+      "interaction": "tap to make it bounce and say hello",
+      "stars": 1,
+      "island": {
+        "type": "creature_animal",
+        "x": 1240,
+        "y": 780,
+        "w": 180,
+        "h": 160,
+        "zone": "creature",
+        "color": "pink",
+        "label": "Little Piglet"
+      }
+    },
+    {
+      "id": "farm_calf",
+      "type": "creatures",
+      "name": "Little Calf",
+      "world": "animal",
+      "voice": "Little Calf!",
+      "interaction": "tap to make it bounce and say hello",
+      "stars": 1,
+      "island": {
+        "type": "creature_animal",
+        "x": 760,
+        "y": 780,
+        "w": 180,
+        "h": 160,
+        "zone": "creature",
+        "color": "cream",
+        "label": "Little Calf"
+      }
+    },
+    {
+      "id": "rainbow_fish",
+      "type": "creatures",
+      "name": "Rainbow Fish",
+      "world": "rainbow",
+      "voice": "Rainbow Fish!",
+      "interaction": "tap to make it bounce and say hello",
+      "stars": 1,
+      "island": {
+        "type": "creature_animal",
+        "x": 700,
+        "y": 820,
+        "w": 180,
+        "h": 160,
+        "zone": "creature",
+        "color": "blue",
+        "label": "Rainbow Fish"
+      }
+    },
+    {
+      "id": "jungle_lion_cub",
+      "type": "creatures",
+      "name": "Lion Cub",
+      "world": "jungle",
+      "voice": "Lion Cub!",
+      "interaction": "tap to make it bounce and say hello",
+      "stars": 1,
+      "island": {
+        "type": "creature_animal",
+        "x": 1340,
+        "y": 560,
+        "w": 180,
+        "h": 160,
+        "zone": "creature",
+        "color": "orange",
+        "label": "Lion Cub"
+      }
+    },
+    {
+      "id": "life_golden_star",
+      "type": "decorations",
+      "name": "Bella’s Golden Star",
+      "world": "life",
+      "worldReward": "life",
+      "voice": "Bella’s Golden Star! You finished every Bella’s Day mission!",
+      "interaction": "tap to make it sparkle",
+      "stars": 3,
+      "unlockHint": "Finish every Bella’s Day mission",
+      "decor": "magic",
+      "island": {
+        "type": "reward_badge",
+        "x": 960,
+        "y": 700,
+        "w": 170,
+        "h": 170,
+        "zone": "decoration",
+        "color": "yellow",
+        "label": "Golden Star"
+      }
     }
   ]
 }

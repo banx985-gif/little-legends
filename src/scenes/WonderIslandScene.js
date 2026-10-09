@@ -5,7 +5,9 @@ import { art, artMap, drawArt, lookupArt, fxArt, hatchTheme, worldOfReward } fro
 import { ISLAND_BUILD_LIMIT } from '../save/SaveSystem.js';
 import { HatchSequence } from '../fx/HatchSequence.js';
 
-const CELEBRATE_SECONDS=4.5, HATCH_ART_WAIT=6;
+const CELEBRATE_SECONDS=4.5, HATCH_ART_WAIT=6, HELLO_SECONDS=1.6;
+// What a tapped friend says in its speech bubble (first match on its picture; 'Hi!' otherwise).
+const HELLO=[[/dragons./,'Rawr!'],[/chicken|toucan|parrot|owl|flamingo|peacock/,'Tweet!'],[/.pig$/,'Oink!'],[/.cow$/,'Moo!'],[/duck/,'Quack!'],[/fish|seahorse|dolphin|seal/,'Blub!'],[/lion|tiger|dino|rory|saurus|triceratops|stegosaurus/,'Roar!'],[/frog/,'Ribbit!'],[/sheep|lamb/,'Baa!']];
 
 const BASE_OBJECTS=[
   {id:'tree',type:'tree',x:450,y:585,w:180,h:260,zone:'nature'},
@@ -66,14 +68,14 @@ export class WonderIslandScene {
     if(buildings.has('parade_float'))this.objects.push({id:'parade_float',type:'parade_float',x:1500,y:790,w:320,h:180,zone:'toy',...(placements.parade_float??{})});
     const known=new Set(this.objects.map(o=>o.id));
     for(const reward of this.game.rewards?.list?.()??[]){
-      if(known.has(reward.id)||!reward.island)continue;
+      if(known.has(reward.id)||!reward.island||reward.hidden)continue;
       const unlocked=(state?.unlocks?.[reward.type]??[]).includes(reward.id);if(!unlocked)continue;
       this.objects.push({id:reward.id,...reward.island,name:reward.name,...(placements[reward.id]??{})});known.add(reward.id);
     }
     // Things bought in the Collection (no fixed island spot) get the next free grid spot; the child can move them.
     let spot=0;
     for(const reward of this.game.rewards?.list?.()??[]){
-      if(known.has(reward.id)||reward.island||!reward.catalog||reward.type==='cosmetics')continue;
+      if(known.has(reward.id)||reward.island||!reward.catalog||reward.type==='cosmetics'||reward.hidden)continue;
       if(!(state?.unlocks?.[reward.type]??[]).includes(reward.id))continue;
       const [x,y]=CATALOG_SPOTS[spot++%CATALOG_SPOTS.length],big=reward.type==='buildings'||['houses','trees'].includes(reward.decor); // houses and trees stand a bit taller
       this.objects.push({id:reward.id,type:'catalog_item',x,y,w:big?190:140,h:big?170:130,zone:'decoration',name:reward.name,color:reward.color,label:reward.name,...(placements[reward.id]??{})});known.add(reward.id);
@@ -97,7 +99,7 @@ export class WonderIslandScene {
     // The celebration clock waits for the egg pictures; if they never arrive, carry on with the banner only.
     this.celebrateClock=(this.celebrateClock??0)+dt;
     if(this.hatch&&!this.hatch.ready&&this.celebrateClock>HATCH_ART_WAIT)this.hatch=null;if(!this.hatch||this.hatch.ready)this.celebrateT+=dt;
-    if(this.celebrateT>=CELEBRATE_SECONDS&&this.celebrateQueue?.length)this.startCelebration(this.celebrateQueue.shift());if(this.interactionT>0){this.interactionT=Math.max(0,this.interactionT-dt);if(this.interactionT===0)this.interaction=null;}}
+    if(this.celebrateT>=CELEBRATE_SECONDS&&this.celebrateQueue?.length)this.startCelebration(this.celebrateQueue.shift());if(this.hello)this.hello.t-=dt;if(this.interactionT>0){this.interactionT=Math.max(0,this.interactionT-dt);if(this.interactionT===0)this.interaction=null;}}
 
   drawIsland(ctx){
     ctx.fillStyle='#78dcff';ctx.fillRect(0,0,1920,1080);drawCloud(ctx,150,120,1.05,.75);drawCloud(ctx,1380,150,.8,.68);
@@ -109,7 +111,7 @@ export class WonderIslandScene {
   }
 
   render(ctx){
-    this.drawIsland(ctx);for(const o of this.objects)this.drawObject(ctx,o);this.pip?.render(ctx);
+    this.drawIsland(ctx);for(const o of this.objects)this.drawObject(ctx,o);this.pip?.render(ctx);this.drawHello(ctx);
     ctx.fillStyle='#5b3b72';ctx.textAlign='center';ctx.font='900 64px ui-rounded,system-ui';ctx.fillText('Wonder Island',960,95);ctx.fillStyle='#fff';ctx.font='700 30px system-ui';ctx.fillText(this.placementMode?'Move your things anywhere on the grass.':'Tap the island toys — or start an adventure!',960,140);
     drawCandyButton(ctx,360,900,430,115,'DINO PICNIC',this.portalPressed,'play');
     drawCandyButton(ctx,810,900,500,115,'EXPLORE WORLDS',this.rainbowPressed,'explore');
@@ -118,7 +120,7 @@ export class WonderIslandScene {
     if(this.placementMode){ctx.strokeStyle='#fff8';ctx.setLineDash?.([18,16]);ctx.lineWidth=8;ctx.beginPath();ctx.roundRect(300,300,1330,565,70);ctx.stroke();ctx.setLineDash?.([]);this.renderTray(ctx);}
     if(this.hatch?.ready&&this.celebrateT<CELEBRATE_SECONDS){ctx.save();ctx.globalAlpha=Math.min(1,(CELEBRATE_SECONDS-this.celebrateT)/.5)*.7;ctx.fillStyle='#fffdf0';ctx.beginPath();ctx.ellipse(960,620,260,240,0,0,Math.PI*2);ctx.fill();ctx.restore();this.hatch.render(ctx,960,780,340);}
     // Other wins (decorations, buildings, rides) stand on the reward podium while the banner shows.
-    if(this.celebrateReward&&!this.hatch&&this.celebrateT<CELEBRATE_SECONDS){const fade=Math.min(1,(CELEBRATE_SECONDS-this.celebrateT)/.5,this.celebrateT/.35);const pic=lookupArt('rewards',this.celebrateReward);if(art(pic)){drawArt(ctx,lookupArt('ui','podium'),960,700,330,243,{alpha:fade});drawArt(ctx,pic,960,640,260,230,{anchor:'bottom',alpha:fade});}}
+    if(this.celebrateReward&&!this.hatch&&this.celebrateT<CELEBRATE_SECONDS){const fade=Math.min(1,(CELEBRATE_SECONDS-this.celebrateT)/.5,this.celebrateT/.35);const pic=lookupArt('rewards',this.celebrateReward);if(art(pic)){const kind=this.game.rewards?.get?.(this.celebrateReward)?.type,onPedestal=(kind==='decorations'||kind==='buildings')&&art(lookupArt('ui','rewardPedestal'));if(onPedestal)drawArt(ctx,lookupArt('ui','rewardPedestal'),960,770,360,300,{anchor:'bottom',alpha:fade});else drawArt(ctx,lookupArt('ui','podium'),960,700,330,243,{alpha:fade});drawArt(ctx,pic,960,onPedestal?660:640,260,230,{anchor:'bottom',alpha:fade});}}
     if(this.celebrateReward&&this.celebrateT<CELEBRATE_SECONDS){const reward=this.game.rewards?.get?.(this.celebrateReward);ctx.fillStyle='#fffdf0ee';ctx.beginPath();ctx.roundRect(500,180,920,140,60);ctx.fill();ctx.fillStyle='#5a3a73';ctx.font='900 41px system-ui';ctx.fillText(reward?`${reward.name} is now yours!`:'New reward unlocked!',960,265);}
   }
 
@@ -169,7 +171,7 @@ export class WonderIslandScene {
 
   // Real picture fitted in the object's own tap box; reward friends keep their name tag.
   drawObjectArt(ctx,o,active){
-    const id=o.art??lookupArt('island',o.type)??lookupArt('rewards',o.id);if(!id)return false;
+    const tapped=active&&lookupArt('rewardTapped',o.id),id=(tapped&&art(tapped)?tapped:null)||(o.art??lookupArt('island',o.type)??lookupArt('rewards',o.id));if(!id)return false;
     if(o.type==='pond'){ctx.fillStyle='#4fc0ee';ctx.beginPath();ctx.ellipse(0,0,180,78,0,0,Math.PI*2);ctx.fill();} // lily pads sit on the drawn water
     const jump=o.type==='ball'&&active?Math.abs(Math.sin(this.t*9))*55:0;
     if(o.type==='creature_dragon'&&art(id)){const calm=globalThis.__LL_REDUCED_MOTION;drawArt(ctx,fxArt('rareGlow')?.id,0,0,o.w*1.35,o.h*1.35,{alpha:calm?.45:.4+Math.sin(this.t*1.2)*.12,blend:'screen'});} // rare friend: slow soft glow, never flashing
@@ -179,6 +181,10 @@ export class WonderIslandScene {
     return true;
   }
 
+  // A tapped friend says hello in a speech bubble (fixed size: one short word, so the picture is never squashed).
+  drawHello(ctx){const h=this.hello;if(!h||h.t<=0||this.placementMode)return;const o=this.objects.find(x=>x.id===h.id);if(!o)return;const x=clamp(o.x+o.w*.35,180,1740),y=Math.max(150,o.y-o.h/2-55),a=Math.min(1,h.t/.25);
+    if(!drawArt(ctx,lookupArt('ui','speechBubble'),x,y,190,130,{alpha:a}))return;ctx.save();ctx.globalAlpha=a;ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='900 34px system-ui';ctx.fillText(h.text,x+4,y+4,150);ctx.restore();}
+  helloFor(o){const reward=this.game.rewards?.get?.(o.id);if(reward?.type!=='creatures')return null;const pic=lookupArt('rewards',o.id)??'';return HELLO.find(([re])=>re.test(pic))?.[1]??'Hi!';}
   drawBabyRaptor(ctx,x,y){ctx.save();ctx.translate(x,y);ctx.fillStyle='#68c66c';ctx.beginPath();ctx.ellipse(0,0,62,40,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(52,-40,38,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(64,-49,9,0,Math.PI*2);ctx.fill();ctx.fillStyle='#333';ctx.beginPath();ctx.arc(67,-48,4,0,Math.PI*2);ctx.fill();ctx.restore();}
 
   rewardColor(value){const map={red:'#e94d55',blue:'#4d8ee8',yellow:'#f7cf4f',green:'#66bd62',orange:'#f39a45',purple:'#8b69db',pink:'#ec7ea2',cream:'#fff3dc'};return map[value]??value??'#8b69db';}
@@ -193,7 +199,7 @@ export class WonderIslandScene {
   // Name tags show when a thing is tapped, just won, or being moved, so a full island doesn't turn into a wall of labels.
   showTag(o){return this.placementMode||(this.interaction===o.id&&this.interactionT>0)||this.celebrateReward===o.id;}
   async finishDrag(o){o.x=clamp(o.x,350,1580);o.y=clamp(o.y,410,820);this.sortByDepth();this.game.fx?.cue?.('place',{x:o.x,y:o.y});await this.game.save?.saveIslandPlacement?.(o.id,{x:o.x,y:o.y,zone:o.zone});}
-  interact(o){this.interaction=o.id;this.interactionT=1.2;if(o.type==='drum')this.game.audio?.playCue?.('count',{count:2});else this.game.audio?.playCue?.('correct');if(o.type==='slide')this.pip?.react('bounce',{duration:1.2});if(o.type==='ball')this.pip?.lookAt(o,.8);}
+  interact(o){this.interaction=o.id;this.interactionT=1.2;const hello=this.helloFor(o);this.hello=hello?{id:o.id,text:hello,t:HELLO_SECONDS}:null;if(o.type==='drum')this.game.audio?.playCue?.('count',{count:2});else this.game.audio?.playCue?.('correct');if(o.type==='slide')this.pip?.react('bounce',{duration:1.2});if(o.type==='ball')this.pip?.lookAt(o,.8);}
 
   handlePointer(e){
     if(this.hatch?.ready&&!this.hatch.finished&&this.celebrateT<CELEBRATE_SECONDS){if(e.type==='up')this.hatch.skip();return;}

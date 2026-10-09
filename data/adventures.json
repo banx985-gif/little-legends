@@ -195,7 +195,7 @@
       "reward": {
         "type": "creatures",
         "id": "prism_butterfly",
-        "name": "Prism Butterfly"
+        "name": "Prism Butterflies"
       },
       "steps": [
         {
@@ -440,9 +440,9 @@
       "world": "dino",
       "guide": "rory",
       "reward": {
-        "type": "creatures",
-        "id": "baby_pterosaur",
-        "name": "Baby Pterosaur"
+        "type": "decorations",
+        "id": "giant_dino_bed",
+        "name": "Giant Dino Bed"
       },
       "steps": [
         {
@@ -482,7 +482,7 @@
       "reward": {
         "type": "decorations",
         "id": "fossil_arch",
-        "name": "Fossil Arch"
+        "name": "Fossil Footprint"
       },
       "steps": [
         {
@@ -562,7 +562,7 @@
       "reward": {
         "type": "decorations",
         "id": "volcano_lamp",
-        "name": "Volcano Lamp"
+        "name": "Dino Picnic Bowl"
       },
       "steps": [
         {
@@ -771,7 +771,7 @@
       "reward": {
         "type": "decorations",
         "id": "feather_mobile",
-        "name": "Feather Mobile"
+        "name": "Big Feather"
       },
       "steps": [
         {
@@ -893,7 +893,7 @@
       "reward": {
         "type": "decorations",
         "id": "letter_kite",
-        "name": "Letter Kite"
+        "name": "Letter A Stone"
       },
       "steps": [
         {
@@ -1103,7 +1103,7 @@
       "reward": {
         "type": "decorations",
         "id": "weather_spinner",
-        "name": "Weather Spinner"
+        "name": "Rainy Day Umbrella"
       },
       "steps": [
         {
@@ -2019,6 +2019,877 @@
           "kind": "story",
           "title": "Great work!",
           "voice": "Thank you, big helpers!"
+        }
+      ]
+    },
+    {
+      "id": "rainbow_sweet_shapes",
+      "title": "Sweet Shape Shop",
+      "world": "rainbow",
+      "guide": "octo",
+      "reward": {
+        "type": "decorations",
+        "id": "catalog_rainbow_build_carousel_top",
+        "name": "Carousel Top",
+        "stars": 2
+      },
+      "steps": [
+        {
+          "id": "rainbow_sweet_shapes_intro",
+          "kind": "story",
+          "title": "Sweet Shape Shop",
+          "voice": "Octo opened a sweet shop full of shapes. Let’s help!"
+        },
+        {
+          "id": "rainbow_sweet_shapes_a1",
+          "kind": "activity",
+          "activityId": "rainbow_candy_find_heart"
+        },
+        {
+          "id": "rainbow_sweet_shapes_a2",
+          "kind": "activity",
+          "activityId": "rainbow_candy_match"
+        },
+        {
+          "id": "rainbow_sweet_shapes_a3",
+          "kind": "activity",
+          "activityId": "rainbow_candy_pattern"
+        },
+        {
+          "id": "rainbow_sweet_shapes_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "What a sweet shop! Every shape is in the right place."
+        }
+      ]
+    },
+    {
+      "id": "rainbow_sea_friends",
+      "title": "Octo’s Sea Friends",
+      "world": "rainbow",
+      "guide": "octo",
+      "reward": {
+        "type": "creatures",
+        "id": "rainbow_fish",
+        "name": "Rainbow Fish"
+      },
+      "steps": [
+        {
+          "id": "rainbow_sea_friends_intro",
+          "kind": "story",
+          "title": "Octo’s Sea Friends",
+          "voice": "Octo found a sea egg in the rainbow pond! Let’s help the sea friends.",
+          "art": "rewards.eggs.egg_ocean"
+        },
+        {
+          "id": "rainbow_sea_friends_a1",
+          "kind": "activity",
+          "activityId": "rainbow_sea_count_fish"
+        },
+        {
+          "id": "rainbow_sea_friends_a2",
+          "kind": "activity",
+          "activityId": "rainbow_sea_red_friend"
+        },
+        {
+          "id": "rainbow_sea_friends_a3",
+          "kind": "activity",
+          "activityId": "rainbow_sea_small_fish"
+        },
+        {
+          "id": "rainbow_sea_friends_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "The sea egg is ready to hatch on Wonder Island!"
+        }
+      ]
+    },
+    {
+      "id": "rainbow_colour_splash",
+      "title": "Colour Splash Day",
+      "world": "rainbow",
+      "guide": "octo",
+      "reward": {
+        "type": "decorations",
+        "id": "catalog_rainbow_village_colour_wheel",
+        "name": "Colour Wheel",
+        "stars": 3
+      },
+      "steps": [
+        {
+          "id": "rainbow_colour_splash_intro",
+          "kind": "story",
+          "title": "Colour Splash Day",
+          "voice": "It is Colour Splash Day in Rainbow Village!"
+        },
+        {
+          "id": "rainbow_colour_splash_a1",
+          "kind": "activity",
+          "activityId": "rainbow_splash_green"
+        },
+        {
+          "id": "rainbow_colour_splash_a2",
+          "kind": "activity",
+          "activityId": "rainbow_blob_sort"
+        },
+        {
+          "id": "rainbow_colour_splash_a3",
+          "kind": "activity",
+          "activityId": "rainbow_rainbow_order"
+        },
+        {
+          "id": "rainbow_colour_splash_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "Rainbow Village is full of colour again!"
+        }
+      ]
+    },
+    {
+      "id": "animal_farm_morning",
+      "title": "Farm Morning",
+      "world": "animal",
+      "guide": "bella",
+      "reward": {
+        "type": "creatures",
+        "id": "farm_chick",
+        "name": "Little Chick"
+      },
+      "steps": [
+        {
+          "id": "animal_farm_morning_intro",
+          "kind": "story",
+          "title": "Farm Morning",
+          "voice": "Bella found an egg in the hay! Let’s help on the farm.",
+          "art": "rewards.eggs.egg_farm"
+        },
+        {
+          "id": "animal_farm_morning_a1",
+          "kind": "activity",
+          "activityId": "animal_farm_sounds"
+        },
+        {
+          "id": "animal_farm_morning_a2",
+          "kind": "activity",
+          "activityId": "animal_farm_count_eggs"
+        },
+        {
+          "id": "animal_farm_morning_a3",
+          "kind": "activity",
+          "activityId": "animal_farm_not_animal"
+        },
+        {
+          "id": "animal_farm_morning_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "The farm egg will hatch on Wonder Island!"
+        }
+      ]
+    },
+    {
+      "id": "animal_muddy_piglet",
+      "title": "Muddy Piglet",
+      "world": "animal",
+      "guide": "bella",
+      "reward": {
+        "type": "creatures",
+        "id": "farm_piglet",
+        "name": "Little Piglet"
+      },
+      "steps": [
+        {
+          "id": "animal_muddy_piglet_intro",
+          "kind": "story",
+          "title": "Muddy Piglet",
+          "voice": "Oh no! Piglet rolled in the mud."
+        },
+        {
+          "id": "animal_muddy_piglet_a1",
+          "kind": "activity",
+          "activityId": "animal_pig_wash"
+        },
+        {
+          "id": "animal_muddy_piglet_a2",
+          "kind": "activity",
+          "activityId": "animal_pig_food"
+        },
+        {
+          "id": "animal_muddy_piglet_a3",
+          "kind": "activity",
+          "activityId": "animal_pig_sizes"
+        },
+        {
+          "id": "animal_muddy_piglet_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "Piglet is clean and happy!"
+        }
+      ]
+    },
+    {
+      "id": "animal_moo_parade",
+      "title": "Moo Moo Parade",
+      "world": "animal",
+      "guide": "bella",
+      "reward": {
+        "type": "creatures",
+        "id": "farm_calf",
+        "name": "Little Calf"
+      },
+      "steps": [
+        {
+          "id": "animal_moo_parade_intro",
+          "kind": "story",
+          "title": "Moo Moo Parade",
+          "voice": "The farm animals are having a parade!"
+        },
+        {
+          "id": "animal_moo_parade_a1",
+          "kind": "activity",
+          "activityId": "animal_farm_land_water"
+        },
+        {
+          "id": "animal_moo_parade_a2",
+          "kind": "activity",
+          "activityId": "animal_farm_more_cows"
+        },
+        {
+          "id": "animal_moo_parade_a3",
+          "kind": "activity",
+          "activityId": "animal_farm_pattern"
+        },
+        {
+          "id": "animal_moo_parade_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "What a moo-velous parade!"
+        }
+      ]
+    },
+    {
+      "id": "storybook_a_is_for_apple",
+      "title": "A is for Apple",
+      "world": "storybook",
+      "guide": "luna",
+      "reward": {
+        "type": "decorations",
+        "id": "catalog_literacy_book_lectern",
+        "name": "Book Lectern",
+        "stars": 2
+      },
+      "steps": [
+        {
+          "id": "storybook_a_is_for_apple_intro",
+          "kind": "story",
+          "title": "A is for Apple",
+          "voice": "Luna found a stone with a letter on it!"
+        },
+        {
+          "id": "storybook_a_is_for_apple_a1",
+          "kind": "activity",
+          "activityId": "story_find_stone_a"
+        },
+        {
+          "id": "storybook_a_is_for_apple_a2",
+          "kind": "activity",
+          "activityId": "story_apple_pairs"
+        },
+        {
+          "id": "storybook_a_is_for_apple_a3",
+          "kind": "activity",
+          "activityId": "story_first_sound_a"
+        },
+        {
+          "id": "storybook_a_is_for_apple_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "A is for apple! Luna loves your reading."
+        }
+      ]
+    },
+    {
+      "id": "storybook_moon_story",
+      "title": "Luna’s Moon Story",
+      "world": "storybook",
+      "guide": "luna",
+      "reward": {
+        "type": "decorations",
+        "id": "catalog_literacy_moon_sleepy_pedestal",
+        "name": "Sleepy Moon",
+        "stars": 2
+      },
+      "steps": [
+        {
+          "id": "storybook_moon_story_intro",
+          "kind": "story",
+          "title": "Luna’s Moon Story",
+          "voice": "Luna is reading a bedtime story about the moon."
+        },
+        {
+          "id": "storybook_moon_story_a1",
+          "kind": "activity",
+          "activityId": "story_moon_vocab"
+        },
+        {
+          "id": "storybook_moon_story_a2",
+          "kind": "activity",
+          "activityId": "story_moon_order"
+        },
+        {
+          "id": "storybook_moon_story_a3",
+          "kind": "activity",
+          "activityId": "story_find_little_m"
+        },
+        {
+          "id": "storybook_moon_story_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "Goodnight, moon! What a lovely story."
+        }
+      ]
+    },
+    {
+      "id": "storybook_word_builders",
+      "title": "Word Builders",
+      "world": "storybook",
+      "guide": "luna",
+      "reward": {
+        "type": "decorations",
+        "id": "catalog_books_quill_magic",
+        "name": "Quill Magic",
+        "stars": 3
+      },
+      "steps": [
+        {
+          "id": "storybook_word_builders_intro",
+          "kind": "story",
+          "title": "Word Builders",
+          "voice": "Luna needs help building her word book."
+        },
+        {
+          "id": "storybook_word_builders_a1",
+          "kind": "activity",
+          "activityId": "story_two_b_words"
+        },
+        {
+          "id": "storybook_word_builders_a2",
+          "kind": "activity",
+          "activityId": "story_what_we_read"
+        },
+        {
+          "id": "storybook_word_builders_a3",
+          "kind": "activity",
+          "activityId": "story_abcd_order"
+        },
+        {
+          "id": "storybook_word_builders_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "Luna’s word book is full!"
+        }
+      ]
+    },
+    {
+      "id": "life_how_do_i_feel",
+      "title": "How Do I Feel?",
+      "world": "life",
+      "guide": "bella",
+      "reward": {
+        "type": "creatures",
+        "id": "catalog_sprout_frog",
+        "name": "Sprout Frog",
+        "stars": 2
+      },
+      "steps": [
+        {
+          "id": "life_how_do_i_feel_intro",
+          "kind": "story",
+          "title": "How Do I Feel?",
+          "voice": "Everyone has big feelings. Let’s help Bella name them."
+        },
+        {
+          "id": "life_how_do_i_feel_a1",
+          "kind": "activity",
+          "activityId": "life_feel_surprised"
+        },
+        {
+          "id": "life_how_do_i_feel_a2",
+          "kind": "activity",
+          "activityId": "life_feel_sleepy"
+        },
+        {
+          "id": "life_how_do_i_feel_a3",
+          "kind": "activity",
+          "activityId": "life_feel_happy"
+        },
+        {
+          "id": "life_how_do_i_feel_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "You know so many feelings!"
+        }
+      ]
+    },
+    {
+      "id": "life_bedtime",
+      "title": "Bedtime for Bella",
+      "world": "life",
+      "guide": "bella",
+      "reward": {
+        "type": "creatures",
+        "id": "catalog_pebble_penguin",
+        "name": "Pebble Penguin",
+        "stars": 2
+      },
+      "steps": [
+        {
+          "id": "life_bedtime_intro",
+          "kind": "story",
+          "title": "Bedtime for Bella",
+          "voice": "It is nearly bedtime for Bella."
+        },
+        {
+          "id": "life_bedtime_a1",
+          "kind": "activity",
+          "activityId": "life_bed_bath"
+        },
+        {
+          "id": "life_bedtime_a2",
+          "kind": "activity",
+          "activityId": "life_bed_find_teddy"
+        },
+        {
+          "id": "life_bedtime_a3",
+          "kind": "activity",
+          "activityId": "life_bed_order"
+        },
+        {
+          "id": "life_bedtime_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "Goodnight, Bella. Sweet dreams!"
+        }
+      ]
+    },
+    {
+      "id": "life_tidy_helpers",
+      "title": "Tidy-Up Helpers",
+      "world": "life",
+      "guide": "bella",
+      "reward": {
+        "type": "creatures",
+        "id": "catalog_mango_monkey",
+        "name": "Mango Monkey",
+        "stars": 3
+      },
+      "steps": [
+        {
+          "id": "life_tidy_helpers_intro",
+          "kind": "story",
+          "title": "Tidy-Up Helpers",
+          "voice": "The playroom is messy. Let’s tidy up together!"
+        },
+        {
+          "id": "life_tidy_helpers_a1",
+          "kind": "activity",
+          "activityId": "life_tidy_toys_clothes"
+        },
+        {
+          "id": "life_tidy_helpers_a2",
+          "kind": "activity",
+          "activityId": "life_tidy_cars"
+        },
+        {
+          "id": "life_tidy_helpers_a3",
+          "kind": "activity",
+          "activityId": "life_tidy_spill"
+        },
+        {
+          "id": "life_tidy_helpers_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "The playroom is tidy. Great helping!"
+        }
+      ]
+    },
+    {
+      "id": "jungle_hello_drums",
+      "title": "Hello, Jungle!",
+      "world": "jungle",
+      "guide": "pip",
+      "theme": "jungle",
+      "reward": {
+        "type": "decorations",
+        "id": "catalog_jungle_stage_sign_music",
+        "name": "Sign Music",
+        "stars": 1
+      },
+      "steps": [
+        {
+          "id": "jungle_hello_drums_intro",
+          "kind": "story",
+          "title": "Hello, Jungle!",
+          "voice": "Listen! The jungle is full of music."
+        },
+        {
+          "id": "jungle_hello_drums_a1",
+          "kind": "activity",
+          "activityId": "jungle_find_drum"
+        },
+        {
+          "id": "jungle_hello_drums_a2",
+          "kind": "activity",
+          "activityId": "jungle_copy_beat_2"
+        },
+        {
+          "id": "jungle_hello_drums_a3",
+          "kind": "activity",
+          "activityId": "jungle_count_bananas"
+        },
+        {
+          "id": "jungle_hello_drums_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "You found the jungle music!"
+        }
+      ]
+    },
+    {
+      "id": "jungle_animal_band",
+      "title": "Animal Band",
+      "world": "jungle",
+      "guide": "pip",
+      "theme": "jungle",
+      "reward": {
+        "type": "creatures",
+        "id": "catalog_parrot",
+        "name": "Parrot",
+        "stars": 1
+      },
+      "steps": [
+        {
+          "id": "jungle_animal_band_intro",
+          "kind": "story",
+          "title": "Animal Band",
+          "voice": "The jungle animals want to start a band!"
+        },
+        {
+          "id": "jungle_animal_band_a1",
+          "kind": "activity",
+          "activityId": "jungle_sound_lion"
+        },
+        {
+          "id": "jungle_animal_band_a2",
+          "kind": "activity",
+          "activityId": "jungle_sound_monkey"
+        },
+        {
+          "id": "jungle_animal_band_a3",
+          "kind": "activity",
+          "activityId": "jungle_shake_maracas"
+        },
+        {
+          "id": "jungle_animal_band_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "The animal band is ready to play!"
+        }
+      ]
+    },
+    {
+      "id": "jungle_big_and_small",
+      "title": "Big and Small Beats",
+      "world": "jungle",
+      "guide": "pip",
+      "theme": "jungle",
+      "reward": {
+        "type": "creatures",
+        "id": "catalog_tiny_toucan",
+        "name": "Tiny Toucan",
+        "stars": 1
+      },
+      "steps": [
+        {
+          "id": "jungle_big_and_small_intro",
+          "kind": "story",
+          "title": "Big and Small Beats",
+          "voice": "Big drums go BOOM. Little bells go ting!"
+        },
+        {
+          "id": "jungle_big_and_small_a1",
+          "kind": "activity",
+          "activityId": "jungle_biggest_drum"
+        },
+        {
+          "id": "jungle_big_and_small_a2",
+          "kind": "activity",
+          "activityId": "jungle_loud_quiet"
+        },
+        {
+          "id": "jungle_big_and_small_a3",
+          "kind": "activity",
+          "activityId": "jungle_toucan_berries"
+        },
+        {
+          "id": "jungle_big_and_small_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "Big and small, loud and quiet. Well done!"
+        }
+      ]
+    },
+    {
+      "id": "jungle_lion_lullaby",
+      "title": "Lion Cub’s Lullaby",
+      "world": "jungle",
+      "guide": "pip",
+      "theme": "jungle",
+      "reward": {
+        "type": "creatures",
+        "id": "jungle_lion_cub",
+        "name": "Lion Cub"
+      },
+      "steps": [
+        {
+          "id": "jungle_lion_lullaby_intro",
+          "kind": "story",
+          "title": "Lion Cub’s Lullaby",
+          "voice": "A little lion cub is sleepy. Let’s sing a quiet song."
+        },
+        {
+          "id": "jungle_lion_lullaby_a1",
+          "kind": "activity",
+          "activityId": "jungle_quiet_choice"
+        },
+        {
+          "id": "jungle_lion_lullaby_a2",
+          "kind": "activity",
+          "activityId": "jungle_slow_animal"
+        },
+        {
+          "id": "jungle_lion_lullaby_a3",
+          "kind": "activity",
+          "activityId": "jungle_lullaby_beat"
+        },
+        {
+          "id": "jungle_lion_lullaby_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "The lion cub’s egg is ready to hatch on Wonder Island!"
+        }
+      ]
+    },
+    {
+      "id": "jungle_flamingo_dance",
+      "title": "Flamingo Dance",
+      "world": "jungle",
+      "guide": "pip",
+      "theme": "jungle",
+      "reward": {
+        "type": "creatures",
+        "id": "catalog_flamingo",
+        "name": "Flamingo",
+        "stars": 2
+      },
+      "steps": [
+        {
+          "id": "jungle_flamingo_dance_intro",
+          "kind": "story",
+          "title": "Flamingo Dance",
+          "voice": "The flamingos are dancing on one leg!"
+        },
+        {
+          "id": "jungle_flamingo_dance_a1",
+          "kind": "activity",
+          "activityId": "jungle_find_flamingo"
+        },
+        {
+          "id": "jungle_flamingo_dance_a2",
+          "kind": "activity",
+          "activityId": "jungle_dance_pattern"
+        },
+        {
+          "id": "jungle_flamingo_dance_a3",
+          "kind": "activity",
+          "activityId": "jungle_more_flamingos"
+        },
+        {
+          "id": "jungle_flamingo_dance_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "What a beautiful flamingo dance!"
+        }
+      ]
+    },
+    {
+      "id": "jungle_stage_builders",
+      "title": "Build the Stage",
+      "world": "jungle",
+      "guide": "pip",
+      "theme": "jungle",
+      "reward": {
+        "type": "decorations",
+        "id": "catalog_jungle_stage_tiki_torch",
+        "name": "Tiki Torch",
+        "stars": 2
+      },
+      "steps": [
+        {
+          "id": "jungle_stage_builders_intro",
+          "kind": "story",
+          "title": "Build the Stage",
+          "voice": "The band needs a stage. Let’s build it!"
+        },
+        {
+          "id": "jungle_stage_builders_a1",
+          "kind": "activity",
+          "activityId": "jungle_stage_match"
+        },
+        {
+          "id": "jungle_stage_builders_a2",
+          "kind": "activity",
+          "activityId": "jungle_stage_stools"
+        },
+        {
+          "id": "jungle_stage_builders_a3",
+          "kind": "activity",
+          "activityId": "jungle_stage_odd"
+        },
+        {
+          "id": "jungle_stage_builders_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "The jungle stage is ready!"
+        }
+      ]
+    },
+    {
+      "id": "jungle_sloth_slowdown",
+      "title": "Sloth Slows Down",
+      "world": "jungle",
+      "guide": "pip",
+      "theme": "jungle",
+      "reward": {
+        "type": "creatures",
+        "id": "catalog_sloth",
+        "name": "Sloth",
+        "stars": 2
+      },
+      "steps": [
+        {
+          "id": "jungle_sloth_slowdown_intro",
+          "kind": "story",
+          "title": "Sloth Slows Down",
+          "voice": "Sloth likes to take things nice and slow."
+        },
+        {
+          "id": "jungle_sloth_slowdown_a1",
+          "kind": "activity",
+          "activityId": "jungle_sloth_sizes"
+        },
+        {
+          "id": "jungle_sloth_slowdown_a2",
+          "kind": "activity",
+          "activityId": "jungle_sloth_steps"
+        },
+        {
+          "id": "jungle_sloth_slowdown_a3",
+          "kind": "activity",
+          "activityId": "jungle_sloth_beat"
+        },
+        {
+          "id": "jungle_sloth_slowdown_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "Slow and steady. Sloth is so proud of you!"
+        }
+      ]
+    },
+    {
+      "id": "jungle_grand_concert",
+      "title": "Grand Jungle Concert",
+      "world": "jungle",
+      "guide": "pip",
+      "theme": "jungle",
+      "reward": {
+        "type": "creatures",
+        "id": "catalog_peacock",
+        "name": "Peacock",
+        "stars": 3
+      },
+      "steps": [
+        {
+          "id": "jungle_grand_concert_intro",
+          "kind": "story",
+          "title": "Grand Jungle Concert",
+          "voice": "Tonight is the Grand Jungle Concert!"
+        },
+        {
+          "id": "jungle_grand_concert_a1",
+          "kind": "activity",
+          "activityId": "jungle_concert_sound"
+        },
+        {
+          "id": "jungle_grand_concert_a2",
+          "kind": "activity",
+          "activityId": "jungle_concert_sort"
+        },
+        {
+          "id": "jungle_grand_concert_a3",
+          "kind": "activity",
+          "activityId": "jungle_concert_pattern"
+        },
+        {
+          "id": "jungle_grand_concert_a4",
+          "kind": "activity",
+          "activityId": "jungle_concert_bananas"
+        },
+        {
+          "id": "jungle_grand_concert_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "What a concert! The whole jungle is dancing."
+        }
+      ]
+    },
+    {
+      "id": "dino_nest_check",
+      "title": "Rory’s Nest Check",
+      "world": "dino",
+      "guide": "rory",
+      "reward": {
+        "type": "decorations",
+        "id": "catalog_dino_valley_lava_rocks",
+        "name": "Lava Rocks",
+        "stars": 2
+      },
+      "steps": [
+        {
+          "id": "dino_nest_check_intro",
+          "kind": "story",
+          "title": "Rory’s Nest Check",
+          "voice": "Rory is checking on all the dino nests."
+        },
+        {
+          "id": "dino_nest_check_a1",
+          "kind": "activity",
+          "activityId": "dino_find_egg_nest"
+        },
+        {
+          "id": "dino_nest_check_a2",
+          "kind": "activity",
+          "activityId": "dino_footprint_match"
+        },
+        {
+          "id": "dino_nest_check_a3",
+          "kind": "activity",
+          "activityId": "dino_which_bowl"
+        },
+        {
+          "id": "dino_nest_check_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "Every nest is safe. Thank you!"
         }
       ]
     }

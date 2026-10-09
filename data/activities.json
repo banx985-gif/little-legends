@@ -3056,10 +3056,10 @@
           "correct": false
         },
         {
-          "id": "dog",
+          "id": "pig",
           "kind": "animal",
-          "label": "Dog",
-          "animalType": "dog",
+          "label": "Pig",
+          "animalType": "pig",
           "x": 1270,
           "y": 690,
           "size": 160,
@@ -3152,10 +3152,10 @@
           "correct": false
         },
         {
-          "id": "dog",
+          "id": "pig",
           "kind": "animal",
-          "label": "Dog",
-          "animalType": "dog",
+          "label": "Pig",
+          "animalType": "pig",
           "x": 1270,
           "y": 690,
           "size": 160,
@@ -3199,10 +3199,10 @@
           "category": "water"
         },
         {
-          "id": "eagle",
+          "id": "parrot",
           "kind": "animal",
-          "label": "Eagle",
-          "animalType": "eagle",
+          "label": "Parrot",
+          "animalType": "parrot",
           "x": 1210,
           "y": 600,
           "size": 160,
@@ -3297,31 +3297,17 @@
           "items": [
             {
               "kind": "animal",
-              "animalType": "duck",
-              "label": "Duck",
-              "color": "yellow"
-            },
-            {
-              "kind": "animal",
-              "animalType": "duckling",
-              "label": "Duckling",
-              "color": "yellow"
-            }
-          ]
-        },
-        {
-          "items": [
-            {
-              "kind": "animal",
               "animalType": "bear",
               "label": "Bear",
-              "color": "orange"
+              "id": "bear",
+              "size": 165
             },
             {
-              "kind": "animal",
-              "animalType": "cub",
-              "label": "Cub",
-              "color": "orange"
+              "kind": "thing",
+              "thing": "den_cave",
+              "label": "Den",
+              "id": "den",
+              "size": 165
             }
           ]
         },
@@ -3329,24 +3315,48 @@
           "items": [
             {
               "kind": "animal",
-              "animalType": "fox",
-              "label": "Fox",
-              "color": "red"
+              "animalType": "rabbit",
+              "label": "Rabbit",
+              "id": "rabbit",
+              "size": 165
             },
             {
+              "kind": "thing",
+              "thing": "burrow",
+              "label": "Burrow",
+              "id": "burrow",
+              "size": 165
+            }
+          ]
+        },
+        {
+          "items": [
+            {
               "kind": "animal",
-              "animalType": "kit",
-              "label": "Kit",
-              "color": "red"
+              "animalType": "owl",
+              "label": "Owl",
+              "id": "owl",
+              "size": 165
+            },
+            {
+              "kind": "thing",
+              "thing": "bird_nest",
+              "label": "Nest",
+              "id": "nest",
+              "size": 165
             }
           ]
         }
       ],
-      "instructionText": "Match each baby to its grown-up!",
+      "instructionText": "Help each animal find its home!",
       "skills": [
-        "BABY_PARENT"
+        "HABITATS",
+        "ANIMAL_NAMES"
       ],
-      "world": "animal"
+      "world": "animal",
+      "voiceText": "Tap an animal, then tap its home.",
+      "subtitle": "Tap an animal, then its home",
+      "completeDetail": "Everyone is home!"
     },
     {
       "id": "m17_food_rabbit",
@@ -3412,22 +3422,22 @@
           "correct": true
         },
         {
-          "id": "leaf",
+          "id": "bone",
           "kind": "word",
-          "label": "Leaf",
-          "symbol": "LEAF",
-          "food": "leaf",
+          "label": "Bone",
+          "symbol": "BONE",
+          "food": "bone",
           "x": 960,
           "y": 690,
           "color": "green",
           "correct": false
         },
         {
-          "id": "seed",
+          "id": "cup",
           "kind": "word",
-          "label": "Seed",
-          "symbol": "SEED",
-          "food": "seed",
+          "label": "Cup",
+          "symbol": "CUP",
+          "food": "cup",
           "x": 1300,
           "y": 690,
           "color": "blue",
@@ -3444,14 +3454,14 @@
       "id": "m17_food_duck",
       "type": "StoryChoice",
       "theme": "forest",
-      "storyText": "What food should we give Duck?",
+      "storyText": "What food should we give Rabbit?",
       "choices": [
         {
-          "id": "seed",
+          "id": "carrot",
           "kind": "word",
-          "label": "Seed",
-          "symbol": "SEED",
-          "food": "seed",
+          "label": "Carrot",
+          "symbol": "CARROT",
+          "food": "carrot",
           "x": 620,
           "y": 690,
           "color": "orange",
@@ -3469,11 +3479,11 @@
           "correct": false
         },
         {
-          "id": "carrot",
+          "id": "fish",
           "kind": "word",
-          "label": "Carrot",
-          "symbol": "CARROT",
-          "food": "carrot",
+          "label": "Fish",
+          "symbol": "FISH",
+          "food": "fish",
           "x": 1300,
           "y": 690,
           "color": "blue",
@@ -4959,11 +4969,11 @@
       "theme": "storybook",
       "objects": [
         {
-          "id": "cat",
+          "id": "ball",
           "kind": "word",
-          "symbol": "CAT",
-          "label": "Cat",
-          "firstSound": "C",
+          "symbol": "BALL",
+          "label": "Ball",
+          "firstSound": "B",
           "x": 650,
           "y": 690,
           "size": 155,
@@ -5020,11 +5030,11 @@
           "color": "orange"
         },
         {
-          "id": "dog",
+          "id": "book",
           "kind": "word",
-          "symbol": "DOG",
-          "label": "Dog",
-          "firstSound": "D",
+          "symbol": "BOOK",
+          "label": "Book",
+          "firstSound": "B",
           "x": 960,
           "y": 690,
           "size": 155,
@@ -5152,10 +5162,10 @@
           "correct": false
         },
         {
-          "id": "shoe",
+          "id": "cup",
           "kind": "word",
-          "symbol": "SHOE",
-          "label": "Shoe",
+          "symbol": "CUP",
+          "label": "Cup",
           "x": 1270,
           "y": 690,
           "color": "green",
@@ -5226,10 +5236,10 @@
           "correct": true
         },
         {
-          "id": "sock",
+          "id": "ball",
           "kind": "word",
-          "symbol": "SOCK",
-          "label": "Sock",
+          "symbol": "BALL",
+          "label": "Ball",
           "x": 960,
           "y": 690,
           "color": "blue",
@@ -5350,10 +5360,10 @@
           "correct": true
         },
         {
-          "id": "swimsuit",
-          "kind": "clothing",
-          "symbol": "SWIMSUIT",
-          "label": "Swimsuit",
+          "id": "sunglasses",
+          "kind": "thing",
+          "thing": "sunglasses",
+          "label": "Sunglasses",
           "x": 960,
           "y": 690,
           "color": "yellow",
@@ -5424,10 +5434,10 @@
       "storyText": "It is cold. What could Bella wear?",
       "choices": [
         {
-          "id": "sandals",
-          "kind": "clothing",
-          "symbol": "SANDALS",
-          "label": "Sandals",
+          "id": "shorts",
+          "kind": "thing",
+          "thing": "shorts",
+          "label": "Shorts",
           "x": 620,
           "y": 690,
           "color": "blue",
@@ -5495,14 +5505,14 @@
           "color": "yellow"
         },
         {
-          "id": "puzzle",
-          "kind": "toy",
-          "symbol": "PUZZLE",
-          "label": "Puzzle",
+          "id": "teddy",
+          "kind": "thing",
+          "label": "Teddy",
           "category": "box",
           "x": 1240,
           "y": 620,
-          "color": "purple"
+          "color": "purple",
+          "thing": "teddy"
         }
       ],
       "targets": [
@@ -5540,214 +5550,214 @@
       "id": "m20_feeling_sad",
       "type": "StoryChoice",
       "theme": "life",
-      "storyText": "Bella feels sad. What could help?",
+      "storyText": "Bella dropped her ice cream. How does she feel?",
       "choices": [
         {
-          "id": "hug",
-          "kind": "feeling",
-          "symbol": "HUG",
-          "label": "Hug",
+          "id": "face_happy",
+          "kind": "thing",
+          "thing": "face_happy",
+          "label": "Happy",
           "x": 620,
           "y": 690,
-          "color": "pink",
-          "correct": true
+          "size": 170
         },
         {
-          "id": "laugh",
-          "kind": "feeling",
-          "symbol": "LAUGH",
-          "label": "Laugh",
+          "id": "face_thinking",
+          "kind": "thing",
+          "thing": "face_thinking",
+          "label": "Thinking",
           "x": 960,
           "y": 690,
-          "color": "blue",
-          "correct": false
+          "size": 170
         },
         {
-          "id": "hide",
-          "kind": "feeling",
-          "symbol": "HIDE",
-          "label": "Hide",
+          "id": "face_sad",
+          "kind": "thing",
+          "thing": "face_sad",
+          "label": "Sad",
+          "correct": true,
           "x": 1300,
           "y": 690,
-          "color": "green",
-          "correct": false
+          "size": 170
         }
       ],
       "skills": [
         "FEELINGS"
       ],
       "world": "life",
-      "completeDetail": "That is one helpful choice!"
+      "completeDetail": "Sad. A big hug helps!",
+      "instructionText": "How does Bella feel?",
+      "voiceText": "Oh no, Bella dropped her ice cream. How does she feel?"
     },
     {
       "id": "m20_feeling_frustrated",
       "type": "StoryChoice",
       "theme": "life",
-      "storyText": "Bella feels frustrated by a puzzle. What could help?",
+      "storyText": "Bella’s tummy is rumbling. How does she feel?",
       "choices": [
         {
-          "id": "ask",
-          "kind": "feeling",
-          "symbol": "ASK",
-          "label": "Ask",
+          "id": "child_hungry",
+          "kind": "thing",
+          "thing": "child_hungry",
+          "label": "Hungry",
+          "correct": true,
           "x": 620,
           "y": 690,
-          "color": "pink",
-          "correct": true
+          "size": 170
         },
         {
-          "id": "throw",
-          "kind": "feeling",
-          "symbol": "THROW",
-          "label": "Throw",
+          "id": "face_sleepy",
+          "kind": "thing",
+          "thing": "face_sleepy",
+          "label": "Sleepy",
           "x": 960,
           "y": 690,
-          "color": "blue",
-          "correct": false
+          "size": 170
         },
         {
-          "id": "rush",
-          "kind": "feeling",
-          "symbol": "RUSH",
-          "label": "Rush",
+          "id": "face_excited",
+          "kind": "thing",
+          "thing": "face_excited",
+          "label": "Excited",
           "x": 1300,
           "y": 690,
-          "color": "green",
-          "correct": false
+          "size": 170
         }
       ],
       "skills": [
         "FEELINGS"
       ],
       "world": "life",
-      "completeDetail": "That is one helpful choice!"
+      "completeDetail": "Hungry! Time for a snack.",
+      "instructionText": "How does Bella feel?",
+      "voiceText": "Bella’s tummy is rumbling. How does she feel?"
     },
     {
       "id": "m20_feeling_excited",
       "type": "StoryChoice",
       "theme": "life",
-      "storyText": "Bella feels very excited. What can she do?",
+      "storyText": "It is Bella’s birthday party! How does she feel?",
       "choices": [
         {
-          "id": "share",
-          "kind": "feeling",
-          "symbol": "SHARE",
-          "label": "Share",
+          "id": "face_sad",
+          "kind": "thing",
+          "thing": "face_sad",
+          "label": "Sad",
           "x": 620,
           "y": 690,
-          "color": "pink",
-          "correct": true
+          "size": 170
         },
         {
-          "id": "shout",
-          "kind": "feeling",
-          "symbol": "SHOUT",
-          "label": "Shout",
+          "id": "face_excited",
+          "kind": "thing",
+          "thing": "face_excited",
+          "label": "Excited",
+          "correct": true,
           "x": 960,
           "y": 690,
-          "color": "blue",
-          "correct": false
+          "size": 170
         },
         {
-          "id": "grab",
-          "kind": "feeling",
-          "symbol": "GRAB",
-          "label": "Grab",
+          "id": "face_sleepy",
+          "kind": "thing",
+          "thing": "face_sleepy",
+          "label": "Sleepy",
           "x": 1300,
           "y": 690,
-          "color": "green",
-          "correct": false
+          "size": 170
         }
       ],
       "skills": [
         "FEELINGS"
       ],
       "world": "life",
-      "completeDetail": "That is one helpful choice!"
+      "completeDetail": "Excited! Happy birthday!",
+      "instructionText": "How does Bella feel?",
+      "voiceText": "It is Bella’s birthday party! How does she feel?"
     },
     {
       "id": "m20_helping_table",
       "type": "StoryChoice",
       "theme": "life",
-      "storyText": "The picnic is ready. How can we help?",
+      "storyText": "The picnic is ready. What can we carry to help?",
       "choices": [
         {
-          "id": "carry",
-          "kind": "routine",
-          "symbol": "CARRY",
-          "label": "Carry",
+          "id": "plate",
+          "kind": "thing",
+          "thing": "plate",
+          "label": "Plate",
+          "correct": true,
           "x": 620,
           "y": 690,
-          "color": "green",
-          "correct": true
+          "size": 170
         },
         {
-          "id": "walk_away",
-          "kind": "routine",
-          "symbol": "WALK AWAY",
-          "label": "Walk Away",
+          "id": "sink",
+          "kind": "thing",
+          "thing": "sink",
+          "label": "Sink",
           "x": 960,
           "y": 690,
-          "color": "blue",
-          "correct": false
+          "size": 170
         },
         {
-          "id": "scatter",
-          "kind": "routine",
-          "symbol": "SCATTER",
-          "label": "Scatter",
+          "id": "bus_shelter",
+          "kind": "thing",
+          "thing": "bus_shelter",
+          "label": "Bus stop",
           "x": 1300,
           "y": 690,
-          "color": "orange",
-          "correct": false
+          "size": 170
         }
       ],
       "skills": [
         "HELPING"
       ],
-      "world": "life"
+      "world": "life",
+      "instructionText": "What can we carry?",
+      "voiceText": "The picnic is ready. What can we carry to help?"
     },
     {
       "id": "m20_helping_friend",
       "type": "StoryChoice",
       "theme": "life",
-      "storyText": "A friend dropped the blocks. What could we do?",
+      "storyText": "A friend dropped the blocks. Where do the toys go?",
       "choices": [
         {
-          "id": "help",
-          "kind": "routine",
-          "symbol": "HELP",
-          "label": "Help",
+          "id": "bin",
+          "kind": "thing",
+          "thing": "bin",
+          "label": "Bin",
           "x": 620,
           "y": 690,
-          "color": "green",
-          "correct": true
+          "size": 170
         },
         {
-          "id": "point",
-          "kind": "routine",
-          "symbol": "POINT",
-          "label": "Point",
+          "id": "toy_box",
+          "kind": "thing",
+          "thing": "toy_box",
+          "label": "Toy box",
+          "correct": true,
           "x": 960,
           "y": 690,
-          "color": "blue",
-          "correct": false
+          "size": 170
         },
         {
-          "id": "take",
-          "kind": "routine",
-          "symbol": "TAKE",
-          "label": "Take",
+          "id": "sink",
+          "kind": "thing",
+          "thing": "sink",
+          "label": "Sink",
           "x": 1300,
           "y": 690,
-          "color": "orange",
-          "correct": false
+          "size": 170
         }
       ],
       "skills": [
         "HELPING"
       ],
-      "world": "life"
+      "world": "life",
+      "instructionText": "Where do the toys go?",
+      "voiceText": "A friend dropped the blocks. Let’s help tidy up. Where do the toys go?"
     },
     {
       "id": "m20_routine_morning",
@@ -5898,12 +5908,13 @@
         },
         {
           "id": "c",
-          "kind": "vehicle",
+          "kind": "thing",
           "label": "Boat",
           "x": 1300,
           "y": 650,
           "color": "blue",
-          "odd": true
+          "odd": true,
+          "thing": "sailboat"
         }
       ]
     },
@@ -9575,6 +9586,2903 @@
           "x": 1300,
           "y": 680,
           "size": 190
+        }
+      ]
+    },
+    {
+      "world": "rainbow",
+      "id": "rainbow_candy_find_heart",
+      "type": "TapRequestedObject",
+      "theme": "rainbow",
+      "skills": [
+        "SAME_DIFFERENT",
+        "VOCABULARY"
+      ],
+      "instructionText": "Find the heart sweet!",
+      "voiceText": "Can you find the pink heart sweet?",
+      "pipBubble": "The heart!",
+      "completeDetail": "Heart sweet found!",
+      "request": {
+        "matchKey": "thing",
+        "matchValue": "candy_heart"
+      },
+      "objects": [
+        {
+          "id": "candy_circle",
+          "kind": "thing",
+          "thing": "candy_circle",
+          "label": "Circle",
+          "x": 500,
+          "y": 690,
+          "size": 160
+        },
+        {
+          "id": "candy_square",
+          "kind": "thing",
+          "thing": "candy_square",
+          "label": "Square",
+          "x": 800,
+          "y": 690,
+          "size": 160
+        },
+        {
+          "id": "candy_heart",
+          "kind": "thing",
+          "thing": "candy_heart",
+          "label": "Heart",
+          "x": 1100,
+          "y": 690,
+          "size": 160
+        },
+        {
+          "id": "candy_triangle",
+          "kind": "thing",
+          "thing": "candy_triangle",
+          "label": "Triangle",
+          "x": 1400,
+          "y": 690,
+          "size": 160
+        }
+      ]
+    },
+    {
+      "world": "rainbow",
+      "id": "rainbow_candy_match",
+      "type": "MatchPairs",
+      "theme": "rainbow",
+      "skills": [
+        "CIRCLE",
+        "SQUARE",
+        "TRIANGLE"
+      ],
+      "instructionText": "Match each sweet to its shape!",
+      "voiceText": "Tap a sweet, then tap the shape that is the same.",
+      "subtitle": "Tap a sweet, then its shape",
+      "completeDetail": "Sweet shapes matched!",
+      "pairs": [
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "candy_circle",
+              "label": "Sweet",
+              "id": "sweet_circle"
+            },
+            {
+              "kind": "circle",
+              "color": "red",
+              "id": "shape_circle"
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "candy_square",
+              "label": "Sweet",
+              "id": "sweet_square"
+            },
+            {
+              "kind": "square",
+              "color": "blue",
+              "id": "shape_square"
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "candy_triangle",
+              "label": "Sweet",
+              "id": "sweet_triangle"
+            },
+            {
+              "kind": "triangle",
+              "color": "yellow",
+              "id": "shape_triangle"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "world": "rainbow",
+      "id": "rainbow_candy_pattern",
+      "type": "PatternComplete",
+      "theme": "rainbow",
+      "skills": [
+        "PATTERN"
+      ],
+      "instructionText": "What comes next?",
+      "voiceText": "Circle, heart, circle, heart. What comes next?",
+      "completeDetail": "Circle, heart, circle!",
+      "missingIndex": 4,
+      "sequence": [
+        {
+          "kind": "thing",
+          "thing": "candy_circle"
+        },
+        {
+          "kind": "thing",
+          "thing": "candy_heart"
+        },
+        {
+          "kind": "thing",
+          "thing": "candy_circle"
+        },
+        {
+          "kind": "thing",
+          "thing": "candy_heart"
+        }
+      ],
+      "choices": [
+        {
+          "kind": "thing",
+          "thing": "candy_circle",
+          "label": null,
+          "id": "circle",
+          "correct": true
+        },
+        {
+          "kind": "thing",
+          "thing": "candy_square",
+          "label": null,
+          "id": "square"
+        }
+      ]
+    },
+    {
+      "world": "rainbow",
+      "id": "rainbow_sea_count_fish",
+      "type": "CountAndPlace",
+      "theme": "rainbow",
+      "character": "none",
+      "object": "thing",
+      "thing": "fish",
+      "targetCount": 3,
+      "objectSize": 140,
+      "skills": [
+        "COUNT_3"
+      ],
+      "adaptiveSkill": "COUNT_3",
+      "instructionText": "Put 3 fish in the pond!",
+      "voiceText": "Help three fish swim into the pond.",
+      "pipBubble": "Three fish!",
+      "completeDetail": "1 • 2 • 3 fish"
+    },
+    {
+      "world": "rainbow",
+      "id": "rainbow_sea_red_friend",
+      "type": "TapRequestedObject",
+      "theme": "rainbow",
+      "skills": [
+        "RED",
+        "ANIMAL_NAMES"
+      ],
+      "instructionText": "Find the red sea friend!",
+      "voiceText": "Which sea friend is red?",
+      "pipBubble": "Red!",
+      "completeDetail": "The red crab!",
+      "request": {
+        "color": "red"
+      },
+      "objects": [
+        {
+          "id": "fish",
+          "kind": "animal",
+          "animalType": "fish",
+          "label": "Fish",
+          "color": "blue",
+          "x": 620,
+          "y": 690,
+          "size": 170
+        },
+        {
+          "id": "crab",
+          "kind": "animal",
+          "animalType": "crab",
+          "label": "Crab",
+          "color": "red",
+          "x": 960,
+          "y": 690,
+          "size": 170
+        },
+        {
+          "id": "seahorse",
+          "kind": "animal",
+          "animalType": "seahorse",
+          "label": "Seahorse",
+          "color": "yellow",
+          "x": 1300,
+          "y": 690,
+          "size": 170
+        }
+      ]
+    },
+    {
+      "world": "rainbow",
+      "id": "rainbow_sea_small_fish",
+      "type": "SizeCompare",
+      "theme": "rainbow",
+      "skills": [
+        "BIG_SMALL"
+      ],
+      "rule": "smallest",
+      "instructionText": "Which fish is the smallest?",
+      "voiceText": "Tap the smallest fish.",
+      "completeDetail": "Tiny fish!",
+      "objects": [
+        {
+          "id": "big",
+          "kind": "animal",
+          "animalType": "fish",
+          "label": "Fish",
+          "x": 620,
+          "y": 650,
+          "size": 240
+        },
+        {
+          "id": "small",
+          "kind": "animal",
+          "animalType": "fish",
+          "label": "Fish",
+          "x": 980,
+          "y": 690,
+          "size": 110
+        },
+        {
+          "id": "medium",
+          "kind": "animal",
+          "animalType": "fish",
+          "label": "Fish",
+          "x": 1340,
+          "y": 660,
+          "size": 170
+        }
+      ]
+    },
+    {
+      "world": "rainbow",
+      "id": "rainbow_splash_green",
+      "type": "PaintSwipe",
+      "theme": "rainbow",
+      "skills": [
+        "GREEN"
+      ],
+      "instructionText": "Paint every white spot green!",
+      "voiceText": "Swipe to paint all the white spots green.",
+      "paintColor": "green",
+      "surfaceColor": "#fff7d0",
+      "completeDetail": "Green everywhere!",
+      "spots": [
+        {
+          "x": 600,
+          "y": 500
+        },
+        {
+          "x": 820,
+          "y": 700
+        },
+        {
+          "x": 1040,
+          "y": 520
+        },
+        {
+          "x": 1260,
+          "y": 700
+        },
+        {
+          "x": 1380,
+          "y": 480
+        }
+      ]
+    },
+    {
+      "world": "rainbow",
+      "id": "rainbow_blob_sort",
+      "type": "Categorise",
+      "theme": "rainbow",
+      "skills": [
+        "RED",
+        "BLUE"
+      ],
+      "instructionText": "Red with red, blue with blue!",
+      "voiceText": "Put the red things with red and the blue things with blue.",
+      "completeDetail": "Colours sorted!",
+      "targets": [
+        {
+          "id": "red",
+          "label": "RED",
+          "color": "red",
+          "x": 1320,
+          "y": 650,
+          "w": 300,
+          "h": 270,
+          "accepts": [
+            "red"
+          ]
+        },
+        {
+          "id": "blue",
+          "label": "BLUE",
+          "color": "blue",
+          "x": 1650,
+          "y": 650,
+          "w": 300,
+          "h": 270,
+          "accepts": [
+            "blue"
+          ]
+        }
+      ],
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "blob_red",
+          "label": "Red",
+          "category": "red",
+          "x": 430,
+          "y": 560
+        },
+        {
+          "kind": "thing",
+          "thing": "blob_blue",
+          "label": "Blue",
+          "category": "blue",
+          "x": 690,
+          "y": 720
+        },
+        {
+          "kind": "apple",
+          "color": "red",
+          "category": "red",
+          "x": 900,
+          "y": 540
+        },
+        {
+          "kind": "berry",
+          "color": "blue",
+          "category": "blue",
+          "x": 1060,
+          "y": 780
+        }
+      ]
+    },
+    {
+      "world": "rainbow",
+      "id": "rainbow_rainbow_order",
+      "type": "SequenceOrder",
+      "theme": "rainbow",
+      "skills": [
+        "SEQUENCE",
+        "PATTERN"
+      ],
+      "instructionText": "Tap the rainbow: red, yellow, green, blue!",
+      "voiceText": "Make a rainbow. Tap red, then yellow, then green, then blue.",
+      "completeDetail": "A rainbow!",
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "blob_green",
+          "label": "Green",
+          "id": "green",
+          "x": 560,
+          "y": 740,
+          "size": 150
+        },
+        {
+          "kind": "thing",
+          "thing": "blob_red",
+          "label": "Red",
+          "id": "red",
+          "x": 860,
+          "y": 740,
+          "size": 150
+        },
+        {
+          "kind": "thing",
+          "thing": "blob_blue",
+          "label": "Blue",
+          "id": "blue",
+          "x": 1160,
+          "y": 740,
+          "size": 150
+        },
+        {
+          "kind": "thing",
+          "thing": "blob_yellow",
+          "label": "Yellow",
+          "id": "yellow",
+          "x": 1460,
+          "y": 740,
+          "size": 150
+        }
+      ],
+      "correctOrder": [
+        "red",
+        "yellow",
+        "green",
+        "blue"
+      ]
+    },
+    {
+      "world": "animal",
+      "id": "animal_farm_sounds",
+      "type": "SoundMatch",
+      "theme": "forest",
+      "promptText": "Cluck cluck!",
+      "instructionText": "Who makes that sound?",
+      "skills": [
+        "ANIMAL_SOUNDS",
+        "SOUND_RECOGNITION"
+      ],
+      "correctId": "chicken",
+      "choices": [
+        {
+          "id": "chicken",
+          "kind": "animal",
+          "animalType": "chicken",
+          "label": "Chicken",
+          "correct": true,
+          "color": "yellow",
+          "x": 620,
+          "y": 690,
+          "size": 160
+        },
+        {
+          "id": "cow",
+          "kind": "animal",
+          "animalType": "cow",
+          "label": "Cow",
+          "color": "cream",
+          "x": 960,
+          "y": 690,
+          "size": 160
+        },
+        {
+          "id": "pig",
+          "kind": "animal",
+          "animalType": "pig",
+          "label": "Pig",
+          "color": "pink",
+          "x": 1300,
+          "y": 690,
+          "size": 160
+        }
+      ]
+    },
+    {
+      "world": "animal",
+      "id": "animal_farm_count_eggs",
+      "type": "CountAndPlace",
+      "theme": "forest",
+      "character": "none",
+      "object": "egg",
+      "color": "blue",
+      "targetCount": 3,
+      "skills": [
+        "COUNT_3"
+      ],
+      "adaptiveSkill": "COUNT_3",
+      "instructionText": "Put 3 eggs in the nest!",
+      "voiceText": "Put three eggs in the nest.",
+      "pipBubble": "Three eggs!",
+      "completeDetail": "1 • 2 • 3 eggs"
+    },
+    {
+      "world": "animal",
+      "id": "animal_farm_not_animal",
+      "type": "OddOneOut",
+      "theme": "forest",
+      "instructionText": "Which one is not an animal?",
+      "subtitle": "Tap the odd one out",
+      "skills": [
+        "CLASSIFICATION",
+        "SAME_DIFFERENT"
+      ],
+      "objects": [
+        {
+          "id": "chicken",
+          "kind": "animal",
+          "animalType": "chicken",
+          "label": "Chicken",
+          "x": 520,
+          "y": 650,
+          "color": "yellow"
+        },
+        {
+          "id": "cow",
+          "kind": "animal",
+          "animalType": "cow",
+          "label": "Cow",
+          "x": 820,
+          "y": 650,
+          "color": "cream"
+        },
+        {
+          "id": "tractor",
+          "kind": "thing",
+          "thing": "tractor_hay",
+          "label": "Tractor",
+          "x": 1120,
+          "y": 650,
+          "color": "green",
+          "odd": true
+        },
+        {
+          "id": "pig",
+          "kind": "animal",
+          "animalType": "pig",
+          "label": "Pig",
+          "x": 1420,
+          "y": 650,
+          "color": "pink"
+        }
+      ]
+    },
+    {
+      "world": "animal",
+      "id": "animal_pig_wash",
+      "type": "WashSwipe",
+      "theme": "forest",
+      "skills": [
+        "HAND_WASHING"
+      ],
+      "instructionText": "Wash the muddy spots away!",
+      "voiceText": "Swipe over the muddy spots to wash Piglet clean.",
+      "completeDetail": "Clean Piglet!",
+      "spots": [
+        {
+          "x": 640,
+          "y": 520
+        },
+        {
+          "x": 900,
+          "y": 660
+        },
+        {
+          "x": 1140,
+          "y": 520
+        },
+        {
+          "x": 1320,
+          "y": 700
+        }
+      ]
+    },
+    {
+      "world": "animal",
+      "id": "animal_pig_food",
+      "type": "StoryChoice",
+      "theme": "forest",
+      "storyText": "Piglet is hungry. What should we give Piglet?",
+      "instructionText": "Choose the food",
+      "skills": [
+        "ANIMAL_FOOD"
+      ],
+      "choices": [
+        {
+          "id": "bone",
+          "kind": "word",
+          "symbol": "BONE",
+          "label": "Bone",
+          "x": 620,
+          "y": 690,
+          "size": 150
+        },
+        {
+          "id": "apple",
+          "kind": "word",
+          "symbol": "APPLE",
+          "label": "Apple",
+          "correct": true,
+          "x": 960,
+          "y": 690,
+          "size": 150
+        },
+        {
+          "id": "book",
+          "kind": "word",
+          "symbol": "BOOK",
+          "label": "Book",
+          "x": 1300,
+          "y": 690,
+          "size": 150
+        }
+      ]
+    },
+    {
+      "world": "animal",
+      "id": "animal_pig_sizes",
+      "type": "OrderBySize",
+      "theme": "forest",
+      "direction": "small-to-big",
+      "instructionText": "Tap from smallest to biggest!",
+      "skills": [
+        "BIG_SMALL",
+        "SEQUENCE"
+      ],
+      "objects": [
+        {
+          "id": "big",
+          "kind": "animal",
+          "animalType": "pig",
+          "label": "Big",
+          "size": 220,
+          "sizeMetric": 3,
+          "x": 620,
+          "y": 740
+        },
+        {
+          "id": "small",
+          "kind": "animal",
+          "animalType": "pig",
+          "label": "Small",
+          "size": 120,
+          "sizeMetric": 1,
+          "x": 960,
+          "y": 760
+        },
+        {
+          "id": "mid",
+          "kind": "animal",
+          "animalType": "pig",
+          "label": "Medium",
+          "size": 170,
+          "sizeMetric": 2,
+          "x": 1300,
+          "y": 750
+        }
+      ]
+    },
+    {
+      "world": "animal",
+      "id": "animal_farm_land_water",
+      "type": "Categorise",
+      "theme": "forest",
+      "skills": [
+        "HABITATS",
+        "LAND_WATER_AIR",
+        "CLASSIFICATION"
+      ],
+      "instructionText": "Land or water?",
+      "voiceText": "Put the land animals on the land and the water animals in the water.",
+      "targets": [
+        {
+          "id": "land",
+          "label": "LAND",
+          "color": "green",
+          "x": 640,
+          "y": 820,
+          "w": 360,
+          "h": 230,
+          "accepts": [
+            "land"
+          ]
+        },
+        {
+          "id": "water",
+          "label": "WATER",
+          "color": "blue",
+          "x": 1280,
+          "y": 820,
+          "w": 360,
+          "h": 230,
+          "accepts": [
+            "water"
+          ]
+        }
+      ],
+      "objects": [
+        {
+          "kind": "animal",
+          "animalType": "cow",
+          "label": "Cow",
+          "id": "cow",
+          "category": "land",
+          "x": 520,
+          "y": 520,
+          "size": 150
+        },
+        {
+          "kind": "animal",
+          "animalType": "fish",
+          "label": "Fish",
+          "id": "fish",
+          "category": "water",
+          "x": 780,
+          "y": 520,
+          "size": 150
+        },
+        {
+          "kind": "animal",
+          "animalType": "pig",
+          "label": "Pig",
+          "id": "pig",
+          "category": "land",
+          "x": 1040,
+          "y": 520,
+          "size": 150
+        },
+        {
+          "kind": "animal",
+          "animalType": "seahorse",
+          "label": "Seahorse",
+          "id": "seahorse",
+          "category": "water",
+          "x": 1300,
+          "y": 520,
+          "size": 150
+        }
+      ]
+    },
+    {
+      "world": "animal",
+      "id": "animal_farm_more_cows",
+      "type": "QuantityCompare",
+      "theme": "forest",
+      "rule": "more",
+      "object": "animal",
+      "instructionText": "Which field has more cows?",
+      "skills": [
+        "MORE_LESS"
+      ],
+      "choices": [
+        {
+          "id": "g0",
+          "count": 2,
+          "kind": "animal",
+          "animalType": "cow"
+        },
+        {
+          "id": "g1",
+          "count": 5,
+          "kind": "animal",
+          "animalType": "cow"
+        },
+        {
+          "id": "g2",
+          "count": 3,
+          "kind": "animal",
+          "animalType": "cow"
+        }
+      ],
+      "animalType": "cow"
+    },
+    {
+      "world": "animal",
+      "id": "animal_farm_pattern",
+      "type": "PatternComplete",
+      "theme": "forest",
+      "skills": [
+        "PATTERN"
+      ],
+      "instructionText": "What comes next?",
+      "voiceText": "Cow, chicken, cow, chicken. What comes next?",
+      "completeDetail": "Cow, chicken, cow!",
+      "missingIndex": 4,
+      "sequence": [
+        {
+          "kind": "animal",
+          "animalType": "cow"
+        },
+        {
+          "kind": "animal",
+          "animalType": "chicken"
+        },
+        {
+          "kind": "animal",
+          "animalType": "cow"
+        },
+        {
+          "kind": "animal",
+          "animalType": "chicken"
+        }
+      ],
+      "choices": [
+        {
+          "kind": "animal",
+          "animalType": "cow",
+          "label": "Cow",
+          "id": "cow",
+          "correct": true
+        },
+        {
+          "kind": "animal",
+          "animalType": "pig",
+          "label": "Pig",
+          "id": "pig"
+        }
+      ]
+    },
+    {
+      "world": "storybook",
+      "id": "story_find_stone_a",
+      "type": "TapRequestedObject",
+      "theme": "storybook",
+      "skills": [
+        "LETTER_A",
+        "LETTER_RECOGNITION"
+      ],
+      "instructionText": "Find the A stone!",
+      "voiceText": "Which stone has the letter A?",
+      "pipBubble": "Letter A!",
+      "completeDetail": "A for apple!",
+      "request": {
+        "matchKey": "thing",
+        "matchValue": "letter_stone_a"
+      },
+      "objects": [
+        {
+          "id": "number_stone_1",
+          "kind": "thing",
+          "thing": "number_stone_1",
+          "label": "Stone",
+          "x": 620,
+          "y": 690,
+          "size": 180
+        },
+        {
+          "id": "letter_stone_a",
+          "kind": "thing",
+          "thing": "letter_stone_a",
+          "label": "A stone",
+          "x": 960,
+          "y": 690,
+          "size": 180
+        },
+        {
+          "id": "number_stone_3",
+          "kind": "thing",
+          "thing": "number_stone_3",
+          "label": "Stone",
+          "x": 1300,
+          "y": 690,
+          "size": 180
+        }
+      ]
+    },
+    {
+      "world": "storybook",
+      "id": "story_apple_pairs",
+      "type": "MatchPairs",
+      "theme": "storybook",
+      "skills": [
+        "VOCABULARY",
+        "UPPER_LOWER",
+        "LETTER_A"
+      ],
+      "instructionText": "Find the pairs!",
+      "voiceText": "Tap two things that go together.",
+      "subtitle": "Tap one, then its partner",
+      "completeDetail": "All the pairs!",
+      "pairs": [
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "word_card_apple",
+              "label": "Word",
+              "id": "card"
+            },
+            {
+              "kind": "apple",
+              "color": "red",
+              "id": "apple"
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": "letter",
+              "value": "A",
+              "label": "A",
+              "id": "big_a"
+            },
+            {
+              "kind": "letter",
+              "value": "a",
+              "label": "a",
+              "case": "lower",
+              "id": "small_a"
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": "letter",
+              "value": "B",
+              "label": "B",
+              "id": "big_b"
+            },
+            {
+              "kind": "letter",
+              "value": "b",
+              "label": "b",
+              "case": "lower",
+              "id": "small_b"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "world": "storybook",
+      "id": "story_first_sound_a",
+      "type": "TapRequestedObject",
+      "theme": "storybook",
+      "skills": [
+        "FIRST_SOUNDS",
+        "LETTER_A"
+      ],
+      "instructionText": "Which word starts with A?",
+      "contentGroup": "first_sounds",
+      "request": {
+        "firstSound": "A"
+      },
+      "objects": [
+        {
+          "id": "ball",
+          "kind": "word",
+          "symbol": "BALL",
+          "label": "Ball",
+          "firstSound": "B",
+          "x": 620,
+          "y": 690,
+          "size": 155
+        },
+        {
+          "id": "sun",
+          "kind": "word",
+          "symbol": "SUN",
+          "label": "Sun",
+          "firstSound": "S",
+          "x": 960,
+          "y": 690,
+          "size": 155
+        },
+        {
+          "id": "apple",
+          "kind": "word",
+          "symbol": "APPLE",
+          "label": "Apple",
+          "firstSound": "A",
+          "x": 1300,
+          "y": 690,
+          "size": 155
+        }
+      ]
+    },
+    {
+      "world": "storybook",
+      "id": "story_moon_vocab",
+      "type": "StoryChoice",
+      "theme": "storybook",
+      "storyText": "Luna looks up at night. What does she see?",
+      "instructionText": "What is in the night sky?",
+      "skills": [
+        "VOCABULARY"
+      ],
+      "choices": [
+        {
+          "id": "sun",
+          "kind": "word",
+          "symbol": "SUN",
+          "label": "Sun",
+          "x": 620,
+          "y": 690,
+          "size": 150
+        },
+        {
+          "id": "moon",
+          "kind": "word",
+          "symbol": "MOON",
+          "label": "Moon",
+          "correct": true,
+          "x": 960,
+          "y": 690,
+          "size": 150
+        },
+        {
+          "id": "fish",
+          "kind": "word",
+          "symbol": "FISH",
+          "label": "Fish",
+          "x": 1300,
+          "y": 690,
+          "size": 150
+        }
+      ]
+    },
+    {
+      "world": "storybook",
+      "id": "story_moon_order",
+      "type": "SequenceOrder",
+      "theme": "storybook",
+      "skills": [
+        "SEQUENCE",
+        "ROUTINES"
+      ],
+      "instructionText": "Tap: wake up, breakfast, then bed!",
+      "voiceText": "What happens first? Wake up, then breakfast, then bed.",
+      "completeDetail": "Morning to night!",
+      "objects": [
+        {
+          "id": "bed",
+          "kind": "routine",
+          "symbol": "BED",
+          "label": "Bed",
+          "x": 620,
+          "y": 740,
+          "size": 150
+        },
+        {
+          "id": "wake",
+          "kind": "routine",
+          "symbol": "WAKE",
+          "label": "Wake up",
+          "x": 960,
+          "y": 740,
+          "size": 150
+        },
+        {
+          "id": "breakfast",
+          "kind": "routine",
+          "symbol": "BREAKFAST",
+          "label": "Breakfast",
+          "x": 1300,
+          "y": 740,
+          "size": 150
+        }
+      ],
+      "correctOrder": [
+        "wake",
+        "breakfast",
+        "bed"
+      ]
+    },
+    {
+      "world": "storybook",
+      "id": "story_find_little_m",
+      "type": "TapRequestedObject",
+      "theme": "storybook",
+      "skills": [
+        "UPPER_LOWER",
+        "LETTER_M"
+      ],
+      "instructionText": "Find the little m!",
+      "voiceText": "M for moon. Can you find the little m?",
+      "completeDetail": "m for moon!",
+      "request": {
+        "kind": "letter",
+        "value": "m"
+      },
+      "objects": [
+        {
+          "id": "n",
+          "kind": "letter",
+          "value": "n",
+          "label": "n",
+          "case": "lower",
+          "x": 500,
+          "y": 690,
+          "size": 160
+        },
+        {
+          "id": "m",
+          "kind": "letter",
+          "value": "m",
+          "label": "m",
+          "case": "lower",
+          "x": 800,
+          "y": 690,
+          "size": 160
+        },
+        {
+          "id": "w",
+          "kind": "letter",
+          "value": "w",
+          "label": "w",
+          "case": "lower",
+          "x": 1100,
+          "y": 690,
+          "size": 160
+        },
+        {
+          "id": "u",
+          "kind": "letter",
+          "value": "u",
+          "label": "u",
+          "case": "lower",
+          "x": 1400,
+          "y": 690,
+          "size": 160
+        }
+      ]
+    },
+    {
+      "world": "storybook",
+      "id": "story_two_b_words",
+      "type": "TapRequestedObject",
+      "theme": "storybook",
+      "skills": [
+        "FIRST_SOUNDS",
+        "LETTER_B"
+      ],
+      "instructionText": "Find two words that start with B!",
+      "voiceText": "Find the two words that start with B.",
+      "contentGroup": "first_sounds",
+      "targets": [
+        {
+          "firstSound": "B"
+        },
+        {
+          "firstSound": "B"
+        }
+      ],
+      "objects": [
+        {
+          "id": "ball",
+          "kind": "word",
+          "symbol": "BALL",
+          "label": "Ball",
+          "firstSound": "B",
+          "x": 500,
+          "y": 690,
+          "size": 150
+        },
+        {
+          "id": "cup",
+          "kind": "word",
+          "symbol": "CUP",
+          "label": "Cup",
+          "firstSound": "C",
+          "x": 800,
+          "y": 690,
+          "size": 150
+        },
+        {
+          "id": "book",
+          "kind": "word",
+          "symbol": "BOOK",
+          "label": "Book",
+          "firstSound": "B",
+          "x": 1100,
+          "y": 690,
+          "size": 150
+        },
+        {
+          "id": "tree",
+          "kind": "word",
+          "symbol": "TREE",
+          "label": "Tree",
+          "firstSound": "T",
+          "x": 1400,
+          "y": 690,
+          "size": 150
+        }
+      ]
+    },
+    {
+      "world": "storybook",
+      "id": "story_what_we_read",
+      "type": "StoryChoice",
+      "theme": "storybook",
+      "storyText": "Luna wants to read. What does she need?",
+      "instructionText": "What do we read?",
+      "skills": [
+        "VOCABULARY"
+      ],
+      "choices": [
+        {
+          "id": "cup",
+          "kind": "word",
+          "symbol": "CUP",
+          "label": "Cup",
+          "x": 620,
+          "y": 690,
+          "size": 150
+        },
+        {
+          "id": "bone",
+          "kind": "word",
+          "symbol": "BONE",
+          "label": "Bone",
+          "x": 960,
+          "y": 690,
+          "size": 150
+        },
+        {
+          "id": "book",
+          "kind": "word",
+          "symbol": "BOOK",
+          "label": "Book",
+          "correct": true,
+          "x": 1300,
+          "y": 690,
+          "size": 150
+        }
+      ]
+    },
+    {
+      "world": "storybook",
+      "id": "story_abcd_order",
+      "type": "SequenceOrder",
+      "theme": "storybook",
+      "skills": [
+        "LETTER_RECOGNITION",
+        "SEQUENCE"
+      ],
+      "instructionText": "Tap A, B, C, D in order!",
+      "voiceText": "Tap the letters in order: A, B, C, D.",
+      "completeDetail": "A, B, C, D!",
+      "objects": [
+        {
+          "id": "c",
+          "kind": "letter",
+          "value": "C",
+          "label": "C",
+          "x": 560,
+          "y": 740,
+          "size": 150
+        },
+        {
+          "id": "a",
+          "kind": "letter",
+          "value": "A",
+          "label": "A",
+          "x": 860,
+          "y": 740,
+          "size": 150
+        },
+        {
+          "id": "d",
+          "kind": "letter",
+          "value": "D",
+          "label": "D",
+          "x": 1160,
+          "y": 740,
+          "size": 150
+        },
+        {
+          "id": "b",
+          "kind": "letter",
+          "value": "B",
+          "label": "B",
+          "x": 1460,
+          "y": 740,
+          "size": 150
+        }
+      ],
+      "correctOrder": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ]
+    },
+    {
+      "world": "life",
+      "id": "life_feel_surprised",
+      "type": "StoryChoice",
+      "theme": "life",
+      "storyText": "Pop! A present appears! How does Bella feel?",
+      "instructionText": "How does Bella feel?",
+      "skills": [
+        "FEELINGS"
+      ],
+      "completeDetail": "Surprised!",
+      "choices": [
+        {
+          "id": "child_surprised",
+          "kind": "thing",
+          "thing": "child_surprised",
+          "label": "Surprised",
+          "correct": true,
+          "x": 620,
+          "y": 690,
+          "size": 170
+        },
+        {
+          "id": "face_sad",
+          "kind": "thing",
+          "thing": "face_sad",
+          "label": "Sad",
+          "x": 960,
+          "y": 690,
+          "size": 170
+        },
+        {
+          "id": "face_sleepy",
+          "kind": "thing",
+          "thing": "face_sleepy",
+          "label": "Sleepy",
+          "x": 1300,
+          "y": 690,
+          "size": 170
+        }
+      ]
+    },
+    {
+      "world": "life",
+      "id": "life_feel_sleepy",
+      "type": "StoryChoice",
+      "theme": "life",
+      "storyText": "It is very late at night. How does Bella feel?",
+      "instructionText": "How does Bella feel?",
+      "skills": [
+        "FEELINGS"
+      ],
+      "completeDetail": "Sleepy. Time for bed!",
+      "choices": [
+        {
+          "id": "face_excited",
+          "kind": "thing",
+          "thing": "face_excited",
+          "label": "Excited",
+          "x": 620,
+          "y": 690,
+          "size": 170
+        },
+        {
+          "id": "face_sleepy",
+          "kind": "thing",
+          "thing": "face_sleepy",
+          "label": "Sleepy",
+          "correct": true,
+          "x": 960,
+          "y": 690,
+          "size": 170
+        },
+        {
+          "id": "child_hungry",
+          "kind": "thing",
+          "thing": "child_hungry",
+          "label": "Hungry",
+          "x": 1300,
+          "y": 690,
+          "size": 170
+        }
+      ]
+    },
+    {
+      "world": "life",
+      "id": "life_feel_happy",
+      "type": "StoryChoice",
+      "theme": "life",
+      "storyText": "Bella is playing with her best friend. How does she feel?",
+      "instructionText": "How does Bella feel?",
+      "skills": [
+        "FEELINGS"
+      ],
+      "completeDetail": "Happy!",
+      "choices": [
+        {
+          "id": "face_sad",
+          "kind": "thing",
+          "thing": "face_sad",
+          "label": "Sad",
+          "x": 620,
+          "y": 690,
+          "size": 170
+        },
+        {
+          "id": "child_surprised",
+          "kind": "thing",
+          "thing": "child_surprised",
+          "label": "Surprised",
+          "x": 960,
+          "y": 690,
+          "size": 170
+        },
+        {
+          "id": "face_happy",
+          "kind": "thing",
+          "thing": "face_happy",
+          "label": "Happy",
+          "correct": true,
+          "x": 1300,
+          "y": 690,
+          "size": 170
+        }
+      ]
+    },
+    {
+      "world": "life",
+      "id": "life_bed_bath",
+      "type": "WashSwipe",
+      "theme": "life",
+      "skills": [
+        "HAND_WASHING",
+        "ROUTINES"
+      ],
+      "instructionText": "Bath time! Wash every bubbly spot!",
+      "voiceText": "Swipe over the spots to wash them in the bath.",
+      "completeDetail": "Squeaky clean!",
+      "spots": [
+        {
+          "x": 620,
+          "y": 560
+        },
+        {
+          "x": 860,
+          "y": 680
+        },
+        {
+          "x": 1100,
+          "y": 540
+        },
+        {
+          "x": 1320,
+          "y": 680
+        },
+        {
+          "x": 760,
+          "y": 470
+        }
+      ]
+    },
+    {
+      "world": "life",
+      "id": "life_bed_find_teddy",
+      "type": "TapRequestedObject",
+      "theme": "life",
+      "skills": [
+        "ROUTINES",
+        "VOCABULARY"
+      ],
+      "instructionText": "Find Teddy for bedtime!",
+      "voiceText": "Bella needs her teddy. Can you find it?",
+      "completeDetail": "Teddy is here!",
+      "request": {
+        "matchKey": "thing",
+        "matchValue": "teddy"
+      },
+      "objects": [
+        {
+          "id": "toy_car",
+          "kind": "thing",
+          "thing": "toy_car",
+          "label": "Car",
+          "x": 500,
+          "y": 690,
+          "size": 160
+        },
+        {
+          "id": "alarm_clock",
+          "kind": "thing",
+          "thing": "alarm_clock",
+          "label": "Clock",
+          "x": 800,
+          "y": 690,
+          "size": 160
+        },
+        {
+          "id": "teddy",
+          "kind": "thing",
+          "thing": "teddy",
+          "label": "Teddy",
+          "x": 1100,
+          "y": 690,
+          "size": 160
+        },
+        {
+          "id": "beach_ball",
+          "kind": "thing",
+          "thing": "beach_ball",
+          "label": "Ball",
+          "x": 1400,
+          "y": 690,
+          "size": 160
+        }
+      ]
+    },
+    {
+      "world": "life",
+      "id": "life_bed_order",
+      "type": "SequenceOrder",
+      "theme": "life",
+      "skills": [
+        "ROUTINES",
+        "SEQUENCE"
+      ],
+      "instructionText": "Pyjamas, brush teeth, then a story!",
+      "voiceText": "First pyjamas, then brush your teeth, then a story.",
+      "completeDetail": "Ready for bed!",
+      "objects": [
+        {
+          "id": "story",
+          "kind": "routine",
+          "symbol": "STORY",
+          "label": "Story",
+          "x": 620,
+          "y": 740,
+          "size": 150
+        },
+        {
+          "id": "pajamas",
+          "kind": "routine",
+          "symbol": "PAJAMAS",
+          "label": "Pyjamas",
+          "x": 960,
+          "y": 740,
+          "size": 150
+        },
+        {
+          "id": "brush",
+          "kind": "routine",
+          "symbol": "BRUSH",
+          "label": "Brush",
+          "x": 1300,
+          "y": 740,
+          "size": 150
+        }
+      ],
+      "correctOrder": [
+        "pajamas",
+        "brush",
+        "story"
+      ]
+    },
+    {
+      "world": "life",
+      "id": "life_tidy_toys_clothes",
+      "type": "Categorise",
+      "theme": "life",
+      "skills": [
+        "TOY_SORTING",
+        "CLASSIFICATION"
+      ],
+      "instructionText": "Toys in the box, clothes in the basket!",
+      "voiceText": "Put the toys in the toy box and the clothes in the basket.",
+      "targets": [
+        {
+          "id": "toys",
+          "label": "TOYS",
+          "thing": "toy_box",
+          "color": "purple",
+          "x": 1320,
+          "y": 650,
+          "w": 300,
+          "h": 270,
+          "accepts": [
+            "toy"
+          ]
+        },
+        {
+          "id": "clothes",
+          "label": "CLOTHES",
+          "color": "blue",
+          "x": 1650,
+          "y": 650,
+          "w": 300,
+          "h": 270,
+          "accepts": [
+            "clothes"
+          ]
+        }
+      ],
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "teddy",
+          "label": "Teddy",
+          "category": "toy",
+          "x": 430,
+          "y": 560
+        },
+        {
+          "kind": "thing",
+          "thing": "tshirt",
+          "label": "T-shirt",
+          "category": "clothes",
+          "x": 690,
+          "y": 720
+        },
+        {
+          "kind": "thing",
+          "thing": "toy_car",
+          "label": "Car",
+          "category": "toy",
+          "x": 900,
+          "y": 540
+        },
+        {
+          "kind": "thing",
+          "thing": "scarf",
+          "label": "Scarf",
+          "category": "clothes",
+          "x": 1060,
+          "y": 800
+        },
+        {
+          "kind": "thing",
+          "thing": "beach_ball",
+          "label": "Ball",
+          "category": "toy",
+          "x": 470,
+          "y": 840
+        }
+      ]
+    },
+    {
+      "world": "life",
+      "id": "life_tidy_cars",
+      "type": "CountAndPlace",
+      "theme": "life",
+      "character": "none",
+      "object": "thing",
+      "thing": "toy_car",
+      "targetCount": 4,
+      "objectSize": 130,
+      "skills": [
+        "COUNT_4",
+        "TOY_SORTING"
+      ],
+      "adaptiveSkill": "COUNT_4",
+      "instructionText": "Put 4 cars in the basket!",
+      "voiceText": "Help tidy up. Put four cars in the basket.",
+      "pipBubble": "Four cars!",
+      "completeDetail": "1 • 2 • 3 • 4 cars"
+    },
+    {
+      "world": "life",
+      "id": "life_tidy_spill",
+      "type": "StoryChoice",
+      "theme": "life",
+      "storyText": "Oops! Bella spilled her drink. What can help?",
+      "instructionText": "What can we use?",
+      "skills": [
+        "HELPING"
+      ],
+      "choices": [
+        {
+          "id": "teddy",
+          "kind": "thing",
+          "thing": "teddy",
+          "label": "Teddy",
+          "x": 620,
+          "y": 690,
+          "size": 170
+        },
+        {
+          "id": "towel",
+          "kind": "thing",
+          "thing": "towel",
+          "label": "Towel",
+          "correct": true,
+          "x": 960,
+          "y": 690,
+          "size": 170
+        },
+        {
+          "id": "beach_ball",
+          "kind": "thing",
+          "thing": "beach_ball",
+          "label": "Ball",
+          "x": 1300,
+          "y": 690,
+          "size": 170
+        }
+      ]
+    },
+    {
+      "world": "jungle",
+      "id": "jungle_find_drum",
+      "type": "TapRequestedObject",
+      "theme": "jungle",
+      "skills": [
+        "VOCABULARY",
+        "SOUND_RECOGNITION"
+      ],
+      "instructionText": "Find the drum!",
+      "voiceText": "Can you find the drum?",
+      "pipBubble": "The drum!",
+      "completeDetail": "Boom boom!",
+      "request": {
+        "matchKey": "thing",
+        "matchValue": "drum"
+      },
+      "objects": [
+        {
+          "id": "trumpet",
+          "kind": "thing",
+          "thing": "trumpet",
+          "label": "Trumpet",
+          "x": 620,
+          "y": 690,
+          "size": 170
+        },
+        {
+          "id": "drum",
+          "kind": "thing",
+          "thing": "drum",
+          "label": "Drum",
+          "x": 960,
+          "y": 690,
+          "size": 170
+        },
+        {
+          "id": "maracas",
+          "kind": "thing",
+          "thing": "maracas",
+          "label": "Maracas",
+          "x": 1300,
+          "y": 690,
+          "size": 170
+        }
+      ]
+    },
+    {
+      "world": "jungle",
+      "id": "jungle_copy_beat_2",
+      "type": "RhythmRepeat",
+      "theme": "jungle",
+      "skills": [
+        "RHYTHM"
+      ],
+      "instructionText": "Copy the drum: boom, boom!",
+      "voiceText": "Listen to the drum, then tap it back. Boom, boom!",
+      "patternMs": [
+        0,
+        650
+      ],
+      "tolerance": 0.7,
+      "completeDetail": "Boom, boom!"
+    },
+    {
+      "world": "jungle",
+      "id": "jungle_count_bananas",
+      "type": "CountAndPlace",
+      "theme": "jungle",
+      "character": "none",
+      "object": "banana",
+      "color": "yellow",
+      "targetCount": 2,
+      "skills": [
+        "COUNT_2"
+      ],
+      "adaptiveSkill": "COUNT_2",
+      "instructionText": "Put 2 bananas on the plate!",
+      "voiceText": "The band is hungry. Put two bananas on the plate.",
+      "pipBubble": "Two bananas!",
+      "completeDetail": "1 • 2 bananas"
+    },
+    {
+      "world": "jungle",
+      "id": "jungle_sound_lion",
+      "type": "SoundMatch",
+      "theme": "jungle",
+      "promptText": "Roar!",
+      "instructionText": "Who makes that sound?",
+      "skills": [
+        "ANIMAL_SOUNDS",
+        "SOUND_RECOGNITION"
+      ],
+      "correctId": "lion",
+      "choices": [
+        {
+          "id": "parrot",
+          "kind": "animal",
+          "animalType": "parrot",
+          "label": "Parrot",
+          "color": "green",
+          "x": 620,
+          "y": 690,
+          "size": 160
+        },
+        {
+          "id": "lion",
+          "kind": "animal",
+          "animalType": "lion",
+          "label": "Lion",
+          "correct": true,
+          "color": "orange",
+          "x": 960,
+          "y": 690,
+          "size": 160
+        },
+        {
+          "id": "monkey",
+          "kind": "animal",
+          "animalType": "monkey",
+          "label": "Monkey",
+          "color": "yellow",
+          "x": 1300,
+          "y": 690,
+          "size": 160
+        }
+      ]
+    },
+    {
+      "world": "jungle",
+      "id": "jungle_sound_monkey",
+      "type": "SoundMatch",
+      "theme": "jungle",
+      "promptText": "Ooh ooh, aah aah!",
+      "instructionText": "Who makes that sound?",
+      "skills": [
+        "ANIMAL_SOUNDS",
+        "SOUND_RECOGNITION"
+      ],
+      "correctId": "monkey",
+      "choices": [
+        {
+          "id": "monkey",
+          "kind": "animal",
+          "animalType": "monkey",
+          "label": "Monkey",
+          "correct": true,
+          "color": "yellow",
+          "x": 620,
+          "y": 690,
+          "size": 160
+        },
+        {
+          "id": "flamingo",
+          "kind": "animal",
+          "animalType": "flamingo",
+          "label": "Flamingo",
+          "color": "pink",
+          "x": 960,
+          "y": 690,
+          "size": 160
+        },
+        {
+          "id": "lion",
+          "kind": "animal",
+          "animalType": "lion",
+          "label": "Lion",
+          "color": "orange",
+          "x": 1300,
+          "y": 690,
+          "size": 160
+        }
+      ]
+    },
+    {
+      "world": "jungle",
+      "id": "jungle_shake_maracas",
+      "type": "StoryChoice",
+      "theme": "jungle",
+      "storyText": "Shake, shake, shake! Which one do we shake?",
+      "instructionText": "Which one do we shake?",
+      "skills": [
+        "SOUND_RECOGNITION",
+        "VOCABULARY"
+      ],
+      "completeDetail": "Shake the maracas!",
+      "choices": [
+        {
+          "id": "drum",
+          "kind": "thing",
+          "thing": "drum",
+          "label": "Drum",
+          "x": 620,
+          "y": 690,
+          "size": 170
+        },
+        {
+          "id": "guitar",
+          "kind": "thing",
+          "thing": "guitar",
+          "label": "Guitar",
+          "x": 960,
+          "y": 690,
+          "size": 170
+        },
+        {
+          "id": "maracas",
+          "kind": "thing",
+          "thing": "maracas",
+          "label": "Maracas",
+          "correct": true,
+          "x": 1300,
+          "y": 690,
+          "size": 170
+        }
+      ]
+    },
+    {
+      "world": "jungle",
+      "id": "jungle_biggest_drum",
+      "type": "SizeCompare",
+      "theme": "jungle",
+      "skills": [
+        "BIG_SMALL"
+      ],
+      "rule": "largest",
+      "instructionText": "Which drum is the biggest?",
+      "voiceText": "Tap the biggest drum.",
+      "completeDetail": "The big BOOM drum!",
+      "objects": [
+        {
+          "id": "small",
+          "kind": "thing",
+          "thing": "drum",
+          "x": 620,
+          "y": 690,
+          "size": 110
+        },
+        {
+          "id": "big",
+          "kind": "thing",
+          "thing": "drum",
+          "x": 980,
+          "y": 650,
+          "size": 240
+        },
+        {
+          "id": "medium",
+          "kind": "thing",
+          "thing": "drum",
+          "x": 1340,
+          "y": 680,
+          "size": 165
+        }
+      ]
+    },
+    {
+      "world": "jungle",
+      "id": "jungle_loud_quiet",
+      "type": "Categorise",
+      "theme": "jungle",
+      "skills": [
+        "LOUD_QUIET",
+        "CLASSIFICATION"
+      ],
+      "instructionText": "Loud or quiet?",
+      "voiceText": "Put the loud instruments with LOUD and the quiet ones with QUIET.",
+      "targets": [
+        {
+          "id": "loud",
+          "label": "LOUD",
+          "color": "orange",
+          "x": 640,
+          "y": 820,
+          "w": 360,
+          "h": 230,
+          "accepts": [
+            "loud"
+          ]
+        },
+        {
+          "id": "quiet",
+          "label": "QUIET",
+          "color": "blue",
+          "x": 1280,
+          "y": 820,
+          "w": 360,
+          "h": 230,
+          "accepts": [
+            "quiet"
+          ]
+        }
+      ],
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "drum_kit",
+          "label": "Drums",
+          "category": "loud",
+          "x": 520,
+          "y": 520,
+          "size": 150
+        },
+        {
+          "kind": "thing",
+          "thing": "triangle_bell",
+          "label": "Triangle",
+          "category": "quiet",
+          "x": 780,
+          "y": 520,
+          "size": 150
+        },
+        {
+          "kind": "thing",
+          "thing": "trumpet",
+          "label": "Trumpet",
+          "category": "loud",
+          "x": 1040,
+          "y": 520,
+          "size": 150
+        },
+        {
+          "kind": "thing",
+          "thing": "handbells",
+          "label": "Bells",
+          "category": "quiet",
+          "x": 1300,
+          "y": 520,
+          "size": 150
+        }
+      ]
+    },
+    {
+      "world": "jungle",
+      "id": "jungle_toucan_berries",
+      "type": "CountAndPlace",
+      "theme": "jungle",
+      "character": "none",
+      "object": "berry",
+      "color": "blue",
+      "targetCount": 4,
+      "skills": [
+        "COUNT_4"
+      ],
+      "adaptiveSkill": "COUNT_4",
+      "instructionText": "Put 4 berries on Toucan’s plate!",
+      "voiceText": "Toucan is hungry. Put four berries on the plate.",
+      "pipBubble": "Four berries!",
+      "completeDetail": "1 • 2 • 3 • 4 berries"
+    },
+    {
+      "world": "jungle",
+      "id": "jungle_quiet_choice",
+      "type": "StoryChoice",
+      "theme": "jungle",
+      "storyText": "Shh! The cub is sleeping. Which one is quiet?",
+      "instructionText": "Which one is quiet?",
+      "skills": [
+        "LOUD_QUIET"
+      ],
+      "completeDetail": "Ting… so quiet!",
+      "choices": [
+        {
+          "id": "drum_kit",
+          "kind": "thing",
+          "thing": "drum_kit",
+          "label": "Drums",
+          "x": 620,
+          "y": 690,
+          "size": 170
+        },
+        {
+          "id": "triangle_bell",
+          "kind": "thing",
+          "thing": "triangle_bell",
+          "label": "Triangle",
+          "correct": true,
+          "x": 960,
+          "y": 690,
+          "size": 170
+        },
+        {
+          "id": "trumpet",
+          "kind": "thing",
+          "thing": "trumpet",
+          "label": "Trumpet",
+          "x": 1300,
+          "y": 690,
+          "size": 170
+        }
+      ]
+    },
+    {
+      "world": "jungle",
+      "id": "jungle_slow_animal",
+      "type": "StoryChoice",
+      "theme": "jungle",
+      "storyText": "Lullabies are slow. Which animal is slow?",
+      "instructionText": "Which animal is slow?",
+      "skills": [
+        "FAST_SLOW"
+      ],
+      "completeDetail": "Slow like a sloth!",
+      "choices": [
+        {
+          "id": "monkey",
+          "kind": "animal",
+          "animalType": "monkey",
+          "label": "Monkey",
+          "x": 620,
+          "y": 690,
+          "size": 170
+        },
+        {
+          "id": "sloth",
+          "kind": "animal",
+          "animalType": "sloth",
+          "label": "Sloth",
+          "correct": true,
+          "x": 960,
+          "y": 690,
+          "size": 170
+        },
+        {
+          "id": "parrot",
+          "kind": "animal",
+          "animalType": "parrot",
+          "label": "Parrot",
+          "x": 1300,
+          "y": 690,
+          "size": 170
+        }
+      ]
+    },
+    {
+      "world": "jungle",
+      "id": "jungle_lullaby_beat",
+      "type": "RhythmRepeat",
+      "theme": "jungle",
+      "skills": [
+        "RHYTHM",
+        "FAST_SLOW"
+      ],
+      "instructionText": "Copy the slow beat!",
+      "voiceText": "Listen to the slow beat, then tap it back.",
+      "patternMs": [
+        0,
+        850,
+        1700
+      ],
+      "tolerance": 0.65,
+      "completeDetail": "A sleepy beat!"
+    },
+    {
+      "world": "jungle",
+      "id": "jungle_find_flamingo",
+      "type": "TapRequestedObject",
+      "theme": "jungle",
+      "skills": [
+        "ANIMAL_NAMES"
+      ],
+      "instructionText": "Find the flamingo!",
+      "voiceText": "Can you find the pink flamingo?",
+      "completeDetail": "Pink flamingo!",
+      "request": {
+        "animalType": "flamingo"
+      },
+      "objects": [
+        {
+          "id": "toucan",
+          "kind": "animal",
+          "animalType": "toucan",
+          "label": "Toucan",
+          "x": 500,
+          "y": 690,
+          "size": 160
+        },
+        {
+          "id": "parrot",
+          "kind": "animal",
+          "animalType": "parrot",
+          "label": "Parrot",
+          "x": 800,
+          "y": 690,
+          "size": 160
+        },
+        {
+          "id": "peacock",
+          "kind": "animal",
+          "animalType": "peacock",
+          "label": "Peacock",
+          "x": 1100,
+          "y": 690,
+          "size": 160
+        },
+        {
+          "id": "flamingo",
+          "kind": "animal",
+          "animalType": "flamingo",
+          "label": "Flamingo",
+          "x": 1400,
+          "y": 690,
+          "size": 160
+        }
+      ]
+    },
+    {
+      "world": "jungle",
+      "id": "jungle_dance_pattern",
+      "type": "PatternComplete",
+      "theme": "jungle",
+      "skills": [
+        "PATTERN"
+      ],
+      "instructionText": "What comes next?",
+      "voiceText": "Flamingo, parrot, flamingo, parrot. What comes next?",
+      "completeDetail": "Flamingo, parrot, flamingo!",
+      "missingIndex": 4,
+      "sequence": [
+        {
+          "kind": "animal",
+          "animalType": "flamingo"
+        },
+        {
+          "kind": "animal",
+          "animalType": "parrot"
+        },
+        {
+          "kind": "animal",
+          "animalType": "flamingo"
+        },
+        {
+          "kind": "animal",
+          "animalType": "parrot"
+        }
+      ],
+      "choices": [
+        {
+          "kind": "animal",
+          "animalType": "flamingo",
+          "label": "Flamingo",
+          "id": "flamingo",
+          "correct": true
+        },
+        {
+          "kind": "animal",
+          "animalType": "lion",
+          "label": "Lion",
+          "id": "lion"
+        }
+      ]
+    },
+    {
+      "world": "jungle",
+      "id": "jungle_more_flamingos",
+      "type": "QuantityCompare",
+      "theme": "jungle",
+      "rule": "more",
+      "object": "animal",
+      "instructionText": "Which group has more flamingos?",
+      "skills": [
+        "MORE_LESS"
+      ],
+      "choices": [
+        {
+          "id": "g0",
+          "count": 4,
+          "kind": "animal",
+          "animalType": "flamingo"
+        },
+        {
+          "id": "g1",
+          "count": 2,
+          "kind": "animal",
+          "animalType": "flamingo"
+        },
+        {
+          "id": "g2",
+          "count": 6,
+          "kind": "animal",
+          "animalType": "flamingo"
+        }
+      ],
+      "animalType": "flamingo"
+    },
+    {
+      "world": "jungle",
+      "id": "jungle_stage_match",
+      "type": "MatchPairs",
+      "theme": "jungle",
+      "skills": [
+        "SAME_DIFFERENT"
+      ],
+      "instructionText": "Find the matching instruments!",
+      "voiceText": "Tap two instruments that are the same.",
+      "completeDetail": "All matched!",
+      "pairs": [
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "maracas",
+              "label": null,
+              "id": "m1"
+            },
+            {
+              "kind": "thing",
+              "thing": "maracas",
+              "label": null,
+              "id": "m2"
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "guitar",
+              "label": null,
+              "id": "g1"
+            },
+            {
+              "kind": "thing",
+              "thing": "guitar",
+              "label": null,
+              "id": "g2"
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "xylophone",
+              "label": null,
+              "id": "x1"
+            },
+            {
+              "kind": "thing",
+              "thing": "xylophone",
+              "label": null,
+              "id": "x2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "world": "jungle",
+      "id": "jungle_stage_stools",
+      "type": "CountAndPlace",
+      "theme": "jungle",
+      "character": "none",
+      "object": "thing",
+      "thing": "leaf_stool",
+      "targetCount": 5,
+      "objectSize": 120,
+      "skills": [
+        "COUNT_5"
+      ],
+      "adaptiveSkill": "COUNT_5",
+      "instructionText": "Put 5 stools on the stage!",
+      "voiceText": "Every band friend needs a seat. Put five stools on the stage.",
+      "pipBubble": "Five stools!",
+      "completeDetail": "1 • 2 • 3 • 4 • 5 stools"
+    },
+    {
+      "world": "jungle",
+      "id": "jungle_stage_odd",
+      "type": "OddOneOut",
+      "theme": "jungle",
+      "instructionText": "Which one is not an instrument?",
+      "subtitle": "Tap the odd one out",
+      "skills": [
+        "CLASSIFICATION",
+        "SAME_DIFFERENT"
+      ],
+      "objects": [
+        {
+          "id": "guitar",
+          "kind": "thing",
+          "thing": "guitar",
+          "label": "Guitar",
+          "x": 520,
+          "y": 650
+        },
+        {
+          "id": "banana",
+          "kind": "thing",
+          "thing": "banana",
+          "label": "Banana",
+          "x": 820,
+          "y": 650,
+          "odd": true
+        },
+        {
+          "id": "drum",
+          "kind": "thing",
+          "thing": "drum",
+          "label": "Drum",
+          "x": 1120,
+          "y": 650
+        },
+        {
+          "id": "trumpet",
+          "kind": "thing",
+          "thing": "trumpet",
+          "label": "Trumpet",
+          "x": 1420,
+          "y": 650
+        }
+      ]
+    },
+    {
+      "world": "jungle",
+      "id": "jungle_sloth_sizes",
+      "type": "OrderBySize",
+      "theme": "jungle",
+      "direction": "small-to-big",
+      "instructionText": "Tap from smallest to biggest!",
+      "skills": [
+        "BIG_SMALL",
+        "SEQUENCE"
+      ],
+      "objects": [
+        {
+          "id": "mid",
+          "kind": "animal",
+          "animalType": "sloth",
+          "label": "Medium",
+          "size": 170,
+          "sizeMetric": 2,
+          "x": 620,
+          "y": 750
+        },
+        {
+          "id": "big",
+          "kind": "animal",
+          "animalType": "sloth",
+          "label": "Big",
+          "size": 225,
+          "sizeMetric": 3,
+          "x": 960,
+          "y": 740
+        },
+        {
+          "id": "small",
+          "kind": "animal",
+          "animalType": "sloth",
+          "label": "Small",
+          "size": 115,
+          "sizeMetric": 1,
+          "x": 1300,
+          "y": 770
+        }
+      ]
+    },
+    {
+      "world": "jungle",
+      "id": "jungle_sloth_steps",
+      "type": "SequenceOrder",
+      "theme": "jungle",
+      "skills": [
+        "SEQUENCE",
+        "NUMERAL_4"
+      ],
+      "instructionText": "Count the steps: 1, 2, 3, 4!",
+      "voiceText": "Help Sloth climb. Tap one, two, three, four.",
+      "completeDetail": "1, 2, 3, 4!",
+      "objects": [
+        {
+          "id": "n3",
+          "kind": "numeral",
+          "value": 3,
+          "label": "3",
+          "x": 560,
+          "y": 740,
+          "size": 145
+        },
+        {
+          "id": "n1",
+          "kind": "numeral",
+          "value": 1,
+          "label": "1",
+          "x": 860,
+          "y": 740,
+          "size": 145
+        },
+        {
+          "id": "n4",
+          "kind": "numeral",
+          "value": 4,
+          "label": "4",
+          "x": 1160,
+          "y": 740,
+          "size": 145
+        },
+        {
+          "id": "n2",
+          "kind": "numeral",
+          "value": 2,
+          "label": "2",
+          "x": 1460,
+          "y": 740,
+          "size": 145
+        }
+      ],
+      "correctOrder": [
+        "n1",
+        "n2",
+        "n3",
+        "n4"
+      ]
+    },
+    {
+      "world": "jungle",
+      "id": "jungle_sloth_beat",
+      "type": "RhythmRepeat",
+      "theme": "jungle",
+      "skills": [
+        "RHYTHM"
+      ],
+      "instructionText": "Copy Sloth’s 4 slow beats!",
+      "voiceText": "Listen to four slow beats, then tap them back.",
+      "patternMs": [
+        0,
+        750,
+        1500,
+        2250
+      ],
+      "tolerance": 0.65,
+      "completeDetail": "Slow and steady!"
+    },
+    {
+      "world": "jungle",
+      "id": "jungle_concert_sound",
+      "type": "SoundMatch",
+      "theme": "jungle",
+      "promptText": "Squawk! Hello!",
+      "instructionText": "Who makes that sound?",
+      "skills": [
+        "ANIMAL_SOUNDS",
+        "SOUND_RECOGNITION"
+      ],
+      "correctId": "parrot",
+      "choices": [
+        {
+          "id": "lion",
+          "kind": "animal",
+          "animalType": "lion",
+          "label": "Lion",
+          "color": "orange",
+          "x": 620,
+          "y": 690,
+          "size": 160
+        },
+        {
+          "id": "sloth",
+          "kind": "animal",
+          "animalType": "sloth",
+          "label": "Sloth",
+          "color": "yellow",
+          "x": 960,
+          "y": 690,
+          "size": 160
+        },
+        {
+          "id": "parrot",
+          "kind": "animal",
+          "animalType": "parrot",
+          "label": "Parrot",
+          "correct": true,
+          "color": "green",
+          "x": 1300,
+          "y": 690,
+          "size": 160
+        }
+      ]
+    },
+    {
+      "world": "jungle",
+      "id": "jungle_concert_sort",
+      "type": "Categorise",
+      "theme": "jungle",
+      "skills": [
+        "CLASSIFICATION"
+      ],
+      "instructionText": "Animals or instruments?",
+      "voiceText": "Put the animals with ANIMALS and the instruments with MUSIC.",
+      "targets": [
+        {
+          "id": "animals",
+          "label": "ANIMALS",
+          "color": "green",
+          "x": 640,
+          "y": 820,
+          "w": 360,
+          "h": 230,
+          "accepts": [
+            "animal"
+          ]
+        },
+        {
+          "id": "music",
+          "label": "MUSIC",
+          "color": "purple",
+          "x": 1280,
+          "y": 820,
+          "w": 360,
+          "h": 230,
+          "accepts": [
+            "music"
+          ]
+        }
+      ],
+      "objects": [
+        {
+          "kind": "animal",
+          "animalType": "lemur",
+          "label": "Lemur",
+          "id": "lemur",
+          "category": "animal",
+          "x": 470,
+          "y": 520,
+          "size": 140
+        },
+        {
+          "kind": "thing",
+          "thing": "maracas",
+          "label": "Maracas",
+          "id": "maracas",
+          "category": "music",
+          "x": 700,
+          "y": 520,
+          "size": 140
+        },
+        {
+          "kind": "animal",
+          "animalType": "red_panda",
+          "label": "Red panda",
+          "id": "red_panda",
+          "category": "animal",
+          "x": 930,
+          "y": 520,
+          "size": 140
+        },
+        {
+          "kind": "thing",
+          "thing": "guitar",
+          "label": "Guitar",
+          "id": "guitar",
+          "category": "music",
+          "x": 1160,
+          "y": 520,
+          "size": 140
+        },
+        {
+          "kind": "thing",
+          "thing": "tambourine",
+          "label": "Tambourine",
+          "id": "tambourine",
+          "category": "music",
+          "x": 1390,
+          "y": 520,
+          "size": 140
+        }
+      ]
+    },
+    {
+      "world": "jungle",
+      "id": "jungle_concert_pattern",
+      "type": "PatternComplete",
+      "theme": "jungle",
+      "skills": [
+        "PATTERN"
+      ],
+      "instructionText": "What comes next?",
+      "voiceText": "Drum, maracas, maracas, drum, maracas, maracas. What comes next?",
+      "completeDetail": "Boom, shake, shake!",
+      "missingIndex": 6,
+      "sequence": [
+        {
+          "kind": "thing",
+          "thing": "drum",
+          "size": 105
+        },
+        {
+          "kind": "thing",
+          "thing": "maracas",
+          "size": 105
+        },
+        {
+          "kind": "thing",
+          "thing": "maracas",
+          "size": 105
+        },
+        {
+          "kind": "thing",
+          "thing": "drum",
+          "size": 105
+        },
+        {
+          "kind": "thing",
+          "thing": "maracas",
+          "size": 105
+        },
+        {
+          "kind": "thing",
+          "thing": "maracas",
+          "size": 105
+        }
+      ],
+      "choices": [
+        {
+          "kind": "thing",
+          "thing": "drum",
+          "label": null,
+          "id": "drum",
+          "correct": true
+        },
+        {
+          "kind": "thing",
+          "thing": "maracas",
+          "label": null,
+          "id": "maracas"
+        }
+      ]
+    },
+    {
+      "world": "jungle",
+      "id": "jungle_concert_bananas",
+      "type": "CountAndPlace",
+      "theme": "jungle",
+      "character": "none",
+      "object": "banana",
+      "color": "yellow",
+      "targetCount": 6,
+      "skills": [
+        "COUNT_6"
+      ],
+      "adaptiveSkill": "COUNT_6",
+      "instructionText": "Put 6 bananas on the plate!",
+      "voiceText": "A snack for the whole band. Put six bananas on the plate.",
+      "pipBubble": "Six bananas!",
+      "completeDetail": "Six bananas!"
+    },
+    {
+      "world": "dino",
+      "id": "dino_find_egg_nest",
+      "type": "TapRequestedObject",
+      "theme": "dino",
+      "skills": [
+        "SAME_DIFFERENT"
+      ],
+      "instructionText": "Which nest has an egg?",
+      "voiceText": "Can you find the nest with an egg in it?",
+      "completeDetail": "The egg is safe!",
+      "request": {
+        "matchKey": "thing",
+        "matchValue": "dino_egg_nest"
+      },
+      "objects": [
+        {
+          "id": "nest_leaf",
+          "kind": "thing",
+          "thing": "nest_leaf",
+          "label": "Nest",
+          "x": 620,
+          "y": 690,
+          "size": 180
+        },
+        {
+          "id": "nest_empty",
+          "kind": "thing",
+          "thing": "nest_empty",
+          "label": "Nest",
+          "x": 960,
+          "y": 690,
+          "size": 180
+        },
+        {
+          "id": "dino_egg_nest",
+          "kind": "thing",
+          "thing": "dino_egg_nest",
+          "label": "Egg",
+          "x": 1300,
+          "y": 690,
+          "size": 180
+        }
+      ]
+    },
+    {
+      "world": "dino",
+      "id": "dino_footprint_match",
+      "type": "MatchPairs",
+      "theme": "dino",
+      "skills": [
+        "ANIMAL_NAMES",
+        "SAME_DIFFERENT"
+      ],
+      "instructionText": "Whose footprint is it?",
+      "voiceText": "Tap a footprint, then tap who made it.",
+      "subtitle": "Tap a footprint, then who made it",
+      "completeDetail": "Footprint detectives!",
+      "pairs": [
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "footprint_dino",
+              "label": "Footprint",
+              "id": "dino_print"
+            },
+            {
+              "kind": "dinosaur",
+              "color": "green",
+              "id": "dino"
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "footprint_paw",
+              "label": "Footprint",
+              "id": "paw_print"
+            },
+            {
+              "kind": "animal",
+              "animalType": "bear",
+              "label": "Bear",
+              "id": "bear"
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "track_duck",
+              "label": "Footprint",
+              "id": "duck_print"
+            },
+            {
+              "kind": "animal",
+              "animalType": "duck",
+              "label": "Duck",
+              "id": "duck"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "world": "dino",
+      "id": "dino_which_bowl",
+      "type": "StoryChoice",
+      "theme": "dino",
+      "storyText": "Rory is hungry. Which bowl is the dino dinner?",
+      "instructionText": "Which bowl is for Rory?",
+      "skills": [
+        "ANIMAL_FOOD"
+      ],
+      "completeDetail": "Dinner time, Rory!",
+      "choices": [
+        {
+          "id": "bowl_paw",
+          "kind": "thing",
+          "thing": "bowl_paw",
+          "label": "Bunny bowl",
+          "x": 620,
+          "y": 690,
+          "size": 170
+        },
+        {
+          "id": "food_bowl_dino",
+          "kind": "thing",
+          "thing": "food_bowl_dino",
+          "label": "Dino dinner",
+          "correct": true,
+          "x": 960,
+          "y": 690,
+          "size": 170
+        },
+        {
+          "id": "plate",
+          "kind": "thing",
+          "thing": "plate",
+          "label": "Plate",
+          "x": 1300,
+          "y": 690,
+          "size": 170
         }
       ]
     }

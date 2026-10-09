@@ -33,11 +33,14 @@ export class HoldToLeave {
   render(ctx) {
     const { x, y, r } = this;
     ctx.save();
+    // The round home button picture; without it, a white circle with the home icon (or a drawn house).
+    if (!drawArt(ctx, lookupArt('ui', 'homeButton'), x, y, r * 2.1, r * 2.1)) {
     ctx.fillStyle = '#ffffffd9';
     ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
     if (!drawArt(ctx, lookupArt('ui', 'home'), x, y, r * 1.3, r * 1.3)) {
       ctx.fillStyle = '#5a3a73'; ctx.beginPath(); ctx.moveTo(x - 34, y - 2); ctx.lineTo(x, y - 34); ctx.lineTo(x + 34, y - 2); ctx.closePath(); ctx.fill();
       ctx.fillRect(x - 24, y - 4, 48, 36);
+    }
     }
     if (this.holding) {
       ctx.strokeStyle = '#8b69db'; ctx.lineWidth = 12; ctx.lineCap = 'round';

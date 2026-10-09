@@ -1884,6 +1884,246 @@
   "url": "./assets/objects/vehicles/van.png"
  },
  {
+  "id": "objects.wardrobe.accessories.badge_flower",
+  "url": "./assets/objects/wardrobe/accessories/badge_flower.png"
+ },
+ {
+  "id": "objects.wardrobe.accessories.binoculars",
+  "url": "./assets/objects/wardrobe/accessories/binoculars.png"
+ },
+ {
+  "id": "objects.wardrobe.accessories.bow_rainbow",
+  "url": "./assets/objects/wardrobe/accessories/bow_rainbow.png"
+ },
+ {
+  "id": "objects.wardrobe.accessories.camera",
+  "url": "./assets/objects/wardrobe/accessories/camera.png"
+ },
+ {
+  "id": "objects.wardrobe.accessories.medal_star",
+  "url": "./assets/objects/wardrobe/accessories/medal_star.png"
+ },
+ {
+  "id": "objects.wardrobe.accessories.satchel_star",
+  "url": "./assets/objects/wardrobe/accessories/satchel_star.png"
+ },
+ {
+  "id": "objects.wardrobe.backpacks.backpack_dino_tail",
+  "url": "./assets/objects/wardrobe/backpacks/backpack_dino_tail.png"
+ },
+ {
+  "id": "objects.wardrobe.backpacks.backpack_explorer",
+  "url": "./assets/objects/wardrobe/backpacks/backpack_explorer.png"
+ },
+ {
+  "id": "objects.wardrobe.backpacks.backpack_rainbow",
+  "url": "./assets/objects/wardrobe/backpacks/backpack_rainbow.png"
+ },
+ {
+  "id": "objects.wardrobe.backpacks.jetpack_rocket",
+  "url": "./assets/objects/wardrobe/backpacks/jetpack_rocket.png"
+ },
+ {
+  "id": "objects.wardrobe.backpacks.wings_butterfly",
+  "url": "./assets/objects/wardrobe/backpacks/wings_butterfly.png"
+ },
+ {
+  "id": "objects.wardrobe.backpacks.wings_fairy",
+  "url": "./assets/objects/wardrobe/backpacks/wings_fairy.png"
+ },
+ {
+  "id": "objects.wardrobe.glasses.glasses_heart",
+  "url": "./assets/objects/wardrobe/glasses/glasses_heart.png"
+ },
+ {
+  "id": "objects.wardrobe.glasses.glasses_rainbow",
+  "url": "./assets/objects/wardrobe/glasses/glasses_rainbow.png"
+ },
+ {
+  "id": "objects.wardrobe.glasses.glasses_star_round",
+  "url": "./assets/objects/wardrobe/glasses/glasses_star_round.png"
+ },
+ {
+  "id": "objects.wardrobe.glasses.goggles_swim",
+  "url": "./assets/objects/wardrobe/glasses/goggles_swim.png"
+ },
+ {
+  "id": "objects.wardrobe.glasses.mask_hero",
+  "url": "./assets/objects/wardrobe/glasses/mask_hero.png"
+ },
+ {
+  "id": "objects.wardrobe.glasses.mask_sleep",
+  "url": "./assets/objects/wardrobe/glasses/mask_sleep.png"
+ },
+ {
+  "id": "objects.wardrobe.hats.beanie_snowflake",
+  "url": "./assets/objects/wardrobe/hats/beanie_snowflake.png"
+ },
+ {
+  "id": "objects.wardrobe.hats.ears_bunny",
+  "url": "./assets/objects/wardrobe/hats/ears_bunny.png"
+ },
+ {
+  "id": "objects.wardrobe.hats.flower_crown",
+  "url": "./assets/objects/wardrobe/hats/flower_crown.png"
+ },
+ {
+  "id": "objects.wardrobe.hats.hat_detective",
+  "url": "./assets/objects/wardrobe/hats/hat_detective.png"
+ },
+ {
+  "id": "objects.wardrobe.hats.hat_garden",
+  "url": "./assets/objects/wardrobe/hats/hat_garden.png"
+ },
+ {
+  "id": "objects.wardrobe.hats.hat_pilot",
+  "url": "./assets/objects/wardrobe/hats/hat_pilot.png"
+ },
+ {
+  "id": "objects.wardrobe.hats.hat_pith_explorer",
+  "url": "./assets/objects/wardrobe/hats/hat_pith_explorer.png"
+ },
+ {
+  "id": "objects.wardrobe.hats.hat_sailor",
+  "url": "./assets/objects/wardrobe/hats/hat_sailor.png"
+ },
+ {
+  "id": "objects.wardrobe.hats.headband_bear",
+  "url": "./assets/objects/wardrobe/hats/headband_bear.png"
+ },
+ {
+  "id": "objects.wardrobe.hats.headband_frog",
+  "url": "./assets/objects/wardrobe/hats/headband_frog.png"
+ },
+ {
+  "id": "objects.wardrobe.hats.headband_stars",
+  "url": "./assets/objects/wardrobe/hats/headband_stars.png"
+ },
+ {
+  "id": "objects.wardrobe.hats.tiara_heart",
+  "url": "./assets/objects/wardrobe/hats/tiara_heart.png"
+ },
+ {
+  "id": "objects.wardrobe.onesies.onesie_bear",
+  "url": "./assets/objects/wardrobe/onesies/onesie_bear.png"
+ },
+ {
+  "id": "objects.wardrobe.onesies.onesie_bee",
+  "url": "./assets/objects/wardrobe/onesies/onesie_bee.png"
+ },
+ {
+  "id": "objects.wardrobe.onesies.onesie_bunny",
+  "url": "./assets/objects/wardrobe/onesies/onesie_bunny.png"
+ },
+ {
+  "id": "objects.wardrobe.onesies.onesie_frog",
+  "url": "./assets/objects/wardrobe/onesies/onesie_frog.png"
+ },
+ {
+  "id": "objects.wardrobe.onesies.onesie_lion",
+  "url": "./assets/objects/wardrobe/onesies/onesie_lion.png"
+ },
+ {
+  "id": "objects.wardrobe.onesies.onesie_penguin",
+  "url": "./assets/objects/wardrobe/onesies/onesie_penguin.png"
+ },
+ {
+  "id": "objects.wardrobe.outfits.onesie_dragon",
+  "url": "./assets/objects/wardrobe/outfits/onesie_dragon.png"
+ },
+ {
+  "id": "objects.wardrobe.outfits.onesie_unicorn",
+  "url": "./assets/objects/wardrobe/outfits/onesie_unicorn.png"
+ },
+ {
+  "id": "objects.wardrobe.outfits.outfit_astronaut",
+  "url": "./assets/objects/wardrobe/outfits/outfit_astronaut.png"
+ },
+ {
+  "id": "objects.wardrobe.outfits.outfit_beach",
+  "url": "./assets/objects/wardrobe/outfits/outfit_beach.png"
+ },
+ {
+  "id": "objects.wardrobe.outfits.outfit_detective",
+  "url": "./assets/objects/wardrobe/outfits/outfit_detective.png"
+ },
+ {
+  "id": "objects.wardrobe.outfits.outfit_explorer",
+  "url": "./assets/objects/wardrobe/outfits/outfit_explorer.png"
+ },
+ {
+  "id": "objects.wardrobe.outfits.outfit_fairy",
+  "url": "./assets/objects/wardrobe/outfits/outfit_fairy.png"
+ },
+ {
+  "id": "objects.wardrobe.outfits.outfit_firefighter",
+  "url": "./assets/objects/wardrobe/outfits/outfit_firefighter.png"
+ },
+ {
+  "id": "objects.wardrobe.outfits.outfit_gardener",
+  "url": "./assets/objects/wardrobe/outfits/outfit_gardener.png"
+ },
+ {
+  "id": "objects.wardrobe.outfits.outfit_knight",
+  "url": "./assets/objects/wardrobe/outfits/outfit_knight.png"
+ },
+ {
+  "id": "objects.wardrobe.outfits.outfit_painter",
+  "url": "./assets/objects/wardrobe/outfits/outfit_painter.png"
+ },
+ {
+  "id": "objects.wardrobe.outfits.outfit_paramedic",
+  "url": "./assets/objects/wardrobe/outfits/outfit_paramedic.png"
+ },
+ {
+  "id": "objects.wardrobe.outfits.outfit_party_suit",
+  "url": "./assets/objects/wardrobe/outfits/outfit_party_suit.png"
+ },
+ {
+  "id": "objects.wardrobe.outfits.outfit_pilot",
+  "url": "./assets/objects/wardrobe/outfits/outfit_pilot.png"
+ },
+ {
+  "id": "objects.wardrobe.outfits.outfit_police",
+  "url": "./assets/objects/wardrobe/outfits/outfit_police.png"
+ },
+ {
+  "id": "objects.wardrobe.outfits.outfit_postie",
+  "url": "./assets/objects/wardrobe/outfits/outfit_postie.png"
+ },
+ {
+  "id": "objects.wardrobe.outfits.outfit_prince",
+  "url": "./assets/objects/wardrobe/outfits/outfit_prince.png"
+ },
+ {
+  "id": "objects.wardrobe.outfits.outfit_princess_dress",
+  "url": "./assets/objects/wardrobe/outfits/outfit_princess_dress.png"
+ },
+ {
+  "id": "objects.wardrobe.outfits.outfit_ranger",
+  "url": "./assets/objects/wardrobe/outfits/outfit_ranger.png"
+ },
+ {
+  "id": "objects.wardrobe.outfits.outfit_rockstar",
+  "url": "./assets/objects/wardrobe/outfits/outfit_rockstar.png"
+ },
+ {
+  "id": "objects.wardrobe.outfits.outfit_sailor",
+  "url": "./assets/objects/wardrobe/outfits/outfit_sailor.png"
+ },
+ {
+  "id": "objects.wardrobe.outfits.outfit_sporty",
+  "url": "./assets/objects/wardrobe/outfits/outfit_sporty.png"
+ },
+ {
+  "id": "objects.wardrobe.outfits.outfit_train_driver",
+  "url": "./assets/objects/wardrobe/outfits/outfit_train_driver.png"
+ },
+ {
+  "id": "objects.wardrobe.outfits.outfit_winter",
+  "url": "./assets/objects/wardrobe/outfits/outfit_winter.png"
+ },
+ {
   "id": "objects.weather.cloud",
   "url": "./assets/objects/weather/cloud.png"
  },

@@ -112,6 +112,11 @@ export class SaveSystem {
       state.island.placements = state.island.placements && typeof state.island.placements === 'object' && !Array.isArray(state.island.placements) ? state.island.placements : {};
       state.pip = { ...defaults.pip, ...(state.pip ?? {}) };
       state.pip.outfit = { ...defaults.pip.outfit, ...(state.pip.outfit ?? {}) };
+      // Job 09: looks worn one per slot ({ head, eyes, body, back, extra } -> reward id). Older saves only have cosmeticId.
+      if (state.pip.outfit.worn !== undefined) {
+        const worn = state.pip.outfit.worn && typeof state.pip.outfit.worn === 'object' && !Array.isArray(state.pip.outfit.worn) ? state.pip.outfit.worn : {};
+        state.pip.outfit.worn = Object.fromEntries(Object.entries(worn).filter(([slot, id]) => ['head', 'eyes', 'body', 'back', 'extra'].includes(slot) && typeof id === 'string' && id));
+      }
       state.adventure = { ...defaults.adventure, ...(state.adventure ?? {}) };
       state.adventure.currentId = typeof state.adventure.currentId === 'string' && state.adventure.currentId ? state.adventure.currentId : null;
       state.adventure.step = Math.max(0, Number(state.adventure.step) || 0);

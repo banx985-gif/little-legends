@@ -18,7 +18,7 @@ export class AdventureScene {
   constructor(game) {
     this.game=game; this.definition=null; this.stepIndex=0; this.step=null; this.activity=null; this.hints=null;
     this.pip=null; this.completedStep=false; this.pressed=null; this.t=0; this.speech=''; this.speechT=0; this.bigChoice=null; this.patternChoice=null;
-    this.rewardSaved=false; this.finishSaved=false;
+    this.rewardSaved=false; this.finishSaved=false; this.lookAwarded=null;
   }
 
   async enter(data={}) {
@@ -89,6 +89,9 @@ export class AdventureScene {
     if(!this.finishSaved){
       this.finishSaved=true;
       if(rewardId&&this.game.rewards?.get?.(rewardId)) await this.game.rewards.award(rewardId);
+      // Some missions also give Pip a new look (data/adventures.json bonusLook), the first time it is won.
+      const look=this.definition.bonusLook;
+      if(look&&this.game.rewards?.get?.(look)&&!this.game.rewards.isUnlocked(look)){await this.game.rewards.award(look);this.lookAwarded=look;}
       if(this.definition.id==='rory_dino_picnic'){
         await this.game.save?.award?.('buildings','dinosaur_home');
         await this.game.save?.saveIslandPlacement?.('dinosaur_home',{x:1460,y:690,zone:'creature'});
@@ -99,7 +102,7 @@ export class AdventureScene {
     // Every mission in this world done: its rare dragon hatches on the island after the mission reward.
     const dragon=this.earnedDragon();
     if(dragon&&!this.game.rewards.isUnlocked(dragon.id)){await this.game.rewards.award(dragon.id);this.dragonAwarded=dragon.id;}
-    const celebrate=[rewardId,dragon?.id].filter(Boolean);
+    const celebrate=[rewardId,this.lookAwarded,dragon?.id].filter(Boolean);
     this.game.scenes.change('island',{celebrateReward:celebrate[0]??null,celebrateNext:celebrate.slice(1)});
   }
 

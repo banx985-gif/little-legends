@@ -35,13 +35,14 @@ import { drawCandyButton, drawSpeechBubble } from '../src/utils/draw.js';
 import { HoldToLeave } from '../src/ui/HoldToLeave.js';
 import { GameLoop } from '../src/core/GameLoop.js';
 import { VOICE_REPEAT_SECONDS } from '../src/hints/HintController.js';
+import { LOOK_TABS, SLOTS, lookTab, slotOf, wornLooks, toggleLook } from '../src/characters/Wardrobe.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const required = [
   'index.html','styles.css','manifest.webmanifest','sw.js','assets/icons/icon-192.png','assets/icons/icon-512.png','assets/art/meadow_picnic_clearing.png','assets/art_manifest.json','data/art_map.json','src/core/art.js','docs/ART_WIRING_REPORT.md','data/activities.json','data/adventures.json','data/rewards.json','data/v1-family-coverage.json',
   'src/main.js','src/core/Game.js','src/core/GameLoop.js','src/core/SceneManager.js','src/core/AssetLoader.js','src/core/PerformanceManager.js','src/fx/FeedbackFX.js','src/testing/ChildTestRecorder.js','src/testing/ReleaseQualification.js','src/privacy/PrivacyPolicy.js',
   'src/input/InputManager.js','src/render/CanvasViewport.js',
-  'src/audio/AudioManager.js','src/characters/PipController.js','src/learning/LearningProfile.js','src/learning/AdaptiveDifficulty.js','src/learning/ActivityScheduler.js','src/hints/HintController.js','src/save/SaveSystem.js','src/adventures/AdventureEngine.js','src/rewards/RewardSystem.js','src/rewards/EggSystem.js',
+  'src/audio/AudioManager.js','src/characters/PipController.js','src/characters/Wardrobe.js','src/learning/LearningProfile.js','src/learning/AdaptiveDifficulty.js','src/learning/ActivityScheduler.js','src/hints/HintController.js','src/save/SaveSystem.js','src/adventures/AdventureEngine.js','src/rewards/RewardSystem.js','src/rewards/EggSystem.js',
   'src/activities/Activity.js','src/activities/DragBaseActivity.js','src/activities/activityDraw.js',
   'src/activities/ActivityEngine.js','src/activities/DragToTargetActivity.js','src/activities/CountAndPlaceActivity.js',
   'src/activities/MatchPairsActivity.js','src/activities/SortObjectsActivity.js','src/activities/TapRequestedObjectActivity.js',
@@ -65,7 +66,7 @@ for (const file of jsFiles) execFileSync(process.execPath, ['--check', file], { 
 
 // The installable/offline build must cache every eagerly imported source module.
 const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v42"), 'Service worker cache version should advance with the real-art build');
+assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v43"), 'Service worker cache version should advance with the real-art build');
 for (const file of walk(path.join(root, 'src')).filter(file => file.endsWith('.js'))) {
   const rel = `./${path.relative(root, file).split(path.sep).join('/')}`;
   assert.ok(serviceWorkerSource.includes(`'${rel}'`), `Offline cache must include ${rel}`);
@@ -157,7 +158,7 @@ class FakeCanvasContext {
   restore() { this.depth--; assert.ok(this.depth >= 0, 'Canvas restore without matching save'); }
   beginPath() {} closePath() {} moveTo() {} lineTo() {} quadraticCurveTo() {} bezierCurveTo() {}
   arc() {} ellipse() {} roundRect() {} fill() {} stroke() {} fillRect() {} clearRect() {} fillText() {}
-  translate() {} rotate() {} scale() {} setLineDash() {}
+  translate() {} rotate() {} scale() {} setLineDash() {} rect() {} clip() {}
 }
 
 const cueLog = [];
@@ -640,8 +641,8 @@ for (const r of rewardData.rewards.filter(r => r.rare)) assert.equal(r.type, 'cr
   const town = adventureData.adventures.filter(a => a.world === 'town');
   for (const a of town.slice(0, -1)) await dragonSave.saveAdventure(a.id, 0, { completed:true });
   const last = new AdventureScene(g); await last.enter({ adventureId: town.at(-1).id, step: town.at(-1).steps.length - 1 }); await last.handlePointer({type:'down',x:960,y:950});await last.handlePointer({type:'up',x:960,y:950});
-  assert.equal(g.scenes.last.name, 'island'); assert.deepEqual(g.scenes.last.data.celebrateNext, ['dragon_puzzle'], 'The last Busy Town mission celebrates its reward, then hatches the Puzzle Dragon');
-  const isl = new WonderIslandScene(g); isl.enter(g.scenes.last.data); assert.equal(isl.celebrateReward, town.at(-1).reward.id); isl.update(5); assert.equal(isl.celebrateReward, 'dragon_puzzle', 'Island celebrates the dragon after the mission reward'); isl.render(fakeCtx); assert.equal(fakeCtx.depth, 0);
+  assert.equal(g.scenes.last.name, 'island'); assert.deepEqual(g.scenes.last.data.celebrateNext, [town.at(-1).bonusLook, 'dragon_puzzle'], 'The last Busy Town mission celebrates its reward and its new look, then hatches the Puzzle Dragon');
+  const isl = new WonderIslandScene(g); isl.enter(g.scenes.last.data); assert.equal(isl.celebrateReward, town.at(-1).reward.id); isl.update(5); assert.equal(isl.celebrateReward, town.at(-1).bonusLook, 'Island celebrates the new look after the mission reward'); isl.update(5); assert.equal(isl.celebrateReward, 'dragon_puzzle', 'Island celebrates the dragon after the mission reward'); isl.render(fakeCtx); assert.equal(fakeCtx.depth, 0);
   const col = new CollectionScene(g); col.enter({ tab:'dragons' }); assert.equal(col.items().length, 7); col.render(fakeCtx); assert.equal(fakeCtx.depth, 0, 'Dragons tab render must balance Canvas state');
   await col.action('item:dragon_space'); assert.ok(!dragonSave.getProfileState().unlocks.creatures.includes('dragon_space'), 'Dragons cannot be bought with stars'); }
 { const jamSave = new SaveSystem({ indexedDBRef:null, storage:null }); await jamSave.init(); await jamSave.createProfile({ name:'Jo', age:3 });
@@ -873,6 +874,84 @@ assert.ok(serviceWorkerSource.includes("'./assets/art_manifest.json'")&&serviceW
   };
   for (const hz of [60, 120]) assert.ok(paced(hz, 30) >= 29.5 && paced(hz, 30) <= 30.5, `Lite mode should draw 30 FPS on a ${hz} Hz screen (got ${paced(hz, 30).toFixed(1)})`);
   assert.ok(paced(60, 60) >= 59, 'High mode should draw every refresh on a 60 Hz screen');
+}
+
+// ---- Job 09: Pip's wardrobe (60 looks, worn one per slot, placed on pip_front from data) ----
+{
+  const map = JSON.parse(fs.readFileSync(path.join(root, 'data/art_map.json'), 'utf8'));
+  const manifestIds = new Set(JSON.parse(fs.readFileSync(path.join(root, 'assets/art_manifest.json'), 'utf8')).map(e => e.id));
+  const cosmetics = rewardData.rewards.filter(r => r.type === 'cosmetics');
+  const wardrobeIds = Object.keys(map.wardrobe.items);
+  assert.equal(wardrobeIds.length, 60, 'All 60 wardrobe pictures are placed on Pip');
+  for (const id of wardrobeIds) {
+    assert.ok(manifestIds.has(id) && fs.existsSync(path.join(root, 'assets', ...id.split('.').slice(0, -1), `${id.split('.').at(-1)}.png`)), `Wardrobe picture ${id} exists`);
+    const item = map.wardrobe.items[id];
+    assert.ok(SLOTS.includes(item.slot) && item.parts.length, `${id} has a slot and parts`);
+    for (const p of item.parts) assert.ok([p.x, p.y, p.w].every(Number.isFinite) && p.w > 0, `${id} part has x, y, w`);
+    const reward = cosmetics.find(r => map.cosmetics[r.id] === id);
+    assert.ok(reward, `${id} is a LOOKS reward`); assert.equal(map.rewards[reward.id], id, `${reward.id} card shows its picture`);
+    assert.equal(slotOf(reward), item.slot, `${reward.id} sits in its own tab's slot`);
+  }
+  assert.equal(map.cosmetics.catalog_explorer_hat, 'objects.wardrobe.hats.hat_pith_explorer', 'Explorer Hat uses the pith helmet');
+  for (const [id, pic] of [['catalog_bunny_ears','hats.ears_bunny'],['catalog_frog_hat','hats.headband_frog'],['catalog_heart_glasses','glasses.glasses_heart'],['catalog_dino_backpack','backpacks.backpack_dino_tail']]) assert.equal(map.cosmetics[id], `objects.wardrobe.${pic}`, `${id} placeholder now has its picture`);
+  for (const r of cosmetics) assert.ok(LOOK_TABS.some(([t]) => t === r.look), `${r.id} is in a LOOKS tab`);
+  for (const [tab] of LOOK_TABS) assert.ok(cosmetics.filter(r => r.look === tab).length >= 6, `LOOKS tab ${tab} has looks`);
+  const bonus = adventureData.adventures.filter(a => a.bonusLook);
+  for (const a of bonus) assert.equal(rewardData.rewards.find(r => r.id === a.bonusLook)?.type, 'cosmetics', `${a.id} bonus look is a look`);
+  for (const w of ['town', 'space', 'animal', 'rainbow']) assert.ok(bonus.some(a => a.world === w), `${w} missions give new looks`);
+  assert.equal(new Set(bonus.map(a => a.bonusLook)).size, bonus.length, 'Each bonus look is given by one mission');
+
+  globalThis.__LL_ASSETS = { artMap: map, get: () => undefined, requestArt: () => {} };
+  const rs = new RewardSystem({}); rs.setDefinitions(rewardData);
+  assert.deepEqual(wornLooks({ hat: 'starter-leaf', cosmeticId: 'catalog_star_glasses' }, rs), { eyes: 'catalog_star_glasses' }, 'A pre-Job 09 save keeps its one look');
+  assert.deepEqual(wornLooks({ hat: 'starter-leaf', cosmeticId: 'dino_cap' }, rs), { head: 'dino_cap' });
+  let outfit = { hat: 'starter-leaf', cosmeticId: 'dino_cap' };
+  let change = toggleLook(outfit, rs, 'catalog_heart_glasses'); assert.deepEqual(change.worn, { head: 'dino_cap', eyes: 'catalog_heart_glasses' }, 'Glasses go on with the old hat');
+  outfit = { ...outfit, ...change }; change = toggleLook(outfit, rs, 'look_onesie_frog');
+  assert.equal(change.worn.body, 'look_onesie_frog'); assert.equal(change.worn.head, undefined, 'A onesie hood replaces the hat'); assert.equal(change.worn.eyes, 'catalog_heart_glasses');
+  outfit = { ...outfit, ...change }; change = toggleLook(outfit, rs, 'catalog_explorer_hat');
+  assert.equal(change.worn.head, 'catalog_explorer_hat'); assert.equal(change.worn.body, undefined, 'A hat takes the onesie off'); assert.equal(change.cosmeticId, 'catalog_explorer_hat', 'Older builds still see the newest look');
+  outfit = { ...outfit, ...change }; change = toggleLook(outfit, rs, 'catalog_explorer_hat');
+  assert.equal(change.wearing, false); assert.equal(change.worn.head, undefined, 'Tapping a worn look takes it off'); assert.equal(change.cosmeticId, 'catalog_heart_glasses');
+  change = toggleLook({}, rs, 'look_outfit_police'); assert.deepEqual(change.worn, { body: 'look_outfit_police' }); assert.deepEqual(toggleLook({ worn: change.worn }, rs, 'catalog_bunny_ears').worn, { head: 'catalog_bunny_ears' }, "A hat replaces an outfit's own cap");
+
+  const migrated = new SaveSystem({ indexedDBRef: null, storage: null }).migrate({ version: 3, activeProfileId: 'p', profiles: [{ id: 'p', name: 'Old', age: 3, createdAt: 1 }],
+    profileStates: { p: { pip: { outfit: { hat: 'starter-leaf', cosmeticId: 'catalog_rainbow_cap' } }, unlocks: { cosmetics: ['catalog_rainbow_cap'] } } } });
+  assert.equal(migrated.profileStates.p.pip.outfit.cosmeticId, 'catalog_rainbow_cap', 'Older saves keep their Pip look');
+  assert.deepEqual(wornLooks(migrated.profileStates.p.pip.outfit, rs), { head: 'catalog_rainbow_cap' });
+  const junk = new SaveSystem({ indexedDBRef: null, storage: null }).migrate({ activeProfileId: 'p', profiles: [{ id: 'p', name: 'J', age: 3, createdAt: 1 }], profileStates: { p: { pip: { outfit: { worn: { head: 'dino_cap', tail: 'x', eyes: 7 } } } } } });
+  assert.deepEqual(junk.profileStates.p.pip.outfit.worn, { head: 'dino_cap' }, 'Unknown worn slots are dropped');
+
+  const wardSave = new SaveSystem({ indexedDBRef: null, storage: null }); await wardSave.init(); await wardSave.createProfile({ name: 'Wren', age: 4 });
+  await wardSave.setPipOutfit({ cosmeticId: 'dino_cap' }); await wardSave.award('cosmetics', 'dino_cap'); await wardSave.award('cosmetics', 'look_outfit_police'); await wardSave.award('cosmetics', 'catalog_heart_glasses');
+  const wg = { save: wardSave, audio: sceneAudio, scenes: { last: null, change(name, data) { this.last = { name, data }; } } }; wg.rewards = new RewardSystem(wg); wg.rewards.setDefinitions(rewardData);
+  const col = new CollectionScene(wg); col.enter({ tab: 'cosmetics' });
+  for (const [tab] of LOOK_TABS) { await col.action(`look:${tab}`); assert.ok(col.items().length > 0 && col.items().every(r => lookTab(r) === tab), `LOOKS ${tab} tab lists its looks`); col.render(fakeCtx); assert.equal(fakeCtx.depth, 0); }
+  assert.equal(col.controlAt({ x: 100, y: 232 + 2 * 100 + 40 }), 'look:outfits', 'LOOKS sub-tabs are tappable');
+  await col.action('item:look_outfit_police'); await col.action('item:catalog_heart_glasses');
+  const worn = wardSave.getProfileState().pip.outfit.worn;
+  assert.equal(worn.body, 'look_outfit_police'); assert.equal(worn.eyes, 'catalog_heart_glasses');
+  assert.equal(worn.head, undefined, "The police outfit's cap replaced the dino cap");
+  assert.equal(col.pip.looks.length, 2, 'Pip wears every worn look');
+  const isl = new WonderIslandScene(wg); isl.enter({}); assert.equal(isl.pip.looks.length, 2, 'Pip wears his looks on the island'); isl.render(fakeCtx); assert.equal(fakeCtx.depth, 0);
+
+  // Drawn on Pip: behind him (back), over him (the rest); outfits keep him front-on; the wave pose keeps hats.
+  const pic = { naturalWidth: 300, naturalHeight: 300, width: 300, height: 300 }, loaded = new Map();
+  globalThis.__LL_ASSETS = { artMap: map, get: id => loaded.get(id), requestArt: () => {} };
+  for (const pose of Object.values(map.pip.poses)) loaded.set(pose.id, { ...pic, id: pose.id });
+  for (const id of wardrobeIds) loaded.set(id, { ...pic, id });
+  class WardCtx extends FakeCanvasContext { constructor() { super(); this.drawn = []; } drawImage(img) { this.drawn.push(img.id); } }
+  const dressed = new PipController({ rng: () => 0.5, looks: ['look_outfit_police', 'catalog_heart_glasses', 'look_wings_fairy'].map(id => rs.get(id)) });
+  const c1 = new WardCtx(); dressed.render(c1); assert.equal(c1.depth, 0, 'Wardrobe drawing balances Canvas state');
+  assert.equal(c1.drawn[0], 'objects.wardrobe.backpacks.wings_fairy', 'Wings go behind Pip'); assert.equal(c1.drawn[1], 'characters.pip.pip_front');
+  assert.ok(c1.drawn.includes('objects.wardrobe.outfits.outfit_police') && c1.drawn.includes('objects.wardrobe.glasses.glasses_heart'), 'Outfit and glasses are drawn on Pip');
+  dressed.react('celebrate'); dressed.update(0.05); const c2 = new WardCtx(); dressed.render(c2); assert.ok(c2.drawn.includes('characters.pip.pip_front') && c2.drawn.includes('objects.wardrobe.outfits.outfit_police'), 'A dressed Pip celebrates front-on, still dressed');
+  const hatted = new PipController({ rng: () => 0.5, looks: [rs.get('catalog_explorer_hat')] }); hatted.react('wave'); hatted.update(0.05); const c3 = new WardCtx(); hatted.render(c3);
+  assert.ok(c3.drawn.includes('characters.pip.pip_wave') && c3.drawn.includes('objects.wardrobe.hats.hat_pith_explorer'), 'Hats stay on when Pip waves');
+  loaded.set('objects.hats.hood_dino', { ...pic, id: 'objects.hats.hood_dino' }); const old = new PipController({ rng: () => 0.5, cosmetic: rs.get('dino_cap') }); const c4 = new WardCtx(); old.render(c4); assert.ok(c4.drawn.includes('objects.hats.hood_dino'), 'Older looks still draw on Pip');
+  assert.ok((await artIdsForScene({ save: wardSave, rewards: wg.rewards }, 'collection', {})).includes('objects.wardrobe.outfits.outfit_police'), 'Worn looks are preloaded');
+  delete globalThis.__LL_ASSETS;
+  assert.ok(serviceWorkerSource.includes("'./src/characters/Wardrobe.js'"), 'Wardrobe code works offline');
 }
 
 console.log(`Little Legends M0-M29 qualification implementation check passed (M26/M29 human gates still pending): ${required.length} required files, ${jsFiles.length} JS syntax checks, ${activityEngine.list().length} JSON activities across ${expectedActivityTypes.size} reusable families, ${adventureData.adventures.length} Little Missions, privacy/child-test support, launch FX, save recovery, performance instrumentation and offline PWA verified.`);

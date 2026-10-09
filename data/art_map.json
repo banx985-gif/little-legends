@@ -636,7 +636,7 @@
     "catalog_hat_chef": "objects.hats.hat_chef",
     "catalog_hat_firefighter": "objects.hats.hat_firefighter",
     "catalog_hat_wizard": "objects.hats.hat_wizard",
-    "catalog_outfit_astronaut": "objects.outfits.outfit_astronaut",
+    "catalog_outfit_astronaut": "objects.wardrobe.outfits.outfit_astronaut",
     "catalog_outfit_builder": "objects.outfits.outfit_builder",
     "catalog_outfit_chef": "objects.outfits.outfit_chef",
     "catalog_outfit_dino_onesie": "objects.outfits.outfit_dino_onesie",
@@ -654,7 +654,66 @@
     "catalog_umbrella": "objects.clothes.umbrella",
     "catalog_tshirt": "objects.clothes.tshirt",
     "catalog_shorts": "objects.clothes.shorts",
-    "catalog_satchel": "characters.pip.pip_part_satchel"
+    "catalog_satchel": "characters.pip.pip_part_satchel",
+    "look_beanie_snowflake": "objects.wardrobe.hats.beanie_snowflake",
+    "catalog_bunny_ears": "objects.wardrobe.hats.ears_bunny",
+    "look_flower_crown": "objects.wardrobe.hats.flower_crown",
+    "look_hat_detective": "objects.wardrobe.hats.hat_detective",
+    "look_hat_garden": "objects.wardrobe.hats.hat_garden",
+    "look_hat_pilot": "objects.wardrobe.hats.hat_pilot",
+    "catalog_explorer_hat": "objects.wardrobe.hats.hat_pith_explorer",
+    "look_hat_sailor": "objects.wardrobe.hats.hat_sailor",
+    "look_headband_bear": "objects.wardrobe.hats.headband_bear",
+    "catalog_frog_hat": "objects.wardrobe.hats.headband_frog",
+    "look_headband_stars": "objects.wardrobe.hats.headband_stars",
+    "look_tiara_heart": "objects.wardrobe.hats.tiara_heart",
+    "catalog_heart_glasses": "objects.wardrobe.glasses.glasses_heart",
+    "look_glasses_rainbow": "objects.wardrobe.glasses.glasses_rainbow",
+    "look_glasses_star_round": "objects.wardrobe.glasses.glasses_star_round",
+    "look_goggles_swim": "objects.wardrobe.glasses.goggles_swim",
+    "look_mask_hero": "objects.wardrobe.glasses.mask_hero",
+    "look_mask_sleep": "objects.wardrobe.glasses.mask_sleep",
+    "catalog_dino_backpack": "objects.wardrobe.backpacks.backpack_dino_tail",
+    "look_backpack_explorer": "objects.wardrobe.backpacks.backpack_explorer",
+    "catalog_star_backpack": "objects.wardrobe.backpacks.backpack_rainbow",
+    "look_jetpack_rocket": "objects.wardrobe.backpacks.jetpack_rocket",
+    "look_wings_butterfly": "objects.wardrobe.backpacks.wings_butterfly",
+    "look_wings_fairy": "objects.wardrobe.backpacks.wings_fairy",
+    "look_badge_flower": "objects.wardrobe.accessories.badge_flower",
+    "look_binoculars": "objects.wardrobe.accessories.binoculars",
+    "look_bow_rainbow": "objects.wardrobe.accessories.bow_rainbow",
+    "look_camera": "objects.wardrobe.accessories.camera",
+    "look_medal_star": "objects.wardrobe.accessories.medal_star",
+    "look_satchel_star": "objects.wardrobe.accessories.satchel_star",
+    "look_onesie_bear": "objects.wardrobe.onesies.onesie_bear",
+    "look_onesie_bee": "objects.wardrobe.onesies.onesie_bee",
+    "look_onesie_bunny": "objects.wardrobe.onesies.onesie_bunny",
+    "look_onesie_frog": "objects.wardrobe.onesies.onesie_frog",
+    "look_onesie_lion": "objects.wardrobe.onesies.onesie_lion",
+    "look_onesie_penguin": "objects.wardrobe.onesies.onesie_penguin",
+    "look_onesie_dragon": "objects.wardrobe.outfits.onesie_dragon",
+    "look_onesie_unicorn": "objects.wardrobe.outfits.onesie_unicorn",
+    "look_outfit_beach": "objects.wardrobe.outfits.outfit_beach",
+    "look_outfit_detective": "objects.wardrobe.outfits.outfit_detective",
+    "look_outfit_explorer": "objects.wardrobe.outfits.outfit_explorer",
+    "look_outfit_fairy": "objects.wardrobe.outfits.outfit_fairy",
+    "look_outfit_firefighter": "objects.wardrobe.outfits.outfit_firefighter",
+    "look_outfit_gardener": "objects.wardrobe.outfits.outfit_gardener",
+    "look_outfit_knight": "objects.wardrobe.outfits.outfit_knight",
+    "look_outfit_painter": "objects.wardrobe.outfits.outfit_painter",
+    "look_outfit_paramedic": "objects.wardrobe.outfits.outfit_paramedic",
+    "look_outfit_party_suit": "objects.wardrobe.outfits.outfit_party_suit",
+    "look_outfit_pilot": "objects.wardrobe.outfits.outfit_pilot",
+    "look_outfit_police": "objects.wardrobe.outfits.outfit_police",
+    "look_outfit_postie": "objects.wardrobe.outfits.outfit_postie",
+    "look_outfit_prince": "objects.wardrobe.outfits.outfit_prince",
+    "look_outfit_princess_dress": "objects.wardrobe.outfits.outfit_princess_dress",
+    "look_outfit_ranger": "objects.wardrobe.outfits.outfit_ranger",
+    "look_outfit_rockstar": "objects.wardrobe.outfits.outfit_rockstar",
+    "look_outfit_sailor": "objects.wardrobe.outfits.outfit_sailor",
+    "look_outfit_sporty": "objects.wardrobe.outfits.outfit_sporty",
+    "look_outfit_train_driver": "objects.wardrobe.outfits.outfit_train_driver",
+    "look_outfit_winter": "objects.wardrobe.outfits.outfit_winter"
   },
   "cosmeticSlots": {
     "objects.hats.glasses_star": "eyes",
@@ -1235,7 +1294,7 @@
     "catalog_hat_chef": "objects.hats.hat_chef",
     "catalog_hat_firefighter": "objects.hats.hat_firefighter",
     "catalog_hat_wizard": "objects.hats.hat_wizard",
-    "catalog_outfit_astronaut": "objects.outfits.outfit_astronaut",
+    "catalog_outfit_astronaut": "objects.wardrobe.outfits.outfit_astronaut",
     "catalog_outfit_builder": "objects.outfits.outfit_builder",
     "catalog_outfit_chef": "objects.outfits.outfit_chef",
     "catalog_outfit_dino_onesie": "objects.outfits.outfit_dino_onesie",
@@ -1253,7 +1312,66 @@
     "catalog_umbrella": "objects.clothes.umbrella",
     "catalog_tshirt": "objects.clothes.tshirt",
     "catalog_shorts": "objects.clothes.shorts",
-    "catalog_satchel": "characters.pip.pip_part_satchel"
+    "catalog_satchel": "characters.pip.pip_part_satchel",
+    "look_beanie_snowflake": "objects.wardrobe.hats.beanie_snowflake",
+    "catalog_bunny_ears": "objects.wardrobe.hats.ears_bunny",
+    "look_flower_crown": "objects.wardrobe.hats.flower_crown",
+    "look_hat_detective": "objects.wardrobe.hats.hat_detective",
+    "look_hat_garden": "objects.wardrobe.hats.hat_garden",
+    "look_hat_pilot": "objects.wardrobe.hats.hat_pilot",
+    "catalog_explorer_hat": "objects.wardrobe.hats.hat_pith_explorer",
+    "look_hat_sailor": "objects.wardrobe.hats.hat_sailor",
+    "look_headband_bear": "objects.wardrobe.hats.headband_bear",
+    "catalog_frog_hat": "objects.wardrobe.hats.headband_frog",
+    "look_headband_stars": "objects.wardrobe.hats.headband_stars",
+    "look_tiara_heart": "objects.wardrobe.hats.tiara_heart",
+    "catalog_heart_glasses": "objects.wardrobe.glasses.glasses_heart",
+    "look_glasses_rainbow": "objects.wardrobe.glasses.glasses_rainbow",
+    "look_glasses_star_round": "objects.wardrobe.glasses.glasses_star_round",
+    "look_goggles_swim": "objects.wardrobe.glasses.goggles_swim",
+    "look_mask_hero": "objects.wardrobe.glasses.mask_hero",
+    "look_mask_sleep": "objects.wardrobe.glasses.mask_sleep",
+    "catalog_dino_backpack": "objects.wardrobe.backpacks.backpack_dino_tail",
+    "look_backpack_explorer": "objects.wardrobe.backpacks.backpack_explorer",
+    "catalog_star_backpack": "objects.wardrobe.backpacks.backpack_rainbow",
+    "look_jetpack_rocket": "objects.wardrobe.backpacks.jetpack_rocket",
+    "look_wings_butterfly": "objects.wardrobe.backpacks.wings_butterfly",
+    "look_wings_fairy": "objects.wardrobe.backpacks.wings_fairy",
+    "look_badge_flower": "objects.wardrobe.accessories.badge_flower",
+    "look_binoculars": "objects.wardrobe.accessories.binoculars",
+    "look_bow_rainbow": "objects.wardrobe.accessories.bow_rainbow",
+    "look_camera": "objects.wardrobe.accessories.camera",
+    "look_medal_star": "objects.wardrobe.accessories.medal_star",
+    "look_satchel_star": "objects.wardrobe.accessories.satchel_star",
+    "look_onesie_bear": "objects.wardrobe.onesies.onesie_bear",
+    "look_onesie_bee": "objects.wardrobe.onesies.onesie_bee",
+    "look_onesie_bunny": "objects.wardrobe.onesies.onesie_bunny",
+    "look_onesie_frog": "objects.wardrobe.onesies.onesie_frog",
+    "look_onesie_lion": "objects.wardrobe.onesies.onesie_lion",
+    "look_onesie_penguin": "objects.wardrobe.onesies.onesie_penguin",
+    "look_onesie_dragon": "objects.wardrobe.outfits.onesie_dragon",
+    "look_onesie_unicorn": "objects.wardrobe.outfits.onesie_unicorn",
+    "look_outfit_beach": "objects.wardrobe.outfits.outfit_beach",
+    "look_outfit_detective": "objects.wardrobe.outfits.outfit_detective",
+    "look_outfit_explorer": "objects.wardrobe.outfits.outfit_explorer",
+    "look_outfit_fairy": "objects.wardrobe.outfits.outfit_fairy",
+    "look_outfit_firefighter": "objects.wardrobe.outfits.outfit_firefighter",
+    "look_outfit_gardener": "objects.wardrobe.outfits.outfit_gardener",
+    "look_outfit_knight": "objects.wardrobe.outfits.outfit_knight",
+    "look_outfit_painter": "objects.wardrobe.outfits.outfit_painter",
+    "look_outfit_paramedic": "objects.wardrobe.outfits.outfit_paramedic",
+    "look_outfit_party_suit": "objects.wardrobe.outfits.outfit_party_suit",
+    "look_outfit_pilot": "objects.wardrobe.outfits.outfit_pilot",
+    "look_outfit_police": "objects.wardrobe.outfits.outfit_police",
+    "look_outfit_postie": "objects.wardrobe.outfits.outfit_postie",
+    "look_outfit_prince": "objects.wardrobe.outfits.outfit_prince",
+    "look_outfit_princess_dress": "objects.wardrobe.outfits.outfit_princess_dress",
+    "look_outfit_ranger": "objects.wardrobe.outfits.outfit_ranger",
+    "look_outfit_rockstar": "objects.wardrobe.outfits.outfit_rockstar",
+    "look_outfit_sailor": "objects.wardrobe.outfits.outfit_sailor",
+    "look_outfit_sporty": "objects.wardrobe.outfits.outfit_sporty",
+    "look_outfit_train_driver": "objects.wardrobe.outfits.outfit_train_driver",
+    "look_outfit_winter": "objects.wardrobe.outfits.outfit_winter"
   },
   "island": {
     "pipHouse": "worlds.buildings.cottage_blue",
@@ -1490,5 +1608,974 @@
       "fx.note_gold",
       "fx.note_pink"
     ]
+  },
+  "wardrobe": {
+    "about": "Pip's wardrobe (Job 09). items: art id -> slot (head, eyes, body, back, extra) and parts. Each part is the picture, or a band of it (from: [top, bottom] as 0-1 of its height; fromX the same across), centred at x, y with width w, all in pixels of pip_front (ref = its size). on other poses, hats follow Pip's head (space 'head'), glasses his eyes ('eyes') and the rest his body ('body') (poses: where a point of pip_front lands on that pose's picture). Poses not listed show Pip front-on while he wears a look; the wave pose too while he wears an outfit. headOver: Pip's head (above this y) is drawn back over an outfit's collar. reveal: Pip's face (ellipse x, y, rx, ry) shows through a onesie's or hood's face hole. frontOnly: Pip stays front-on while wearing it. covers: other slots this look takes up. hideOn: poses where it is hidden.",
+    "ref": [
+      291,
+      334
+    ],
+    "poses": {
+      "wave": {
+        "ref": [
+          523,
+          680
+        ],
+        "head": {
+          "front": [
+            146,
+            50
+          ],
+          "at": [
+            238,
+            152
+          ],
+          "rot": -0.2,
+          "scale": 1
+        },
+        "eyes": {
+          "front": [
+            145.5,
+            120
+          ],
+          "at": [
+            262,
+            279
+          ],
+          "rot": -0.2,
+          "scale": 1
+        },
+        "body": {
+          "front": [
+            146,
+            200
+          ],
+          "at": [
+            310,
+            440
+          ],
+          "rot": 0,
+          "scale": 0.89
+        }
+      }
+    },
+    "items": {
+      "objects.wardrobe.hats.beanie_snowflake": {
+        "slot": "head",
+        "parts": [
+          {
+            "x": 146,
+            "y": 10.6,
+            "w": 150
+          }
+        ]
+      },
+      "objects.wardrobe.hats.ears_bunny": {
+        "slot": "head",
+        "parts": [
+          {
+            "x": 146,
+            "y": 14.1,
+            "w": 175
+          }
+        ]
+      },
+      "objects.wardrobe.hats.flower_crown": {
+        "slot": "head",
+        "parts": [
+          {
+            "x": 146,
+            "y": 52,
+            "w": 150
+          }
+        ]
+      },
+      "objects.wardrobe.hats.hat_detective": {
+        "slot": "head",
+        "parts": [
+          {
+            "x": 146,
+            "y": 17.9,
+            "w": 165
+          }
+        ]
+      },
+      "objects.wardrobe.hats.hat_garden": {
+        "slot": "head",
+        "parts": [
+          {
+            "x": 146,
+            "y": 25.5,
+            "w": 185
+          }
+        ]
+      },
+      "objects.wardrobe.hats.hat_pilot": {
+        "slot": "head",
+        "parts": [
+          {
+            "x": 146,
+            "y": 20.5,
+            "w": 165
+          }
+        ]
+      },
+      "objects.wardrobe.hats.hat_pith_explorer": {
+        "slot": "head",
+        "parts": [
+          {
+            "x": 146,
+            "y": 24,
+            "w": 175
+          }
+        ]
+      },
+      "objects.wardrobe.hats.hat_sailor": {
+        "slot": "head",
+        "parts": [
+          {
+            "x": 146,
+            "y": 24.6,
+            "w": 155
+          }
+        ]
+      },
+      "objects.wardrobe.hats.headband_bear": {
+        "slot": "head",
+        "parts": [
+          {
+            "x": 146,
+            "y": 89,
+            "w": 195
+          }
+        ],
+        "reveal": [
+          147,
+          130,
+          52,
+          42
+        ],
+        "frontOnly": true
+      },
+      "objects.wardrobe.hats.headband_frog": {
+        "slot": "head",
+        "parts": [
+          {
+            "x": 146,
+            "y": 84.3,
+            "w": 195
+          }
+        ],
+        "reveal": [
+          147,
+          130,
+          52,
+          42
+        ],
+        "frontOnly": true
+      },
+      "objects.wardrobe.hats.headband_stars": {
+        "slot": "head",
+        "parts": [
+          {
+            "x": 146,
+            "y": 91,
+            "w": 160
+          }
+        ]
+      },
+      "objects.wardrobe.hats.tiara_heart": {
+        "slot": "head",
+        "parts": [
+          {
+            "x": 146,
+            "y": 21,
+            "w": 110
+          }
+        ]
+      },
+      "objects.wardrobe.glasses.glasses_heart": {
+        "slot": "eyes",
+        "parts": [
+          {
+            "x": 146,
+            "y": 120,
+            "w": 135
+          }
+        ]
+      },
+      "objects.wardrobe.glasses.glasses_rainbow": {
+        "slot": "eyes",
+        "parts": [
+          {
+            "x": 146,
+            "y": 120,
+            "w": 135
+          }
+        ]
+      },
+      "objects.wardrobe.glasses.glasses_star_round": {
+        "slot": "eyes",
+        "parts": [
+          {
+            "x": 146,
+            "y": 120,
+            "w": 135
+          }
+        ]
+      },
+      "objects.wardrobe.glasses.goggles_swim": {
+        "slot": "eyes",
+        "parts": [
+          {
+            "x": 146,
+            "y": 118,
+            "w": 145
+          }
+        ]
+      },
+      "objects.wardrobe.glasses.mask_hero": {
+        "slot": "eyes",
+        "parts": [
+          {
+            "x": 146,
+            "y": 118,
+            "w": 145
+          }
+        ]
+      },
+      "objects.wardrobe.glasses.mask_sleep": {
+        "slot": "eyes",
+        "parts": [
+          {
+            "x": 146,
+            "y": 118,
+            "w": 140
+          }
+        ]
+      },
+      "objects.wardrobe.backpacks.backpack_dino_tail": {
+        "slot": "back",
+        "parts": [
+          {
+            "x": 175,
+            "y": 265,
+            "w": 150
+          }
+        ]
+      },
+      "objects.wardrobe.backpacks.backpack_explorer": {
+        "slot": "back",
+        "parts": [
+          {
+            "x": 146,
+            "y": 195,
+            "w": 175
+          }
+        ]
+      },
+      "objects.wardrobe.backpacks.backpack_rainbow": {
+        "slot": "back",
+        "parts": [
+          {
+            "x": 146,
+            "y": 195,
+            "w": 175
+          }
+        ]
+      },
+      "objects.wardrobe.backpacks.jetpack_rocket": {
+        "slot": "back",
+        "parts": [
+          {
+            "x": 146,
+            "y": 215,
+            "w": 170
+          }
+        ]
+      },
+      "objects.wardrobe.backpacks.wings_butterfly": {
+        "slot": "back",
+        "parts": [
+          {
+            "x": 146,
+            "y": 200,
+            "w": 260
+          }
+        ]
+      },
+      "objects.wardrobe.backpacks.wings_fairy": {
+        "slot": "back",
+        "parts": [
+          {
+            "x": 146,
+            "y": 200,
+            "w": 260
+          }
+        ]
+      },
+      "objects.wardrobe.accessories.badge_flower": {
+        "slot": "extra",
+        "parts": [
+          {
+            "x": 118,
+            "y": 205,
+            "w": 45
+          }
+        ]
+      },
+      "objects.wardrobe.accessories.binoculars": {
+        "slot": "extra",
+        "parts": [
+          {
+            "x": 146,
+            "y": 220,
+            "w": 95
+          }
+        ]
+      },
+      "objects.wardrobe.accessories.bow_rainbow": {
+        "slot": "extra",
+        "parts": [
+          {
+            "x": 146,
+            "y": 178,
+            "w": 75
+          }
+        ]
+      },
+      "objects.wardrobe.accessories.camera": {
+        "slot": "extra",
+        "parts": [
+          {
+            "x": 146,
+            "y": 222,
+            "w": 90
+          }
+        ]
+      },
+      "objects.wardrobe.accessories.medal_star": {
+        "slot": "extra",
+        "parts": [
+          {
+            "x": 146,
+            "y": 205.6,
+            "w": 55
+          }
+        ]
+      },
+      "objects.wardrobe.accessories.satchel_star": {
+        "slot": "extra",
+        "parts": [
+          {
+            "x": 185,
+            "y": 250,
+            "w": 80
+          }
+        ]
+      },
+      "objects.wardrobe.onesies.onesie_bear": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 147,
+            "y": 192.5,
+            "w": 196.9
+          }
+        ],
+        "covers": [
+          "head"
+        ],
+        "reveal": [
+          147,
+          126,
+          46,
+          43
+        ]
+      },
+      "objects.wardrobe.onesies.onesie_bee": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 155,
+            "y": 192.5,
+            "w": 218
+          }
+        ],
+        "covers": [
+          "head"
+        ],
+        "reveal": [
+          147,
+          126,
+          46,
+          48
+        ]
+      },
+      "objects.wardrobe.onesies.onesie_bunny": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 146,
+            "y": 188.5,
+            "w": 267.7
+          }
+        ],
+        "covers": [
+          "head"
+        ],
+        "reveal": [
+          147,
+          126,
+          46,
+          44
+        ]
+      },
+      "objects.wardrobe.onesies.onesie_frog": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 150,
+            "y": 188.5,
+            "w": 201.9
+          }
+        ],
+        "covers": [
+          "head"
+        ],
+        "reveal": [
+          147,
+          126,
+          46,
+          44
+        ]
+      },
+      "objects.wardrobe.onesies.onesie_lion": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 150,
+            "y": 171.5,
+            "w": 264.7
+          }
+        ],
+        "covers": [
+          "head"
+        ],
+        "reveal": [
+          147,
+          126,
+          46,
+          42
+        ]
+      },
+      "objects.wardrobe.onesies.onesie_penguin": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 149,
+            "y": 177.6,
+            "w": 249.1
+          }
+        ],
+        "covers": [
+          "head"
+        ],
+        "reveal": [
+          147,
+          126,
+          55,
+          47
+        ]
+      },
+      "objects.wardrobe.outfits.onesie_dragon": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 145,
+            "y": 205.6,
+            "w": 203
+          }
+        ],
+        "covers": [
+          "head"
+        ],
+        "reveal": [
+          147,
+          126,
+          46,
+          42
+        ]
+      },
+      "objects.wardrobe.outfits.onesie_unicorn": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 139,
+            "y": 188.5,
+            "w": 193.6
+          }
+        ],
+        "covers": [
+          "head"
+        ],
+        "reveal": [
+          147,
+          126,
+          46,
+          42
+        ]
+      },
+      "objects.wardrobe.outfits.outfit_astronaut": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 146,
+            "y": 248,
+            "w": 159.7
+          }
+        ],
+        "headOver": 166
+      },
+      "objects.wardrobe.outfits.outfit_beach": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 146,
+            "y": 41.6,
+            "w": 202,
+            "from": [
+              0,
+              0.27
+            ],
+            "space": "head"
+          },
+          {
+            "x": 146,
+            "y": 248,
+            "w": 155.1,
+            "from": [
+              0.27,
+              1
+            ]
+          }
+        ],
+        "headOver": 166,
+        "covers": [
+          "head"
+        ]
+      },
+      "objects.wardrobe.outfits.outfit_detective": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 148,
+            "y": 32.1,
+            "w": 214,
+            "from": [
+              0,
+              0.36
+            ],
+            "space": "head"
+          },
+          {
+            "x": 146,
+            "y": 248,
+            "w": 203.9,
+            "from": [
+              0.36,
+              1
+            ]
+          }
+        ],
+        "headOver": 166,
+        "covers": [
+          "head"
+        ]
+      },
+      "objects.wardrobe.outfits.outfit_explorer": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 146,
+            "y": 35.7,
+            "w": 202,
+            "from": [
+              0,
+              0.33
+            ],
+            "space": "head"
+          },
+          {
+            "x": 146,
+            "y": 248,
+            "w": 181.1,
+            "from": [
+              0.33,
+              1
+            ]
+          }
+        ],
+        "headOver": 166,
+        "covers": [
+          "head"
+        ]
+      },
+      "objects.wardrobe.outfits.outfit_fairy": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 146,
+            "y": 248,
+            "w": 148.1
+          }
+        ],
+        "headOver": 166
+      },
+      "objects.wardrobe.outfits.outfit_firefighter": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 146,
+            "y": 36.6,
+            "w": 254,
+            "from": [
+              0,
+              0.27
+            ],
+            "space": "head"
+          },
+          {
+            "x": 146,
+            "y": 248,
+            "w": 174.5,
+            "from": [
+              0.27,
+              1
+            ]
+          }
+        ],
+        "headOver": 166,
+        "covers": [
+          "head"
+        ]
+      },
+      "objects.wardrobe.outfits.outfit_gardener": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 146,
+            "y": 40.1,
+            "w": 220,
+            "from": [
+              0,
+              0.27
+            ],
+            "space": "head"
+          },
+          {
+            "x": 146,
+            "y": 248,
+            "w": 163.2,
+            "from": [
+              0.27,
+              1
+            ]
+          }
+        ],
+        "headOver": 166,
+        "covers": [
+          "head"
+        ]
+      },
+      "objects.wardrobe.outfits.outfit_knight": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 146,
+            "y": 248,
+            "w": 163.2
+          }
+        ],
+        "headOver": 166
+      },
+      "objects.wardrobe.outfits.outfit_painter": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 146,
+            "y": 248,
+            "w": 147.2
+          }
+        ],
+        "headOver": 166
+      },
+      "objects.wardrobe.outfits.outfit_paramedic": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 146,
+            "y": 248,
+            "w": 164
+          }
+        ],
+        "headOver": 166
+      },
+      "objects.wardrobe.outfits.outfit_party_suit": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 146,
+            "y": 248,
+            "w": 149.2
+          }
+        ],
+        "headOver": 166
+      },
+      "objects.wardrobe.outfits.outfit_pilot": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 148,
+            "y": 30.5,
+            "w": 235,
+            "from": [
+              0,
+              0.37
+            ],
+            "space": "head"
+          },
+          {
+            "x": 146,
+            "y": 248,
+            "w": 226.8,
+            "from": [
+              0.37,
+              1
+            ]
+          }
+        ],
+        "headOver": 166,
+        "covers": [
+          "head"
+        ]
+      },
+      "objects.wardrobe.outfits.outfit_police": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 144,
+            "y": 51,
+            "w": 242,
+            "from": [
+              0,
+              0.17
+            ],
+            "space": "head"
+          },
+          {
+            "x": 146,
+            "y": 248,
+            "w": 132.4,
+            "from": [
+              0.17,
+              1
+            ]
+          }
+        ],
+        "headOver": 166,
+        "covers": [
+          "head"
+        ]
+      },
+      "objects.wardrobe.outfits.outfit_postie": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 146,
+            "y": 51,
+            "w": 220,
+            "from": [
+              0,
+              0.19
+            ],
+            "space": "head"
+          },
+          {
+            "x": 146,
+            "y": 248,
+            "w": 137.5,
+            "from": [
+              0.19,
+              1
+            ]
+          }
+        ],
+        "headOver": 166,
+        "covers": [
+          "head"
+        ]
+      },
+      "objects.wardrobe.outfits.outfit_prince": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 146,
+            "y": 248,
+            "w": 169.6
+          }
+        ],
+        "headOver": 166
+      },
+      "objects.wardrobe.outfits.outfit_princess_dress": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 146,
+            "y": 248,
+            "w": 193.9
+          }
+        ],
+        "headOver": 166
+      },
+      "objects.wardrobe.outfits.outfit_ranger": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 146,
+            "y": 43.5,
+            "w": 202,
+            "from": [
+              0,
+              0.3
+            ],
+            "space": "head"
+          },
+          {
+            "x": 146,
+            "y": 248,
+            "w": 188.2,
+            "from": [
+              0.3,
+              1
+            ]
+          }
+        ],
+        "headOver": 166,
+        "covers": [
+          "head"
+        ]
+      },
+      "objects.wardrobe.outfits.outfit_rockstar": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 146,
+            "y": 248,
+            "w": 165.5
+          }
+        ],
+        "headOver": 166
+      },
+      "objects.wardrobe.outfits.outfit_sailor": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 161,
+            "y": 33.4,
+            "w": 245,
+            "from": [
+              0,
+              0.32
+            ],
+            "space": "head"
+          },
+          {
+            "x": 146,
+            "y": 248,
+            "w": 200.4,
+            "from": [
+              0.32,
+              1
+            ]
+          }
+        ],
+        "headOver": 166,
+        "covers": [
+          "head"
+        ]
+      },
+      "objects.wardrobe.outfits.outfit_sporty": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 146,
+            "y": 248,
+            "w": 145.7
+          }
+        ],
+        "headOver": 166
+      },
+      "objects.wardrobe.outfits.outfit_train_driver": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 146,
+            "y": 50.2,
+            "w": 255,
+            "from": [
+              0,
+              0.2
+            ],
+            "space": "head"
+          },
+          {
+            "x": 146,
+            "y": 248,
+            "w": 165.9,
+            "from": [
+              0.2,
+              1
+            ]
+          }
+        ],
+        "headOver": 166,
+        "covers": [
+          "head"
+        ]
+      },
+      "objects.wardrobe.outfits.outfit_winter": {
+        "slot": "body",
+        "parts": [
+          {
+            "x": 146,
+            "y": 11.4,
+            "w": 149.6,
+            "from": [
+              0,
+              0.33
+            ],
+            "fromX": [
+              0.42,
+              0.86
+            ],
+            "space": "head"
+          },
+          {
+            "x": 146,
+            "y": 248,
+            "w": 203,
+            "from": [
+              0.33,
+              1
+            ]
+          }
+        ],
+        "headOver": 166,
+        "covers": [
+          "head"
+        ]
+      }
+    }
   }
 }

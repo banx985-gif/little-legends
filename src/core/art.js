@@ -182,8 +182,10 @@ async function artIdsForScene(game, name, data = {}) {
     const owned = Object.values(game.save?.getProfileState?.()?.unlocks ?? {}).flat();
     ids.push(...Object.values(map.island ?? {}), ...owned.map(id => map.rewards?.[id]).filter(Boolean));
   }
-  const cosmeticId = game.save?.getProfileState?.()?.pip?.outfit?.cosmeticId;
-  if (cosmeticId && map.cosmetics?.[cosmeticId]) ids.push(map.cosmetics[cosmeticId]);
+  // Looks Pip is wearing (outfit.worn, one per slot; older saves: cosmeticId).
+  const outfit = game.save?.getProfileState?.()?.pip?.outfit;
+  const worn = outfit?.worn && typeof outfit.worn === 'object' ? Object.values(outfit.worn) : [outfit?.cosmeticId];
+  for (const id of worn) if (typeof id === 'string' && map.cosmetics?.[id]) ids.push(map.cosmetics[id]);
   const activities = game.activityEngine;
   if (name === 'adventure' && game.adventureEngine) {
     await game.adventureEngine.ensureLoaded?.(game.assets);

@@ -35,7 +35,8 @@
       "voice": "A dino cap for Pip!",
       "interaction": "Pip can wear it",
       "stars": 2,
-      "world": "dino"
+      "world": "dino",
+      "look": "hats"
     },
     {
       "id": "rainbow_arch",
@@ -61,7 +62,8 @@
       "voice": "A party hat!",
       "interaction": "A colourful party cosmetic",
       "stars": 1,
-      "world": "rainbow"
+      "world": "rainbow",
+      "look": "hats"
     },
     {
       "id": "shape_garden",
@@ -854,7 +856,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "red",
-      "style": 0
+      "style": 0,
+      "look": "hats"
     },
     {
       "id": "catalog_moon_beanie",
@@ -867,7 +870,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "blue",
-      "style": 1
+      "style": 1,
+      "look": "hats"
     },
     {
       "id": "catalog_dino_hoodie",
@@ -880,7 +884,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "yellow",
-      "style": 2
+      "style": 2,
+      "look": "hats"
     },
     {
       "id": "catalog_bee_antennae",
@@ -893,7 +898,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "green",
-      "style": 3
+      "style": 3,
+      "look": "hats"
     },
     {
       "id": "catalog_star_crown",
@@ -906,7 +912,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "orange",
-      "style": 0
+      "style": 0,
+      "look": "hats"
     },
     {
       "id": "catalog_leaf_crown",
@@ -919,7 +926,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "purple",
-      "style": 1
+      "style": 1,
+      "look": "hats"
     },
     {
       "id": "catalog_explorer_hat",
@@ -932,7 +940,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "pink",
-      "style": 2
+      "style": 2,
+      "look": "hats"
     },
     {
       "id": "catalog_painter_beret",
@@ -945,7 +954,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "cream",
-      "style": 3
+      "style": 3,
+      "look": "hats"
     },
     {
       "id": "catalog_storybook_hood",
@@ -958,7 +968,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "red",
-      "style": 0
+      "style": 0,
+      "look": "hats"
     },
     {
       "id": "catalog_jungle_headband",
@@ -971,7 +982,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "blue",
-      "style": 1
+      "style": 1,
+      "look": "hats"
     },
     {
       "id": "catalog_cloud_cap",
@@ -984,7 +996,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "yellow",
-      "style": 2
+      "style": 2,
+      "look": "hats"
     },
     {
       "id": "catalog_sun_visor",
@@ -997,7 +1010,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "green",
-      "style": 3
+      "style": 3,
+      "look": "hats"
     },
     {
       "id": "catalog_frog_hat",
@@ -1010,7 +1024,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "orange",
-      "style": 0
+      "style": 0,
+      "look": "hats"
     },
     {
       "id": "catalog_fox_ears",
@@ -1023,7 +1038,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "purple",
-      "style": 1
+      "style": 1,
+      "look": "hats"
     },
     {
       "id": "catalog_bunny_ears",
@@ -1036,7 +1052,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "pink",
-      "style": 2
+      "style": 2,
+      "look": "hats"
     },
     {
       "id": "catalog_bear_ears",
@@ -1049,7 +1066,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "cream",
-      "style": 3
+      "style": 3,
+      "look": "hats"
     },
     {
       "id": "catalog_butterfly_bow",
@@ -1062,7 +1080,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "red",
-      "style": 0
+      "style": 0,
+      "look": "hats"
     },
     {
       "id": "catalog_rocket_helmet",
@@ -1075,7 +1094,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "blue",
-      "style": 1
+      "style": 1,
+      "look": "hats"
     },
     {
       "id": "catalog_captain_hat",
@@ -1088,7 +1108,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "yellow",
-      "style": 2
+      "style": 2,
+      "look": "hats"
     },
     {
       "id": "catalog_garden_hat",
@@ -1101,7 +1122,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "green",
-      "style": 3
+      "style": 3,
+      "look": "hats"
     },
     {
       "id": "catalog_party_crown",
@@ -1114,7 +1136,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "orange",
-      "style": 0
+      "style": 0,
+      "look": "hats"
     },
     {
       "id": "catalog_music_headphones",
@@ -1127,7 +1150,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "purple",
-      "style": 1
+      "style": 1,
+      "look": "hats"
     },
     {
       "id": "catalog_stripe_scarf",
@@ -1140,7 +1164,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "pink",
-      "style": 2
+      "style": 2,
+      "look": "extras"
     },
     {
       "id": "catalog_spotty_scarf",
@@ -1153,7 +1178,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "cream",
-      "style": 3
+      "style": 3,
+      "look": "extras"
     },
     {
       "id": "catalog_rainbow_scarf",
@@ -1166,7 +1192,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "red",
-      "style": 0
+      "style": 0,
+      "look": "extras"
     },
     {
       "id": "catalog_dino_backpack",
@@ -1179,7 +1206,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "blue",
-      "style": 1
+      "style": 1,
+      "look": "backs"
     },
     {
       "id": "catalog_star_backpack",
@@ -1192,7 +1220,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "yellow",
-      "style": 2
+      "style": 2,
+      "look": "backs"
     },
     {
       "id": "catalog_flower_backpack",
@@ -1205,7 +1234,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "green",
-      "style": 3
+      "style": 3,
+      "look": "backs"
     },
     {
       "id": "catalog_tiny_cape",
@@ -1218,7 +1248,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "orange",
-      "style": 0
+      "style": 0,
+      "look": "backs"
     },
     {
       "id": "catalog_rainbow_cape",
@@ -1231,7 +1262,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "purple",
-      "style": 1
+      "style": 1,
+      "look": "backs"
     },
     {
       "id": "catalog_moon_cape",
@@ -1244,7 +1276,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "pink",
-      "style": 2
+      "style": 2,
+      "look": "backs"
     },
     {
       "id": "catalog_comet_cape",
@@ -1257,7 +1290,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "cream",
-      "style": 3
+      "style": 3,
+      "look": "backs"
     },
     {
       "id": "catalog_heart_glasses",
@@ -1270,7 +1304,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "red",
-      "style": 0
+      "style": 0,
+      "look": "glasses"
     },
     {
       "id": "catalog_star_glasses",
@@ -1283,7 +1318,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "blue",
-      "style": 1
+      "style": 1,
+      "look": "glasses"
     },
     {
       "id": "catalog_round_glasses",
@@ -1296,7 +1332,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "yellow",
-      "style": 2
+      "style": 2,
+      "look": "glasses"
     },
     {
       "id": "catalog_sparkle_boots",
@@ -1309,7 +1346,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "green",
-      "style": 3
+      "style": 3,
+      "look": "extras"
     },
     {
       "id": "catalog_rain_boots",
@@ -1322,7 +1360,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "orange",
-      "style": 0
+      "style": 0,
+      "look": "extras"
     },
     {
       "id": "catalog_dino_slippers",
@@ -1335,7 +1374,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "purple",
-      "style": 1
+      "style": 1,
+      "look": "extras"
     },
     {
       "id": "catalog_rainbow_bench",
@@ -5087,7 +5127,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "orange",
-      "style": 1
+      "style": 1,
+      "look": "hats"
     },
     {
       "id": "catalog_hat_firefighter",
@@ -5100,7 +5141,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "purple",
-      "style": 2
+      "style": 2,
+      "look": "hats"
     },
     {
       "id": "catalog_hat_wizard",
@@ -5113,7 +5155,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "pink",
-      "style": 0
+      "style": 0,
+      "look": "hats"
     },
     {
       "id": "catalog_outfit_astronaut",
@@ -5126,7 +5169,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "red",
-      "style": 1
+      "style": 1,
+      "look": "outfits"
     },
     {
       "id": "catalog_outfit_builder",
@@ -5139,7 +5183,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "blue",
-      "style": 2
+      "style": 2,
+      "look": "outfits"
     },
     {
       "id": "catalog_outfit_chef",
@@ -5152,7 +5197,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "yellow",
-      "style": 0
+      "style": 0,
+      "look": "outfits"
     },
     {
       "id": "catalog_outfit_dino_onesie",
@@ -5165,7 +5211,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "green",
-      "style": 1
+      "style": 1,
+      "look": "onesies"
     },
     {
       "id": "catalog_outfit_doctor",
@@ -5178,7 +5225,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "orange",
-      "style": 2
+      "style": 2,
+      "look": "outfits"
     },
     {
       "id": "catalog_outfit_pirate",
@@ -5191,7 +5239,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "purple",
-      "style": 0
+      "style": 0,
+      "look": "outfits"
     },
     {
       "id": "catalog_outfit_pyjamas",
@@ -5204,7 +5253,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "pink",
-      "style": 1
+      "style": 1,
+      "look": "outfits"
     },
     {
       "id": "catalog_outfit_rainbow",
@@ -5217,7 +5267,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "red",
-      "style": 2
+      "style": 2,
+      "look": "outfits"
     },
     {
       "id": "catalog_outfit_raincoat",
@@ -5230,7 +5281,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "blue",
-      "style": 0
+      "style": 0,
+      "look": "outfits"
     },
     {
       "id": "catalog_outfit_wizard",
@@ -5243,7 +5295,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "yellow",
-      "style": 1
+      "style": 1,
+      "look": "outfits"
     },
     {
       "id": "catalog_goggles",
@@ -5256,7 +5309,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "green",
-      "style": 2
+      "style": 2,
+      "look": "glasses"
     },
     {
       "id": "catalog_sunglasses",
@@ -5269,7 +5323,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "orange",
-      "style": 0
+      "style": 0,
+      "look": "glasses"
     },
     {
       "id": "catalog_spanner",
@@ -5282,7 +5337,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "purple",
-      "style": 1
+      "style": 1,
+      "look": "extras"
     },
     {
       "id": "catalog_gloves",
@@ -5295,7 +5351,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "pink",
-      "style": 2
+      "style": 2,
+      "look": "extras"
     },
     {
       "id": "catalog_snow_boots",
@@ -5308,7 +5365,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "red",
-      "style": 0
+      "style": 0,
+      "look": "extras"
     },
     {
       "id": "catalog_umbrella",
@@ -5321,7 +5379,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "blue",
-      "style": 1
+      "style": 1,
+      "look": "extras"
     },
     {
       "id": "catalog_tshirt",
@@ -5334,7 +5393,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "yellow",
-      "style": 2
+      "style": 2,
+      "look": "extras"
     },
     {
       "id": "catalog_shorts",
@@ -5347,7 +5407,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "green",
-      "style": 0
+      "style": 0,
+      "look": "extras"
     },
     {
       "id": "catalog_satchel",
@@ -5360,7 +5421,644 @@
       "catalog": true,
       "starCost": 3,
       "color": "orange",
-      "style": 1
+      "style": 1,
+      "look": "extras"
+    },
+    {
+      "id": "look_beanie_snowflake",
+      "type": "cosmetics",
+      "name": "Snowflake Beanie",
+      "world": "life",
+      "voice": "You found Snowflake Beanie!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "look": "hats"
+    },
+    {
+      "id": "look_flower_crown",
+      "type": "cosmetics",
+      "name": "Flower Crown",
+      "world": "storybook",
+      "voice": "You found Flower Crown!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 3,
+      "look": "hats"
+    },
+    {
+      "id": "look_hat_detective",
+      "type": "cosmetics",
+      "name": "Detective Hat",
+      "world": "town",
+      "voice": "You found Detective Hat!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 3,
+      "look": "hats"
+    },
+    {
+      "id": "look_hat_garden",
+      "type": "cosmetics",
+      "name": "Straw Sun Hat",
+      "world": "animal",
+      "voice": "You found Straw Sun Hat!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "look": "hats"
+    },
+    {
+      "id": "look_hat_pilot",
+      "type": "cosmetics",
+      "name": "Pilot Cap",
+      "world": "space",
+      "voice": "You found Pilot Cap!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 3,
+      "look": "hats"
+    },
+    {
+      "id": "look_hat_sailor",
+      "type": "cosmetics",
+      "name": "Sailor Hat",
+      "world": "rainbow",
+      "voice": "You found Sailor Hat!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "look": "hats"
+    },
+    {
+      "id": "look_headband_bear",
+      "type": "cosmetics",
+      "name": "Teddy Headband",
+      "world": "animal",
+      "voice": "You found Teddy Headband!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "look": "hats"
+    },
+    {
+      "id": "look_headband_stars",
+      "type": "cosmetics",
+      "name": "Star Headband",
+      "world": "space",
+      "voice": "You found Star Headband!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "look": "hats"
+    },
+    {
+      "id": "look_tiara_heart",
+      "type": "cosmetics",
+      "name": "Heart Tiara",
+      "world": "storybook",
+      "voice": "You found Heart Tiara!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 3,
+      "look": "hats"
+    },
+    {
+      "id": "look_glasses_rainbow",
+      "type": "cosmetics",
+      "name": "Rainbow Glasses",
+      "world": "rainbow",
+      "voice": "You found Rainbow Glasses!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "look": "glasses"
+    },
+    {
+      "id": "look_glasses_star_round",
+      "type": "cosmetics",
+      "name": "Star Sunglasses",
+      "world": "space",
+      "voice": "You found Star Sunglasses!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 3,
+      "look": "glasses"
+    },
+    {
+      "id": "look_goggles_swim",
+      "type": "cosmetics",
+      "name": "Swim Goggles",
+      "world": "life",
+      "voice": "You found Swim Goggles!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "look": "glasses"
+    },
+    {
+      "id": "look_mask_hero",
+      "type": "cosmetics",
+      "name": "Hero Mask",
+      "world": "town",
+      "voice": "You found Hero Mask!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 3,
+      "look": "glasses"
+    },
+    {
+      "id": "look_mask_sleep",
+      "type": "cosmetics",
+      "name": "Sleepy Mask",
+      "world": "storybook",
+      "voice": "You found Sleepy Mask!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "look": "glasses"
+    },
+    {
+      "id": "look_backpack_explorer",
+      "type": "cosmetics",
+      "name": "Explorer Backpack",
+      "world": "animal",
+      "voice": "You found Explorer Backpack!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 3,
+      "look": "backs"
+    },
+    {
+      "id": "look_jetpack_rocket",
+      "type": "cosmetics",
+      "name": "Rocket Jetpack",
+      "world": "space",
+      "voice": "You found Rocket Jetpack!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "backs"
+    },
+    {
+      "id": "look_wings_butterfly",
+      "type": "cosmetics",
+      "name": "Butterfly Wings",
+      "world": "rainbow",
+      "voice": "You found Butterfly Wings!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "backs"
+    },
+    {
+      "id": "look_wings_fairy",
+      "type": "cosmetics",
+      "name": "Fairy Wings",
+      "world": "storybook",
+      "voice": "You found Fairy Wings!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "backs"
+    },
+    {
+      "id": "look_badge_flower",
+      "type": "cosmetics",
+      "name": "Flower Badge",
+      "world": "animal",
+      "voice": "You found Flower Badge!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "look": "extras"
+    },
+    {
+      "id": "look_binoculars",
+      "type": "cosmetics",
+      "name": "Binoculars",
+      "world": "animal",
+      "voice": "You found Binoculars!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 3,
+      "look": "extras"
+    },
+    {
+      "id": "look_bow_rainbow",
+      "type": "cosmetics",
+      "name": "Rainbow Bow Tie",
+      "world": "rainbow",
+      "voice": "You found Rainbow Bow Tie!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "look": "extras"
+    },
+    {
+      "id": "look_camera",
+      "type": "cosmetics",
+      "name": "Camera",
+      "world": "town",
+      "voice": "You found Camera!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 3,
+      "look": "extras"
+    },
+    {
+      "id": "look_medal_star",
+      "type": "cosmetics",
+      "name": "Star Medal",
+      "world": "life",
+      "voice": "You found Star Medal!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 3,
+      "look": "extras"
+    },
+    {
+      "id": "look_satchel_star",
+      "type": "cosmetics",
+      "name": "Star Satchel",
+      "world": "town",
+      "voice": "You found Star Satchel!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 3,
+      "look": "extras"
+    },
+    {
+      "id": "look_onesie_bear",
+      "type": "cosmetics",
+      "name": "Bear Onesie",
+      "world": "animal",
+      "voice": "You found Bear Onesie!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "onesies"
+    },
+    {
+      "id": "look_onesie_bee",
+      "type": "cosmetics",
+      "name": "Bee Onesie",
+      "world": "animal",
+      "voice": "You found Bee Onesie!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "onesies"
+    },
+    {
+      "id": "look_onesie_bunny",
+      "type": "cosmetics",
+      "name": "Bunny Onesie",
+      "world": "animal",
+      "voice": "You found Bunny Onesie!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "onesies"
+    },
+    {
+      "id": "look_onesie_frog",
+      "type": "cosmetics",
+      "name": "Frog Onesie",
+      "world": "animal",
+      "voice": "You found Frog Onesie!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "onesies"
+    },
+    {
+      "id": "look_onesie_lion",
+      "type": "cosmetics",
+      "name": "Lion Onesie",
+      "world": "animal",
+      "voice": "You found Lion Onesie!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "onesies"
+    },
+    {
+      "id": "look_onesie_penguin",
+      "type": "cosmetics",
+      "name": "Penguin Onesie",
+      "world": "animal",
+      "voice": "You found Penguin Onesie!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "onesies"
+    },
+    {
+      "id": "look_onesie_dragon",
+      "type": "cosmetics",
+      "name": "Dragon Onesie",
+      "world": "dino",
+      "voice": "You found Dragon Onesie!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "onesies"
+    },
+    {
+      "id": "look_onesie_unicorn",
+      "type": "cosmetics",
+      "name": "Unicorn Onesie",
+      "world": "rainbow",
+      "voice": "You found Unicorn Onesie!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "onesies"
+    },
+    {
+      "id": "look_outfit_beach",
+      "type": "cosmetics",
+      "name": "Beach Outfit",
+      "world": "life",
+      "voice": "You found Beach Outfit!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "outfits"
+    },
+    {
+      "id": "look_outfit_detective",
+      "type": "cosmetics",
+      "name": "Detective Outfit",
+      "world": "town",
+      "voice": "You found Detective Outfit!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "outfits"
+    },
+    {
+      "id": "look_outfit_explorer",
+      "type": "cosmetics",
+      "name": "Explorer Outfit",
+      "world": "animal",
+      "voice": "You found Explorer Outfit!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "outfits"
+    },
+    {
+      "id": "look_outfit_fairy",
+      "type": "cosmetics",
+      "name": "Fairy Outfit",
+      "world": "storybook",
+      "voice": "You found Fairy Outfit!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "outfits"
+    },
+    {
+      "id": "look_outfit_firefighter",
+      "type": "cosmetics",
+      "name": "Firefighter Outfit",
+      "world": "town",
+      "voice": "You found Firefighter Outfit!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "outfits"
+    },
+    {
+      "id": "look_outfit_gardener",
+      "type": "cosmetics",
+      "name": "Gardener Outfit",
+      "world": "town",
+      "voice": "You found Gardener Outfit!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "outfits"
+    },
+    {
+      "id": "look_outfit_knight",
+      "type": "cosmetics",
+      "name": "Knight Outfit",
+      "world": "storybook",
+      "voice": "You found Knight Outfit!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "outfits"
+    },
+    {
+      "id": "look_outfit_painter",
+      "type": "cosmetics",
+      "name": "Painter Outfit",
+      "world": "rainbow",
+      "voice": "You found Painter Outfit!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "outfits"
+    },
+    {
+      "id": "look_outfit_paramedic",
+      "type": "cosmetics",
+      "name": "Paramedic Outfit",
+      "world": "town",
+      "voice": "You found Paramedic Outfit!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "outfits"
+    },
+    {
+      "id": "look_outfit_party_suit",
+      "type": "cosmetics",
+      "name": "Party Suit",
+      "world": "rainbow",
+      "voice": "You found Party Suit!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "outfits"
+    },
+    {
+      "id": "look_outfit_pilot",
+      "type": "cosmetics",
+      "name": "Pilot Outfit",
+      "world": "space",
+      "voice": "You found Pilot Outfit!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "outfits"
+    },
+    {
+      "id": "look_outfit_police",
+      "type": "cosmetics",
+      "name": "Police Outfit",
+      "world": "town",
+      "voice": "You found Police Outfit!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "outfits"
+    },
+    {
+      "id": "look_outfit_postie",
+      "type": "cosmetics",
+      "name": "Postie Outfit",
+      "world": "town",
+      "voice": "You found Postie Outfit!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "outfits"
+    },
+    {
+      "id": "look_outfit_prince",
+      "type": "cosmetics",
+      "name": "Prince Outfit",
+      "world": "storybook",
+      "voice": "You found Prince Outfit!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "outfits"
+    },
+    {
+      "id": "look_outfit_princess_dress",
+      "type": "cosmetics",
+      "name": "Princess Dress",
+      "world": "storybook",
+      "voice": "You found Princess Dress!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "outfits"
+    },
+    {
+      "id": "look_outfit_ranger",
+      "type": "cosmetics",
+      "name": "Ranger Outfit",
+      "world": "animal",
+      "voice": "You found Ranger Outfit!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "outfits"
+    },
+    {
+      "id": "look_outfit_rockstar",
+      "type": "cosmetics",
+      "name": "Rockstar Outfit",
+      "world": "jungle",
+      "voice": "You found Rockstar Outfit!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "outfits"
+    },
+    {
+      "id": "look_outfit_sailor",
+      "type": "cosmetics",
+      "name": "Sailor Outfit",
+      "world": "rainbow",
+      "voice": "You found Sailor Outfit!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "outfits"
+    },
+    {
+      "id": "look_outfit_sporty",
+      "type": "cosmetics",
+      "name": "Sporty Outfit",
+      "world": "life",
+      "voice": "You found Sporty Outfit!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "outfits"
+    },
+    {
+      "id": "look_outfit_train_driver",
+      "type": "cosmetics",
+      "name": "Train Driver Outfit",
+      "world": "town",
+      "voice": "You found Train Driver Outfit!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "outfits"
+    },
+    {
+      "id": "look_outfit_winter",
+      "type": "cosmetics",
+      "name": "Winter Outfit",
+      "world": "life",
+      "voice": "You found Winter Outfit!",
+      "interaction": "Pip can wear this look.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "look": "outfits"
     }
   ]
 }

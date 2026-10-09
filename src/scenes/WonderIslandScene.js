@@ -1,5 +1,6 @@
 import { drawCloud, drawCandyButton } from '../utils/draw.js';
 import { PipController } from '../characters/PipController.js';
+import { wornRewards } from '../characters/Wardrobe.js';
 import { art, drawArt, lookupArt, fxArt, hatchTheme, worldOfReward } from '../core/art.js';
 import { HatchSequence } from '../fx/HatchSequence.js';
 
@@ -44,7 +45,7 @@ export class WonderIslandScene {
   constructor(game){this.game=game;this.t=0;this.portalPressed=false;this.rainbowPressed=false;this.parentPressed=false;this.modePressed=false;this.collectionPressed=false;this.placementMode=false;this.drag=null;this.dragOffset={x:0,y:0};this.objects=[];this.pip=null;this.interaction=null;this.interactionT=0;this.celebrateReward=null;}
   enter(data={}){
     this.t=0;this.celebrateReward=null;this.celebrateQueue=[data.celebrateReward,...(data.celebrateNext??[])].filter(Boolean);
-    const state=this.game.save?.getProfileState?.();const placements=state?.island?.placements??{};const cosmeticId=state?.pip?.outfit?.cosmeticId;const cosmetic=cosmeticId?this.game.rewards?.get?.(cosmeticId):null;this.pip=new PipController({x:300,y:760,scale:.72,cosmetic});
+    const state=this.game.save?.getProfileState?.();const placements=state?.island?.placements??{};const looks=this.game.rewards?wornRewards(state?.pip?.outfit,this.game.rewards):[];this.pip=new PipController({x:300,y:760,scale:.72,looks});
     const buildings=new Set([...(state?.unlocks?.buildings??[])]),decorations=new Set([...(state?.unlocks?.decorations??[])]),creatures=new Set([...(state?.unlocks?.creatures??[])]);
     this.objects=BASE_OBJECTS.map(o=>({...o,base:true,...(placements[o.id]??{})}));
     if(buildings.has('dinosaur_home'))this.objects.push({id:'dinosaur_home',type:'dinosaur_home',x:1460,y:650,w:290,h:220,zone:'creature',...(placements.dinosaur_home??{})});

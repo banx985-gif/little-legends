@@ -8,6 +8,7 @@
     "standalone": "node ./scripts/build-standalone.mjs",
     "rc:check": "node ./scripts/release-candidate-check.mjs",
     "qa:tablet": "node ./scripts/qa-tablet.mjs",
-    "qa:release": "node ./scripts/qa-release.mjs"
+    "qa:release": "node ./scripts/qa-release.mjs",
+    "wardrobe:preview": "node ./scripts/wardrobe-preview.mjs"
   }
 }

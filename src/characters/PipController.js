@@ -1,5 +1,6 @@
 import { clamp, lerp, easeOutBack, easeOutCubic } from '../utils/easing.js';
 import { art, artMap, drawArt } from '../core/art.js';
+import { drawLooks, placementFor, poseForLooks, slotOf } from './Wardrobe.js';
 
 const DURATIONS = {
   idle: 0,
@@ -20,14 +21,15 @@ const STATES = new Set(Object.keys(DURATIONS));
 const IDLE_ACTIONS = ['blink', 'lookAround', 'tailWiggle', 'tinyHop', 'inspect'];
 
 export class PipController {
-  constructor({ x = 260, y = 650, scale = 1, facing = 1, rng = Math.random, onVoiceEvent = null, cosmetic = null } = {}) {
+  constructor({ x = 260, y = 650, scale = 1, facing = 1, rng = Math.random, onVoiceEvent = null, cosmetic = null, looks = null } = {}) {
     this.x = x;
     this.y = y;
     this.scale = scale;
     this.facing = facing >= 0 ? 1 : -1;
     this.rng = rng;
     this.onVoiceEvent = onVoiceEvent;
-    this.cosmetic = cosmetic;
+    // Looks Pip is wearing (cosmetic reward definitions, one per slot). `cosmetic` is the older single look.
+    this.looks = (looks ?? (cosmetic ? [cosmetic] : [])).filter(Boolean);
 
     this.state = 'idle';
     this.stateT = 0;
@@ -192,10 +194,11 @@ export class PipController {
       if (key === null || key === undefined) return null;
       if (this.state === 'look' && look.y < -0.75 && map.lookUpWhenTargetAbove) key = map.lookUpWhenTargetAbove;
     } else if (this.idleAction && map.idleActions?.[this.idleAction]) key = map.idleActions[this.idleAction];
+    if (this.looks.length) key = poseForLooks(this.looks, key);
     const pose = map.poses?.[key];
-    if (pose && art(pose.id)) return pose;
+    if (pose && art(pose.id)) return { ...pose, key };
     const front = map.poses?.[map.states?.idle];
-    return front && art(front.id) ? front : null;
+    return front && art(front.id) ? { ...front, key: map.states?.idle } : null;
   }
 
   renderArt(ctx, m, pose) {
@@ -211,12 +214,14 @@ export class PipController {
     ctx.beginPath(); ctx.ellipse(0, 28 - m.bob * 0.08, 102, 29, 0, 0, Math.PI * 2); ctx.fill();
     ctx.restore();
     const flipX = pose.faces === 'left';
+    if (this.looks.length && art(pose.id)) drawLooks(ctx, this.looks, pose, pose.key, 'behind');
     const drawn = drawArt(ctx, pose.id, 0, 30 - (pose.lift ?? 0), pose.h * 2, pose.h, { anchor: 'bottom', flipX });
+    if (drawn && this.looks.length) drawLooks(ctx, this.looks, pose, pose.key, 'front');
     if (drawn && pose.head) {
       ctx.save();
       ctx.translate(flipX ? -pose.head[0] : pose.head[0], pose.head[1]);
       ctx.scale(pose.head[2], pose.head[2]);
-      this.drawCosmetic(ctx, true);
+      for (const look of this.looks) if (!placementFor(look.id)) this.drawCosmetic(ctx, true, look);
       ctx.restore();
     }
     ctx.restore();
@@ -330,18 +335,20 @@ export class PipController {
     ctx.fillStyle = '#ef87a3'; ctx.beginPath(); ctx.ellipse(0, 18, 13, 9, 0, 0, Math.PI * 2); ctx.fill();
     this.drawMouth(ctx, mouth);
     ctx.fillStyle = '#ffd65a'; ctx.save(); ctx.translate(0, 75); ctx.rotate(this.t * 0.15); this.drawStar(ctx, 0, 0, 18, 9); ctx.fill(); ctx.restore();
-    this.drawCosmetic(ctx);
+    for (const look of this.looks) this.drawCosmetic(ctx, false, look);
 
     ctx.restore();
     ctx.restore();
   }
 
-  drawCosmetic(ctx, onArt = false) {
-    const item=this.cosmetic;if(!item)return;
+  // Older looks: a picture on Pip's head or eyes, or (no picture yet) the drawn placeholder shape for head looks.
+  drawCosmetic(ctx, onArt = false, item = this.looks[0]) {
+    if(!item)return;
     if(onArt){const id=artMap()?.cosmetics?.[item.id];const slot=id?(artMap()?.cosmeticSlots?.[id]??'head'):null;
       if(slot==='head'&&drawArt(ctx,id,0,-62,220,170,{anchor:'bottom'}))return;
       if(slot==='eyes'&&drawArt(ctx,id,0,12,210,90))return;
-      if(slot==='none')return;} // outfits, scarves, boots: shown beside Pip in the Collection, not drawn on him
+      if(slot==='none')return;}
+    if(slotOf(item)!=='head')return; // no picture yet: placeholder shapes are hats, so only head looks get one // outfits, scarves, boots: shown beside Pip in the Collection, not drawn on him
     const map={red:'#e94d55',blue:'#4d8ee8',yellow:'#f7cf4f',green:'#66bd62',orange:'#f39a45',purple:'#8b69db',pink:'#ec7ea2',cream:'#fff3dc'};
     const color=map[item.color]??item.color??'#ffd56f';const style=Number(item.style)||0;
     ctx.save();ctx.fillStyle=color;ctx.strokeStyle='#4d365f';ctx.lineWidth=6;

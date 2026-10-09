@@ -8690,6 +8690,13 @@
           "x": 1720,
           "y": 760,
           "size": 170
+        },
+        {
+          "kind": "thing",
+          "thing": "tap",
+          "x": 1720,
+          "y": 555,
+          "size": 150
         }
       ]
     },
@@ -9228,6 +9235,346 @@
               "size": 150
             }
           ]
+        }
+      ]
+    },
+    {
+      "id": "town_land_sea_air",
+      "type": "Categorise",
+      "world": "town",
+      "theme": "town_train_station",
+      "skills": [
+        "CLASSIFICATION",
+        "VOCABULARY"
+      ],
+      "pipBubble": "Road, sea or sky?",
+      "instructionText": "Road, sea or sky?",
+      "voiceText": "Some vehicles drive on the road, some float on the sea and some fly in the sky. Put each one where it goes.",
+      "subtitle": "Where does it go?",
+      "completeDetail": "Road, sea and sky!",
+      "targets": [
+        {
+          "id": "land",
+          "thing": "tile_path",
+          "label": "ROAD",
+          "x": 1150,
+          "y": 640,
+          "w": 260,
+          "h": 280,
+          "accepts": [
+            "land"
+          ]
+        },
+        {
+          "id": "sea",
+          "thing": "tile_pond",
+          "label": "SEA",
+          "x": 1430,
+          "y": 640,
+          "w": 260,
+          "h": 280,
+          "accepts": [
+            "sea"
+          ]
+        },
+        {
+          "id": "air",
+          "thing": "cloud",
+          "label": "SKY",
+          "x": 1710,
+          "y": 640,
+          "w": 260,
+          "h": 280,
+          "accepts": [
+            "air"
+          ]
+        }
+      ],
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "bus_city",
+          "category": "land",
+          "label": "Bus",
+          "x": 470,
+          "y": 520
+        },
+        {
+          "kind": "thing",
+          "thing": "tugboat",
+          "category": "sea",
+          "label": "Tugboat",
+          "x": 740,
+          "y": 690
+        },
+        {
+          "kind": "thing",
+          "thing": "helicopter_rescue",
+          "category": "air",
+          "label": "Helicopter",
+          "x": 920,
+          "y": 500
+        },
+        {
+          "kind": "thing",
+          "thing": "tractor_hay",
+          "category": "land",
+          "label": "Tractor",
+          "x": 470,
+          "y": 860
+        },
+        {
+          "kind": "thing",
+          "thing": "sailboat",
+          "category": "sea",
+          "label": "Sailboat",
+          "x": 760,
+          "y": 900
+        },
+        {
+          "kind": "thing",
+          "thing": "hot_air_balloon",
+          "category": "air",
+          "label": "Balloon",
+          "x": 990,
+          "y": 800
+        }
+      ]
+    },
+    {
+      "id": "town_count_buses",
+      "type": "CountAndPlace",
+      "world": "town",
+      "theme": "town_train_station",
+      "character": "none",
+      "object": "thing",
+      "thing": "bus_city",
+      "targetCount": 3,
+      "objectSize": 150,
+      "skills": [
+        "COUNT_3"
+      ],
+      "adaptiveSkill": "COUNT_3",
+      "instructionText": "Bring 3 buses to the bus stop!",
+      "voiceText": "The children are waiting. Bring three buses to the bus stop.",
+      "pipBubble": "Three buses!",
+      "completeDetail": "1 • 2 • 3 buses"
+    },
+    {
+      "id": "town_vehicle_jobs",
+      "type": "MatchPairs",
+      "world": "town",
+      "theme": "town_fire_station",
+      "skills": [
+        "COMMUNITY_HELPERS"
+      ],
+      "pipBubble": "Who does this job?",
+      "instructionText": "Match each vehicle to its job!",
+      "voiceText": "Every vehicle has a job. Tap a vehicle, then tap what it needs.",
+      "subtitle": "Tap a vehicle, then its job",
+      "completeDetail": "Every vehicle has a job!",
+      "pairs": [
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "van_library",
+              "id": "van_library",
+              "size": 185
+            },
+            {
+              "kind": "thing",
+              "thing": "storybook",
+              "id": "storybook",
+              "size": 185
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "garbage_truck_recycling",
+              "id": "garbage_truck_recycling",
+              "size": 185
+            },
+            {
+              "kind": "thing",
+              "thing": "bin",
+              "id": "bin",
+              "size": 185
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "fire_engine",
+              "id": "fire_engine",
+              "size": 185
+            },
+            {
+              "kind": "thing",
+              "thing": "fire_hydrant",
+              "id": "fire_hydrant",
+              "size": 185
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "kind": "thing",
+              "thing": "ambulance_b",
+              "id": "ambulance_b",
+              "size": 185
+            },
+            {
+              "kind": "thing",
+              "thing": "stretcher",
+              "id": "stretcher",
+              "size": 185
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "town_sea_rescue",
+      "type": "StoryChoice",
+      "world": "town",
+      "theme": "town_fire_station",
+      "skills": [
+        "COMMUNITY_HELPERS"
+      ],
+      "pipBubble": "Who helps at sea?",
+      "instructionText": "Which one helps at sea?",
+      "voiceText": "Oh no! A little boat is stuck out at sea. Which one can go and help?",
+      "storyText": "A little boat is stuck at sea!",
+      "completeDetail": "Rescue boat to the rescue!",
+      "choices": [
+        {
+          "kind": "thing",
+          "thing": "bulldozer",
+          "id": "dozer",
+          "label": "Bulldozer",
+          "x": 620,
+          "y": 700
+        },
+        {
+          "kind": "thing",
+          "thing": "boat_rescue",
+          "id": "boat",
+          "label": "Rescue boat",
+          "correct": true,
+          "resultText": "Splash! The rescue boat is on its way!",
+          "x": 960,
+          "y": 700
+        },
+        {
+          "kind": "thing",
+          "thing": "van_bakery",
+          "id": "bakery",
+          "label": "Bakery van",
+          "x": 1300,
+          "y": 700
+        }
+      ]
+    },
+    {
+      "id": "town_farm_vehicles",
+      "type": "TapRequestedObject",
+      "world": "town",
+      "theme": "town_fruit_shop",
+      "skills": [
+        "VOCABULARY",
+        "COMMUNITY_HELPERS"
+      ],
+      "pipBubble": "Farm helpers!",
+      "instructionText": "Find the {target}!",
+      "voiceText": "The farm helpers bring our food. Find the tractor first.",
+      "subtitle": "Farm vehicles",
+      "completeDetail": "Thank you, farm helpers!",
+      "targets": [
+        {
+          "matchKey": "thing",
+          "matchValue": "tractor_hay",
+          "value": "tractor"
+        },
+        {
+          "matchKey": "thing",
+          "matchValue": "combine_harvester",
+          "value": "harvester"
+        },
+        {
+          "matchKey": "thing",
+          "matchValue": "milk_tanker",
+          "value": "milk tanker"
+        }
+      ],
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "milk_tanker",
+          "x": 560,
+          "y": 690,
+          "size": 200
+        },
+        {
+          "kind": "thing",
+          "thing": "tractor_hay",
+          "x": 960,
+          "y": 640,
+          "size": 200
+        },
+        {
+          "kind": "thing",
+          "thing": "combine_harvester",
+          "x": 1360,
+          "y": 690,
+          "size": 200
+        }
+      ]
+    },
+    {
+      "id": "town_snow_day",
+      "type": "TapRequestedObject",
+      "world": "town",
+      "theme": "town_construction",
+      "skills": [
+        "COMMUNITY_HELPERS"
+      ],
+      "pipBubble": "Snow on the road!",
+      "instructionText": "Which truck clears the snow?",
+      "voiceText": "Brr! Snow is on the road. Which truck pushes the snow away? Tap it.",
+      "completeDetail": "The road is clear!",
+      "request": {
+        "matchKey": "thing",
+        "matchValue": "snow_plough",
+        "value": "snow plough"
+      },
+      "objects": [
+        {
+          "kind": "thing",
+          "thing": "road_roller",
+          "x": 620,
+          "y": 680,
+          "size": 190
+        },
+        {
+          "kind": "thing",
+          "thing": "snow_plough",
+          "x": 960,
+          "y": 680,
+          "size": 190
+        },
+        {
+          "kind": "thing",
+          "thing": "line_painter",
+          "x": 1300,
+          "y": 680,
+          "size": 190
         }
       ]
     }

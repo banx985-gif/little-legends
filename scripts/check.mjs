@@ -23,15 +23,17 @@ import { WorldSelectScene } from '../src/scenes/WorldSelectScene.js';
 import { WorldHubScene } from '../src/scenes/WorldHubScene.js';
 import { JungleJamScene } from '../src/scenes/JungleJamScene.js';
 import { CollectionScene } from '../src/scenes/CollectionScene.js';
-import { PerformanceManager } from '../src/core/PerformanceManager.js';
+import { PerformanceManager, PERFORMANCE_MODES, autoStartMode } from '../src/core/PerformanceManager.js';
 import { ChildTestRecorder } from '../src/testing/ChildTestRecorder.js';
 import { ReleaseQualification, RELEASE_MANUAL_CHECKS } from '../src/testing/ReleaseQualification.js';
 import { PRIVACY_GUARANTEES } from '../src/privacy/PrivacyPolicy.js';
 import { FeedbackFX } from '../src/fx/FeedbackFX.js';
-import { art, tokenArt, artIdsForScene, countTargetArt, hatchTheme, hatchFrameIds } from '../src/core/art.js';
+import { art, drawArt, tokenArt, artIdsForScene, settleSceneArt, countTargetArt, hatchTheme, hatchFrameIds } from '../src/core/art.js';
+import { AssetLoader, drawnSize } from '../src/core/AssetLoader.js';
+import { findUnusedArt } from './art-unused.mjs';
 import { HatchSequence } from '../src/fx/HatchSequence.js';
 import { drawToken, drawBin, drawBasket } from '../src/activities/activityDraw.js';
-import { drawCandyButton, drawSpeechBubble } from '../src/utils/draw.js';
+import { drawCandyButton, drawSpeechBubble, wrapLines } from '../src/utils/draw.js';
 import { HoldToLeave } from '../src/ui/HoldToLeave.js';
 import { GameLoop } from '../src/core/GameLoop.js';
 import { VOICE_REPEAT_SECONDS } from '../src/hints/HintController.js';
@@ -66,7 +68,7 @@ for (const file of jsFiles) execFileSync(process.execPath, ['--check', file], { 
 
 // The installable/offline build must cache every eagerly imported source module.
 const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v43"), 'Service worker cache version should advance with the real-art build');
+assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v44"), 'Service worker cache version should advance with the real-art build');
 for (const file of walk(path.join(root, 'src')).filter(file => file.endsWith('.js'))) {
   const rel = `./${path.relative(root, file).split(path.sep).join('/')}`;
   assert.ok(serviceWorkerSource.includes(`'${rel}'`), `Offline cache must include ${rel}`);
@@ -638,7 +640,8 @@ for (const r of rewardData.rewards.filter(r => r.rare)) assert.equal(r.type, 'cr
 { const dragonSave = new SaveSystem({ indexedDBRef:null, storage:null }); await dragonSave.init(); await dragonSave.createProfile({ name:'Dee', age:4 });
   const g = { save:dragonSave, learning:new LearningProfile(), audio:sceneAudio, assets:null, scenes:{ last:null, change(name,data){ this.last={name,data}; } } };
   g.activityEngine = new ActivityEngine(g); g.activityEngine.setDefinitions(activityData); g.adventureEngine = new AdventureEngine(g); g.adventureEngine.setDefinitions(adventureData); g.rewards = new RewardSystem(g); g.rewards.setDefinitions(rewardData);
-  const town = adventureData.adventures.filter(a => a.world === 'town');
+  const townAll = adventureData.adventures.filter(a => a.world === 'town'), finale = townAll.findLast(a => a.bonusLook);
+  const town = [...townAll.filter(a => a !== finale), finale]; // played last: a mission that also gives a look
   for (const a of town.slice(0, -1)) await dragonSave.saveAdventure(a.id, 0, { completed:true });
   const last = new AdventureScene(g); await last.enter({ adventureId: town.at(-1).id, step: town.at(-1).steps.length - 1 }); await last.handlePointer({type:'down',x:960,y:950});await last.handlePointer({type:'up',x:960,y:950});
   assert.equal(g.scenes.last.name, 'island'); assert.deepEqual(g.scenes.last.data.celebrateNext, [town.at(-1).bonusLook, 'dragon_puzzle'], 'The last Busy Town mission celebrates its reward and its new look, then hatches the Puzzle Dragon');
@@ -724,7 +727,7 @@ assert.ok(contentSave.getSettings().performanceMode,'Performance preference must
 assert.ok(expectedActivityTypes.size>=25&&expectedActivityTypes.size<=30,`V1 scale target is 25–30 activity families; got ${expectedActivityTypes.size}`);
 const coreSkills=Object.keys(TRACKED_SKILLS).filter(id=>!/^LETTER_[A-Z]$/.test(id));assert.ok(coreSkills.length>=50&&coreSkills.length<=70,`V1 core learning-skill target is 50–70; got ${coreSkills.length}`);
 assert.ok(adventureData.adventures.length>=30&&adventureData.adventures.length<=50,`Little Mission target is 30–50 (Job 06 added Space Station and Busy Town); got ${adventureData.adventures.length}`);
-const rewardCounts=rewardData.rewards.reduce((m,r)=>(m[r.type]=(m[r.type]??0)+1,m),{});assert.ok((rewardCounts.creatures??0)>=30,'V1 needs 30+ interactive creature definitions');assert.ok((rewardCounts.cosmetics??0)>=40,'V1 needs 40+ Pip cosmetics');assert.ok((rewardCounts.decorations??0)>=60,'V1 needs 60+ decorations');assert.ok((rewardCounts.vehicles??0)>=8&&(rewardCounts.vehicles??0)<=10,'V1 needs 8–10 vehicles');
+const rewardCounts=rewardData.rewards.reduce((m,r)=>(m[r.type]=(m[r.type]??0)+1,m),{});assert.ok((rewardCounts.creatures??0)>=30,'V1 needs 30+ interactive creature definitions');assert.ok((rewardCounts.cosmetics??0)>=40,'V1 needs 40+ Pip cosmetics');assert.ok((rewardCounts.decorations??0)>=60,'V1 needs 60+ decorations');assert.ok((rewardCounts.vehicles??0)>=8,'V1 needs 8+ vehicles (Job 10 added the 60 vehicle pictures as rides)');
 const catalogSave=new SaveSystem({indexedDBRef:null,storage:null});await catalogSave.init();await catalogSave.createProfile({name:'Kit',age:4});await catalogSave.addDiscoveryStars(10);
 const catalogGame={save:catalogSave,audio:sceneAudio,scenes:{last:null,change(name,data){this.last={name,data};}}};catalogGame.rewards=new RewardSystem(catalogGame);catalogGame.rewards.setDefinitions(rewardData);
 const firstCatalog=catalogGame.rewards.listCatalog('cosmetics')[0];assert.ok(firstCatalog);const unlocked=await catalogGame.rewards.unlockWithStars(firstCatalog.id);assert.equal(unlocked.ok,true);assert.ok(catalogSave.getProfileState().unlocks.cosmetics.includes(firstCatalog.id));await catalogSave.setPipOutfit({cosmeticId:firstCatalog.id});assert.equal(catalogSave.getProfileState().pip.outfit.cosmeticId,firstCatalog.id);
@@ -952,6 +955,77 @@ assert.ok(serviceWorkerSource.includes("'./assets/art_manifest.json'")&&serviceW
   assert.ok((await artIdsForScene({ save: wardSave, rewards: wg.rewards }, 'collection', {})).includes('objects.wardrobe.outfits.outfit_police'), 'Worn looks are preloaded');
   delete globalThis.__LL_ASSETS;
   assert.ok(serviceWorkerSource.includes("'./src/characters/Wardrobe.js'"), 'Wardrobe code works offline');
+}
+
+// ---- Job 10: low-end tablets (decode at drawn size, release only between scenes, auto Lite) + all the art ----
+{
+  // Picture memory: counted per picture, freed (ImageBitmap.close) on release, and only let go after a scene change when over budget.
+  const loader = new AssetLoader(); loader.artUrls = new Map([['a.one', 'a1.png'], ['a.two', 'a2.png'], ['a.three', 'a3.png']]);
+  let closed = 0; const bmp = (w, h) => ({ width: w, height: h, close() { closed++; } });
+  for (const [id, w] of [['a.one', 1000], ['a.two', 500], ['a.three', 400]]) { loader.cache.set(id, bmp(w, 500)); loader.bytes.set(id, w * 500 * 4); }
+  assert.equal(loader.artMemoryBytes(), (1000 + 500 + 400) * 500 * 4, 'Image memory is counted per picture');
+  assert.equal(drawnSize('worlds.backgrounds.town.bg_town_bakery'), 1920); assert.ok(drawnSize('objects.vehicles.boats.tugboat') < 768, 'Objects decode smaller than their file on a small screen');
+  const prevQuality = globalThis.__LL_QUALITY; globalThis.__LL_QUALITY = 'lite';
+  const settleGame = { assets: loader };
+  globalThis.__LL_ASSETS = { artMap: { preload: { starter: [] } }, get: () => undefined };
+  loader.sceneKey = 'island:'; loader.drawnNow = new Set(['a.one', 'a.two']);
+  assert.equal(settleSceneArt(settleGame, 'collection', { tab: 'vehicles' }, ['a.three']), 0, 'Nothing is let go while picture memory is under budget');
+  assert.deepEqual(loader.sceneDrawn.get('island:'), ['a.one', 'a.two'], 'What a scene drew is remembered for its next visit');
+  assert.ok(loader.drawnNow.has('a.three'), 'The new scene starts with what it preloaded');
+  loader.bytes.set('a.one', 200 * 1048576);
+  assert.equal(settleSceneArt(settleGame, 'island', {}, ['a.one']), 2, 'Over budget: pictures the next scene does not use are let go');
+  assert.ok(loader.cache.has('a.one') && !loader.cache.has('a.two') && closed === 2 && loader.bytes.size === 1, 'Released pictures free their memory at once');
+  // Lite mode: no light blends (slow / glitchy on some Android GPUs).
+  globalThis.__LL_ASSETS = { artMap: {}, get: id => id === 'fx.glow' ? { width: 10, height: 10 } : undefined, requestArt() {} };
+  const blendCtx = new ArtCanvasContext(); assert.ok(drawArt(blendCtx, 'fx.glow', 0, 0, 10, 10, { blend: 'screen' })); assert.equal(blendCtx.blend, undefined, 'Lite mode draws glows with plain alpha');
+  globalThis.__LL_QUALITY = 'high'; const blendHigh = new ArtCanvasContext(); drawArt(blendHigh, 'fx.glow', 0, 0, 10, 10, { blend: 'screen' }); assert.equal(blendHigh.blend, 'screen');
+  globalThis.__LL_QUALITY = prevQuality; delete globalThis.__LL_ASSETS;
+
+  // Auto Lite: low-memory devices start in Lite; a slow first second drops straight down; the result is remembered.
+  const memStore = () => { const m = new Map(); return { getItem: k => m.get(k) ?? null, setItem: (k, v) => m.set(k, String(v)) }; };
+  assert.equal(autoStartMode({ deviceMemory: 4, store: memStore() }), 'lite', 'A 4 GB tablet starts in Lite');
+  assert.equal(autoStartMode({ deviceMemory: 8, store: memStore() }), 'high');
+  const remembered = memStore(); remembered.setItem('littleLegends.autoQuality', 'balanced'); assert.equal(autoStartMode({ deviceMemory: 8, store: remembered }), 'balanced', 'A device remembers the mode it needed');
+  const slowStore = memStore(), slow = new PerformanceManager({ store: slowStore, deviceMemory: 8 }); slow.start(); assert.equal(slow.quality.id, 'high');
+  for (let i = 0; i < 70; i++) slow.record({ frameMs: 60, renderMs: 30, now: i * 60 }); assert.equal(slow.quality.id, 'high', 'Loading frames are not judged before the first scene opens');
+  slow.armFirstTest(); for (let i = 0; i < 61; i++) slow.record({ frameMs: 60, renderMs: 30, now: 5000 + i * 60 });
+  assert.equal(slow.quality.id, 'lite', 'A slow first second switches to Lite'); assert.equal(slowStore.getItem('littleLegends.autoQuality'), 'lite', 'and remembers it for next time');
+  assert.equal(new PerformanceManager({ store: slowStore, deviceMemory: 8 }).modeFor('auto').id, 'lite'); assert.equal(new PerformanceManager({ store: slowStore }).modeFor('high').id, 'high', 'A parent can still choose High');
+  assert.ok(PERFORMANCE_MODES.LITE.dprCap <= 1.5 && PERFORMANCE_MODES.LITE.maxPixels <= 1.6e6, 'Lite caps the canvas size');
+
+  // All the art: vehicles, island build pieces and markers are drawn; what is left over is listed with a reason.
+  const unusedArt = findUnusedArt(root);
+  for (const prefix of ['objects.vehicles.', 'worlds.tiles.', 'worlds.house_parts.', 'ui.build.', 'objects.wardrobe.']) assert.ok(!unusedArt.unused.some(u => u.id.startsWith(prefix)), `Every ${prefix} picture is used`);
+  assert.ok(unusedArt.unused.length <= 45, `Unused pictures stay few (${unusedArt.unused.length}); see docs/JOB10_REPORT.md`);
+  const map10 = JSON.parse(fs.readFileSync(path.join(root, 'data/art_map.json'), 'utf8'));
+  for (const [r, pic] of [['parade_float', 'special.parade_float'], ['catalog_bubble_boat', 'boats.sailboat'], ['catalog_cloud_glider', 'air.hot_air_balloon'], ['catalog_jungle_jeep', 'emergency.rescue_4x4_mountain'], ['catalog_forest_cart', 'farm.farm_buggy']]) assert.equal(map10.rewards[r], `objects.vehicles.${pic}`, `${r} has its vehicle picture`);
+  for (const id of ['town_vehicle_parade', 'town_big_helpers']) { const a = adventureData.adventures.find(x => x.id === id); assert.ok(a && rewardData.rewards.some(r => r.id === a.reward.id) && map10.missionIcons[id], `${id} is a Busy Town mission`); for (const s of a.steps.filter(s => s.activityId)) assert.ok(activityData.activities.some(x => x.id === s.activityId), `${s.activityId} exists`); }
+  const rides = rewardData.rewards.filter(r => r.id.startsWith('ride_')); assert.ok(rides.length >= 50 && rides.every(r => r.catalog && r.type === 'vehicles' && map10.rewards[r.id]), 'Every other vehicle is a ride in the Collection');
+
+  // Island build mode: tray pieces go on the grass, drag one back onto the tray to take it away; old saves get an empty list.
+  const oldIsland = new SaveSystem({ indexedDBRef: null, storage: null }).migrate({ activeProfileId: 'p', profiles: [{ id: 'p', name: 'O', age: 3, createdAt: 1 }], profileStates: { p: { island: { placements: { tree: { x: 500, y: 600 } } } } } });
+  assert.deepEqual(oldIsland.profileStates.p.island.built, [], 'Older saves start with nothing built'); assert.deepEqual(oldIsland.profileStates.p.island.placements.tree, { x: 500, y: 600 });
+  const buildSave = new SaveSystem({ indexedDBRef: null, storage: null }); await buildSave.init(); await buildSave.createProfile({ name: 'Bo', age: 4 });
+  const bg = { save: buildSave, audio: sceneAudio, scenes: { last: null, change(name, data) { this.last = { name, data }; } } }; bg.rewards = new RewardSystem(bg); bg.rewards.setDefinitions(rewardData);
+  globalThis.__LL_ASSETS = { artMap: map10, get: () => undefined, requestArt() {} };
+  const build = new WonderIslandScene(bg); build.enter({});
+  await build.handlePointer({ type: 'down', x: 1500, y: 960 }); await build.handlePointer({ type: 'up', x: 1500, y: 960 }); assert.equal(build.placementMode, true, 'MOVE THINGS opens build mode');
+  build.render(fakeCtx); assert.equal(fakeCtx.depth, 0, 'Build tray render balances Canvas state');
+  await build.handlePointer({ type: 'down', x: 78, y: 330 }); await build.handlePointer({ type: 'up', x: 78, y: 330 }); await new Promise(r => setTimeout(r, 0));
+  const built = buildSave.getProfileState().island.built; assert.equal(built.length, 1, 'Tapping a tray piece builds it'); assert.equal(built[0].piece, Object.keys(map10.islandBuild.pieces)[0]);
+  const piece = build.objects.find(o => o.id === built[0].id); assert.ok(piece && build.objects.indexOf(piece) < build.objects.findIndex(o => o.id === 'tree'), 'Ground tiles lie under the island things');
+  const again = new WonderIslandScene(bg); again.enter({}); assert.ok(again.objects.some(o => o.id === built[0].id), 'Built pieces stay on the island');
+  await build.handlePointer({ type: 'down', x: piece.x, y: piece.y }); assert.equal(build.drag, piece); await build.handlePointer({ type: 'move', x: 130, y: 600 }); build.render(fakeCtx); assert.equal(fakeCtx.depth, 0);
+  await build.handlePointer({ type: 'up', x: 130, y: 600 }); await new Promise(r => setTimeout(r, 0));
+  assert.equal(buildSave.getProfileState().island.built.length, 0, 'Dragging a piece onto the tray takes it away'); assert.ok(!build.objects.includes(piece));
+  delete globalThis.__LL_ASSETS;
+
+  // Pip's bubble splits on spaces (it was splitting on the letter s: "Three bu e !").
+  assert.deepEqual(wrapLines({ measureText: t => ({ width: t.length * 10 }) }, "Three buses! So many seats", 1000), ["Three buses! So many seats"], "Speech bubbles keep every letter");
+  // Picture stats overlay: Parent Area → DATA.
+  const statsGame = { save: buildSave, debugOverlay: false, setDebugOverlay(on) { this.debugOverlay = on; return on; } };
+  const statsGate = new ParentGateScene(statsGame); statsGate.enter({ skipGate: true, tab: 'data' }); statsGate.render(fakeCtx); assert.equal(fakeCtx.depth, 0);
+  assert.equal(statsGate.controlAt({ x: 960, y: 865 }), 'debugOverlay'); await statsGate.action('debugOverlay'); assert.equal(statsGame.debugOverlay, true, 'Parent Area turns the picture stats on');
 }
 
 console.log(`Little Legends M0-M29 qualification implementation check passed (M26/M29 human gates still pending): ${required.length} required files, ${jsFiles.length} JS syntax checks, ${activityEngine.list().length} JSON activities across ${expectedActivityTypes.size} reusable families, ${adventureData.adventures.length} Little Missions, privacy/child-test support, launch FX, save recovery, performance instrumentation and offline PWA verified.`);

@@ -434,7 +434,71 @@
       "friend_circle": "creatures.shape_friends.circle_blue",
       "friend_square": "creatures.shape_friends.square_yellow",
       "friend_triangle": "creatures.shape_friends.triangle_green",
-      "friend_star": "creatures.shape_friends.star_yellow"
+      "friend_star": "creatures.shape_friends.star_yellow",
+      "bus_city": "objects.vehicles.transport.bus_city",
+      "shuttle_airport": "objects.vehicles.transport.shuttle_airport",
+      "tram": "objects.vehicles.transport.tram",
+      "coach": "objects.vehicles.transport.coach",
+      "minibus": "objects.vehicles.transport.minibus",
+      "cable_car": "objects.vehicles.transport.cable_car",
+      "truck_roadworks": "objects.vehicles.road_works.truck_roadworks",
+      "van_repair": "objects.vehicles.road_works.van_repair",
+      "snow_plough": "objects.vehicles.road_works.snow_plough",
+      "line_painter": "objects.vehicles.road_works.line_painter",
+      "truck_arrow_board": "objects.vehicles.road_works.truck_arrow_board",
+      "van_tools": "objects.vehicles.road_works.van_tools",
+      "fire_engine": "objects.vehicles.emergency.fire_engine",
+      "ambulance_b": "objects.vehicles.emergency.ambulance_b",
+      "rescue_4x4_mountain": "objects.vehicles.emergency.rescue_4x4_mountain",
+      "beach_buggy_lifeguard": "objects.vehicles.emergency.beach_buggy_lifeguard",
+      "fire_rescue_4x4": "objects.vehicles.emergency.fire_rescue_4x4",
+      "police_van": "objects.vehicles.emergency.police_van",
+      "garbage_truck_recycling": "objects.vehicles.council.garbage_truck_recycling",
+      "water_tanker": "objects.vehicles.council.water_tanker",
+      "buggy_gardener": "objects.vehicles.council.buggy_gardener",
+      "cherry_picker": "objects.vehicles.council.cherry_picker",
+      "truck_tree_grabber": "objects.vehicles.council.truck_tree_grabber",
+      "vacuum_tanker": "objects.vehicles.council.vacuum_tanker",
+      "tugboat": "objects.vehicles.boats.tugboat",
+      "boat_rescue": "objects.vehicles.boats.boat_rescue",
+      "water_taxi": "objects.vehicles.boats.water_taxi",
+      "fishing_boat": "objects.vehicles.boats.fishing_boat",
+      "sailboat": "objects.vehicles.boats.sailboat",
+      "ferry_b": "objects.vehicles.boats.ferry_b",
+      "helicopter_rescue": "objects.vehicles.air.helicopter_rescue",
+      "helicopter_news": "objects.vehicles.air.helicopter_news",
+      "plane_propeller": "objects.vehicles.air.plane_propeller",
+      "seaplane": "objects.vehicles.air.seaplane",
+      "hot_air_balloon": "objects.vehicles.air.hot_air_balloon",
+      "airship": "objects.vehicles.air.airship",
+      "combine_harvester": "objects.vehicles.farm.combine_harvester",
+      "farm_buggy": "objects.vehicles.farm.farm_buggy",
+      "tractor_hay": "objects.vehicles.farm.tractor_hay",
+      "sprayer": "objects.vehicles.farm.sprayer",
+      "milk_tanker": "objects.vehicles.farm.milk_tanker",
+      "feed_truck": "objects.vehicles.farm.feed_truck",
+      "truck_parcels": "objects.vehicles.delivery.truck_parcels",
+      "van_grocer": "objects.vehicles.delivery.van_grocer",
+      "van_bakery": "objects.vehicles.delivery.van_bakery",
+      "van_florist": "objects.vehicles.delivery.van_florist",
+      "truck_furniture": "objects.vehicles.delivery.truck_furniture",
+      "van_fridge": "objects.vehicles.delivery.van_fridge",
+      "van_ice_cream": "objects.vehicles.special.van_ice_cream",
+      "van_library": "objects.vehicles.special.van_library",
+      "van_vet": "objects.vehicles.special.van_vet",
+      "parade_float": "objects.vehicles.special.parade_float",
+      "truck_stage": "objects.vehicles.special.truck_stage",
+      "camper_van": "objects.vehicles.special.camper_van",
+      "bulldozer": "objects.vehicles.construction.bulldozer",
+      "excavator": "objects.vehicles.construction.excavator",
+      "wheel_loader": "objects.vehicles.construction.wheel_loader",
+      "road_roller": "objects.vehicles.construction.road_roller",
+      "dump_truck": "objects.vehicles.construction.dump_truck",
+      "backhoe": "objects.vehicles.construction.backhoe",
+      "tile_path": "worlds.tiles.tile_path",
+      "tile_pond": "worlds.tiles.tile_pond",
+      "cloud": "objects.weather.cloud",
+      "tap": "objects.bathroom.tap"
     }
   },
   "backgrounds": {
@@ -504,7 +568,9 @@
     "town_deliveries": "objects.vehicles.mail_van",
     "town_bus_stop": "objects.vehicles.sign_bus_stop",
     "town_hospital": "objects.vehicles.ambulance",
-    "town_building_site": "objects.vehicles.digger"
+    "town_building_site": "objects.vehicles.digger",
+    "town_vehicle_parade": "objects.vehicles.special.parade_float",
+    "town_big_helpers": "objects.vehicles.air.helicopter_rescue"
   },
   "countTargets": {
     "about": "Empty container drawn as the drop target in counting activities. Checked first by object, then by helper character. Food/eggs are drawn on top and must stay countable, so only empty containers belong here.",
@@ -512,7 +578,9 @@
       "space_robot_batteries": "worlds.space_base.landing_pad",
       "space_stack_crates": "worlds.space_base.landing_pad",
       "space_lunch_berries": "objects.daily_life.plate",
-      "m17_bunny_bowl": "objects.bowl_paw"
+      "m17_bunny_bowl": "objects.bowl_paw",
+      "town_count_buses": "worlds.town.bus_shelter",
+      "feed_bunny_2_carrots": "objects.plate_paw"
     },
     "byObject": {
       "egg": "objects.nest"
@@ -984,7 +1052,8 @@
       "m20_wash_hands": "fx.fx_bubbles",
       "m13_wash_swipe": "fx.fx_water_splash",
       "m13_paint_swipe": "fx.fx_magic_trail",
-      "m20_brush_teeth": "fx.fx_sparkle_blue"
+      "m20_brush_teeth": "fx.fx_sparkle_blue",
+      "m13_categorise": "fx.magic.leaf_swirl"
     },
     "byTheme": {
       "forest": "fx.magic.leaf_wind",
@@ -1371,7 +1440,67 @@
     "look_outfit_sailor": "objects.wardrobe.outfits.outfit_sailor",
     "look_outfit_sporty": "objects.wardrobe.outfits.outfit_sporty",
     "look_outfit_train_driver": "objects.wardrobe.outfits.outfit_train_driver",
-    "look_outfit_winter": "objects.wardrobe.outfits.outfit_winter"
+    "look_outfit_winter": "objects.wardrobe.outfits.outfit_winter",
+    "parade_float": "objects.vehicles.special.parade_float",
+    "catalog_bubble_boat": "objects.vehicles.boats.sailboat",
+    "catalog_cloud_glider": "objects.vehicles.air.hot_air_balloon",
+    "catalog_jungle_jeep": "objects.vehicles.emergency.rescue_4x4_mountain",
+    "catalog_forest_cart": "objects.vehicles.farm.farm_buggy",
+    "town_ice_cream_van": "objects.vehicles.special.van_ice_cream",
+    "town_rescue_helicopter": "objects.vehicles.air.helicopter_rescue",
+    "ride_bus_city": "objects.vehicles.transport.bus_city",
+    "ride_shuttle_airport": "objects.vehicles.transport.shuttle_airport",
+    "ride_tram": "objects.vehicles.transport.tram",
+    "ride_coach": "objects.vehicles.transport.coach",
+    "ride_minibus": "objects.vehicles.transport.minibus",
+    "ride_cable_car": "objects.vehicles.transport.cable_car",
+    "ride_truck_roadworks": "objects.vehicles.road_works.truck_roadworks",
+    "ride_van_repair": "objects.vehicles.road_works.van_repair",
+    "ride_snow_plough": "objects.vehicles.road_works.snow_plough",
+    "ride_line_painter": "objects.vehicles.road_works.line_painter",
+    "ride_truck_arrow_board": "objects.vehicles.road_works.truck_arrow_board",
+    "ride_van_tools": "objects.vehicles.road_works.van_tools",
+    "ride_fire_engine": "objects.vehicles.emergency.fire_engine",
+    "ride_ambulance_b": "objects.vehicles.emergency.ambulance_b",
+    "ride_beach_buggy_lifeguard": "objects.vehicles.emergency.beach_buggy_lifeguard",
+    "ride_fire_rescue_4x4": "objects.vehicles.emergency.fire_rescue_4x4",
+    "ride_police_van": "objects.vehicles.emergency.police_van",
+    "ride_garbage_truck_recycling": "objects.vehicles.council.garbage_truck_recycling",
+    "ride_water_tanker": "objects.vehicles.council.water_tanker",
+    "ride_buggy_gardener": "objects.vehicles.council.buggy_gardener",
+    "ride_cherry_picker": "objects.vehicles.council.cherry_picker",
+    "ride_truck_tree_grabber": "objects.vehicles.council.truck_tree_grabber",
+    "ride_vacuum_tanker": "objects.vehicles.council.vacuum_tanker",
+    "ride_tugboat": "objects.vehicles.boats.tugboat",
+    "ride_boat_rescue": "objects.vehicles.boats.boat_rescue",
+    "ride_water_taxi": "objects.vehicles.boats.water_taxi",
+    "ride_fishing_boat": "objects.vehicles.boats.fishing_boat",
+    "ride_ferry_b": "objects.vehicles.boats.ferry_b",
+    "ride_helicopter_news": "objects.vehicles.air.helicopter_news",
+    "ride_plane_propeller": "objects.vehicles.air.plane_propeller",
+    "ride_seaplane": "objects.vehicles.air.seaplane",
+    "ride_airship": "objects.vehicles.air.airship",
+    "ride_combine_harvester": "objects.vehicles.farm.combine_harvester",
+    "ride_tractor_hay": "objects.vehicles.farm.tractor_hay",
+    "ride_sprayer": "objects.vehicles.farm.sprayer",
+    "ride_milk_tanker": "objects.vehicles.farm.milk_tanker",
+    "ride_feed_truck": "objects.vehicles.farm.feed_truck",
+    "ride_truck_parcels": "objects.vehicles.delivery.truck_parcels",
+    "ride_van_grocer": "objects.vehicles.delivery.van_grocer",
+    "ride_van_bakery": "objects.vehicles.delivery.van_bakery",
+    "ride_van_florist": "objects.vehicles.delivery.van_florist",
+    "ride_truck_furniture": "objects.vehicles.delivery.truck_furniture",
+    "ride_van_fridge": "objects.vehicles.delivery.van_fridge",
+    "ride_van_library": "objects.vehicles.special.van_library",
+    "ride_van_vet": "objects.vehicles.special.van_vet",
+    "ride_truck_stage": "objects.vehicles.special.truck_stage",
+    "ride_camper_van": "objects.vehicles.special.camper_van",
+    "ride_bulldozer": "objects.vehicles.construction.bulldozer",
+    "ride_excavator": "objects.vehicles.construction.excavator",
+    "ride_wheel_loader": "objects.vehicles.construction.wheel_loader",
+    "ride_road_roller": "objects.vehicles.construction.road_roller",
+    "ride_dump_truck": "objects.vehicles.construction.dump_truck",
+    "ride_backhoe": "objects.vehicles.construction.backhoe"
   },
   "island": {
     "pipHouse": "worlds.buildings.cottage_blue",
@@ -1384,7 +1513,8 @@
     "drum": "objects.play.drum",
     "dinosaur_home": "worlds.dino_cave",
     "rainbow_arch": "worlds.rainbow_village.rainbow",
-    "portalSwirl": "fx.magic.portal_swirl"
+    "portalSwirl": "fx.magic.portal_swirl",
+    "pondSplash": "fx.magic.water_drop"
   },
   "worlds": {
     "dino": "ui.worlds.world_numbers",
@@ -1420,7 +1550,7 @@
     ],
     "toggle_on": "ui.parent.toggle_on",
     "lock": "ui.lock_closed",
-    "tab_creatures": "ui.menu.icon_collection",
+    "tab_creatures": "ui.menu.icon_sticker_book",
     "tab_cosmetics": "ui.menu.icon_wardrobe",
     "tab_decorations": "ui.menu.icon_gift",
     "tab_vehicles": "objects.vehicles.train_toy",
@@ -1435,7 +1565,21 @@
     "podium": "rewards.podiums.podium_gold",
     "placeSpot": "ui.build.place_spot_glow",
     "tab_seasons": "worlds.seasons.autumn.pumpkin",
-    "tab_buildings": "worlds.buildings.castle"
+    "tab_buildings": "worlds.buildings.castle",
+    "buildShop": "ui.build.shop",
+    "placeOk": "ui.build.place_ok",
+    "placeBlocked": "ui.build.place_blocked",
+    "ghostHouse": "ui.build.place_ghost_house",
+    "remove": "ui.btn_close",
+    "parent_sound": "ui.parent.icon_sound",
+    "parent_language": "ui.parent.language",
+    "soundOn": "ui.icon_sound_on",
+    "soundOff": "ui.icon_sound_off",
+    "parent_avatar": "ui.parent.avatar_parent",
+    "child_avatar": "ui.parent.avatar_child",
+    "parent_goals": "ui.parent.icon_goals",
+    "podium_bronze": "rewards.podiums.podium_bronze",
+    "podium_silver": "rewards.podiums.podium_silver"
   },
   "fx": {
     "about": "blend 'screen' = light blend for glows; omitted = normal.",
@@ -1473,7 +1617,8 @@
     "rareGlow": {
       "id": "fx.fx_ring_stars_gold",
       "blend": "screen"
-    }
+    },
+    "paintDrop": "fx.drops.drop_{colour}"
   },
   "preload": {
     "about": "Art loaded for each scene (plus pictures for the activities inside an adventure, worked out from data). 'starter' stays loaded and is what the one-file test build embeds.",
@@ -2577,5 +2722,98 @@
         ]
       }
     }
+  },
+  "islandBuild": {
+    "about": "Wonder Island build mode (Job 10): pieces in the MOVE THINGS tray. ground pieces lie flat under everything; over pieces (doors, windows, roof) sit in front of a wall they are dropped on. w/h = size on the island.",
+    "pieces": {
+      "tile_meadow": {
+        "id": "worlds.tiles.tile_meadow",
+        "w": 240,
+        "h": 150,
+        "ground": true
+      },
+      "tile_path": {
+        "id": "worlds.tiles.tile_path",
+        "w": 240,
+        "h": 150,
+        "ground": true
+      },
+      "tile_pond": {
+        "id": "worlds.tiles.tile_pond",
+        "w": 240,
+        "h": 150,
+        "ground": true
+      },
+      "tile_sand": {
+        "id": "worlds.tiles.tile_sand",
+        "w": 240,
+        "h": 150,
+        "ground": true
+      },
+      "tile_hill": {
+        "id": "worlds.tiles.tile_hill",
+        "w": 240,
+        "h": 150,
+        "ground": true
+      },
+      "tile_rocks": {
+        "id": "worlds.tiles.tile_rocks",
+        "w": 200,
+        "h": 150
+      },
+      "wall_window_rainbow": {
+        "id": "worlds.rainbow_build.wall_window_rainbow",
+        "w": 200,
+        "h": 190
+      },
+      "roof_rainbow": {
+        "id": "worlds.rainbow_build.roof_rainbow",
+        "w": 240,
+        "h": 170,
+        "over": true
+      },
+      "door_red": {
+        "id": "worlds.house_parts.door_red",
+        "w": 100,
+        "h": 130,
+        "over": true
+      },
+      "door_blue": {
+        "id": "worlds.house_parts.door_blue",
+        "w": 100,
+        "h": 130,
+        "over": true
+      },
+      "window_square": {
+        "id": "worlds.house_parts.window_square",
+        "w": 95,
+        "h": 95,
+        "over": true
+      },
+      "window_round": {
+        "id": "worlds.house_parts.window_round",
+        "w": 95,
+        "h": 95,
+        "over": true
+      },
+      "window_triangle": {
+        "id": "worlds.house_parts.window_triangle",
+        "w": 100,
+        "h": 90,
+        "over": true
+      }
+    }
+  },
+  "pipFaces": {
+    "about": "Pip close-ups (Job 10): profile cards cycle through cards; notice = the \"something went wobbly\" message; break = the wiggle-break reminder; new = the new-profile card.",
+    "cards": [
+      "characters.pip.pip_face_happy",
+      "characters.pip.pip_face_cheeky",
+      "characters.pip.pip_face_laugh",
+      "characters.pip.pip_face_wink"
+    ],
+    "new": "characters.pip.pip_face_content",
+    "notice": "characters.pip.pip_face_worried",
+    "break": "characters.pip.pip_face_surprised"
   }
 }

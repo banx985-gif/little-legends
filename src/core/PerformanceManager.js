@@ -1,8 +1,23 @@
 const MODES = Object.freeze({
-  HIGH: Object.freeze({ id:'high', label:'High', targetFps:60, dprCap:2, particleScale:1, effectScale:1, staticCache:true }),
-  BALANCED: Object.freeze({ id:'balanced', label:'Balanced', targetFps:60, dprCap:1.5, particleScale:.7, effectScale:.8, staticCache:true }),
-  LITE: Object.freeze({ id:'lite', label:'Lite', targetFps:30, dprCap:1.25, particleScale:.4, effectScale:.55, staticCache:true })
+  // maxPixels: the most real pixels the game canvas may have (a weak GPU struggles with a huge canvas whatever the DPR).
+  HIGH: Object.freeze({ id:'high', label:'High', targetFps:60, dprCap:2, maxPixels:4.2e6, particleScale:1, effectScale:1, staticCache:true }),
+  BALANCED: Object.freeze({ id:'balanced', label:'Balanced', targetFps:60, dprCap:1.5, maxPixels:2.4e6, particleScale:.7, effectScale:.8, staticCache:true }),
+  LITE: Object.freeze({ id:'lite', label:'Lite', targetFps:30, dprCap:1.25, maxPixels:1.5e6, particleScale:.4, effectScale:.55, staticCache:true })
 });
+
+const RANK = { high:0, balanced:1, lite:2 };
+const REMEMBER_KEY = 'littleLegends.autoQuality';
+function storage() { try { return globalThis.localStorage ?? null; } catch { return null; } }
+
+// Where 'auto' starts on this device: the slowest mode it needed before (remembered), or Lite on a low-memory
+// device (navigator.deviceMemory ≤ 4 GB, e.g. budget Android tablets).
+export function autoStartMode({ deviceMemory = globalThis.navigator?.deviceMemory, store = storage() } = {}) {
+  let remembered = null;
+  try { remembered = store?.getItem?.(REMEMBER_KEY) ?? null; } catch {}
+  const lowMemory = Number.isFinite(deviceMemory) && deviceMemory > 0 && deviceMemory <= 4;
+  const picks = [remembered, lowMemory ? 'lite' : null].filter(m => m in RANK);
+  return picks.sort((a, b) => RANK[b] - RANK[a])[0] ?? 'high';
+}
 
 function quantile(values, q) {
   if (!values.length) return 0;
@@ -11,7 +26,11 @@ function quantile(values, q) {
 }
 
 export class PerformanceManager {
-  constructor({ onQualityChange = null, mode = 'auto', maxSamples = 180 } = {}) {
+  constructor({ onQualityChange = null, mode = 'auto', maxSamples = 180, store = storage(), deviceMemory = globalThis.navigator?.deviceMemory } = {}) {
+    this.store = store;
+    this.deviceMemory = deviceMemory;
+    this.firstTestDone = false;
+    this.firstTestArmed = false;
     this.onQualityChange = onQualityChange;
     this.requestedMode = mode;
     this.mode = MODES.HIGH;
@@ -29,14 +48,23 @@ export class PerformanceManager {
 
   get quality() { return this.mode; }
 
+  modeFor(requested) {
+    const id = requested === 'auto' ? autoStartMode({ deviceMemory: this.deviceMemory, store: this.store }) : requested;
+    return id === 'lite' ? MODES.LITE : id === 'balanced' ? MODES.BALANCED : MODES.HIGH;
+  }
+
+  // Remember the slowest mode 'auto' needed, so the next launch starts there instead of glitching first.
+  remember(mode) {
+    try { const was = this.store?.getItem?.(REMEMBER_KEY); if (!(was in RANK) || RANK[mode.id] > RANK[was]) this.store?.setItem?.(REMEMBER_KEY, mode.id); } catch {}
+  }
+
   start() {
-    const initial = this.requestedMode === 'lite' ? MODES.LITE : this.requestedMode === 'balanced' ? MODES.BALANCED : MODES.HIGH;
-    this.applyMode(initial, { reason:'start' });
+    this.applyMode(this.modeFor(this.requestedMode), { reason:'start' });
   }
 
   setRequestedMode(mode = 'auto') {
     this.requestedMode = ['auto','high','balanced','lite'].includes(mode) ? mode : 'auto';
-    const next = this.requestedMode === 'lite' ? MODES.LITE : this.requestedMode === 'balanced' ? MODES.BALANCED : MODES.HIGH;
+    const next = this.modeFor(this.requestedMode);
     this.badWindows = 0;
     this.resetSamples();
     this.applyMode(next, { reason:'manual' });
@@ -61,6 +89,12 @@ export class PerformanceManager {
     this.renderMs[i] = Math.max(0, Number(renderMs) || 0);
     this.cursor = (i + 1) % this.maxSamples;
     this.sampleCount = Math.min(this.maxSamples, this.sampleCount + 1);
+    // First-frames test: one second of play is enough to tell a struggling device. Straight to the mode it needs.
+    if (this.requestedMode === 'auto' && this.firstTestArmed && !this.firstTestDone && this.sampleCount >= 60) {
+      this.firstTestDone = true;
+      const fps = this.report().averageFps, want = fps > 0 && fps < 24 ? MODES.LITE : fps > 0 && fps < 42 && this.mode.id === 'high' ? MODES.BALANCED : null;
+      if (want && RANK[want.id] > RANK[this.mode.id]) { this.mode = want; this.downgradeCount++; this.remember(want); this.onQualityChange?.(want, 'auto-first-frames'); this.resetSamples(); return; }
+    }
     if (this.requestedMode === 'auto' && this.sampleCount >= 90 && now - this.lastEvaluationAt >= 2000) {
       this.lastEvaluationAt = now;
       this.evaluateAuto();
@@ -94,6 +128,8 @@ export class PerformanceManager {
       averageRenderMs: avg(renders),
       p95RenderMs: quantile(renders,.95),
       dprCap: this.mode.dprCap,
+      maxPixels: this.mode.maxPixels,
+      deviceMemory: Number.isFinite(this.deviceMemory) ? this.deviceMemory : null,
       particleScale: this.mode.particleScale,
       effectScale: this.mode.effectScale,
       downgradeCount: this.downgradeCount
@@ -112,6 +148,7 @@ export class PerformanceManager {
     if (this.mode.id === 'high') {
       this.mode = MODES.BALANCED;
       this.downgradeCount++;
+      this.remember(this.mode);
       this.onQualityChange?.(this.mode, 'auto-downgrade');
       this.resetSamples();
       return true;
@@ -119,12 +156,16 @@ export class PerformanceManager {
     if (this.mode.id === 'balanced') {
       this.mode = MODES.LITE;
       this.downgradeCount++;
+      this.remember(this.mode);
       this.onQualityChange?.(this.mode, 'auto-downgrade');
       this.resetSamples();
       return true;
     }
     return false;
   }
+
+  // Start the first-frames test now (after loading, so loading hiccups don't count).
+  armFirstTest() { if (this.firstTestArmed) return; this.firstTestArmed = true; this.resetSamples(); }
 
   resetSamples() {
     this.sampleCount = 0;

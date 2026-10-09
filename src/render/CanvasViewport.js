@@ -4,6 +4,7 @@ export class CanvasViewport {
     this.designWidth = designWidth;
     this.designHeight = designHeight;
     this.dprCap = 2;
+    this.maxPixels = Infinity;
     this.dpr = 1;
     this.cssWidth = 0;
     this.cssHeight = 0;
@@ -23,13 +24,22 @@ export class CanvasViewport {
     return true;
   }
 
+  // The most real pixels the canvas may have; the DPR drops (never below 1) to fit.
+  setMaxPixels(value = Infinity) {
+    const next = Number(value) > 0 ? Number(value) : Infinity;
+    if (next === this.maxPixels) return false;
+    this.maxPixels = next;
+    this.resize();
+    return true;
+  }
+
   resize() {
     const rect = this.canvas.getBoundingClientRect();
     this.rectLeft = rect.left;
     this.rectTop = rect.top;
     this.cssWidth = Math.max(1, rect.width);
     this.cssHeight = Math.max(1, rect.height);
-    this.dpr = Math.min(window.devicePixelRatio || 1, this.dprCap);
+    this.dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, this.dprCap, Math.sqrt(this.maxPixels / (this.cssWidth * this.cssHeight))));
     const pixelW = Math.round(this.cssWidth * this.dpr);
     const pixelH = Math.round(this.cssHeight * this.dpr);
     if (this.canvas.width !== pixelW) this.canvas.width = pixelW;
@@ -37,6 +47,7 @@ export class CanvasViewport {
     this.scale = Math.min(this.cssWidth / this.designWidth, this.cssHeight / this.designHeight);
     this.offsetX = (this.cssWidth - this.designWidth * this.scale) / 2;
     this.offsetY = (this.cssHeight - this.designHeight * this.scale) / 2;
+    this.onResize?.(this);
   }
 
   begin(ctx) {

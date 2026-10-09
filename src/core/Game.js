@@ -16,6 +16,7 @@ import { PerformanceManager } from './PerformanceManager.js';
 import { FeedbackFX } from '../fx/FeedbackFX.js';
 import { ChildTestRecorder } from '../testing/ChildTestRecorder.js';
 import { ReleaseQualification } from '../testing/ReleaseQualification.js';
+import { artMap, drawArt } from './art.js';
 
 export class Game {
   constructor(canvas) {
@@ -24,6 +25,12 @@ export class Game {
     this.viewport = new CanvasViewport(canvas, 1920, 1080);
     this.input = new InputManager(canvas, this.viewport);
     this.assets = new AssetLoader();
+    // Pictures decode at the size they are drawn on this screen (see AssetLoader.drawnSize).
+    this.viewport.onResize = v => { this.assets.pixelScale = v.scale * v.dpr; };
+    this.viewport.onResize(this.viewport);
+    this.debugOverlay = false;
+    try { this.debugOverlay = globalThis.localStorage?.getItem('littleLegends.debugOverlay') === 'on'; } catch {}
+    this.fpsT = 0; this.fpsFrames = 0; this.fps = 0;
     globalThis.__LL_ASSETS = this.assets;
     this.audio = new AudioManager();
     this.learning = new LearningProfile();
@@ -109,12 +116,34 @@ export class Game {
     globalThis.__LL_PARTICLE_SCALE = quality.particleScale;
     globalThis.__LL_EFFECT_SCALE = quality.effectScale;
     globalThis.__LL_STATIC_CACHE = quality.staticCache !== false;
+    this.viewport?.setMaxPixels?.(quality.maxPixels);
     this.viewport?.setDprCap?.(quality.dprCap);
     this.loop?.setTargetFps?.(quality.targetFps);
   }
 
   setPerformanceMode(mode = 'auto') {
     return this.performanceManager?.setRequestedMode?.(mode) ?? 'high';
+  }
+
+  // Picture stats overlay (Parent Area → DATA → PICTURE STATS) for screenshots from a real tablet.
+  setDebugOverlay(on) {
+    this.debugOverlay = Boolean(on);
+    try { globalThis.localStorage?.setItem('littleLegends.debugOverlay', this.debugOverlay ? 'on' : 'off'); } catch {}
+    return this.debugOverlay;
+  }
+
+  debugStats() {
+    const a = this.assets, v = this.viewport;
+    return { fps: this.fps, pictures: a?.loadedArtCount?.() ?? 0, imageMB: (a?.artMemoryBytes?.() ?? 0) / 1048576, quality: globalThis.__LL_QUALITY ?? 'high',
+      canvas: `${this.canvas?.width ?? 0}×${this.canvas?.height ?? 0}`, dpr: v?.dpr ?? 1, deviceMemory: globalThis.navigator?.deviceMemory ?? null, scene: this.scenes?.currentName ?? '' };
+  }
+
+  renderDebugOverlay(ctx) {
+    const s = this.debugStats();
+    const lines = [`${s.fps.toFixed(0)} FPS • ${s.quality.toUpperCase()} • ${s.scene}`, `${s.pictures} pictures • ${s.imageMB.toFixed(0)} MB images`, `canvas ${s.canvas} • DPR ${s.dpr.toFixed(2)} • RAM ${s.deviceMemory ?? '?'} GB`];
+    ctx.save(); ctx.fillStyle = '#000000b8'; ctx.beginPath(); ctx.roundRect(1380, 960, 530, 112, 18); ctx.fill();
+    ctx.fillStyle = '#b8ffb0'; ctx.font = '700 25px monospace'; ctx.textAlign = 'left';
+    lines.forEach((l, i) => ctx.fillText(l, 1396, 994 + i * 33, 500)); ctx.restore();
   }
 
   getPerformanceReport() {
@@ -161,6 +190,8 @@ export class Game {
   }
 
   render(alpha) {
+    const now = globalThis.performance?.now?.() ?? Date.now(); this.fpsFrames++; // frames actually drawn each second
+    if (!this.fpsT) this.fpsT = now; else if (now - this.fpsT >= 1000) { this.fps = this.fpsFrames * 1000 / (now - this.fpsT); this.fpsFrames = 0; this.fpsT = now; }
     this.viewport.clear(this.ctx, '#75d8ff');
     this.viewport.begin(this.ctx);
     this.scenes.render(this.ctx, alpha);
@@ -168,13 +199,14 @@ export class Game {
     if (this.breakReminderVisible) this.renderBreakReminder(this.ctx);
     if (this.resumeOverlayT>0) { const p=Math.min(1,this.resumeOverlayT/.45); this.ctx.save(); this.ctx.globalAlpha=p*.22; this.ctx.fillStyle='#fff'; this.ctx.fillRect(0,0,1920,1080); this.ctx.restore(); }
     if (this.runtimeNotice && this.runtimeNoticeT>0) this.renderRuntimeNotice(this.ctx);
+    if (this.debugOverlay) this.renderDebugOverlay(this.ctx);
   }
 
   renderRuntimeNotice(ctx) {
-    ctx.save();ctx.fillStyle='#453857e8';ctx.beginPath();ctx.roundRect(430,880,1060,110,42);ctx.fill();ctx.fillStyle='#fff';ctx.textAlign='center';ctx.font='800 28px system-ui';ctx.fillText(this.runtimeNotice,960,946);ctx.restore();
+    ctx.save();ctx.fillStyle='#453857e8';ctx.beginPath();ctx.roundRect(430,880,1060,110,42);ctx.fill();drawArt(ctx,artMap()?.pipFaces?.notice,470,935,120,120);ctx.fillStyle='#fff';ctx.textAlign='center';ctx.font='800 28px system-ui';ctx.fillText(this.runtimeNotice,960,946);ctx.restore();
   }
 
   renderBreakReminder(ctx) {
-    ctx.save();ctx.fillStyle='#453857dd';ctx.beginPath();ctx.roundRect(510,760,900,210,70);ctx.fill();ctx.fillStyle='#fff7d0';ctx.textAlign='center';ctx.font='900 46px system-ui';ctx.fillText('Wiggle break?',960,842);ctx.fillStyle='#fff';ctx.font='700 27px system-ui';ctx.fillText('Stretch, have a drink, or tap to keep playing.',960,900);ctx.restore();
+    ctx.save();ctx.fillStyle='#453857dd';ctx.beginPath();ctx.roundRect(510,760,900,210,70);ctx.fill();drawArt(ctx,artMap()?.pipFaces?.break,520,770,150,150);ctx.fillStyle='#fff7d0';ctx.textAlign='center';ctx.font='900 46px system-ui';ctx.fillText('Wiggle break?',960,842);ctx.fillStyle='#fff';ctx.font='700 27px system-ui';ctx.fillText('Stretch, have a drink, or tap to keep playing.',960,900);ctx.restore();
   }
 }

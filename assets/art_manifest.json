@@ -1796,6 +1796,30 @@
   "url": "./assets/objects/tracks/track_fox.png"
  },
  {
+  "id": "objects.vehicles.air.airship",
+  "url": "./assets/objects/vehicles/air/airship.png"
+ },
+ {
+  "id": "objects.vehicles.air.helicopter_news",
+  "url": "./assets/objects/vehicles/air/helicopter_news.png"
+ },
+ {
+  "id": "objects.vehicles.air.helicopter_rescue",
+  "url": "./assets/objects/vehicles/air/helicopter_rescue.png"
+ },
+ {
+  "id": "objects.vehicles.air.hot_air_balloon",
+  "url": "./assets/objects/vehicles/air/hot_air_balloon.png"
+ },
+ {
+  "id": "objects.vehicles.air.plane_propeller",
+  "url": "./assets/objects/vehicles/air/plane_propeller.png"
+ },
+ {
+  "id": "objects.vehicles.air.seaplane",
+  "url": "./assets/objects/vehicles/air/seaplane.png"
+ },
+ {
   "id": "objects.vehicles.ambulance",
   "url": "./assets/objects/vehicles/ambulance.png"
  },
@@ -1804,16 +1828,160 @@
   "url": "./assets/objects/vehicles/bicycle.png"
  },
  {
+  "id": "objects.vehicles.boats.boat_rescue",
+  "url": "./assets/objects/vehicles/boats/boat_rescue.png"
+ },
+ {
+  "id": "objects.vehicles.boats.ferry_b",
+  "url": "./assets/objects/vehicles/boats/ferry_b.png"
+ },
+ {
+  "id": "objects.vehicles.boats.fishing_boat",
+  "url": "./assets/objects/vehicles/boats/fishing_boat.png"
+ },
+ {
+  "id": "objects.vehicles.boats.sailboat",
+  "url": "./assets/objects/vehicles/boats/sailboat.png"
+ },
+ {
+  "id": "objects.vehicles.boats.tugboat",
+  "url": "./assets/objects/vehicles/boats/tugboat.png"
+ },
+ {
+  "id": "objects.vehicles.boats.water_taxi",
+  "url": "./assets/objects/vehicles/boats/water_taxi.png"
+ },
+ {
   "id": "objects.vehicles.cement_mixer",
   "url": "./assets/objects/vehicles/cement_mixer.png"
+ },
+ {
+  "id": "objects.vehicles.construction.backhoe",
+  "url": "./assets/objects/vehicles/construction/backhoe.png"
+ },
+ {
+  "id": "objects.vehicles.construction.bulldozer",
+  "url": "./assets/objects/vehicles/construction/bulldozer.png"
+ },
+ {
+  "id": "objects.vehicles.construction.dump_truck",
+  "url": "./assets/objects/vehicles/construction/dump_truck.png"
+ },
+ {
+  "id": "objects.vehicles.construction.excavator",
+  "url": "./assets/objects/vehicles/construction/excavator.png"
+ },
+ {
+  "id": "objects.vehicles.construction.road_roller",
+  "url": "./assets/objects/vehicles/construction/road_roller.png"
+ },
+ {
+  "id": "objects.vehicles.construction.wheel_loader",
+  "url": "./assets/objects/vehicles/construction/wheel_loader.png"
+ },
+ {
+  "id": "objects.vehicles.council.buggy_gardener",
+  "url": "./assets/objects/vehicles/council/buggy_gardener.png"
+ },
+ {
+  "id": "objects.vehicles.council.cherry_picker",
+  "url": "./assets/objects/vehicles/council/cherry_picker.png"
+ },
+ {
+  "id": "objects.vehicles.council.garbage_truck_recycling",
+  "url": "./assets/objects/vehicles/council/garbage_truck_recycling.png"
+ },
+ {
+  "id": "objects.vehicles.council.truck_tree_grabber",
+  "url": "./assets/objects/vehicles/council/truck_tree_grabber.png"
+ },
+ {
+  "id": "objects.vehicles.council.vacuum_tanker",
+  "url": "./assets/objects/vehicles/council/vacuum_tanker.png"
+ },
+ {
+  "id": "objects.vehicles.council.water_tanker",
+  "url": "./assets/objects/vehicles/council/water_tanker.png"
  },
  {
   "id": "objects.vehicles.crane_truck",
   "url": "./assets/objects/vehicles/crane_truck.png"
  },
  {
+  "id": "objects.vehicles.delivery.truck_furniture",
+  "url": "./assets/objects/vehicles/delivery/truck_furniture.png"
+ },
+ {
+  "id": "objects.vehicles.delivery.truck_parcels",
+  "url": "./assets/objects/vehicles/delivery/truck_parcels.png"
+ },
+ {
+  "id": "objects.vehicles.delivery.van_bakery",
+  "url": "./assets/objects/vehicles/delivery/van_bakery.png"
+ },
+ {
+  "id": "objects.vehicles.delivery.van_florist",
+  "url": "./assets/objects/vehicles/delivery/van_florist.png"
+ },
+ {
+  "id": "objects.vehicles.delivery.van_fridge",
+  "url": "./assets/objects/vehicles/delivery/van_fridge.png"
+ },
+ {
+  "id": "objects.vehicles.delivery.van_grocer",
+  "url": "./assets/objects/vehicles/delivery/van_grocer.png"
+ },
+ {
   "id": "objects.vehicles.digger",
   "url": "./assets/objects/vehicles/digger.png"
+ },
+ {
+  "id": "objects.vehicles.emergency.ambulance_b",
+  "url": "./assets/objects/vehicles/emergency/ambulance_b.png"
+ },
+ {
+  "id": "objects.vehicles.emergency.beach_buggy_lifeguard",
+  "url": "./assets/objects/vehicles/emergency/beach_buggy_lifeguard.png"
+ },
+ {
+  "id": "objects.vehicles.emergency.fire_engine",
+  "url": "./assets/objects/vehicles/emergency/fire_engine.png"
+ },
+ {
+  "id": "objects.vehicles.emergency.fire_rescue_4x4",
+  "url": "./assets/objects/vehicles/emergency/fire_rescue_4x4.png"
+ },
+ {
+  "id": "objects.vehicles.emergency.police_van",
+  "url": "./assets/objects/vehicles/emergency/police_van.png"
+ },
+ {
+  "id": "objects.vehicles.emergency.rescue_4x4_mountain",
+  "url": "./assets/objects/vehicles/emergency/rescue_4x4_mountain.png"
+ },
+ {
+  "id": "objects.vehicles.farm.combine_harvester",
+  "url": "./assets/objects/vehicles/farm/combine_harvester.png"
+ },
+ {
+  "id": "objects.vehicles.farm.farm_buggy",
+  "url": "./assets/objects/vehicles/farm/farm_buggy.png"
+ },
+ {
+  "id": "objects.vehicles.farm.feed_truck",
+  "url": "./assets/objects/vehicles/farm/feed_truck.png"
+ },
+ {
+  "id": "objects.vehicles.farm.milk_tanker",
+  "url": "./assets/objects/vehicles/farm/milk_tanker.png"
+ },
+ {
+  "id": "objects.vehicles.farm.sprayer",
+  "url": "./assets/objects/vehicles/farm/sprayer.png"
+ },
+ {
+  "id": "objects.vehicles.farm.tractor_hay",
+  "url": "./assets/objects/vehicles/farm/tractor_hay.png"
  },
  {
   "id": "objects.vehicles.ferry",
@@ -1836,6 +2004,30 @@
   "url": "./assets/objects/vehicles/police_car.png"
  },
  {
+  "id": "objects.vehicles.road_works.line_painter",
+  "url": "./assets/objects/vehicles/road_works/line_painter.png"
+ },
+ {
+  "id": "objects.vehicles.road_works.snow_plough",
+  "url": "./assets/objects/vehicles/road_works/snow_plough.png"
+ },
+ {
+  "id": "objects.vehicles.road_works.truck_arrow_board",
+  "url": "./assets/objects/vehicles/road_works/truck_arrow_board.png"
+ },
+ {
+  "id": "objects.vehicles.road_works.truck_roadworks",
+  "url": "./assets/objects/vehicles/road_works/truck_roadworks.png"
+ },
+ {
+  "id": "objects.vehicles.road_works.van_repair",
+  "url": "./assets/objects/vehicles/road_works/van_repair.png"
+ },
+ {
+  "id": "objects.vehicles.road_works.van_tools",
+  "url": "./assets/objects/vehicles/road_works/van_tools.png"
+ },
+ {
   "id": "objects.vehicles.school_bus",
   "url": "./assets/objects/vehicles/school_bus.png"
  },
@@ -1854,6 +2046,30 @@
  {
   "id": "objects.vehicles.sign_train_station",
   "url": "./assets/objects/vehicles/sign_train_station.png"
+ },
+ {
+  "id": "objects.vehicles.special.camper_van",
+  "url": "./assets/objects/vehicles/special/camper_van.png"
+ },
+ {
+  "id": "objects.vehicles.special.parade_float",
+  "url": "./assets/objects/vehicles/special/parade_float.png"
+ },
+ {
+  "id": "objects.vehicles.special.truck_stage",
+  "url": "./assets/objects/vehicles/special/truck_stage.png"
+ },
+ {
+  "id": "objects.vehicles.special.van_ice_cream",
+  "url": "./assets/objects/vehicles/special/van_ice_cream.png"
+ },
+ {
+  "id": "objects.vehicles.special.van_library",
+  "url": "./assets/objects/vehicles/special/van_library.png"
+ },
+ {
+  "id": "objects.vehicles.special.van_vet",
+  "url": "./assets/objects/vehicles/special/van_vet.png"
  },
  {
   "id": "objects.vehicles.street_sweeper",
@@ -1878,6 +2094,30 @@
  {
   "id": "objects.vehicles.train_toy",
   "url": "./assets/objects/vehicles/train_toy.png"
+ },
+ {
+  "id": "objects.vehicles.transport.bus_city",
+  "url": "./assets/objects/vehicles/transport/bus_city.png"
+ },
+ {
+  "id": "objects.vehicles.transport.cable_car",
+  "url": "./assets/objects/vehicles/transport/cable_car.png"
+ },
+ {
+  "id": "objects.vehicles.transport.coach",
+  "url": "./assets/objects/vehicles/transport/coach.png"
+ },
+ {
+  "id": "objects.vehicles.transport.minibus",
+  "url": "./assets/objects/vehicles/transport/minibus.png"
+ },
+ {
+  "id": "objects.vehicles.transport.shuttle_airport",
+  "url": "./assets/objects/vehicles/transport/shuttle_airport.png"
+ },
+ {
+  "id": "objects.vehicles.transport.tram",
+  "url": "./assets/objects/vehicles/transport/tram.png"
  },
  {
   "id": "objects.vehicles.van",

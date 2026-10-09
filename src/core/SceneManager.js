@@ -1,4 +1,4 @@
-import { prepareSceneArt } from './art.js';
+import { prepareSceneArt, settleSceneArt } from './art.js';
 
 export class SceneManager {
   constructor(game) {
@@ -23,10 +23,12 @@ export class SceneManager {
     try {
       if (previous?.exit) await previous.exit();
       const next = factory(this.game);
-      await prepareSceneArt(this.game, name, data);
+      const artIds = await prepareSceneArt(this.game, name, data);
       this.current = next;
       this.currentName = name;
       if (next?.enter) await next.enter(data);
+      settleSceneArt(this.game, name, data, artIds);
+      if (name !== 'boot') this.game.performanceManager?.armFirstTest?.();
       this.game.childTest?.recordScene?.(name);
       return true;
     } catch (error) {

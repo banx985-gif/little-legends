@@ -9,6 +9,7 @@
     "rc:check": "node ./scripts/release-candidate-check.mjs",
     "qa:tablet": "node ./scripts/qa-tablet.mjs",
     "qa:release": "node ./scripts/qa-release.mjs",
-    "wardrobe:preview": "node ./scripts/wardrobe-preview.mjs"
+    "wardrobe:preview": "node ./scripts/wardrobe-preview.mjs",
+    "art:unused": "node ./scripts/art-unused.mjs"
   }
 }

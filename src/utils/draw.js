@@ -49,7 +49,7 @@ export function drawCandyButton(ctx, x, y, w, h, label, pressed = false, icon = 
 // Splits text into at most maxLines lines that fit maxWidth with the current font (the last line may still be long;
 // callers pass maxWidth to fillText so it squeezes rather than spills).
 export function wrapLines(ctx, text, maxWidth, maxLines = 2) {
-  const words = String(text ?? '').split(/s+/).filter(Boolean), lines = [];
+  const words = String(text ?? '').split(/\s+/).filter(Boolean), lines = [];
   let line = '';
   for (const word of words) {
     const next = line ? `${line} ${word}` : word;

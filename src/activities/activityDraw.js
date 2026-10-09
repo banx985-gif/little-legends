@@ -1,5 +1,5 @@
 import { drawCloud } from '../utils/draw.js';
-import { art, artMap, drawArt, tokenArt, characterArt, fxArt, ambientArt, backgroundArt, thingArt } from '../core/art.js';
+import { art, artMap, drawArt, drawFullScreen, tokenArt, characterArt, fxArt, ambientArt, backgroundArt, thingArt } from '../core/art.js';
 
 export const PALETTE = Object.freeze({
   red: '#e94d55',
@@ -19,9 +19,9 @@ export function resolveColor(value, fallback = '#8b69db') {
 
 export function drawActivityBackground(ctx, theme = 'meadow') {
   const meadowArt = art('art.meadow_picnic_clearing') ?? globalThis.__LL_ASSETS?.get?.('meadow-picnic-bg');
-  if (theme === 'meadow' && meadowArt?.width) { ctx.drawImage(meadowArt, 0, 0, 1920, 1080); return; }
+  if (theme === 'meadow' && meadowArt?.width) { drawFullScreen(ctx, meadowArt); return; }
   const scene = art(backgroundArt(theme));
-  if (scene && typeof ctx.drawImage === 'function') { ctx.drawImage(scene, 0, 0, 1920, 1080); return; }
+  if (scene && drawFullScreen(ctx, scene)) return;
   if (String(theme).startsWith('space')) { drawSpaceBackdrop(ctx); return; }
   if (String(theme).startsWith('town')) { drawTownBackdrop(ctx); return; }
   const skyByTheme = { dino:'#8dddf4', forest:'#9ee4cf', rainbow:'#91dcff', storybook:'#a8d8ff', life:'#9fe3df', jungle:'#89d9c5', music:'#89d9c5' };

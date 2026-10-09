@@ -28,12 +28,14 @@ function blankProfileState() {
     discoveryStars: 0,
     eggs: {},
     unlocks: { creatures: [], decorations: [], cosmetics: [], vehicles: [], toys: [], buildings: [] },
-    island: { placements: {} },
+    island: { placements: {}, built: [] },
     pip: { outfit: { hat: 'starter-leaf' } },
     adventure: { currentId: null, step: 0, completed: [] },
     settings: {}
   };
 }
+
+export const ISLAND_BUILD_LIMIT = 30;
 
 export class SaveSystem {
   constructor({ indexedDBRef = globalThis.indexedDB, storage = globalThis.localStorage } = {}) {
@@ -110,6 +112,8 @@ export class SaveSystem {
       for (const key of Object.keys(defaults.unlocks)) state.unlocks[key] = Array.isArray(state.unlocks[key]) ? [...new Set(state.unlocks[key].filter(Boolean))] : [];
       state.island = { ...defaults.island, ...(state.island ?? {}) };
       state.island.placements = state.island.placements && typeof state.island.placements === 'object' && !Array.isArray(state.island.placements) ? state.island.placements : {};
+      // Pieces the child built on the island (Job 10): [{ id: 'built_3', piece: 'tile_meadow' }].
+      state.island.built = Array.isArray(state.island.built) ? state.island.built.filter(b => typeof b?.id === 'string' && typeof b?.piece === 'string').slice(0, ISLAND_BUILD_LIMIT) : [];
       state.pip = { ...defaults.pip, ...(state.pip ?? {}) };
       state.pip.outfit = { ...defaults.pip.outfit, ...(state.pip.outfit ?? {}) };
       // Job 09: looks worn one per slot ({ head, eyes, body, back, extra } -> reward id). Older saves only have cosmeticId.
@@ -286,6 +290,23 @@ export class SaveSystem {
       state.adventure.step = completed ? 0 : Math.max(0, Number(step) || 0);
       if (completed && currentId && !state.adventure.completed.includes(currentId)) state.adventure.completed.push(currentId);
     });
+  }
+
+  // Adds a build piece to the island; returns its id, or null when the island already has ISLAND_BUILD_LIMIT pieces.
+  async addIslandPiece(piece, placement = null) {
+    let id = null;
+    await this.mutateProfileState(state => {
+      state.island ??= { placements: {} }; state.island.placements ??= {}; state.island.built ??= [];
+      if (state.island.built.length >= ISLAND_BUILD_LIMIT) return;
+      const n = state.island.built.reduce((m, b) => Math.max(m, Number(b.id.split('_')[1]) || 0), 0) + 1;
+      id = `built_${n}`; state.island.built.push({ id, piece: String(piece) });
+      if (placement) state.island.placements[id] = clone(placement);
+    });
+    return id;
+  }
+
+  async removeIslandPiece(id) {
+    return this.mutateProfileState(state => { state.island.built = (state.island.built ?? []).filter(b => b.id !== id); delete state.island.placements[id]; });
   }
 
   async saveIslandPlacement(id, placement) {

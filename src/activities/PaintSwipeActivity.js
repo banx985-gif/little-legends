@@ -1,5 +1,6 @@
 import { SwipeCoverageActivity } from './SwipeCoverageActivity.js';
 import { drawInstructionPanel, resolveColor } from './activityDraw.js';
+import { artMap, drawArt } from '../core/art.js';
 
 export class PaintSwipeActivity extends SwipeCoverageActivity {
   start() {
@@ -31,6 +32,8 @@ export class PaintSwipeActivity extends SwipeCoverageActivity {
     }
     ctx.restore();
     this.drawSpots(ctx, '#ffffffcc');
+    // A paint drop of this colour on the corner of the board, so the colour to use is always in sight.
+    drawArt(ctx, artMap()?.fx?.paintDrop?.replace('{colour}', this.definition.paintColor ?? 'purple'), 1430, 395, 120, 120);
     if (this.active) {
       ctx.fillStyle = paint;
       ctx.beginPath();

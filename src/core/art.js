@@ -4,7 +4,9 @@
 const COLOUR_NAMES = new Set(['red','blue','yellow','green','orange','purple','pink','cream','teal']);
 const SYMBOL_KINDS = new Set(['clothing','toy','feeling','routine','instrument','word','object']);
 const THING_FIT = 0.9;
-const STARTER_KEEP_LIMIT = 140;
+// Decoded picture memory (MB) kept between scenes, by quality mode. Over it, pictures the next scene doesn't use are let go.
+const ART_BUDGET_MB = { high: 260, balanced: 170, lite: 100 };
+const REMEMBER_DRAWN = 160; // most pictures remembered per scene, preloaded on the next visit
 
 function loader() { return globalThis.__LL_ASSETS ?? null; }
 export function artMap() { return loader()?.artMap ?? null; }
@@ -13,6 +15,7 @@ export function art(id) {
   if (!id) return null;
   const assets = loader();
   const img = assets?.get?.(id);
+  assets?.drawnNow?.add(id); // what this scene really draws (kept loaded; preloaded next time)
   if (img === undefined) assets?.requestArt?.(id); // not preloaded: fetch in the background, placeholder until it lands
   return img && (img.naturalWidth || img.width) ? img : null;
 }
@@ -27,12 +30,33 @@ export function drawArt(ctx, id, x, y, w, h, { anchor = 'center', flipX = false,
   const top = anchor === 'bottom' ? y - dh : y - dh / 2;
   ctx.save();
   if (alpha !== 1) ctx.globalAlpha *= alpha;
-  if (blend) ctx.globalCompositeOperation = blend;
+  // Lite mode: light blends (screen/lighter) are slow or glitchy on some Android GPUs, so glows draw with plain alpha.
+  if (blend && globalThis.__LL_QUALITY === 'lite') ctx.globalAlpha *= 0.7;
+  else if (blend) ctx.globalCompositeOperation = blend;
   if (flipX) { ctx.translate(x, 0); ctx.scale(-1, 1); ctx.translate(-x, 0); }
   ctx.drawImage(img, x - dw / 2, top, dw, dh);
   ctx.restore();
   return true;
 }
+
+// A full-screen picture (0,0 to 1920×1080), drawn once into a screen-sized layer and copied 1:1 after that, so a weak
+// GPU doesn't rescale a big picture every frame. Falls back to a direct draw where there is no document (tests).
+const layer = { img: null, canvas: null, w: 0, h: 0 };
+export function drawFullScreen(ctx, img) {
+  if (!img || typeof ctx?.drawImage !== 'function') return false;
+  const t = ctx.getTransform?.(), pw = t ? Math.round(1920 * Math.hypot(t.a, t.b)) : 0, ph = t ? Math.round(1080 * Math.hypot(t.c, t.d)) : 0;
+  if (!globalThis.__LL_STATIC_CACHE || !pw || !ph || typeof document === 'undefined') { ctx.drawImage(img, 0, 0, 1920, 1080); return true; }
+  if (layer.img !== img || layer.w !== pw || layer.h !== ph) {
+    layer.canvas ??= document.createElement('canvas');
+    layer.canvas.width = pw; layer.canvas.height = ph;
+    const c = layer.canvas.getContext('2d', { alpha: false });
+    c.imageSmoothingQuality = 'high'; c.drawImage(img, 0, 0, pw, ph);
+    Object.assign(layer, { img, w: pw, h: ph });
+  }
+  ctx.drawImage(layer.canvas, 0, 0, 1920, 1080);
+  return true;
+}
+export function dropFullScreenLayer() { if (layer.canvas) { layer.canvas.width = layer.canvas.height = 1; } Object.assign(layer, { img: null, w: 0, h: 0 }); }
 
 export function lookupArt(group, key) {
   const id = artMap()?.[group]?.[key];
@@ -181,6 +205,9 @@ async function artIdsForScene(game, name, data = {}) {
     // Only rewards this child owns are on the island.
     const owned = Object.values(game.save?.getProfileState?.()?.unlocks ?? {}).flat();
     ids.push(...Object.values(map.island ?? {}), ...owned.map(id => map.rewards?.[id]).filter(Boolean));
+    // Pieces built on the island; the build tray's own pictures load when MOVE THINGS is opened.
+    const pieces = map.islandBuild?.pieces ?? {};
+    ids.push(...(game.save?.getProfileState?.()?.island?.built ?? []).map(b => pieces[b.piece]?.id).filter(Boolean));
   }
   // Looks Pip is wearing (outfit.worn, one per slot; older saves: cosmeticId).
   const outfit = game.save?.getProfileState?.()?.pip?.outfit;
@@ -222,18 +249,35 @@ async function artIdsForScene(game, name, data = {}) {
 // (late pictures pop in as they arrive; until then the placeholders show). Never throws.
 async function prepareSceneArt(game, name, data = {}, { maxWait = 1500 } = {}) {
   const assets = game?.assets;
-  if (name === 'boot' || !assets?.loadArt || !artMap()) return 0; // the boot screen shows its own progress bar
+  if (name === 'boot' || !assets?.loadArt || !artMap()) return []; // the boot screen shows its own progress bar
   try {
-    const ids = await artIdsForScene(game, name, data);
-    const keep = new Set(ids);
-    if (assets.loadedArtCount?.() > STARTER_KEEP_LIMIT) assets.releaseArt?.(keep);
+    const ids = [...new Set([...await artIdsForScene(game, name, data), ...(assets.sceneDrawn?.get(sceneKey(name, data)) ?? [])])];
     const loading = assets.loadArt(ids);
     await Promise.race([loading, new Promise(resolve => setTimeout(resolve, maxWait))]);
-    return ids.length;
+    return ids;
   } catch (error) {
     console.warn('Little Legends art preload skipped', error);
-    return 0;
+    return [];
   }
+}
+
+function sceneKey(name, data = {}) { return [name, data.adventureId ?? data.activityId ?? data.id ?? data.world ?? data.tab ?? ''].join(':'); }
+
+// Called once the new scene is on screen (never mid-scene, so nothing it draws disappears).
+// Remembers what the old scene drew, then — only when decoded pictures are over budget — lets go of pictures
+// the new scene doesn't need. ids: what prepareSceneArt loaded for the new scene.
+function settleSceneArt(game, name, data = {}, ids = []) {
+  const assets = game?.assets;
+  if (!assets?.releaseArt) return 0;
+  if (assets.drawnNow && assets.sceneKey) {
+    assets.sceneDrawn ??= new Map();
+    assets.sceneDrawn.set(assets.sceneKey, [...assets.drawnNow].filter(id => assets.artUrls?.has(id)).slice(0, REMEMBER_DRAWN));
+  }
+  assets.sceneKey = sceneKey(name, data); assets.drawnNow = new Set(ids);
+  const budget = (ART_BUDGET_MB[globalThis.__LL_QUALITY] ?? ART_BUDGET_MB.high) * 1048576;
+  if ((assets.artMemoryBytes?.() ?? 0) <= budget) return 0;
+  dropFullScreenLayer();
+  return assets.releaseArt(new Set([...(artMap()?.preload?.starter ?? []), ...ids]));
 }
 
 // Each world's look (scene theme) for hubs and story steps.
@@ -246,4 +290,4 @@ export function dragonForWorld(game, world) {
   return game?.rewards?.list?.().find(r => r.dragonWorld === world) ?? null;
 }
 
-export { artIdsForScene, prepareSceneArt };
+export { artIdsForScene, prepareSceneArt, settleSceneArt };

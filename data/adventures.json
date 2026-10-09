@@ -1939,6 +1939,88 @@
         }
       ],
       "bonusLook": "catalog_outfit_builder"
+    },
+    {
+      "id": "town_vehicle_parade",
+      "title": "Vehicle Parade",
+      "world": "town",
+      "guide": "pip",
+      "theme": "town_train_station",
+      "reward": {
+        "type": "vehicles",
+        "id": "town_ice_cream_van",
+        "name": "Ice Cream Van"
+      },
+      "steps": [
+        {
+          "id": "town_vehicle_parade_intro",
+          "kind": "story",
+          "title": "Vehicle Parade",
+          "voice": "Here comes the vehicle parade! Let’s help every vehicle find its way."
+        },
+        {
+          "id": "town_vehicle_parade_a1",
+          "kind": "activity",
+          "activityId": "town_land_sea_air"
+        },
+        {
+          "id": "town_vehicle_parade_a2",
+          "kind": "activity",
+          "activityId": "town_count_buses"
+        },
+        {
+          "id": "town_vehicle_parade_a3",
+          "kind": "activity",
+          "activityId": "town_vehicle_jobs"
+        },
+        {
+          "id": "town_vehicle_parade_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "What a wonderful parade!"
+        }
+      ]
+    },
+    {
+      "id": "town_big_helpers",
+      "title": "Big Helpers",
+      "world": "town",
+      "guide": "pip",
+      "theme": "town_fire_station",
+      "reward": {
+        "type": "vehicles",
+        "id": "town_rescue_helicopter",
+        "name": "Rescue Helicopter"
+      },
+      "steps": [
+        {
+          "id": "town_big_helpers_intro",
+          "kind": "story",
+          "title": "Big Helpers",
+          "voice": "Big vehicles do big jobs. Let’s help them!"
+        },
+        {
+          "id": "town_big_helpers_a1",
+          "kind": "activity",
+          "activityId": "town_sea_rescue"
+        },
+        {
+          "id": "town_big_helpers_a2",
+          "kind": "activity",
+          "activityId": "town_farm_vehicles"
+        },
+        {
+          "id": "town_big_helpers_a3",
+          "kind": "activity",
+          "activityId": "town_snow_day"
+        },
+        {
+          "id": "town_big_helpers_done",
+          "kind": "story",
+          "title": "Great work!",
+          "voice": "Thank you, big helpers!"
+        }
+      ]
     }
   ]
 }

@@ -20,9 +20,9 @@ export class JungleJamScene{
   constructor(game){this.game=game;this.t=0;this.pip=null;this.performers=[];this.slots=[];this.drag=null;this.offset={x:0,y:0};this.mode='free';this.tempo='slow';this.loudness=.65;this.beatT=0;this.beat=0;this.goal='fast';this.soundGoal='percussion';this.rhythmTaps=[];this.demoFlash=0;this.modePressed=null;}
   enter(){
     this.t=0;this.pip=new PipController({x:1790,y:1030,scale:.5}); /* bottom-right corner, clear of the band (Job 14) */ this.performers=PERFORMERS.map((p,i)=>({...p,x:250+i*300,y:890,homeX:250+i*300,homeY:890,placed:false,slot:null,size:126}));
-    this.slots=Array.from({length:5},(_,i)=>({id:`slot-${i}`,x:390+i*285,y:555,w:220,h:250,role:null}));this.drag=null;this.mode='free';this.beatT=0;this.beat=0;this.game.audio?.stopWorldMusic?.();
+    this.slots=Array.from({length:5},(_,i)=>({id:`slot-${i}`,x:390+i*285,y:555,w:220,h:250,role:null}));this.drag=null;this.mode='free';this.beatT=0;this.beat=0;this.game.audio?.stopWorldMusic?.();this.game.audio?.startJam?.(); /* Job 13: the recorded band stems, looping in step */
   }
-  exit(){this.game.audio?.stopWorldMusic?.();}
+  exit(){this.game.audio?.stopWorldMusic?.();this.game.audio?.stopJam?.();}
   record(skills,outcome='success'){this.game.learning?.recordResponse?.({activityId:`jungle_jam_${this.mode}`,skillIds:skills,outcome});if(this.game.save?.saveLearning&&this.game.learning?.snapshot)this.game.save.saveLearning(this.game.learning.snapshot());if(outcome==='success')this.checkDragon();}
   checkDragon(){
     const rewards=this.game.rewards;if(this.dragonWon||!rewards?.get?.(DRAGON_ID)||rewards.isUnlocked(DRAGON_ID))return;
@@ -33,7 +33,7 @@ export class JungleJamScene{
   modeRect(i){return{x:210+i*305,y:190,w:270,h:95};}
   performerAt(x,y){return[...this.performers].reverse().find(p=>Math.hypot(x-p.x,y-p.y)<=95)??null;}
   slotAt(x,y){return this.slots.find(s=>inRect(x,y,{x:s.x-s.w/2,y:s.y-s.h/2,w:s.w,h:s.h}))??null;}
-  setMode(mode){this.mode=mode;this.rhythmTaps=[];this.goal=this.goal==='fast'?'slow':'fast';this.soundGoal=PERFORMERS[(this.beat+1)%PERFORMERS.length].role;this.pip?.react('wave',{duration:.8});}
+  setMode(mode){this.mode=mode;this.game.audio?.playCue?.('button');this.rhythmTaps=[];this.goal=this.goal==='fast'?'slow':'fast';this.soundGoal=PERFORMERS[(this.beat+1)%PERFORMERS.length].role;this.pip?.react('wave',{duration:.8});}
   update(dt){
     this.t+=dt;this.pip?.update(dt);this.demoFlash=Math.max(0,this.demoFlash-dt);const interval=this.tempo==='fast'?.36:.72;this.beatT+=dt;
     while(this.beatT>=interval){this.beatT-=interval;this.beat++;this.demoFlash=.11;for(const p of this.performers.filter(p=>p.placed))this.game.audio?.playJamStem?.(p.role,this.beat,this.loudness);}
@@ -42,7 +42,7 @@ export class JungleJamScene{
   finishDrag(p){const slot=this.slotAt(p.x,p.y);if(slot){const index=this.slots.indexOf(slot);const occupant=this.performers.find(q=>q!==p&&q.slot===index);if(occupant){occupant.placed=false;occupant.slot=null;occupant.x=occupant.homeX;occupant.y=occupant.homeY;}p.x=slot.x;p.y=slot.y;p.slot=index;p.placed=true;slot.role=p.role;this.game.audio?.playJamStem?.(p.role,this.beat,this.loudness);this.game.audio?.playCue?.('correct');}else{p.x=p.homeX;p.y=p.homeY;p.placed=false;p.slot=null;}}
   handleLearningTap(e){
     const fast={x:620,y:720,w:280,h:110},slow={x:1020,y:720,w:280,h:110};
-    if(this.mode==='tempo'&&(inRect(e.x,e.y,fast)||inRect(e.x,e.y,slow))){const choice=inRect(e.x,e.y,fast)?'fast':'slow';this.tempo=choice;if(choice===this.goal){this.record(['FAST_SLOW']);this.game.audio?.playCue?.('correct');this.goal=this.goal==='fast'?'slow':'fast';}else{this.record(['FAST_SLOW'],'incorrect');this.game.audio?.playCue?.('incorrect');}return true;}
+    if(this.mode==='tempo'&&(inRect(e.x,e.y,fast)||inRect(e.x,e.y,slow))){const choice=inRect(e.x,e.y,fast)?'fast':'slow';this.tempo=choice;this.game.audio?.setJamTempo?.(choice==='fast');if(choice===this.goal){this.record(['FAST_SLOW']);this.game.audio?.playCue?.('correct');this.goal=this.goal==='fast'?'slow':'fast';}else{this.record(['FAST_SLOW'],'incorrect');this.game.audio?.playCue?.('incorrect');}return true;}
     if(this.mode==='dynamics'&&(inRect(e.x,e.y,fast)||inRect(e.x,e.y,slow))){const choice=inRect(e.x,e.y,fast)?'loud':'quiet';this.loudness=choice==='loud'?1:.28;if(choice===this.goal){this.record(['LOUD_QUIET']);this.game.audio?.playCue?.('correct');this.goal=this.goal==='loud'?'quiet':'loud';}else{this.record(['LOUD_QUIET'],'incorrect');this.game.audio?.playCue?.('incorrect');}return true;}
     if(this.mode==='rhythm'&&Math.hypot(e.x-960,e.y-760)<=145){const stamp=Number.isFinite(e.timeStamp)?e.timeStamp:this.t*1000;this.rhythmTaps.push(stamp);this.game.audio?.playJamStem?.('percussion',this.rhythmTaps.length,1);if(this.rhythmTaps.length===3){const gaps=[this.rhythmTaps[1]-this.rhythmTaps[0],this.rhythmTaps[2]-this.rhythmTaps[1]];const expected=this.tempo==='fast'?360:720;const ok=gaps.every(g=>Math.abs(g-expected)<=expected*.55+120);this.record(['RHYTHM'],ok?'success':'incorrect');this.game.audio?.playCue?.(ok?'correct':'incorrect');this.rhythmTaps=[];}return true;}
     if(this.mode==='sound'){const p=this.performerAt(e.x,e.y);if(p){const ok=p.role===this.soundGoal;this.game.audio?.playJamStem?.(p.role,this.beat,1);this.record(['SOUND_RECOGNITION'],ok?'success':'incorrect');this.game.audio?.playCue?.(ok?'correct':'incorrect');if(ok)this.soundGoal=PERFORMERS[(PERFORMERS.findIndex(x=>x.role===this.soundGoal)+1)%PERFORMERS.length].role;return true;}}
@@ -58,7 +58,7 @@ export class JungleJamScene{
     if(e.type==='move'&&this.drag){this.drag.x=e.x+this.offset.x;this.drag.y=e.y+this.offset.y;return;}
     if(e.type==='up'||e.type==='cancel'){
       if(this.drag){const p=this.drag;this.drag=null;if(e.type==='up')this.finishDrag(p);else{p.x=p.homeX;p.y=p.homeY;}return;}
-      if(e.type==='up'&&this.modePressed){const chosen=this.modePressed;this.modePressed=null;if(chosen==='back'){if(this.dragonWon)this.game.scenes.change('island',{celebrateReward:this.dragonWon});else this.game.scenes.change('island');return;}this.setMode(chosen);return;}
+      if(e.type==='up'&&this.modePressed){const chosen=this.modePressed;this.modePressed=null;if(chosen==='back'){this.game.audio?.playCue?.('back');if(this.dragonWon)this.game.scenes.change('island',{celebrateReward:this.dragonWon});else this.game.scenes.change('island');return;}this.setMode(chosen);return;}
       this.modePressed=null;
     }
   }

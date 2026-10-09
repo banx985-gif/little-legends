@@ -98,7 +98,7 @@ export class DragBaseActivity extends Activity {
       this.returnToken(token);
       return;
     }
-    this.cue('drop');
+    this.cue('drop', { sound: this.dropSound ?? 'drop' });
     const target = this.bestDropTarget(token);
     if (target && this.accepts(target, token)) this.onValidDrop(token, target);
     else this.onInvalidDrop(token, target);

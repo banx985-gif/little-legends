@@ -135,12 +135,12 @@ export class Game {
   debugStats() {
     const a = this.assets, v = this.viewport;
     return { fps: this.fps, pictures: a?.loadedArtCount?.() ?? 0, imageMB: (a?.artMemoryBytes?.() ?? 0) / 1048576, quality: globalThis.__LL_QUALITY ?? 'high',
-      canvas: `${this.canvas?.width ?? 0}×${this.canvas?.height ?? 0}`, dpr: v?.dpr ?? 1, deviceMemory: globalThis.navigator?.deviceMemory ?? null, scene: this.scenes?.currentName ?? '' };
+      canvas: `${this.canvas?.width ?? 0}×${this.canvas?.height ?? 0}`, dpr: v?.dpr ?? 1, deviceMemory: globalThis.navigator?.deviceMemory ?? null, scene: this.scenes?.currentName ?? '', audioMB: (this.audio?.audioMemoryBytes?.() ?? 0) / 1048576 };
   }
 
   renderDebugOverlay(ctx) {
     const s = this.debugStats();
-    const lines = [`${s.fps.toFixed(0)} FPS • ${s.quality.toUpperCase()} • ${s.scene}`, `${s.pictures} pictures • ${s.imageMB.toFixed(0)} MB images`, `canvas ${s.canvas} • DPR ${s.dpr.toFixed(2)} • RAM ${s.deviceMemory ?? '?'} GB`];
+    const lines = [`${s.fps.toFixed(0)} FPS • ${s.quality.toUpperCase()} • ${s.scene}`, `${s.pictures} pictures • ${s.imageMB.toFixed(0)} MB images • ${s.audioMB.toFixed(1)} MB sound`, `canvas ${s.canvas} • DPR ${s.dpr.toFixed(2)} • RAM ${s.deviceMemory ?? '?'} GB`];
     ctx.save(); ctx.fillStyle = '#000000b8'; ctx.beginPath(); ctx.roundRect(1380, 960, 530, 112, 18); ctx.fill();
     ctx.fillStyle = '#b8ffb0'; ctx.font = '700 25px monospace'; ctx.textAlign = 'left';
     lines.forEach((l, i) => ctx.fillText(l, 1396, 994 + i * 33, 500)); ctx.restore();

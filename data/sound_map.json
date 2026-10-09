@@ -1,0 +1,526 @@
+{
+  "about": "Job 13: which recorded sound plays for each cue. Files are assets/audio/<id>.ogg. A cue with several files picks one at random. 'group' says when its files are decoded: core at the first touch, the others when a scene or world that uses them opens (and, in Lite mode, let go again when you leave). gain is on top of the channel volume; nothing here is louder than the speaking voice. Anything missing or undecodable falls back to the built-in tones.",
+  "base": "./assets/audio/",
+  "sfx": {
+    "tap": {
+      "files": [
+        "ui/tap"
+      ],
+      "channel": "ui",
+      "gain": 0.6,
+      "group": "core"
+    },
+    "button": {
+      "files": [
+        "ui/button"
+      ],
+      "channel": "ui",
+      "gain": 0.6,
+      "group": "core"
+    },
+    "back": {
+      "files": [
+        "ui/back"
+      ],
+      "channel": "ui",
+      "gain": 0.6,
+      "group": "core"
+    },
+    "page": {
+      "files": [
+        "ui/page"
+      ],
+      "channel": "ui",
+      "gain": 0.6,
+      "group": "core"
+    },
+    "tab": {
+      "files": [
+        "ui/tab"
+      ],
+      "channel": "ui",
+      "gain": 0.6,
+      "group": "core"
+    },
+    "start": {
+      "files": [
+        "ui/start"
+      ],
+      "channel": "ui",
+      "gain": 0.7,
+      "group": "core"
+    },
+    "open": {
+      "files": [
+        "ui/open"
+      ],
+      "channel": "ui",
+      "gain": 0.6,
+      "group": "core"
+    },
+    "whoosh": {
+      "files": [
+        "activity/whoosh",
+        "activity/whoosh_2"
+      ],
+      "channel": "ui",
+      "gain": 0.35,
+      "group": "core"
+    },
+    "grab": {
+      "files": [
+        "activity/grab"
+      ],
+      "channel": "activity",
+      "gain": 0.7,
+      "group": "core"
+    },
+    "drop": {
+      "files": [
+        "activity/drop"
+      ],
+      "channel": "activity",
+      "gain": 0.7,
+      "group": "core"
+    },
+    "snap": {
+      "files": [
+        "activity/snap"
+      ],
+      "channel": "activity",
+      "gain": 0.7,
+      "group": "core"
+    },
+    "correct": {
+      "files": [
+        "activity/correct",
+        "activity/correct_2",
+        "activity/correct_3"
+      ],
+      "channel": "activity",
+      "gain": 0.75,
+      "group": "core"
+    },
+    "incorrect": {
+      "files": [
+        "activity/retry",
+        "activity/retry_2"
+      ],
+      "channel": "activity",
+      "gain": 0.55,
+      "group": "core"
+    },
+    "count": {
+      "files": [
+        "activity/count"
+      ],
+      "channel": "activity",
+      "gain": 0.75,
+      "group": "core",
+      "pitchByCount": 0.05
+    },
+    "pop": {
+      "files": [
+        "activity/pop",
+        "activity/pop_2"
+      ],
+      "channel": "activity",
+      "gain": 0.7,
+      "group": "core"
+    },
+    "sparkle": {
+      "files": [
+        "activity/sparkle"
+      ],
+      "channel": "activity",
+      "gain": 0.7,
+      "group": "core"
+    },
+    "magic": {
+      "files": [
+        "activity/magic"
+      ],
+      "channel": "activity",
+      "gain": 0.7,
+      "group": "core"
+    },
+    "reward": {
+      "files": [
+        "reward/reward",
+        "reward/reward_2"
+      ],
+      "channel": "ui",
+      "gain": 0.75,
+      "group": "core"
+    },
+    "complete": {
+      "files": [
+        "reward/complete"
+      ],
+      "channel": "activity",
+      "gain": 0.75,
+      "group": "core"
+    },
+    "pipLaugh": {
+      "files": [
+        "character/pip_laugh"
+      ],
+      "channel": "character",
+      "gain": 0.7,
+      "group": "core"
+    },
+    "splash": {
+      "files": [
+        "activity/splash"
+      ],
+      "channel": "activity",
+      "gain": 0.7,
+      "group": "play"
+    },
+    "eat": {
+      "files": [
+        "activity/eat"
+      ],
+      "channel": "activity",
+      "gain": 0.7,
+      "group": "play"
+    },
+    "bounce": {
+      "files": [
+        "activity/bounce"
+      ],
+      "channel": "activity",
+      "gain": 0.6,
+      "group": "play"
+    },
+    "star": {
+      "files": [
+        "activity/star"
+      ],
+      "channel": "ui",
+      "gain": 0.6,
+      "group": "play"
+    },
+    "trophy": {
+      "files": [
+        "reward/trophy"
+      ],
+      "channel": "ui",
+      "gain": 0.7,
+      "group": "play"
+    },
+    "levelUp": {
+      "files": [
+        "reward/level_up"
+      ],
+      "channel": "ui",
+      "gain": 0.7,
+      "group": "play"
+    },
+    "rewardBig": {
+      "files": [
+        "reward/reward_big"
+      ],
+      "channel": "ui",
+      "gain": 0.75,
+      "group": "play"
+    },
+    "eggCrack": {
+      "files": [
+        "activity/egg_crack"
+      ],
+      "channel": "activity",
+      "gain": 0.6,
+      "group": "egg"
+    },
+    "reveal": {
+      "files": [
+        "reward/reveal"
+      ],
+      "channel": "ui",
+      "gain": 0.7,
+      "group": "egg"
+    },
+    "portal": {
+      "files": [
+        "activity/portal"
+      ],
+      "channel": "ui",
+      "gain": 0.5,
+      "group": "map"
+    },
+    "chest": {
+      "files": [
+        "activity/chest"
+      ],
+      "channel": "ui",
+      "gain": 0.65,
+      "group": "collection"
+    },
+    "unlock": {
+      "files": [
+        "activity/unlock"
+      ],
+      "channel": "ui",
+      "gain": 0.65,
+      "group": "collection"
+    },
+    "sticker": {
+      "files": [
+        "reward/sticker"
+      ],
+      "channel": "ui",
+      "gain": 0.65,
+      "group": "collection"
+    },
+    "coin": {
+      "files": [
+        "activity/coin"
+      ],
+      "channel": "ui",
+      "gain": 0.6,
+      "group": "collection"
+    },
+    "pageTurn": {
+      "files": [
+        "activity/page_turn"
+      ],
+      "channel": "activity",
+      "gain": 0.6,
+      "group": "storybook"
+    },
+    "rocket": {
+      "files": [
+        "activity/rocket"
+      ],
+      "channel": "activity",
+      "gain": 0.6,
+      "group": "space"
+    },
+    "horn": {
+      "files": [
+        "activity/horn"
+      ],
+      "channel": "activity",
+      "gain": 0.45,
+      "group": "town"
+    },
+    "bell": {
+      "files": [
+        "activity/bell"
+      ],
+      "channel": "activity",
+      "gain": 0.6,
+      "group": "town"
+    },
+    "chatter": {
+      "files": [
+        "character/chatter_high"
+      ],
+      "channel": "character",
+      "gain": 0.6,
+      "group": "creatures"
+    },
+    "chirp": {
+      "files": [
+        "character/chirp"
+      ],
+      "channel": "character",
+      "gain": 0.6,
+      "group": "creatures"
+    },
+    "creature": {
+      "files": [
+        "character/creature"
+      ],
+      "channel": "character",
+      "gain": 0.6,
+      "group": "creatures"
+    },
+    "dinoRoar": {
+      "files": [
+        "animals/dino_roar"
+      ],
+      "channel": "character",
+      "gain": 0.55,
+      "group": "dino"
+    },
+    "dinoRoarBig": {
+      "files": [
+        "animals/dino_roar_big"
+      ],
+      "channel": "character",
+      "gain": 0.35,
+      "group": "dino"
+    },
+    "dinoBaby": {
+      "files": [
+        "animals/dino_baby"
+      ],
+      "channel": "character",
+      "gain": 0.6,
+      "group": "dino"
+    },
+    "dinoEat": {
+      "files": [
+        "animals/dino_eat"
+      ],
+      "channel": "character",
+      "gain": 0.6,
+      "group": "dino"
+    },
+    "dog": {
+      "files": [
+        "animals/dog_bark"
+      ],
+      "channel": "character",
+      "gain": 0.55,
+      "group": "animals"
+    },
+    "chicken": {
+      "files": [
+        "animals/chicken"
+      ],
+      "channel": "character",
+      "gain": 0.6,
+      "group": "animals"
+    },
+    "parrot": {
+      "files": [
+        "animals/parrot"
+      ],
+      "channel": "character",
+      "gain": 0.6,
+      "group": "animals"
+    },
+    "monkey": {
+      "files": [
+        "animals/monkey"
+      ],
+      "channel": "character",
+      "gain": 0.6,
+      "group": "animals"
+    },
+    "mouse": {
+      "files": [
+        "animals/mouse"
+      ],
+      "channel": "character",
+      "gain": 0.6,
+      "group": "animals"
+    },
+    "horse": {
+      "files": [
+        "animals/horse"
+      ],
+      "channel": "character",
+      "gain": 0.6,
+      "group": "animals"
+    }
+  },
+  "groupsByScene": {
+    "island": [
+      "play",
+      "creatures"
+    ],
+    "worldSelect": [
+      "map"
+    ],
+    "collection": [
+      "collection",
+      "creatures"
+    ],
+    "adventure": [
+      "play",
+      "egg"
+    ],
+    "activity": [
+      "play"
+    ],
+    "jungleJam": [
+      "animals"
+    ]
+  },
+  "groupsByWorld": {
+    "dino": [
+      "dino"
+    ],
+    "animal": [
+      "animals"
+    ],
+    "jungle": [
+      "animals"
+    ],
+    "storybook": [
+      "storybook"
+    ],
+    "space": [
+      "space"
+    ],
+    "town": [
+      "town"
+    ]
+  },
+  "animalCues": {
+    "about": "The recorded animal sound for an animal or picture (SoundMatch answers, island friends). Animals without a recording (cow, cat…) keep the spoken word.",
+    "chicken": "chicken",
+    "parrot": "parrot",
+    "monkey": "monkey",
+    "mouse": "mouse",
+    "horse": "horse",
+    "dog": "dog",
+    "dinosaur": "dinoRoar",
+    "dino": "dinoRoar",
+    "rory": "dinoRoar",
+    "triceratops": "dinoRoar",
+    "stegosaurus": "dinoRoar",
+    "ankylosaurus": "dinoRoar",
+    "parasaurolophus": "dinoRoar",
+    "brachiosaurus": "dinoRoar",
+    "dino_orange": "dinoRoarBig",
+    "dragons": "creature",
+    "toucan": "chirp",
+    "flamingo": "chirp",
+    "peacock": "chirp",
+    "owl": "chirp",
+    "duck": "chirp",
+    "lemur": "chatter",
+    "red_panda": "chatter",
+    "squirrel": "chatter",
+    "hedgehog": "chatter",
+    "meerkat": "chatter"
+  },
+  "music": {
+    "menu": "music/menu",
+    "island": "music/island",
+    "map": "music/adventure",
+    "calm": "music/calm",
+    "dino": "music/dino",
+    "rainbow": "music/rainbow",
+    "space": "music/space",
+    "animal": "music/forest",
+    "jungle": "music/jungle",
+    "storybook": "music/storybook",
+    "life": "music/life",
+    "town": "music/town"
+  },
+  "ambient": {
+    "about": "A very quiet bed under the music. Off in Lite mode.",
+    "island": "ambient/beach",
+    "dino": "ambient/forest",
+    "animal": "ambient/forest",
+    "jungle": "ambient/birds",
+    "rainbow": "ambient/sea",
+    "life": "ambient/birds"
+  },
+  "jam": {
+    "about": "Jungle Jam stems: 21 s loops at the same tempo, started together and looping in step. Each band friend's role turns its stem up. The mandolin joins when 4 or more friends are on stage.",
+    "percussion": "jam/drum",
+    "bass": "jam/banjo",
+    "melody": "jam/recorder",
+    "effect": "jam/tambourine",
+    "voice": "jam/accordion",
+    "full": "jam/mandolin"
+  },
+  "credits": "Sounds: Epic Stock Media (Vibrant Game, Pirate Game), Sonniss GDC 2026 / 344 Audio, TomMusic."
+}

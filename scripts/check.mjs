@@ -68,7 +68,7 @@ for (const file of jsFiles) execFileSync(process.execPath, ['--check', file], { 
 
 // The installable/offline build must cache every eagerly imported source module.
 const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v48"), 'Service worker cache version should advance with the real-art build');
+assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v49"), 'Service worker cache version should advance with the real-art build');
 for (const file of walk(path.join(root, 'src')).filter(file => file.endsWith('.js'))) {
   const rel = `./${path.relative(root, file).split(path.sep).join('/')}`;
   assert.ok(serviceWorkerSource.includes(`'${rel}'`), `Offline cache must include ${rel}`);
@@ -1213,6 +1213,45 @@ assert.ok(serviceWorkerSource.includes("'./assets/art_manifest.json'")&&serviceW
   va.speak('Hello there!'); assert.equal(filed, 'pip/' + voiceLineId('Hello there!'), 'A recorded line plays its file');
   const csv = fs.readFileSync(path.join(root, 'docs/VOICE_LINES.csv'), 'utf8'); assert.ok(csv.startsWith('character,line_id,text') && csv.split('\n').length > 300, 'docs/VOICE_LINES.csv lists the spoken lines');
   assert.ok(fs.existsSync(path.join(root, 'docs/JOB14_REPORT.md')), 'Job 14 report written');
+}
+
+// ---- Job 13: real sounds — every mapped file exists, tones stay as the fallback, kid-safe limits, offline cache ----
+{
+  const { SoundBank, MAX_EFFECTS, REPEAT_GAP_MS } = await import('../src/audio/SoundBank.js');
+  const soundMap = JSON.parse(fs.readFileSync(path.join(root, 'data/sound_map.json'), 'utf8'));
+  const ids = [...Object.values(soundMap.sfx).flatMap(c => c.files), ...Object.entries(soundMap.music).map(([, v]) => v), ...Object.entries(soundMap.ambient).filter(([k]) => k !== 'about').map(([, v]) => v), ...Object.entries(soundMap.jam).filter(([k]) => k !== 'about').map(([, v]) => v)];
+  for (const id of ids) assert.ok(fs.existsSync(path.join(root, `assets/audio/${id}.ogg`)), `Sound ${id} has a file`);
+  const onDisk = fs.readdirSync(path.join(root, 'assets/audio'), { recursive: true }).map(f => String(f).replaceAll('\\', '/')).filter(f => f.endsWith('.ogg') && !f.startsWith('voice/')).map(f => f.slice(0, -4));
+  for (const f of onDisk) assert.ok(ids.includes(f), `Delivered sound ${f} is used`);
+  for (const [name, cue] of Object.entries(soundMap.sfx)) { assert.ok(['ui', 'activity', 'character'].includes(cue.channel), `${name} plays through an effects channel`); assert.ok((cue.gain ?? 0.7) <= 0.8, `${name} is never louder than the voice`); }
+  assert.ok(soundMap.sfx.dinoRoarBig.gain <= soundMap.sfx.dinoRoar.gain * 0.75, 'The big T-Rex roar plays quietly');
+  for (const key of ['island', 'dino', 'animal', 'storybook', 'rainbow', 'space', 'town', 'life', 'jungle', 'menu', 'calm', 'map']) assert.ok(soundMap.music[key], `Music for ${key}`);
+  // Without a sound list or decoder, the built-in tones still play (old Safari, file://, tests).
+  const tones = new AudioManager({ contextFactory: () => null }); assert.equal(tones.sounds.play('correct'), false, 'No recording ready: the tones play instead');
+  // Kid-safe: at most MAX_EFFECTS at once, the same cue not twice within REPEAT_GAP_MS.
+  const fakeBuffer = { length: 44100, numberOfChannels: 1 }; let started = 0;
+  const host = { ctx: {}, unlocked: true, playBuffer() { started++; return { source: { onended: null } }; }, channelNode() { return null; }, rampParam() {} };
+  const bank = new SoundBank(host); bank.setMap(soundMap); for (const f of Object.values(soundMap.sfx).flatMap(c => c.files)) bank.buffers.set(f, fakeBuffer);
+  assert.equal(bank.play('correct'), true); assert.equal(bank.play('correct'), true); assert.equal(started, 1, `Rapid repeats within ${REPEAT_GAP_MS} ms play once`);
+  for (const n of ['pop', 'drop', 'snap', 'grab', 'tap', 'tab']) bank.play(n);
+  assert.equal(started, MAX_EFFECTS, `At most ${MAX_EFFECTS} effects at once`);
+  assert.equal(bank.animalCue('creatures.farm.chicken'), 'chicken'); assert.equal(bank.animalCue('cow'), null, 'Animals without a recording keep the spoken word');
+  assert.ok(bank.memoryBytes() > 0, 'Sound memory is counted for the stats overlay');
+  bank.unloadExcept(['play']); assert.ok(!bank.buffers.has('animals/chicken') && bank.buffers.has('ui/tap'), 'Lite mode lets go of sounds for places you left (core stays)');
+  assert.ok(bank.groupsFor('adventure', 'dino').includes('dino') && bank.groupsFor('island').includes('play'), 'Sounds load by scene and world');
+  // Music streams (never decoded whole) and the Jam stems only while the Jam is open.
+  const bankSrc = fs.readFileSync(path.join(root, 'src/audio/SoundBank.js'), 'utf8');
+  assert.ok(bankSrc.includes('createMediaElementSource') && !/loadFile\([^)]*music/.test(bankSrc), 'Music and ambience stream through an <audio> element');
+  assert.ok(fs.readFileSync(path.join(root, 'src/scenes/JungleJamScene.js'), 'utf8').includes('stopJam'), 'Jam stems are let go when the Jam closes');
+  // Offline: core effects and the sound list up front; the rest cached the first time they play.
+  for (const f of Object.values(soundMap.sfx).filter(c => c.group === 'core').flatMap(c => c.files)) assert.ok(serviceWorkerSource.includes(`'./assets/audio/${f}.ogg'`), `Core sound ${f} works offline`);
+  assert.ok(serviceWorkerSource.includes("'./data/sound_map.json'") && serviceWorkerSource.includes('SOUND_CACHE') && serviceWorkerSource.includes('Content-Range'), 'Music is cached when first played (with byte ranges)');
+  // Credits and the stats overlay.
+  const { SOUND_CREDITS } = await import('../src/audio/SoundBank.js');
+  for (const name of ['Epic Stock Media', 'Sonniss', 'TomMusic']) assert.ok(SOUND_CREDITS.includes(name), `Credits name ${name}`);
+  assert.ok(fs.readFileSync(path.join(root, 'src/scenes/ParentGateScene.js'), 'utf8').includes('SOUND_CREDITS'), 'Parent Area shows the sound credits');
+  assert.ok(fs.readFileSync(path.join(root, 'src/core/Game.js'), 'utf8').includes('MB sound'), 'Picture stats show sound memory');
+  assert.ok(fs.existsSync(path.join(root, 'docs/JOB13_REPORT.md')), 'Job 13 report written');
 }
 
 console.log(`Little Legends M0-M29 qualification implementation check passed (M26/M29 human gates still pending): ${required.length} required files, ${jsFiles.length} JS syntax checks, ${activityEngine.list().length} JSON activities across ${expectedActivityTypes.size} reusable families, ${adventureData.adventures.length} Little Missions, privacy/child-test support, launch FX, save recovery, performance instrumentation and offline PWA verified.`);

@@ -17,7 +17,11 @@ export class SoundMatchActivity extends Activity {
 
   playPrompt() {
     this.promptPlayed = true;
-    if (this.definition.promptText) this.game.audio?.speak?.(this.definition.promptText);
+    // Job 13: the recorded animal sound first when there is one (cow, cat… have none yet), then the word.
+    const answer = (this.definition.choices ?? []).find(c => c.correct || c.id === this.definition.correctId);
+    const animal = answer?.animalType ? this.game.audio?.sounds?.animalCue?.(answer.animalType) : null;
+    if (animal) this.game.audio?.playCue?.(animal);
+    if (this.definition.promptText) setTimeout(() => this.game.audio?.speak?.(this.definition.promptText), animal ? 900 : 0);
     else this.cue(this.definition.soundCue ?? 'count', { count: this.definition.soundCount ?? 2 });
   }
 

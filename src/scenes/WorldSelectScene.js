@@ -19,7 +19,7 @@ export const WORLDS=[
 
 export class WorldSelectScene{
   constructor(game){this.game=game;this.t=0;this.pressed=null;this.pip=null;this.leaving=null;}
-  enter(){this.t=0;this.pressed=null;this.leaving=null;this.pip=new PipController({x:960,y:1010,scale:.6});}
+  enter(){this.game.audio?.startWorldMusic?.('map'); /* Job 13 */this.t=0;this.pressed=null;this.leaving=null;this.pip=new PipController({x:960,y:1010,scale:.6});}
   // Choosing a world: Pip turns and steps into a portal, then the world opens (half a second; quicker with reduced motion).
   // The world a child should tap next (where its next mission is); it bounces after 5 s with no touch and Pip points.
   nextWorld(){const done=this.game.save?.getProfileState?.()?.adventure?.completed??[];return this.game.adventureEngine?.next?.(done)?.world??null;}
@@ -33,9 +33,9 @@ export class WorldSelectScene{
     if(e.type==='down'){this.pressed=this.cardAt(e.x,e.y)?.id??(e.x>=40&&e.x<=250&&e.y>=40&&e.y<=150?'back':null);return;}
     if(e.type==='move'&&this.pressed){const now=this.cardAt(e.x,e.y)?.id??(e.x>=40&&e.x<=250&&e.y>=40&&e.y<=150?'back':null);if(now!==this.pressed)this.pressed=null;return;}
     if(e.type==='up'){
-      const chosen=this.pressed;this.pressed=null;if(chosen==='back'){this.game.scenes.change('island');return;}
+      const chosen=this.pressed;this.pressed=null;if(chosen==='back'){this.game.audio?.playCue?.('back');this.game.scenes.change('island');return;}
       const world=WORLDS.find(w=>w.id===chosen);if(!world)return;
-      this.leaving={world,t:0};this.game.audio?.playCue?.('correct');
+      this.leaving={world,t:0};this.game.audio?.playCue?.('portal');
     }
   }
   render(ctx){

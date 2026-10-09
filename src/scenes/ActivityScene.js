@@ -197,8 +197,8 @@ export class ActivityScene {
     else if (e.type === 'up' || e.type === 'cancel') {
       const chosen = e.type === 'up' && control === this.pressed ? this.pressed : null;
       this.pressed = null;
-      if (chosen === 'island') { this.leaving = true; this.game.scenes.change('island'); }
-      if (chosen === 'next' && !this.leaving) { this.leaving = true; this.goNext(); }
+      if (chosen === 'island') { this.leaving = true; this.game.audio?.playCue?.('back'); this.game.scenes.change('island'); }
+      if (chosen === 'next' && !this.leaving) { this.leaving = true; this.game.audio?.playCue?.('start'); this.goNext(); }
     }
   }
 

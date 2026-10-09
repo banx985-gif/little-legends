@@ -3,6 +3,7 @@ import { drawInstructionPanel, resolveColor } from './activityDraw.js';
 import { artMap, drawArt } from '../core/art.js';
 
 export class PaintSwipeActivity extends SwipeCoverageActivity {
+  get sweepSound() { return 'pop'; }
   start() {
     this.paintMarks = [];
     super.start();

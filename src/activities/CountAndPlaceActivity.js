@@ -1,6 +1,7 @@
 import { DragBaseActivity } from './DragBaseActivity.js';
 import { drawActivityBackground, drawInstructionPanel, drawToken, drawBasket, drawCharacter } from './activityDraw.js';
 import { countTargetArt } from '../core/art.js';
+const FOOD=new Set(['apple','banana','berry','strawberry','orange','carrot']);
 
 // Food/eggs already in the container are drawn smaller so each one sits apart and can be counted.
 const PLACED_ART_SCALE = 0.62;
@@ -47,7 +48,7 @@ export class CountAndPlaceActivity extends DragBaseActivity {
     this.count++;
     const skills=[countSkill(this.count),...(this.definition.startingCount?['ADDITION_PREP']:[]),...(this.definition.skills??[])];
     this.recordResponse([...new Set(skills)],'success');
-    this.cue('count',{count:this.count}); this.cue('correct');
+    this.cue('count',{count:this.count}); this.cue('correct',FOOD.has(token.kind)?{sound:this.definition.character==='dino'||this.definition.theme==='dino'?'dinoEat':'eat'}:{}); // food: a little munch (Job 13)
     this.host.pip?.clearQueue({keepActive:false});
     this.host.pip?.say(`${this.id}_count_${this.count}`,{text:String(this.count),bubbleText:`${this.count}!`,duration:0.65,reaction:'bounce',target:token});
     if(this.count>=this.definition.targetCount) this.complete({detail:this.definition.completeDetail??this.countDetail()});

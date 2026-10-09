@@ -1,4 +1,4 @@
-const CACHE = 'little-legends-m29-playable-fix1-art-v48';
+const CACHE = 'little-legends-m29-playable-fix1-art-v49';
 const CORE = [
   './',
   './index.html',
@@ -15,6 +15,34 @@ const CORE = [
   './data/activities.json',
   './data/adventures.json',
   './data/rewards.json',
+  './data/sound_map.json',
+  './assets/audio/voice/index.json',
+  './assets/audio/activity/correct.ogg',
+  './assets/audio/activity/correct_2.ogg',
+  './assets/audio/activity/correct_3.ogg',
+  './assets/audio/activity/count.ogg',
+  './assets/audio/activity/drop.ogg',
+  './assets/audio/activity/grab.ogg',
+  './assets/audio/activity/magic.ogg',
+  './assets/audio/activity/pop.ogg',
+  './assets/audio/activity/pop_2.ogg',
+  './assets/audio/activity/retry.ogg',
+  './assets/audio/activity/retry_2.ogg',
+  './assets/audio/activity/snap.ogg',
+  './assets/audio/activity/sparkle.ogg',
+  './assets/audio/activity/whoosh.ogg',
+  './assets/audio/activity/whoosh_2.ogg',
+  './assets/audio/character/pip_laugh.ogg',
+  './assets/audio/reward/complete.ogg',
+  './assets/audio/reward/reward.ogg',
+  './assets/audio/reward/reward_2.ogg',
+  './assets/audio/ui/back.ogg',
+  './assets/audio/ui/button.ogg',
+  './assets/audio/ui/open.ogg',
+  './assets/audio/ui/page.ogg',
+  './assets/audio/ui/start.ogg',
+  './assets/audio/ui/tab.ogg',
+  './assets/audio/ui/tap.ogg',
   './src/activities/Activity.js',
   './src/activities/ActivityEngine.js',
   './src/activities/BuildObjectActivity.js',
@@ -48,6 +76,7 @@ const CORE = [
   './src/activities/activityDraw.js',
   './src/adventures/AdventureEngine.js',
   './src/audio/AudioManager.js',
+  './src/audio/SoundBank.js',
   './src/audio/voiceLines.js',
   './src/characters/PipController.js',
   './src/characters/Wardrobe.js',
@@ -92,6 +121,26 @@ const CORE = [
 // release). Bump ART_CACHE only if pictures are redrawn under the same file name.
 const ART_CACHE = 'little-legends-art-v3';
 const ART_PARALLEL = 3;
+// Sounds (Job 13): core effects are in CORE; music, ambience and the rest are cached the first time they play, in a
+// cache that survives updates like the pictures. Audio players ask for byte ranges, so ranges are cut from the cached file.
+const SOUND_CACHE = 'little-legends-sounds-v1';
+function isSound(url) { return new URL(url).pathname.includes('/assets/audio/') && url.endsWith('.ogg'); }
+async function soundResponse(request) {
+  const url = request.url.split('#')[0];
+  let full = await caches.match(url);
+  if (!full) {
+    const fresh = await fetch(url);
+    if (!fresh.ok) return fresh;
+    const cache = await caches.open(SOUND_CACHE);
+    await cache.put(url, fresh.clone());
+    full = fresh;
+  }
+  const range = request.headers.get('range');
+  if (!range) return full;
+  const buf = await full.arrayBuffer(), m = /bytes=(\d*)-(\d*)/.exec(range);
+  const start = Number(m?.[1] || 0), end = Math.min(m?.[2] ? Number(m[2]) : buf.byteLength - 1, buf.byteLength - 1);
+  return new Response(buf.slice(start, end + 1), { status: 206, headers: { 'Content-Type': 'audio/ogg', 'Content-Range': `bytes ${start}-${end}/${buf.byteLength}`, 'Content-Length': String(end - start + 1), 'Accept-Ranges': 'bytes' } });
+}
 
 // Gently caches every picture in the art manifest that isn't cached yet: a few at a time, so the game's own
 // loading is never starved. The page asks for this a few seconds after it starts; it resumes on each visit.
@@ -123,7 +172,7 @@ self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(CORE)));
 });
 self.addEventListener('activate', event => {
-  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE && key !== ART_CACHE).map(key => caches.delete(key))))
+  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE && key !== ART_CACHE && key !== SOUND_CACHE).map(key => caches.delete(key))))
     // First install only: look after the page that is already open, so what it loads next is cached for offline play.
     // An update never claims: a newly installed version waits until the current play session closes.
     .then(() => firstInstall ? self.clients.claim() : null));
@@ -136,6 +185,7 @@ self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
   const requestURL = new URL(event.request.url);
   if (requestURL.origin !== self.location.origin) return;
+  if (isSound(event.request.url)) { event.respondWith(soundResponse(event.request).catch(() => Response.error())); return; }
   event.respondWith(caches.match(event.request).then(hit => hit || fetch(event.request).then(response => {
     if (!response || !response.ok) return response;
     const copy = response.clone();

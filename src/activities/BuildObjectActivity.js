@@ -2,6 +2,7 @@ import { DragToTargetActivity } from './DragToTargetActivity.js';
 import { drawActivityBackground, drawInstructionPanel, drawToken, drawBin } from './activityDraw.js';
 
 export class BuildObjectActivity extends DragToTargetActivity {
+  get dropSound(){return 'snap';} // pieces click into place (Job 13)
   accepts(target, token) {
     if (token.targetId) return target.id === token.targetId;
     return super.accepts(target, token);

@@ -28,6 +28,7 @@ export class SceneManager {
       this.currentName = name;
       if (next?.enter) await next.enter(data);
       settleSceneArt(this.game, name, data, artIds);
+      this.game.audio?.prepareScene?.(name, data.world ?? this.game.adventureEngine?.get?.(data.adventureId)?.world ?? null); // Job 13: decode this scene's sounds
       if (name !== 'boot') this.game.performanceManager?.armFirstTest?.();
       this.game.childTest?.recordScene?.(name);
       return true;

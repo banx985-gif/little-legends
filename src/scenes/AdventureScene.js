@@ -63,6 +63,7 @@ export class AdventureScene {
     this.activity?.cleanup?.(); this.hints?.stop?.(); this.activity=null; this.hints=null; this.hintDemo=null; this.idleT=0; this.waitT=0; this.nudged=false; this.idleRepeats=0; this.stepMisses=0; this.freshTap=false; this.completedStep=false; this.pressed=null; this.bigChoice=null; this.patternChoice=null;
     this.step=this.definition.steps[this.stepIndex];
     if(this.pip)Object.assign(this.pip,PIP_SPOTS[0]); // back to his usual spot (an activity may move him aside)
+    this.stepSound();
     this.pip?.clearQueue?.({keepActive:false}); // the new step's words come straight away, not after the last cheer
     const rewardId=this.definition.reward?.id??'baby_raptor';
     this.hatch=['egg','hatch'].includes(this.step.kind)?new HatchSequence({theme:hatchTheme(rewardId,this.definition.world),rewardId}).showStage(0):null;
@@ -90,9 +91,14 @@ export class AdventureScene {
     if(this.advancing)return;this.advancing=true;
     try{
       if(this.stepIndex>=this.definition.steps.length-1){await this.finishAdventure();return;}
+      this.game.audio?.playCue?.(this.definition.world==='storybook'?'pageTurn':'whoosh'); // a page turns (Job 13)
       this.stepIndex++; await this.startStep();
     }finally{this.advancing=false;}
   }
+  // Job 13: a world's own sound on its first page (a soft dino roar, a rocket, a bell), and the trophy + stars at the end.
+  stepSound(){const last=this.stepIndex>=this.definition.steps.length-1,a=this.game.audio;if(!a||this.step?.kind!=='story')return;
+    if(last){a.playCue?.('trophy');const n=this.game.rewards?.isUnlocked?.(this.definition.reward?.id)?0:Math.min(3,Number(this.definition.reward?.stars??this.game.rewards?.get?.(this.definition.reward?.id)?.stars)||0);for(let i=0;i<n;i++)setTimeout(()=>a.playCue?.('star'),500+i*220);return;}
+    if(this.stepIndex===0)a.playCue?.({dino:'dinoRoar',space:'rocket',town:'bell',jungle:'parrot'}[this.definition.world]??'magic');}
   // Waiting on the child to move on (a finished step, or a story page): bounce the play button, then go on alone.
   autoAdvance(dt){
     const waiting=this.completedStep||(!this.activity&&['story','egg'].includes(this.step?.kind));
@@ -166,9 +172,9 @@ export class AdventureScene {
       return;
     }
     if(this.step.kind==='hatch'){
-      const egg=await this.game.eggs?.interact?.('rory-dino-egg');this.crackT=.45; // a little crack of light on every tap
+      const egg=await this.game.eggs?.interact?.('rory-dino-egg');this.crackT=.45;this.game.audio?.playCue?.('eggCrack'); // a little crack of light on every tap
       this.game.audio?.playCue?.(egg?.state===EGG_STATES.CREATURE_UNLOCKED?'reward':'correct');
-      if(egg?.state===EGG_STATES.CREATURE_UNLOCKED){this.hatch?.reveal();this.completedStep=true;this.game.rewards?.beginReveal?.('baby_raptor');this.pip.react('celebrate',{duration:1.8});}
+      if(egg?.state===EGG_STATES.CREATURE_UNLOCKED){this.hatch?.reveal();this.game.audio?.playCue?.('reveal');this.completedStep=true;this.game.rewards?.beginReveal?.('baby_raptor');this.pip.react('celebrate',{duration:1.8});}
       return;
     }
     if(this.step.kind==='place'){

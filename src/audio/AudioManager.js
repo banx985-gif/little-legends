@@ -1,4 +1,5 @@
 import { voiceLineId, DEFAULT_SPEAKER } from './voiceLines.js';
+import { SoundBank } from './SoundBank.js';
 export const AUDIO_CHANNELS = Object.freeze({
   MUSIC: 'music',
   VOICE: 'voice',
@@ -54,6 +55,7 @@ export class AudioManager {
     this.worldMusicPendingTheme = null;
     this.worldMusicStopping = false;
     this.liveSources = new Set();
+    this.sounds = new SoundBank(this); // Job 13: recorded effects, music, ambience, Jam stems (data/sound_map.json)
     this.voiceIndex = null; // recorded voice lines that exist (assets/audio/voice/index.json)
     this.voiceBuffers = new Map();
     this.chosenVoice = undefined;
@@ -68,7 +70,10 @@ export class AudioManager {
     if (this.contextFactory) return this.contextFactory();
     if (typeof window === 'undefined') return null;
     const Ctor = window.AudioContext || window.webkitAudioContext;
-    return Ctor ? new Ctor() : null;
+    if (!Ctor) return null;
+    // Lite mode (cheap tablets): a 24 kHz engine halves the memory of every decoded sound (Job 13). Small speakers can't tell.
+    if (globalThis.__LL_QUALITY === 'lite') { try { return new Ctor({ sampleRate: 24000 }); } catch {} }
+    return new Ctor();
   }
 
   unlock() {
@@ -80,6 +85,13 @@ export class AudioManager {
     if (this.ctx.state === 'suspended') this.ctx.resume?.().catch?.(() => {});
     this.unlocked = true;
     this.loadVoiceIndex();
+    if (!this.soundsRequested) {
+      this.soundsRequested = true;
+      this.sounds.loadMap().then(() => {
+        this.sounds.loadGroups(['core', ...(this.pendingSoundGroups ?? [])]);
+        if (this.requestedMusic) this.startWorldMusic(this.requestedMusic, { restart: true }); // swap the synth for the real track
+      });
+    }
     this.flushPendingSpeech();
     if (this.worldMusicTheme) this.ensureWorldMusicTimer();
     return true;
@@ -104,8 +116,19 @@ export class AudioManager {
     return clamp01(base * quiet * (channel === AUDIO_CHANNELS.MUSIC ? this.musicDuck : 1));
   }
 
+  // Decode the effect groups a scene/world uses (data/sound_map.json); in Lite mode let go of the others.
+  prepareScene(scene, world = null) {
+    const groups = this.sounds.groupsFor(scene, world);
+    if (!this.sounds.map) { this.pendingSoundGroups = groups; return; }
+    if (globalThis.__LL_QUALITY === 'lite') this.sounds.unloadExcept(groups);
+    this.sounds.loadGroups(groups);
+  }
+  audioMemoryBytes() { return this.sounds.memoryBytes(); }
+
   setQuietMode(enabled) {
+    const was = this.quietMode;
     this.quietMode = Boolean(enabled);
+    if (was !== this.quietMode && this.streamingMusic && this.worldMusicTheme) this.sounds.playMusic(this.quietMode ? 'calm' : this.worldMusicTheme); // quiet mode: the calm track
     for (const channel of CHANNEL_KEYS) this.rampParam(this.channelGains.get(channel)?.gain, this.effectiveChannelVolume(channel), 0.12);
     return this.quietMode;
   }
@@ -393,6 +416,7 @@ export class AudioManager {
   }
 
   ensureWorldMusicTimer() {
+    if (this.streamingMusic) return false;
     if (!this.unlocked || !this.worldMusicTheme || this.worldMusicTimer) return false;
     const tick = () => {
       if (!this.worldMusicTheme || !this.unlocked) return;
@@ -409,6 +433,7 @@ export class AudioManager {
   }
 
   update(dt) {
+    this.sounds.update();
     const speed = Math.max(0.001, dt) / 0.35;
     if (this.worldMusicLevel < this.worldMusicTarget) this.worldMusicLevel = Math.min(this.worldMusicTarget, this.worldMusicLevel + speed);
     else if (this.worldMusicLevel > this.worldMusicTarget) this.worldMusicLevel = Math.max(this.worldMusicTarget, this.worldMusicLevel - speed);
@@ -423,7 +448,17 @@ export class AudioManager {
     }
   }
 
-  startWorldMusic(theme = 'dino') {
+  startWorldMusic(theme = 'dino', { restart = false } = {}) {
+    this.requestedMusic = theme; // remembered, so it starts once the sound list has loaded
+    if (this.sounds.playMusic(this.quietMode ? 'calm' : theme)) {
+      // A real track is streaming: the synth tune stops.
+      this.streamingMusic = true; this.worldMusicTheme = theme; this.worldMusicPendingTheme = null; this.worldMusicStopping = false;
+      if (this.worldMusicTimer) { clearInterval(this.worldMusicTimer); this.worldMusicTimer = null; }
+      this.sounds.playAmbient(theme);
+      return theme;
+    }
+    if (restart) return theme;
+    if (!['dino', 'rainbow', 'animal', 'storybook', 'life', 'jungle', 'space', 'town'].includes(theme)) { const want = theme; this.stopWorldMusic(); this.requestedMusic = want; return null; }
     if (!this.worldMusicTheme || this.worldMusicTheme === theme) {
       this.worldMusicTheme = theme; this.worldMusicPendingTheme = null; this.worldMusicStopping = false; this.worldMusicTarget = 1; this.worldMusicLevel = Math.max(this.worldMusicLevel, .2); this.ensureWorldMusicTimer(); return theme;
     }
@@ -432,6 +467,8 @@ export class AudioManager {
   }
 
   stopWorldMusic({ immediate = false } = {}) {
+    this.requestedMusic = null;
+    if (this.streamingMusic) { this.sounds.stopMusic(); this.sounds.stopAmbient(); this.streamingMusic = false; this.worldMusicTheme = null; this.worldMusicPendingTheme = null; return; }
     this.worldMusicPendingTheme = null;
     if (!this.worldMusicTheme) return;
     if (!immediate) { this.worldMusicStopping = true; this.worldMusicTarget = 0; return; }
@@ -441,7 +478,12 @@ export class AudioManager {
     this.worldMusicStep = 0; this.worldMusicLevel = 0; this.worldMusicTarget = 0; this.worldMusicStopping = false;
   }
 
+  // Jungle Jam: the recorded stems while they're loaded (startJam), otherwise the synth notes.
+  startJam() { return this.sounds.startJam(); }
+  stopJam() { this.sounds.stopJam(); }
+  setJamTempo(fast) { this.sounds.setJamTempo(fast); }
   playJamStem(role, beat = 0, loudness = 0.7) {
+    if (this.sounds.jamPlay(role, loudness)) return true;
     const gain = 0.018 + clamp01(loudness) * 0.035;
     const step = Math.max(0, Number(beat) || 0);
     if (role === 'percussion') { this.playTone(AUDIO_CHANNELS.ACTIVITY, 115 + (step % 2) * 35, 0.07, { type:'square', gain }); return true; }
@@ -454,6 +496,7 @@ export class AudioManager {
 
   playCue(name, options = {}) {
     const count = options.count ?? options.index ?? 0;
+    if (this.sounds.play(name, { count, gain: options.gain ?? 1 })) return true;
     switch (name) {
       case 'grab':
         this.playTone(AUDIO_CHANNELS.ACTIVITY, 430, 0.06, { gain: 0.035 });
@@ -480,6 +523,16 @@ export class AudioManager {
       case 'complete':
         [660, 820, 990, 1180].forEach((f, i) => this.playTone(AUDIO_CHANNELS.ACTIVITY, f, 0.18, { gain: 0.05, delay: i * 0.10 }));
         break;
+      // Newer cues (Job 13) without a recording loaded yet: a soft tone of the same kind, or nothing for animals.
+      case 'tap': case 'button': case 'back': case 'page': case 'tab': case 'start': case 'open': case 'whoosh': case 'pageTurn':
+        this.playTone(AUDIO_CHANNELS.UI, name === 'back' ? 420 : 560, 0.05, { gain: 0.02 });
+        break;
+      case 'star': case 'coin': case 'sticker': case 'chest': case 'unlock': case 'trophy': case 'levelUp': case 'rewardBig': case 'reveal': case 'magic': case 'sparkle':
+        [700, 880].forEach((f, i) => this.playTone(AUDIO_CHANNELS.UI, f, 0.12, { gain: 0.035, delay: i * 0.08 }));
+        break;
+      case 'pop': case 'snap': case 'splash': case 'eat': case 'bounce': case 'eggCrack': case 'portal': case 'rocket': case 'horn': case 'bell':
+        this.playTone(AUDIO_CHANNELS.ACTIVITY, name === 'pop' ? 520 : 380, 0.06, { type: 'triangle', gain: 0.026, endFrequency: 320 });
+        break;
       default:
         return false;
     }
@@ -497,6 +550,7 @@ export class AudioManager {
   }
 
   stopAll() {
+    this.sounds.stopMusic(); this.sounds.stopAmbient(); this.sounds.stopJam();
     this.stopVoice();
     this.pendingSpeech = null;
     if (this.voiceWindowTimer) clearTimeout(this.voiceWindowTimer);

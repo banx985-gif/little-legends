@@ -31,7 +31,7 @@ export class WorldHubScene{
     if(e.type==='down'){this.idleT=0;this.pointed=false;}
     if(e.type==='down'){this.pressed=this.hit(e.x,e.y)?.id??this.controlAt(e.x,e.y);return;}
     if(e.type==='move'&&this.pressed){const now=this.hit(e.x,e.y)?.id??this.controlAt(e.x,e.y);if(now!==this.pressed)this.pressed=null;return;}
-    if(e.type==='up'){const chosen=this.pressed;this.pressed=null;if(chosen==='back'){this.game.scenes.change('island');return;} /* home picture: always back to Wonder Island */ if(chosen==='jam'){this.game.scenes.change('jungleJam');return;}if(chosen==='certificate'){this.pip?.react('celebrate',{duration:1.6});this.game.audio?.playCue?.('reward');return;}if(chosen==='prev'){this.page--;return;}if(chosen==='next'){this.page++;return;}if(chosen)this.game.scenes.change('adventure',{adventureId:chosen});}
+    if(e.type==='up'){const chosen=this.pressed;this.pressed=null;if(chosen==='back'){this.game.audio?.playCue?.('back');this.game.scenes.change('island');return;} /* home picture: always back to Wonder Island */ if(chosen==='jam'){this.game.audio?.playCue?.('button');this.game.scenes.change('jungleJam');return;}if(chosen==='certificate'){this.pip?.react('celebrate',{duration:1.6});this.game.audio?.playCue?.('levelUp');return;}if(chosen==='prev'){this.page--;this.game.audio?.playCue?.('page');return;}if(chosen==='next'){this.page++;this.game.audio?.playCue?.('page');return;}if(chosen){this.game.audio?.playCue?.('button');this.game.scenes.change('adventure',{adventureId:chosen});}}
   }
   // World progress medal by the title: bronze, silver, gold, then the trophy when every mission is done.
   drawMedal(ctx){

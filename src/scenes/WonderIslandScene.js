@@ -85,6 +85,7 @@ function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
 export class WonderIslandScene {
   constructor(game){this.game=game;this.t=0;this.portalPressed=false;this.rainbowPressed=false;this.parentPressed=false;this.modePressed=false;this.collectionPressed=false;this.placementMode=false;this.drag=null;this.trayPressed=null;this.dragOffset={x:0,y:0};this.objects=[];this.pip=null;this.interaction=null;this.interactionT=0;this.celebrateReward=null;}
   enter(data={}){
+    this.game.audio?.startWorldMusic?.('island'); // Job 13: island music and the beach
     this.t=0;this.celebrateReward=null;this.nextOffer=data.fromMission?{after:data.fromMission,t:0}:null;this.celebrateQueue=[data.celebrateReward,...(data.celebrateNext??[])].filter(Boolean);
     const state=this.game.save?.getProfileState?.();const placements=state?.island?.placements??{};const looks=this.game.rewards?wornRewards(state?.pip?.outfit,this.game.rewards):[];this.pip=new PipController({x:300,y:760,scale:.72,looks,onVoiceEvent:e=>this.voiceEvent(e)});this.speech='';this.speechT=0;
     const buildings=new Set([...(state?.unlocks?.buildings??[])]),decorations=new Set([...(state?.unlocks?.decorations??[])]),creatures=new Set([...(state?.unlocks?.creatures??[])]);
@@ -149,7 +150,7 @@ export class WonderIslandScene {
     this.celebrateReward=id;this.celebrateT=0;this.celebrateClock=0;
     const won=id?this.game.rewards?.get?.(id):null;
     this.hatch=won?.type==='creatures'?new HatchSequence({theme:hatchTheme(won.id,won.dragonWorld??worldOfReward(this.game,won.id)),rewardId:won.id}).play():null;
-    if(id){this.pip?.react('celebrate',{duration:2});this.game.audio?.playCue?.('reward');}
+    if(id){this.pip?.react('celebrate',{duration:2});this.game.audio?.playCue?.(won?.rare?'rewardBig':'reward');}
   }
   update(dt){this.t+=dt;this.idleT=(this.idleT??0)+dt;if(this.idleT>=5&&!this.pointed&&!this.placementMode&&!this.celebrateReward){this.pointed=true;this.pip?.react('point',{duration:1.4,target:{x:575,y:957}});}if(this.offerShowing()){this.nextOffer.t+=dt;if(this.nextOffer.t>=NEXT_OFFER_SECONDS){const after=this.nextOffer.after;this.nextOffer=null;this.playNext(after);}}this.pip?.update(dt);if(this.speechT>0)this.speechT=Math.max(0,this.speechT-dt);this.hatch?.update(dt);
     // The celebration clock waits for the egg pictures; if they never arrive, carry on with the banner only.
@@ -243,6 +244,8 @@ export class WonderIslandScene {
   // A tapped friend says hello in a speech bubble (fixed size: one short word, so the picture is never squashed).
   drawHello(ctx){const h=this.hello;if(!h||h.t<=0||this.placementMode)return;const o=this.objects.find(x=>x.id===h.id);if(!o)return;const x=clamp(o.x+o.w*.35,180,1740),y=Math.max(150,o.y-o.h/2-55),a=Math.min(1,h.t/.25);
     if(!drawArt(ctx,lookupArt('ui','speechBubble'),x,y,190,130,{alpha:a}))return;ctx.save();ctx.globalAlpha=a;ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='900 34px system-ui';ctx.fillText(h.text,x+4,y+4,150);ctx.restore();}
+  // What a tapped thing sounds like: its animal (Baby T-Rex roars, quietly), a creature voice, a horn for rides…
+  tapSound(o){if(o.type==='ball'||o.type==='slide')return 'bounce';if(o.type==='pond')return 'splash';const r=this.game.rewards?.get?.(o.id);if(r?.type==='vehicles')return 'horn';if(r?.type==='creatures'){const pic=lookupArt('rewards',o.id)??o.id;return this.game.audio?.sounds?.animalCue?.(pic)??'creature';}return 'sparkle';}
   helloFor(o){const reward=this.game.rewards?.get?.(o.id);if(reward?.type!=='creatures')return null;const pic=lookupArt('rewards',o.id)??'';return HELLO.find(([re])=>re.test(pic))?.[1]??'Hi!';}
   drawBabyRaptor(ctx,x,y){ctx.save();ctx.translate(x,y);ctx.fillStyle='#68c66c';ctx.beginPath();ctx.ellipse(0,0,62,40,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(52,-40,38,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(64,-49,9,0,Math.PI*2);ctx.fill();ctx.fillStyle='#333';ctx.beginPath();ctx.arc(67,-48,4,0,Math.PI*2);ctx.fill();ctx.restore();}
 
@@ -258,11 +261,11 @@ export class WonderIslandScene {
   // Name tags show when a thing is tapped, just won, or being moved, so a full island doesn't turn into a wall of labels.
   showTag(o){return this.placementMode||(this.interaction===o.id&&this.interactionT>0)||this.celebrateReward===o.id;}
   async finishDrag(o){o.x=clamp(o.x,350,1580);o.y=clamp(o.y,410,820);this.sortByDepth();this.game.fx?.cue?.('place',{x:o.x,y:o.y});await this.game.save?.saveIslandPlacement?.(o.id,{x:o.x,y:o.y,zone:o.zone});}
-  interact(o){this.interaction=o.id;this.interactionT=1.2;const hello=this.helloFor(o);this.hello=hello?{id:o.id,text:hello,t:HELLO_SECONDS}:null;if(o.type==='drum')this.game.audio?.playCue?.('count',{count:2});else this.game.audio?.playCue?.('correct');if(o.type==='slide')this.pip?.react('bounce',{duration:1.2});if(o.type==='ball')this.pip?.lookAt(o,.8);}
+  interact(o){this.interaction=o.id;this.interactionT=1.2;const hello=this.helloFor(o);this.hello=hello?{id:o.id,text:hello,t:HELLO_SECONDS}:null;if(o.type==='drum')this.game.audio?.playCue?.('count',{count:2});else this.game.audio?.playCue?.(this.tapSound(o)); /* Job 13: each thing's own sound */if(o.type==='slide')this.pip?.react('bounce',{duration:1.2});if(o.type==='ball')this.pip?.lookAt(o,.8);}
 
   handlePointer(e){
     if(e.type==='down'){this.idleT=0;this.pointed=false;}
-    if(this.offerShowing()){if(e.type==='up'){if(inCircle(e,OFFER_NEXT)){const after=this.nextOffer.after;this.nextOffer=null;this.playNext(after);}else if(inCircle(e,OFFER_HOME)){this.nextOffer=null;this.game.audio?.playCue?.('correct');}}return;}
+    if(this.offerShowing()){if(e.type==='up'){if(inCircle(e,OFFER_NEXT)){this.game.audio?.playCue?.('start');const after=this.nextOffer.after;this.nextOffer=null;this.playNext(after);}else if(inCircle(e,OFFER_HOME)){this.nextOffer=null;this.game.audio?.playCue?.('back');}}return;}
     if(this.hatch?.ready&&!this.hatch.finished&&this.celebrateT<CELEBRATE_SECONDS){if(e.type==='up')this.hatch.skip();return;}
     const portal=e.x>=340&&e.x<=800&&e.y>=875&&e.y<=1045;const rainbow=e.x>=790&&e.x<=1330&&e.y>=875&&e.y<=1045;const parent=(e.x-90)**2+(e.y-85)**2<=75**2;const mode=e.x>=1320&&e.x<=1740&&e.y>=885&&e.y<=1045;const collection=e.x>=1490&&e.x<=1860&&e.y>=30&&e.y<=140;
     if(e.type==='down'){
@@ -276,7 +279,7 @@ export class WonderIslandScene {
       if(this.trayPressed){const key=this.trayPressed;this.trayPressed=null;if(e.type==='up'&&this.trayPieceAt(e.x,e.y)===key)this.addPiece(key);return;}
       if(this.drag){const o=this.drag;this.drag=null;if(o.type==='built'&&overTray(o.x,o.y)){this.removePiece(o);return;}if(e.type==='up')this.finishDrag(o);return;}
       const go=e.type==='up'&&this.portalPressed&&portal,goRainbow=e.type==='up'&&this.rainbowPressed&&rainbow,pg=e.type==='up'&&this.parentPressed&&parent,toggle=e.type==='up'&&this.modePressed&&mode,goCollection=e.type==='up'&&this.collectionPressed&&collection;this.portalPressed=this.rainbowPressed=this.parentPressed=this.modePressed=this.collectionPressed=false;
-      if(go){this.playNext();return;}if(goRainbow){this.game.scenes.change('worldSelect');return;}if(goCollection){this.game.scenes.change('collection');return;}if(pg){this.game.scenes.change('parentGate',{returnTo:'island'});return;}if(toggle){this.placementMode=!this.placementMode;return;}
+      if(go){this.game.audio?.playCue?.('start');this.playNext();return;}if(goRainbow){this.game.audio?.playCue?.('button');this.game.scenes.change('worldSelect');return;}if(goCollection){this.game.audio?.playCue?.('button');this.game.scenes.change('collection');return;}if(pg){this.game.scenes.change('parentGate',{returnTo:'island'});return;}if(toggle){this.placementMode=!this.placementMode;this.game.audio?.playCue?.('button');return;}
       if(e.type==='up'&&!this.placementMode){const o=this.objectAt(e.x,e.y);if(o)this.interact(o);}
     }
   }

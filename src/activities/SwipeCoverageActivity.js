@@ -8,7 +8,7 @@ export class SwipeCoverageActivity extends Activity {
   }
   getHintContext(){const object=this.spots.find(s=>!s.cleared)??null;return object?{object,target:object,skillIds:this.configuredSkills()}:null;}
   sweep(x,y){this.pointer={x,y};let changed=false;for(const spot of this.spots){if(!spot.cleared&&Math.hypot(x-spot.x,y-spot.y)<=spot.r+72){spot.cleared=true;changed=true;}}
-    if(changed){this.recordResponse(this.configuredSkills(),'success');this.cue('drop');if(this.spots.every(s=>s.cleared)){this.cue('correct');this.react('happy',{duration:.8});this.complete({detail:this.definition.completeDetail??'All done!'});}}
+    if(changed){this.recordResponse(this.configuredSkills(),'success');this.cue('drop',{sound:this.sweepSound??'drop'});if(this.spots.every(s=>s.cleared)){this.cue('correct');this.react('happy',{duration:.8});this.complete({detail:this.definition.completeDetail??'All done!'});}}
   }
   handlePointer(e){if(e.type==='down'){this.active=true;this.sweep(e.x,e.y);}else if(e.type==='move'&&this.active)this.sweep(e.x,e.y);else if(e.type==='up'||e.type==='cancel')this.active=false;}
   drawSpots(ctx, color){for(const spot of this.spots){if(spot.cleared)continue;ctx.fillStyle=color;ctx.globalAlpha=.76;ctx.beginPath();ctx.arc(spot.x,spot.y,spot.r,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;}}

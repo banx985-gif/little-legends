@@ -41,7 +41,7 @@ export class Activity {
   checkProgress() { return false; }
   cleanup() {}
 
-  cue(name, options = {}) { this.game.audio?.playCue(name, options); this.game.fx?.cue?.(name, options); }
+  cue(name, options = {}) { this.game.audio?.playCue(options.sound ?? name, options); this.game.fx?.cue?.(name, options); } // options.sound: a different recorded sound for the same effect (Job 13)
   react(name, options) { this.host.pip?.react(name, options); }
   lookAt(target, duration, options) { this.host.pip?.lookAt(target, duration, options); }
 

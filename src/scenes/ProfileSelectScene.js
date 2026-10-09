@@ -6,7 +6,7 @@ const COLORS={purple:'#8b69db',blue:'#4d8ee8',red:'#e95f6a',yellow:'#f2c94c'};
 
 export class ProfileSelectScene {
   constructor(game){this.game=game;this.t=0;this.pressed=null;this.creation=null;this.returnTo=null;}
-  enter(data={}){this.t=0;this.pressed=null;this.creation=null;this.returnTo=data.returnTo??null;}
+  enter(data={}){this.game.audio?.startWorldMusic?.('menu'); /* Job 13 */this.t=0;this.pressed=null;this.creation=null;this.returnTo=data.returnTo??null;}
   update(dt){this.t+=dt;}
 
   profiles(){return this.game.save?.listProfiles?.()??[];}

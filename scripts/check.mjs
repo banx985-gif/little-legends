@@ -22,7 +22,7 @@ import { RainbowVillageScene } from '../src/scenes/RainbowVillageScene.js';
 import { WorldSelectScene } from '../src/scenes/WorldSelectScene.js';
 import { WorldHubScene } from '../src/scenes/WorldHubScene.js';
 import { JungleJamScene } from '../src/scenes/JungleJamScene.js';
-import { CollectionScene } from '../src/scenes/CollectionScene.js';
+import { CollectionScene, DECOR_TABS, decorTab } from '../src/scenes/CollectionScene.js';
 import { PerformanceManager, PERFORMANCE_MODES, autoStartMode } from '../src/core/PerformanceManager.js';
 import { ChildTestRecorder } from '../src/testing/ChildTestRecorder.js';
 import { ReleaseQualification, RELEASE_MANUAL_CHECKS } from '../src/testing/ReleaseQualification.js';
@@ -68,7 +68,7 @@ for (const file of jsFiles) execFileSync(process.execPath, ['--check', file], { 
 
 // The installable/offline build must cache every eagerly imported source module.
 const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v44"), 'Service worker cache version should advance with the real-art build');
+assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v45"), 'Service worker cache version should advance with the real-art build');
 for (const file of walk(path.join(root, 'src')).filter(file => file.endsWith('.js'))) {
   const rel = `./${path.relative(root, file).split(path.sep).join('/')}`;
   assert.ok(serviceWorkerSource.includes(`'${rel}'`), `Offline cache must include ${rel}`);
@@ -1026,6 +1026,41 @@ assert.ok(serviceWorkerSource.includes("'./assets/art_manifest.json'")&&serviceW
   const statsGame = { save: buildSave, debugOverlay: false, setDebugOverlay(on) { this.debugOverlay = on; return on; } };
   const statsGate = new ParentGateScene(statsGame); statsGate.enter({ skipGate: true, tab: 'data' }); statsGate.render(fakeCtx); assert.equal(fakeCtx.depth, 0);
   assert.equal(statsGate.controlAt({ x: 960, y: 865 }), 'debugOverlay'); await statsGate.action('debugOverlay'); assert.equal(statsGame.debugOverlay, true, 'Parent Area turns the picture stats on');
+}
+
+// ---- Job 11: 60 island decorations, DECOR groups, mission trophies ----
+{
+  const map11 = JSON.parse(fs.readFileSync(path.join(root, 'data/art_map.json'), 'utf8'));
+  const unused11 = findUnusedArt(root);
+  for (const prefix of ['worlds.island_decor.', 'rewards.trophies.']) assert.ok(!unused11.unused.some(u => u.id.startsWith(prefix)), `Every ${prefix} picture is used`);
+  for (const [r, pic] of [['catalog_moon_lamp', 'lights.lamp_moon'], ['catalog_firefly_jar', 'lights.jar_firefly'], ['catalog_star_gazebo', 'houses.gazebo_crystal'], ['catalog_colour_windmill', 'magic.windmill_rainbow'], ['catalog_star_path', 'paths.stepping_stones_star'], ['catalog_music_flowers', 'magic.flower_music'], ['moon_book_nook', 'houses.tower_wizard'], ['story_tree', 'trees.tree_lanterns'], ['luna_star', 'lights.lamp_star'], ['catalog_shape_stones', 'paths.stepping_stones_grey'], ['kindness_garden', 'plants.flowers_star']])
+    assert.equal(map11.rewards[r], `worlds.island_decor.${pic}`, `${r} has its decoration picture`);
+  for (const pic of ['worlds.decor.moon_crystal_sleepy', 'worlds.decor.star_trophy_happy', 'worlds.decor.signpost_three', 'worlds.flowers.pink_flowers']) assert.ok(Object.values(map11.rewards).includes(pic), `${pic} stays in the game as its own decoration`);
+  const decor = rewardData.rewards.filter(r => r.type === 'decorations' && r.catalog && !r.season);
+  for (const [id] of DECOR_TABS) assert.ok(decor.filter(r => decorTab(r) === id).length >= 5, `DECOR ${id} group has decorations`);
+  const decorSave = new SaveSystem({ indexedDBRef: null, storage: null }); await decorSave.init(); await decorSave.createProfile({ name: 'Dot', age: 4 });
+  const dg = { save: decorSave, audio: sceneAudio, scenes: { last: null, change(name, data) { this.last = { name, data }; } } }; dg.rewards = new RewardSystem(dg); dg.rewards.setDefinitions(rewardData);
+  const dcol = new CollectionScene(dg); dcol.enter({ tab: 'decorations' });
+  let seen = 0;
+  for (const [id] of DECOR_TABS) { await dcol.action(`decor:${id}`); const items = dcol.items(); seen += items.length; assert.ok(items.length && items.every(r => decorTab(r) === id), `DECOR ${id} tab lists its group`); dcol.render(fakeCtx); assert.equal(fakeCtx.depth, 0); }
+  assert.equal(seen, decor.length, 'Every decoration is in exactly one DECOR group');
+  assert.equal(dcol.controlAt({ x: 100, y: 228 + 3 * 84 + 30 }), 'decor:crystals', 'DECOR groups are tappable');
+  for (const id of ['story_tree', 'duckling', 'town_post_office']) { const r = rewardData.rewards.find(x => x.id === id); await decorSave.award(r.type, id); }
+  const portalIsland = new WonderIslandScene(dg); portalIsland.enter({});
+  for (const id of ['story_tree', 'duckling', 'town_post_office']) { const o = portalIsland.objects.find(x => x.id === id); assert.ok(o && !(Math.abs(o.x - 960) < 150 && Math.abs(o.y - 470) < 195), `${id} is moved off the portal`); }
+  // Mission finish: a trophy by world progress; the world's last mission gets gold on the crystal pedestal under the arch.
+  const trophyCtx = new ArtCanvasContext(); const pics = new Map(Object.values(map11.trophies).filter(v => v.startsWith('rewards.')).map(id => [id, { width: 100, height: 100, id }]));
+  globalThis.__LL_ASSETS = { artMap: map11, get: id => pics.get(id), requestArt() {} };
+  const tg = { save: decorSave, learning: new LearningProfile(), audio: sceneAudio, assets: null, scenes: { last: null, change(name, data) { this.last = { name, data }; } } };
+  tg.activityEngine = new ActivityEngine(tg); tg.activityEngine.setDefinitions(activityData); tg.adventureEngine = new AdventureEngine(tg); tg.adventureEngine.setDefinitions(adventureData); tg.rewards = new RewardSystem(tg); tg.rewards.setDefinitions(rewardData);
+  const townMissions = adventureData.adventures.filter(a => a.world === 'town');
+  const first = new AdventureScene(tg); await first.enter({ adventureId: townMissions[0].id, step: townMissions[0].steps.length - 1 }); first.render(trophyCtx);
+  assert.ok(trophyCtx.images.some(i => i.img.id === map11.trophies.bronze) && trophyCtx.images.some(i => i.img.id === map11.trophies.podium), 'First mission in a world: bronze trophy on the star podium');
+  for (const a of townMissions.slice(1)) await decorSave.saveAdventure(a.id, 0, { completed: true });
+  const lastCtx = new ArtCanvasContext(); first.render(lastCtx); assert.equal(lastCtx.depth, 0);
+  assert.ok(['arch', 'pedestal', 'gold'].every(k => lastCtx.images.some(i => i.img.id === map11.trophies[k])), 'World complete: gold trophy on the crystal pedestal under the rainbow arch');
+  const midCtx = new ArtCanvasContext(); const mid = new AdventureScene(tg); await mid.enter({ adventureId: townMissions[0].id, step: 1 }); mid.render(midCtx); assert.ok(!midCtx.images.some(i => i.img.id === map11.trophies.podium), 'No trophy before the last step');
+  delete globalThis.__LL_ASSETS;
 }
 
 console.log(`Little Legends M0-M29 qualification implementation check passed (M26/M29 human gates still pending): ${required.length} required files, ${jsFiles.length} JS syntax checks, ${activityEngine.list().length} JSON activities across ${expectedActivityTypes.size} reusable families, ${adventureData.adventures.length} Little Missions, privacy/child-test support, launch FX, save recovery, performance instrumentation and offline PWA verified.`);

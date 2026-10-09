@@ -31,6 +31,7 @@ function targetLongest(rel) {
   if (/^fx\/(drops\/|ring_|note_)/.test(rel)) return 600;
   if (rel.startsWith('fx/')) return 1024;                           // bursts / ambient ≤ 640
   if (rel.startsWith('objects/')) return 768;                       // tokens, containers ≤ 380
+  if (rel.startsWith('worlds/island_decor/')) return 512;           // island decorations ≤ 250 box (Job 11, low-end budget)
   if (rel.startsWith('worlds/scenes/')) return 1024;
   if (rel.startsWith('worlds/')) return 800;                        // island pieces ≤ 390
   return 1024;

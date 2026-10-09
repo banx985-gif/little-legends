@@ -1388,7 +1388,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "red",
-      "style": 0
+      "style": 0,
+      "decor": "houses"
     },
     {
       "id": "catalog_dino_fern",
@@ -1401,7 +1402,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "blue",
-      "style": 1
+      "style": 1,
+      "decor": "plants"
     },
     {
       "id": "catalog_story_lantern",
@@ -1414,7 +1416,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "yellow",
-      "style": 2
+      "style": 2,
+      "decor": "lights"
     },
     {
       "id": "catalog_animal_sign",
@@ -1427,7 +1430,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "green",
-      "style": 3
+      "style": 3,
+      "decor": "adventure"
     },
     {
       "id": "catalog_bubble_fountain",
@@ -1440,7 +1444,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "orange",
-      "style": 0
+      "style": 0,
+      "decor": "play"
     },
     {
       "id": "catalog_flower_patch",
@@ -1453,7 +1458,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "purple",
-      "style": 1
+      "style": 1,
+      "decor": "plants"
     },
     {
       "id": "catalog_mushroom_ring",
@@ -1466,7 +1472,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "pink",
-      "style": 2
+      "style": 2,
+      "decor": "plants"
     },
     {
       "id": "catalog_star_path",
@@ -1479,7 +1486,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "cream",
-      "style": 3
+      "style": 3,
+      "decor": "paths"
     },
     {
       "id": "catalog_moon_lamp",
@@ -1492,7 +1500,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "red",
-      "style": 0
+      "style": 0,
+      "decor": "lights"
     },
     {
       "id": "catalog_cloud_pillow",
@@ -1505,7 +1514,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "blue",
-      "style": 1
+      "style": 1,
+      "decor": "magic"
     },
     {
       "id": "catalog_picnic_rug",
@@ -1518,7 +1528,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "yellow",
-      "style": 2
+      "style": 2,
+      "decor": "houses"
     },
     {
       "id": "catalog_tiny_bridge",
@@ -1531,7 +1542,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "green",
-      "style": 3
+      "style": 3,
+      "decor": "paths"
     },
     {
       "id": "catalog_music_flowers",
@@ -1544,7 +1556,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "orange",
-      "style": 0
+      "style": 0,
+      "decor": "magic"
     },
     {
       "id": "catalog_paint_pots",
@@ -1557,7 +1570,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "purple",
-      "style": 1
+      "style": 1,
+      "decor": "play"
     },
     {
       "id": "catalog_shape_stones",
@@ -1570,7 +1584,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "pink",
-      "style": 2
+      "style": 2,
+      "decor": "paths"
     },
     {
       "id": "catalog_alphabet_banner",
@@ -1583,7 +1598,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "cream",
-      "style": 3
+      "style": 3,
+      "decor": "adventure"
     },
     {
       "id": "catalog_number_flags",
@@ -1596,7 +1612,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "red",
-      "style": 0
+      "style": 0,
+      "decor": "adventure"
     },
     {
       "id": "catalog_kindness_sign",
@@ -1609,7 +1626,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "blue",
-      "style": 1
+      "style": 1,
+      "decor": "magic"
     },
     {
       "id": "catalog_weather_vane",
@@ -1622,7 +1640,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "yellow",
-      "style": 2
+      "style": 2,
+      "decor": "adventure"
     },
     {
       "id": "catalog_toy_shelf",
@@ -1635,7 +1654,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "green",
-      "style": 3
+      "style": 3,
+      "decor": "houses"
     },
     {
       "id": "catalog_treasure_basket",
@@ -1648,7 +1668,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "orange",
-      "style": 0
+      "style": 0,
+      "decor": "magic"
     },
     {
       "id": "catalog_shell_garden",
@@ -1661,7 +1682,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "purple",
-      "style": 1
+      "style": 1,
+      "decor": "plants"
     },
     {
       "id": "catalog_crystal_bush",
@@ -1674,7 +1696,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "pink",
-      "style": 2
+      "style": 2,
+      "decor": "crystals"
     },
     {
       "id": "catalog_butterfly_post",
@@ -1687,7 +1710,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "cream",
-      "style": 3
+      "style": 3,
+      "decor": "adventure"
     },
     {
       "id": "catalog_dino_footprints",
@@ -1700,7 +1724,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "red",
-      "style": 0
+      "style": 0,
+      "decor": "paths"
     },
     {
       "id": "catalog_fossil_stones",
@@ -1713,7 +1738,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "blue",
-      "style": 1
+      "style": 1,
+      "decor": "crystals"
     },
     {
       "id": "catalog_pond_reeds",
@@ -1726,7 +1752,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "yellow",
-      "style": 2
+      "style": 2,
+      "decor": "plants"
     },
     {
       "id": "catalog_duck_pond_sign",
@@ -1739,7 +1766,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "green",
-      "style": 3
+      "style": 3,
+      "decor": "adventure"
     },
     {
       "id": "catalog_forest_log",
@@ -1752,7 +1780,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "orange",
-      "style": 0
+      "style": 0,
+      "decor": "trees"
     },
     {
       "id": "catalog_acorn_pile",
@@ -1765,7 +1794,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "purple",
-      "style": 1
+      "style": 1,
+      "decor": "plants"
     },
     {
       "id": "catalog_berry_bush",
@@ -1778,7 +1808,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "pink",
-      "style": 2
+      "style": 2,
+      "decor": "plants"
     },
     {
       "id": "catalog_firefly_jar",
@@ -1791,7 +1822,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "cream",
-      "style": 3
+      "style": 3,
+      "decor": "lights"
     },
     {
       "id": "catalog_story_cushion",
@@ -1804,7 +1836,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "red",
-      "style": 0
+      "style": 0,
+      "decor": "houses"
     },
     {
       "id": "catalog_book_stack",
@@ -1817,7 +1850,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "blue",
-      "style": 1
+      "style": 1,
+      "decor": "adventure"
     },
     {
       "id": "catalog_letter_arch",
@@ -1830,7 +1864,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "yellow",
-      "style": 2
+      "style": 2,
+      "decor": "adventure"
     },
     {
       "id": "catalog_word_wall",
@@ -1843,7 +1878,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "green",
-      "style": 3
+      "style": 3,
+      "decor": "adventure"
     },
     {
       "id": "catalog_sunflower_row",
@@ -1856,7 +1892,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "orange",
-      "style": 0
+      "style": 0,
+      "decor": "plants"
     },
     {
       "id": "catalog_rainbow_fence",
@@ -1869,7 +1906,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "purple",
-      "style": 1
+      "style": 1,
+      "decor": "magic"
     },
     {
       "id": "catalog_colour_windmill",
@@ -1882,7 +1920,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "pink",
-      "style": 2
+      "style": 2,
+      "decor": "magic"
     },
     {
       "id": "catalog_shape_totem",
@@ -1895,7 +1934,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "cream",
-      "style": 3
+      "style": 3,
+      "decor": "adventure"
     },
     {
       "id": "catalog_jungle_drum",
@@ -1908,7 +1948,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "red",
-      "style": 0
+      "style": 0,
+      "decor": "play"
     },
     {
       "id": "catalog_music_chimes",
@@ -1921,7 +1962,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "blue",
-      "style": 1
+      "style": 1,
+      "decor": "play"
     },
     {
       "id": "catalog_tempo_flags",
@@ -1934,7 +1976,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "yellow",
-      "style": 2
+      "style": 2,
+      "decor": "adventure"
     },
     {
       "id": "catalog_handwash_poster",
@@ -1947,7 +1990,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "green",
-      "style": 3
+      "style": 3,
+      "decor": "adventure"
     },
     {
       "id": "catalog_toothbrush_cup",
@@ -1960,7 +2004,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "orange",
-      "style": 0
+      "style": 0,
+      "decor": "adventure"
     },
     {
       "id": "catalog_feelings_wheel",
@@ -1973,7 +2018,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "purple",
-      "style": 1
+      "style": 1,
+      "decor": "magic"
     },
     {
       "id": "catalog_helping_hands_sign",
@@ -1986,7 +2032,8 @@
       "catalog": true,
       "starCost": 3,
       "color": "pink",
-      "style": 2
+      "style": 2,
+      "decor": "adventure"
     },
     {
       "id": "catalog_routine_clock",
@@ -1999,7 +2046,8 @@
       "catalog": true,
       "starCost": 4,
       "color": "cream",
-      "style": 3
+      "style": 3,
+      "decor": "adventure"
     },
     {
       "id": "catalog_star_gazebo",
@@ -2012,7 +2060,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "red",
-      "style": 0
+      "style": 0,
+      "decor": "houses"
     },
     {
       "id": "catalog_dino_scooter",
@@ -3743,7 +3792,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "orange",
-      "style": 2
+      "style": 2,
+      "decor": "trees"
     },
     {
       "id": "catalog_decor_balloons_bunch",
@@ -3756,7 +3806,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "purple",
-      "style": 0
+      "style": 0,
+      "decor": "play"
     },
     {
       "id": "catalog_decor_barrel",
@@ -3769,7 +3820,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "pink",
-      "style": 1
+      "style": 1,
+      "decor": "adventure"
     },
     {
       "id": "catalog_decor_crate_wood",
@@ -3782,7 +3834,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "red",
-      "style": 2
+      "style": 2,
+      "decor": "adventure"
     },
     {
       "id": "catalog_decor_flags_trio",
@@ -3795,7 +3848,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "blue",
-      "style": 0
+      "style": 0,
+      "decor": "adventure"
     },
     {
       "id": "catalog_decor_heart_crystal",
@@ -3808,7 +3862,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "yellow",
-      "style": 1
+      "style": 1,
+      "decor": "crystals"
     },
     {
       "id": "catalog_decor_post_banner",
@@ -3821,7 +3876,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "green",
-      "style": 2
+      "style": 2,
+      "decor": "adventure"
     },
     {
       "id": "catalog_decor_rainbow_clouds",
@@ -3834,7 +3890,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "orange",
-      "style": 0
+      "style": 0,
+      "decor": "magic"
     },
     {
       "id": "catalog_decor_rope_coil",
@@ -3847,7 +3904,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "purple",
-      "style": 1
+      "style": 1,
+      "decor": "adventure"
     },
     {
       "id": "catalog_decor_sandpit",
@@ -3860,7 +3918,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "pink",
-      "style": 2
+      "style": 2,
+      "decor": "play"
     },
     {
       "id": "catalog_decor_seesaw",
@@ -3873,7 +3932,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "red",
-      "style": 0
+      "style": 0,
+      "decor": "play"
     },
     {
       "id": "catalog_decor_sign_arrow_wood",
@@ -3886,7 +3946,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "blue",
-      "style": 1
+      "style": 1,
+      "decor": "adventure"
     },
     {
       "id": "catalog_decor_sign_compass",
@@ -3899,7 +3960,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "yellow",
-      "style": 2
+      "style": 2,
+      "decor": "adventure"
     },
     {
       "id": "catalog_decor_star_monument",
@@ -3912,7 +3974,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "green",
-      "style": 0
+      "style": 0,
+      "decor": "magic"
     },
     {
       "id": "catalog_decor_statue_dragon",
@@ -3925,7 +3988,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "orange",
-      "style": 1
+      "style": 1,
+      "decor": "magic"
     },
     {
       "id": "catalog_decor_trampoline",
@@ -3938,7 +4002,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "purple",
-      "style": 2
+      "style": 2,
+      "decor": "play"
     },
     {
       "id": "catalog_decor_treasure_chest",
@@ -3951,7 +4016,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "pink",
-      "style": 0
+      "style": 0,
+      "decor": "adventure"
     },
     {
       "id": "catalog_beach_banner_sun",
@@ -3964,7 +4030,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "red",
-      "style": 1
+      "style": 1,
+      "decor": "adventure"
     },
     {
       "id": "catalog_beach_beach_ball",
@@ -3977,7 +4044,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "blue",
-      "style": 2
+      "style": 2,
+      "decor": "play"
     },
     {
       "id": "catalog_beach_beach_umbrella",
@@ -3990,7 +4058,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "yellow",
-      "style": 0
+      "style": 0,
+      "decor": "adventure"
     },
     {
       "id": "catalog_beach_sign_picnic",
@@ -4003,7 +4072,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "green",
-      "style": 1
+      "style": 1,
+      "decor": "adventure"
     },
     {
       "id": "catalog_beach_tiki_torch_flower",
@@ -4016,7 +4086,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "orange",
-      "style": 2
+      "style": 2,
+      "decor": "lights"
     },
     {
       "id": "catalog_nature_bush_flowers",
@@ -4029,7 +4100,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "purple",
-      "style": 0
+      "style": 0,
+      "decor": "plants"
     },
     {
       "id": "catalog_nature_flower_rainbow",
@@ -4042,7 +4114,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "pink",
-      "style": 1
+      "style": 1,
+      "decor": "plants"
     },
     {
       "id": "catalog_nature_flowers_glow",
@@ -4055,7 +4128,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "red",
-      "style": 2
+      "style": 2,
+      "decor": "plants"
     },
     {
       "id": "catalog_nature_pebbles",
@@ -4068,7 +4142,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "blue",
-      "style": 0
+      "style": 0,
+      "decor": "crystals"
     },
     {
       "id": "catalog_nature_plant_big_leaf",
@@ -4081,7 +4156,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "yellow",
-      "style": 1
+      "style": 1,
+      "decor": "plants"
     },
     {
       "id": "catalog_nature_rock_flat",
@@ -4094,7 +4170,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "green",
-      "style": 2
+      "style": 2,
+      "decor": "crystals"
     },
     {
       "id": "catalog_nature_rock_mossy",
@@ -4107,7 +4184,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "orange",
-      "style": 0
+      "style": 0,
+      "decor": "crystals"
     },
     {
       "id": "catalog_nature_tree_blossom",
@@ -4120,7 +4198,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "purple",
-      "style": 1
+      "style": 1,
+      "decor": "trees"
     },
     {
       "id": "catalog_nature_tree_palm",
@@ -4133,7 +4212,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "pink",
-      "style": 2
+      "style": 2,
+      "decor": "trees"
     },
     {
       "id": "catalog_nature_tree_willow",
@@ -4146,7 +4226,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "red",
-      "style": 0
+      "style": 0,
+      "decor": "trees"
     },
     {
       "id": "catalog_flowers_bluebells",
@@ -4159,7 +4240,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "blue",
-      "style": 1
+      "style": 1,
+      "decor": "plants"
     },
     {
       "id": "catalog_flowers_daffodils",
@@ -4172,7 +4254,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "yellow",
-      "style": 2
+      "style": 2,
+      "decor": "plants"
     },
     {
       "id": "catalog_pond_horn_post",
@@ -4185,7 +4268,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "green",
-      "style": 0
+      "style": 0,
+      "decor": "play"
     },
     {
       "id": "catalog_pond_piano_stone",
@@ -4198,7 +4282,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "orange",
-      "style": 1
+      "style": 1,
+      "decor": "play"
     },
     {
       "id": "catalog_pond_reeds_bubbles",
@@ -4211,7 +4296,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "purple",
-      "style": 2
+      "style": 2,
+      "decor": "plants"
     },
     {
       "id": "catalog_pond_stepping_stones",
@@ -4224,7 +4310,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "pink",
-      "style": 0
+      "style": 0,
+      "decor": "paths"
     },
     {
       "id": "catalog_jungle_stage_flower_garland",
@@ -4237,7 +4324,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "red",
-      "style": 1
+      "style": 1,
+      "decor": "plants"
     },
     {
       "id": "catalog_jungle_stage_leaf_stool",
@@ -4250,7 +4338,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "blue",
-      "style": 2
+      "style": 2,
+      "decor": "plants"
     },
     {
       "id": "catalog_jungle_stage_sign_music",
@@ -4263,7 +4352,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "yellow",
-      "style": 0
+      "style": 0,
+      "decor": "play"
     },
     {
       "id": "catalog_jungle_stage_speaker_rock",
@@ -4276,7 +4366,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "green",
-      "style": 1
+      "style": 1,
+      "decor": "crystals"
     },
     {
       "id": "catalog_jungle_stage_tiki_torch",
@@ -4289,7 +4380,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "orange",
-      "style": 2
+      "style": 2,
+      "decor": "lights"
     },
     {
       "id": "catalog_jungle_stage_vine_garland",
@@ -4302,7 +4394,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "purple",
-      "style": 0
+      "style": 0,
+      "decor": "play"
     },
     {
       "id": "catalog_rainbow_village_colour_wheel",
@@ -4315,7 +4408,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "pink",
-      "style": 1
+      "style": 1,
+      "decor": "magic"
     },
     {
       "id": "catalog_rainbow_village_paint_splat_rainbow",
@@ -4328,7 +4422,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "red",
-      "style": 2
+      "style": 2,
+      "decor": "play"
     },
     {
       "id": "catalog_rainbow_village_rainbow_fountain",
@@ -4341,7 +4436,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "blue",
-      "style": 0
+      "style": 0,
+      "decor": "magic"
     },
     {
       "id": "catalog_rainbow_village_shape_sorter_board",
@@ -4354,7 +4450,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "yellow",
-      "style": 1
+      "style": 1,
+      "decor": "magic"
     },
     {
       "id": "catalog_rainbow_village_stepping_stones_rainbow",
@@ -4367,7 +4464,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "green",
-      "style": 2
+      "style": 2,
+      "decor": "paths"
     },
     {
       "id": "catalog_rainbow_build_carousel_top",
@@ -4380,7 +4478,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "orange",
-      "style": 0
+      "style": 0,
+      "decor": "play"
     },
     {
       "id": "catalog_dino_valley_lava_rocks",
@@ -4393,7 +4492,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "purple",
-      "style": 1
+      "style": 1,
+      "decor": "crystals"
     },
     {
       "id": "catalog_dino_valley_log_mossy",
@@ -4406,7 +4506,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "pink",
-      "style": 2
+      "style": 2,
+      "decor": "trees"
     },
     {
       "id": "catalog_animal_forest_bridge_stream",
@@ -4419,7 +4520,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "red",
-      "style": 0
+      "style": 0,
+      "decor": "paths"
     },
     {
       "id": "catalog_animal_forest_nest_bird_eggs",
@@ -4432,7 +4534,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "blue",
-      "style": 1
+      "style": 1,
+      "decor": "adventure"
     },
     {
       "id": "catalog_house_parts_flag_rainbow",
@@ -4445,7 +4548,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "yellow",
-      "style": 2
+      "style": 2,
+      "decor": "houses"
     },
     {
       "id": "catalog_play_swing",
@@ -4458,7 +4562,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "green",
-      "style": 0
+      "style": 0,
+      "decor": "play"
     },
     {
       "id": "catalog_play_xylophone",
@@ -4471,7 +4576,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "orange",
-      "style": 1
+      "style": 1,
+      "decor": "play"
     },
     {
       "id": "catalog_stage_curtain",
@@ -4484,7 +4590,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "purple",
-      "style": 2
+      "style": 2,
+      "decor": "play"
     },
     {
       "id": "catalog_stage_dance_pad",
@@ -4497,7 +4604,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "pink",
-      "style": 0
+      "style": 0,
+      "decor": "play"
     },
     {
       "id": "catalog_stage_music_stand",
@@ -4510,7 +4618,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "red",
-      "style": 1
+      "style": 1,
+      "decor": "play"
     },
     {
       "id": "catalog_stage_speakers",
@@ -4523,7 +4632,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "blue",
-      "style": 2
+      "style": 2,
+      "decor": "play"
     },
     {
       "id": "catalog_stage_spotlight",
@@ -4536,7 +4646,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "yellow",
-      "style": 0
+      "style": 0,
+      "decor": "lights"
     },
     {
       "id": "catalog_art_crystal_rainbow",
@@ -4549,7 +4660,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "green",
-      "style": 1
+      "style": 1,
+      "decor": "crystals"
     },
     {
       "id": "catalog_art_easel_rainbow",
@@ -4562,7 +4674,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "orange",
-      "style": 2
+      "style": 2,
+      "decor": "play"
     },
     {
       "id": "catalog_art_paint_bowl_rainbow",
@@ -4575,7 +4688,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "purple",
-      "style": 0
+      "style": 0,
+      "decor": "play"
     },
     {
       "id": "catalog_art_paintbrush_rainbow",
@@ -4588,7 +4702,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "pink",
-      "style": 1
+      "style": 1,
+      "decor": "play"
     },
     {
       "id": "catalog_music_handbells",
@@ -4601,7 +4716,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "red",
-      "style": 2
+      "style": 2,
+      "decor": "play"
     },
     {
       "id": "catalog_music_maracas",
@@ -4614,7 +4730,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "blue",
-      "style": 0
+      "style": 0,
+      "decor": "play"
     },
     {
       "id": "catalog_music_tambourine",
@@ -4627,7 +4744,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "yellow",
-      "style": 1
+      "style": 1,
+      "decor": "play"
     },
     {
       "id": "catalog_music_triangle",
@@ -4640,7 +4758,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "green",
-      "style": 2
+      "style": 2,
+      "decor": "play"
     },
     {
       "id": "catalog_music_jungle_trumpet",
@@ -4653,7 +4772,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "orange",
-      "style": 0
+      "style": 0,
+      "decor": "play"
     },
     {
       "id": "catalog_music_jungle_speaker",
@@ -4666,7 +4786,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "purple",
-      "style": 1
+      "style": 1,
+      "decor": "play"
     },
     {
       "id": "catalog_picnic_fruit_crate",
@@ -4679,7 +4800,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "pink",
-      "style": 2
+      "style": 2,
+      "decor": "adventure"
     },
     {
       "id": "catalog_picnic_veg_basket",
@@ -4692,7 +4814,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "red",
-      "style": 0
+      "style": 0,
+      "decor": "adventure"
     },
     {
       "id": "catalog_picnic_cookies_muffin",
@@ -4705,7 +4828,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "blue",
-      "style": 1
+      "style": 1,
+      "decor": "adventure"
     },
     {
       "id": "catalog_picnic_sandwich",
@@ -4718,7 +4842,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "yellow",
-      "style": 2
+      "style": 2,
+      "decor": "adventure"
     },
     {
       "id": "catalog_dino_nest_leaf",
@@ -4731,7 +4856,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "green",
-      "style": 0
+      "style": 0,
+      "decor": "plants"
     },
     {
       "id": "catalog_literacy_book_lectern",
@@ -4744,7 +4870,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "orange",
-      "style": 1
+      "style": 1,
+      "decor": "adventure"
     },
     {
       "id": "catalog_literacy_moon_sleepy_pedestal",
@@ -4757,7 +4884,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "purple",
-      "style": 2
+      "style": 2,
+      "decor": "magic"
     },
     {
       "id": "catalog_literacy_star_happy_pedestal",
@@ -4770,7 +4898,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "pink",
-      "style": 0
+      "style": 0,
+      "decor": "magic"
     },
     {
       "id": "catalog_books_book_blue",
@@ -4783,7 +4912,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "red",
-      "style": 1
+      "style": 1,
+      "decor": "adventure"
     },
     {
       "id": "catalog_books_book_green",
@@ -4796,7 +4926,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "blue",
-      "style": 2
+      "style": 2,
+      "decor": "adventure"
     },
     {
       "id": "catalog_books_book_red",
@@ -4809,7 +4940,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "yellow",
-      "style": 0
+      "style": 0,
+      "decor": "adventure"
     },
     {
       "id": "catalog_books_quill_magic",
@@ -4822,7 +4954,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "green",
-      "style": 1
+      "style": 1,
+      "decor": "magic"
     },
     {
       "id": "catalog_reward_chest_star",
@@ -4835,7 +4968,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "orange",
-      "style": 2
+      "style": 2,
+      "decor": "magic"
     },
     {
       "id": "catalog_reward_star_globe",
@@ -4848,7 +4982,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "purple",
-      "style": 0
+      "style": 0,
+      "decor": "magic"
     },
     {
       "id": "catalog_reward_egg_pedestal",
@@ -4861,7 +4996,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "pink",
-      "style": 1
+      "style": 1,
+      "decor": "adventure"
     },
     {
       "id": "catalog_podiums_banner_stars",
@@ -4874,7 +5010,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "red",
-      "style": 2
+      "style": 2,
+      "decor": "magic"
     },
     {
       "id": "catalog_podiums_bow_star_ribbons",
@@ -4887,7 +5024,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "blue",
-      "style": 0
+      "style": 0,
+      "decor": "magic"
     },
     {
       "id": "catalog_podiums_garland_stars",
@@ -4900,7 +5038,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "yellow",
-      "style": 1
+      "style": 1,
+      "decor": "magic"
     },
     {
       "id": "catalog_space_base_alarm_light",
@@ -4913,7 +5052,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "green",
-      "style": 2
+      "style": 2,
+      "decor": "lights"
     },
     {
       "id": "catalog_space_base_antenna_tower",
@@ -4926,7 +5066,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "orange",
-      "style": 0
+      "style": 0,
+      "decor": "adventure"
     },
     {
       "id": "catalog_space_base_dish_satellite",
@@ -4939,7 +5080,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "purple",
-      "style": 1
+      "style": 1,
+      "decor": "adventure"
     },
     {
       "id": "catalog_space_base_light_tower",
@@ -4952,7 +5094,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "pink",
-      "style": 2
+      "style": 2,
+      "decor": "lights"
     },
     {
       "id": "catalog_space_base_radio_tower",
@@ -4965,7 +5108,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "red",
-      "style": 0
+      "style": 0,
+      "decor": "adventure"
     },
     {
       "id": "catalog_space_base_solar_panel",
@@ -4978,7 +5122,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "blue",
-      "style": 1
+      "style": 1,
+      "decor": "adventure"
     },
     {
       "id": "catalog_space_base_landing_pad",
@@ -4991,7 +5136,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "yellow",
-      "style": 2
+      "style": 2,
+      "decor": "adventure"
     },
     {
       "id": "catalog_space_base_charging_pod",
@@ -5004,7 +5150,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "green",
-      "style": 0
+      "style": 0,
+      "decor": "adventure"
     },
     {
       "id": "catalog_space_base_seat_astronaut",
@@ -5017,7 +5164,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "orange",
-      "style": 1
+      "style": 1,
+      "decor": "adventure"
     },
     {
       "id": "catalog_space_base_meteor_glow",
@@ -5030,7 +5178,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "purple",
-      "style": 2
+      "style": 2,
+      "decor": "crystals"
     },
     {
       "id": "catalog_space_telescope",
@@ -5043,7 +5192,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "pink",
-      "style": 0
+      "style": 0,
+      "decor": "adventure"
     },
     {
       "id": "catalog_space_planet_ringed",
@@ -5056,7 +5206,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "red",
-      "style": 1
+      "style": 1,
+      "decor": "adventure"
     },
     {
       "id": "catalog_space_satellite",
@@ -5069,7 +5220,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "blue",
-      "style": 2
+      "style": 2,
+      "decor": "adventure"
     },
     {
       "id": "catalog_town_bench_park",
@@ -5082,7 +5234,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "yellow",
-      "style": 0
+      "style": 0,
+      "decor": "houses"
     },
     {
       "id": "catalog_town_bike_rack",
@@ -5095,7 +5248,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "green",
-      "style": 1
+      "style": 1,
+      "decor": "adventure"
     },
     {
       "id": "catalog_town_bin",
@@ -5108,7 +5262,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "orange",
-      "style": 2
+      "style": 2,
+      "decor": "adventure"
     },
     {
       "id": "catalog_town_info_pillar",
@@ -5121,7 +5276,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "purple",
-      "style": 0
+      "style": 0,
+      "decor": "adventure"
     },
     {
       "id": "catalog_town_fountain_town",
@@ -5134,7 +5290,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "pink",
-      "style": 1
+      "style": 1,
+      "decor": "magic"
     },
     {
       "id": "catalog_town_street_lamp",
@@ -5147,7 +5304,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "red",
-      "style": 2
+      "style": 2,
+      "decor": "lights"
     },
     {
       "id": "catalog_town_fire_hydrant",
@@ -5160,7 +5318,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "blue",
-      "style": 0
+      "style": 0,
+      "decor": "adventure"
     },
     {
       "id": "catalog_town_post_box",
@@ -5173,7 +5332,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "yellow",
-      "style": 1
+      "style": 1,
+      "decor": "adventure"
     },
     {
       "id": "catalog_town_traffic_light",
@@ -5186,7 +5346,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "green",
-      "style": 2
+      "style": 2,
+      "decor": "lights"
     },
     {
       "id": "catalog_town_sign_stop",
@@ -5199,7 +5360,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "orange",
-      "style": 0
+      "style": 0,
+      "decor": "adventure"
     },
     {
       "id": "catalog_number_stone_1",
@@ -5212,7 +5374,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "purple",
-      "style": 1
+      "style": 1,
+      "decor": "crystals"
     },
     {
       "id": "catalog_number_stone_2",
@@ -5225,7 +5388,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "pink",
-      "style": 2
+      "style": 2,
+      "decor": "crystals"
     },
     {
       "id": "catalog_number_stone_3",
@@ -5238,7 +5402,8 @@
       "catalog": true,
       "starCost": 2,
       "color": "red",
-      "style": 0
+      "style": 0,
+      "decor": "crystals"
     },
     {
       "id": "catalog_house_bakery",
@@ -5842,6 +6007,664 @@
       "color": "green",
       "style": 0,
       "season": "winter"
+    },
+    {
+      "id": "decor_wishing_well",
+      "type": "decorations",
+      "name": "Wishing Well",
+      "world": "island",
+      "voice": "You found Wishing Well!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "color": "purple",
+      "style": 0,
+      "decor": "magic"
+    },
+    {
+      "id": "decor_fountain_star",
+      "type": "decorations",
+      "name": "Star Fountain",
+      "world": "island",
+      "voice": "You found Star Fountain!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 3,
+      "color": "blue",
+      "style": 1,
+      "decor": "magic"
+    },
+    {
+      "id": "decor_star_globe_spinner",
+      "type": "decorations",
+      "name": "Star Globe Spinner",
+      "world": "island",
+      "voice": "You found Star Globe Spinner!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "color": "yellow",
+      "style": 2,
+      "decor": "magic"
+    },
+    {
+      "id": "decor_bubble_machine",
+      "type": "decorations",
+      "name": "Bubble Machine",
+      "world": "island",
+      "voice": "You found Bubble Machine!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "color": "green",
+      "style": 3,
+      "decor": "magic"
+    },
+    {
+      "id": "decor_slide_rainbow",
+      "type": "decorations",
+      "name": "Rainbow Slide",
+      "world": "island",
+      "voice": "You found Rainbow Slide!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 3,
+      "color": "pink",
+      "style": 0,
+      "decor": "play"
+    },
+    {
+      "id": "decor_swing_cloud",
+      "type": "decorations",
+      "name": "Cloud Swing",
+      "world": "island",
+      "voice": "You found Cloud Swing!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "color": "orange",
+      "style": 1,
+      "decor": "play"
+    },
+    {
+      "id": "decor_seesaw_stars",
+      "type": "decorations",
+      "name": "Star Seesaw",
+      "world": "island",
+      "voice": "You found Star Seesaw!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "color": "purple",
+      "style": 2,
+      "decor": "play"
+    },
+    {
+      "id": "decor_trampoline_mushroom",
+      "type": "decorations",
+      "name": "Mushroom Trampoline",
+      "world": "island",
+      "voice": "You found Mushroom Trampoline!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 3,
+      "color": "blue",
+      "style": 3,
+      "decor": "play"
+    },
+    {
+      "id": "decor_climbing_dome_glow",
+      "type": "decorations",
+      "name": "Glow Climbing Dome",
+      "world": "island",
+      "voice": "You found Glow Climbing Dome!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "color": "yellow",
+      "style": 0,
+      "decor": "play"
+    },
+    {
+      "id": "decor_sandpit_star",
+      "type": "decorations",
+      "name": "Star Sandpit",
+      "world": "island",
+      "voice": "You found Star Sandpit!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "color": "green",
+      "style": 1,
+      "decor": "play"
+    },
+    {
+      "id": "decor_mushroom_lamp",
+      "type": "decorations",
+      "name": "Mushroom Lamp",
+      "world": "island",
+      "voice": "You found Mushroom Lamp!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 3,
+      "color": "pink",
+      "style": 2,
+      "decor": "lights"
+    },
+    {
+      "id": "decor_lamp_crystal",
+      "type": "decorations",
+      "name": "Crystal Lamp",
+      "world": "island",
+      "voice": "You found Crystal Lamp!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "color": "orange",
+      "style": 3,
+      "decor": "lights"
+    },
+    {
+      "id": "decor_tree_fairy_lights",
+      "type": "decorations",
+      "name": "Fairy Light Tree",
+      "world": "island",
+      "voice": "You found Fairy Light Tree!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "color": "purple",
+      "style": 0,
+      "decor": "lights"
+    },
+    {
+      "id": "decor_crystal_rainbow_cluster",
+      "type": "decorations",
+      "name": "Rainbow Crystals",
+      "world": "island",
+      "voice": "You found Rainbow Crystals!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 3,
+      "color": "blue",
+      "style": 1,
+      "decor": "crystals"
+    },
+    {
+      "id": "decor_rock_star",
+      "type": "decorations",
+      "name": "Star Rock",
+      "world": "island",
+      "voice": "You found Star Rock!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "color": "yellow",
+      "style": 2,
+      "decor": "crystals"
+    },
+    {
+      "id": "decor_rock_moon",
+      "type": "decorations",
+      "name": "Moon Rock",
+      "world": "island",
+      "voice": "You found Moon Rock!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "color": "green",
+      "style": 3,
+      "decor": "crystals"
+    },
+    {
+      "id": "decor_crystal_cave_blue",
+      "type": "decorations",
+      "name": "Blue Crystal Cave",
+      "world": "island",
+      "voice": "You found Blue Crystal Cave!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 3,
+      "color": "pink",
+      "style": 0,
+      "decor": "crystals"
+    },
+    {
+      "id": "decor_rock_spiral_moss",
+      "type": "decorations",
+      "name": "Mossy Spiral Rock",
+      "world": "island",
+      "voice": "You found Mossy Spiral Rock!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "color": "orange",
+      "style": 1,
+      "decor": "crystals"
+    },
+    {
+      "id": "decor_geode_rainbow",
+      "type": "decorations",
+      "name": "Rainbow Geode",
+      "world": "island",
+      "voice": "You found Rainbow Geode!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "color": "purple",
+      "style": 2,
+      "decor": "crystals"
+    },
+    {
+      "id": "decor_tree_blossom_magic",
+      "type": "decorations",
+      "name": "Magic Blossom Tree",
+      "world": "island",
+      "voice": "You found Magic Blossom Tree!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 3,
+      "color": "blue",
+      "style": 3,
+      "decor": "trees"
+    },
+    {
+      "id": "decor_tree_fruit_rainbow",
+      "type": "decorations",
+      "name": "Rainbow Fruit Tree",
+      "world": "island",
+      "voice": "You found Rainbow Fruit Tree!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "color": "yellow",
+      "style": 0,
+      "decor": "trees"
+    },
+    {
+      "id": "decor_tree_star",
+      "type": "decorations",
+      "name": "Star Tree",
+      "world": "island",
+      "voice": "You found Star Tree!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "color": "green",
+      "style": 1,
+      "decor": "trees"
+    },
+    {
+      "id": "decor_tree_crystal",
+      "type": "decorations",
+      "name": "Crystal Tree",
+      "world": "island",
+      "voice": "You found Crystal Tree!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 3,
+      "color": "pink",
+      "style": 2,
+      "decor": "trees"
+    },
+    {
+      "id": "decor_tree_mushroom_giant",
+      "type": "decorations",
+      "name": "Giant Mushroom",
+      "world": "island",
+      "voice": "You found Giant Mushroom!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "color": "orange",
+      "style": 3,
+      "decor": "trees"
+    },
+    {
+      "id": "decor_path_rainbow",
+      "type": "decorations",
+      "name": "Rainbow Path",
+      "world": "island",
+      "voice": "You found Rainbow Path!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "color": "purple",
+      "style": 0,
+      "decor": "paths"
+    },
+    {
+      "id": "decor_bridge_wood",
+      "type": "decorations",
+      "name": "Wooden Bridge",
+      "world": "island",
+      "voice": "You found Wooden Bridge!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 3,
+      "color": "blue",
+      "style": 1,
+      "decor": "paths"
+    },
+    {
+      "id": "decor_bridge_crystal",
+      "type": "decorations",
+      "name": "Crystal Bridge",
+      "world": "island",
+      "voice": "You found Crystal Bridge!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "color": "yellow",
+      "style": 2,
+      "decor": "paths"
+    },
+    {
+      "id": "decor_stepping_stones_flower",
+      "type": "decorations",
+      "name": "Flower Stones",
+      "world": "island",
+      "voice": "You found Flower Stones!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "color": "green",
+      "style": 3,
+      "decor": "paths"
+    },
+    {
+      "id": "decor_house_flower",
+      "type": "decorations",
+      "name": "Flower House",
+      "world": "island",
+      "voice": "You found Flower House!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 3,
+      "color": "pink",
+      "style": 0,
+      "decor": "houses"
+    },
+    {
+      "id": "decor_house_mushroom",
+      "type": "decorations",
+      "name": "Mushroom House",
+      "world": "island",
+      "voice": "You found Mushroom House!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "color": "orange",
+      "style": 1,
+      "decor": "houses"
+    },
+    {
+      "id": "decor_den_rainbow",
+      "type": "decorations",
+      "name": "Rainbow Den",
+      "world": "island",
+      "voice": "You found Rainbow Den!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "color": "purple",
+      "style": 2,
+      "decor": "houses"
+    },
+    {
+      "id": "decor_house_tree_stump",
+      "type": "decorations",
+      "name": "Tree Stump House",
+      "world": "island",
+      "voice": "You found Tree Stump House!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 3,
+      "color": "blue",
+      "style": 3,
+      "decor": "houses"
+    },
+    {
+      "id": "decor_fern_glow",
+      "type": "decorations",
+      "name": "Glow Fern",
+      "world": "island",
+      "voice": "You found Glow Fern!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "color": "yellow",
+      "style": 0,
+      "decor": "plants"
+    },
+    {
+      "id": "decor_grass_rainbow",
+      "type": "decorations",
+      "name": "Rainbow Grass",
+      "world": "island",
+      "voice": "You found Rainbow Grass!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "color": "green",
+      "style": 1,
+      "decor": "plants"
+    },
+    {
+      "id": "decor_flowers_crystal",
+      "type": "decorations",
+      "name": "Crystal Flowers",
+      "world": "island",
+      "voice": "You found Crystal Flowers!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 3,
+      "color": "pink",
+      "style": 2,
+      "decor": "plants"
+    },
+    {
+      "id": "decor_beanstalk",
+      "type": "decorations",
+      "name": "Beanstalk",
+      "world": "island",
+      "voice": "You found Beanstalk!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "color": "orange",
+      "style": 3,
+      "decor": "plants"
+    },
+    {
+      "id": "decor_flowers_moon",
+      "type": "decorations",
+      "name": "Moon Flowers",
+      "world": "island",
+      "voice": "You found Moon Flowers!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "color": "purple",
+      "style": 0,
+      "decor": "plants"
+    },
+    {
+      "id": "decor_treasure_chest_gold",
+      "type": "decorations",
+      "name": "Gold Treasure Chest",
+      "world": "island",
+      "voice": "You found Gold Treasure Chest!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 3,
+      "color": "blue",
+      "style": 1,
+      "decor": "adventure"
+    },
+    {
+      "id": "decor_portal_stone",
+      "type": "decorations",
+      "name": "Stone Portal",
+      "world": "island",
+      "voice": "You found Stone Portal!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "color": "yellow",
+      "style": 2,
+      "decor": "adventure"
+    },
+    {
+      "id": "decor_signpost_beach",
+      "type": "decorations",
+      "name": "Beach Signpost",
+      "world": "island",
+      "voice": "You found Beach Signpost!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "color": "green",
+      "style": 3,
+      "decor": "adventure"
+    },
+    {
+      "id": "decor_telescope_deck",
+      "type": "decorations",
+      "name": "Telescope Deck",
+      "world": "island",
+      "voice": "You found Telescope Deck!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 3,
+      "color": "pink",
+      "style": 0,
+      "decor": "adventure"
+    },
+    {
+      "id": "decor_gazebo_picnic",
+      "type": "decorations",
+      "name": "Picnic Gazebo",
+      "world": "island",
+      "voice": "You found Picnic Gazebo!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 4,
+      "color": "orange",
+      "style": 1,
+      "decor": "adventure"
+    },
+    {
+      "id": "decor_stage_tiki",
+      "type": "decorations",
+      "name": "Tiki Stage",
+      "world": "island",
+      "voice": "You found Tiki Stage!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "color": "purple",
+      "style": 2,
+      "decor": "adventure"
+    },
+    {
+      "id": "decor_moon_crystal_sleepy",
+      "type": "decorations",
+      "name": "Sleepy Moon Crystal",
+      "world": "island",
+      "voice": "You found Sleepy Moon Crystal!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "color": "purple",
+      "style": 0,
+      "decor": "crystals"
+    },
+    {
+      "id": "decor_signpost_three",
+      "type": "decorations",
+      "name": "Three-Way Signpost",
+      "world": "island",
+      "voice": "You found Three-Way Signpost!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "color": "purple",
+      "style": 0,
+      "decor": "adventure"
+    },
+    {
+      "id": "decor_star_trophy_happy",
+      "type": "decorations",
+      "name": "Happy Star Trophy",
+      "world": "island",
+      "voice": "You found Happy Star Trophy!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "color": "purple",
+      "style": 0,
+      "decor": "magic"
+    },
+    {
+      "id": "decor_pink_flowers",
+      "type": "decorations",
+      "name": "Pink Flowers",
+      "world": "island",
+      "voice": "You found Pink Flowers!",
+      "interaction": "Tap to make it sparkle.",
+      "stars": 0,
+      "catalog": true,
+      "starCost": 2,
+      "color": "purple",
+      "style": 0,
+      "decor": "plants"
     },
     {
       "id": "catalog_hat_chef",

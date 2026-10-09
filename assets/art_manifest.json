@@ -2672,6 +2672,30 @@
   "url": "./assets/rewards/star_globe.png"
  },
  {
+  "id": "rewards.trophies.arch_rainbow_stars",
+  "url": "./assets/rewards/trophies/arch_rainbow_stars.png"
+ },
+ {
+  "id": "rewards.trophies.pedestal_crystal",
+  "url": "./assets/rewards/trophies/pedestal_crystal.png"
+ },
+ {
+  "id": "rewards.trophies.podium_star",
+  "url": "./assets/rewards/trophies/podium_star.png"
+ },
+ {
+  "id": "rewards.trophies.trophy_bronze",
+  "url": "./assets/rewards/trophies/trophy_bronze.png"
+ },
+ {
+  "id": "rewards.trophies.trophy_gold",
+  "url": "./assets/rewards/trophies/trophy_gold.png"
+ },
+ {
+  "id": "rewards.trophies.trophy_silver",
+  "url": "./assets/rewards/trophies/trophy_silver.png"
+ },
+ {
   "id": "ui.btn_close",
   "url": "./assets/ui/btn_close.png"
  },
@@ -3242,6 +3266,222 @@
  {
   "id": "worlds.house_parts.window_triangle",
   "url": "./assets/worlds/house_parts/window_triangle.png"
+ },
+ {
+  "id": "worlds.island_decor.adventure.gazebo_picnic",
+  "url": "./assets/worlds/island_decor/adventure/gazebo_picnic.png"
+ },
+ {
+  "id": "worlds.island_decor.adventure.portal_stone",
+  "url": "./assets/worlds/island_decor/adventure/portal_stone.png"
+ },
+ {
+  "id": "worlds.island_decor.adventure.signpost_beach",
+  "url": "./assets/worlds/island_decor/adventure/signpost_beach.png"
+ },
+ {
+  "id": "worlds.island_decor.adventure.stage_tiki",
+  "url": "./assets/worlds/island_decor/adventure/stage_tiki.png"
+ },
+ {
+  "id": "worlds.island_decor.adventure.telescope_deck",
+  "url": "./assets/worlds/island_decor/adventure/telescope_deck.png"
+ },
+ {
+  "id": "worlds.island_decor.adventure.treasure_chest_gold",
+  "url": "./assets/worlds/island_decor/adventure/treasure_chest_gold.png"
+ },
+ {
+  "id": "worlds.island_decor.crystals.crystal_cave_blue",
+  "url": "./assets/worlds/island_decor/crystals/crystal_cave_blue.png"
+ },
+ {
+  "id": "worlds.island_decor.crystals.crystal_rainbow_cluster",
+  "url": "./assets/worlds/island_decor/crystals/crystal_rainbow_cluster.png"
+ },
+ {
+  "id": "worlds.island_decor.crystals.geode_rainbow",
+  "url": "./assets/worlds/island_decor/crystals/geode_rainbow.png"
+ },
+ {
+  "id": "worlds.island_decor.crystals.rock_moon",
+  "url": "./assets/worlds/island_decor/crystals/rock_moon.png"
+ },
+ {
+  "id": "worlds.island_decor.crystals.rock_spiral_moss",
+  "url": "./assets/worlds/island_decor/crystals/rock_spiral_moss.png"
+ },
+ {
+  "id": "worlds.island_decor.crystals.rock_star",
+  "url": "./assets/worlds/island_decor/crystals/rock_star.png"
+ },
+ {
+  "id": "worlds.island_decor.houses.den_rainbow",
+  "url": "./assets/worlds/island_decor/houses/den_rainbow.png"
+ },
+ {
+  "id": "worlds.island_decor.houses.gazebo_crystal",
+  "url": "./assets/worlds/island_decor/houses/gazebo_crystal.png"
+ },
+ {
+  "id": "worlds.island_decor.houses.house_flower",
+  "url": "./assets/worlds/island_decor/houses/house_flower.png"
+ },
+ {
+  "id": "worlds.island_decor.houses.house_mushroom",
+  "url": "./assets/worlds/island_decor/houses/house_mushroom.png"
+ },
+ {
+  "id": "worlds.island_decor.houses.house_tree_stump",
+  "url": "./assets/worlds/island_decor/houses/house_tree_stump.png"
+ },
+ {
+  "id": "worlds.island_decor.houses.tower_wizard",
+  "url": "./assets/worlds/island_decor/houses/tower_wizard.png"
+ },
+ {
+  "id": "worlds.island_decor.lights.jar_firefly",
+  "url": "./assets/worlds/island_decor/lights/jar_firefly.png"
+ },
+ {
+  "id": "worlds.island_decor.lights.lamp_crystal",
+  "url": "./assets/worlds/island_decor/lights/lamp_crystal.png"
+ },
+ {
+  "id": "worlds.island_decor.lights.lamp_moon",
+  "url": "./assets/worlds/island_decor/lights/lamp_moon.png"
+ },
+ {
+  "id": "worlds.island_decor.lights.lamp_star",
+  "url": "./assets/worlds/island_decor/lights/lamp_star.png"
+ },
+ {
+  "id": "worlds.island_decor.lights.mushroom_lamp",
+  "url": "./assets/worlds/island_decor/lights/mushroom_lamp.png"
+ },
+ {
+  "id": "worlds.island_decor.lights.tree_fairy_lights",
+  "url": "./assets/worlds/island_decor/lights/tree_fairy_lights.png"
+ },
+ {
+  "id": "worlds.island_decor.magic.bubble_machine",
+  "url": "./assets/worlds/island_decor/magic/bubble_machine.png"
+ },
+ {
+  "id": "worlds.island_decor.magic.flower_music",
+  "url": "./assets/worlds/island_decor/magic/flower_music.png"
+ },
+ {
+  "id": "worlds.island_decor.magic.fountain_star",
+  "url": "./assets/worlds/island_decor/magic/fountain_star.png"
+ },
+ {
+  "id": "worlds.island_decor.magic.star_globe_spinner",
+  "url": "./assets/worlds/island_decor/magic/star_globe_spinner.png"
+ },
+ {
+  "id": "worlds.island_decor.magic.windmill_rainbow",
+  "url": "./assets/worlds/island_decor/magic/windmill_rainbow.png"
+ },
+ {
+  "id": "worlds.island_decor.magic.wishing_well",
+  "url": "./assets/worlds/island_decor/magic/wishing_well.png"
+ },
+ {
+  "id": "worlds.island_decor.paths.bridge_crystal",
+  "url": "./assets/worlds/island_decor/paths/bridge_crystal.png"
+ },
+ {
+  "id": "worlds.island_decor.paths.bridge_wood",
+  "url": "./assets/worlds/island_decor/paths/bridge_wood.png"
+ },
+ {
+  "id": "worlds.island_decor.paths.path_rainbow",
+  "url": "./assets/worlds/island_decor/paths/path_rainbow.png"
+ },
+ {
+  "id": "worlds.island_decor.paths.stepping_stones_flower",
+  "url": "./assets/worlds/island_decor/paths/stepping_stones_flower.png"
+ },
+ {
+  "id": "worlds.island_decor.paths.stepping_stones_grey",
+  "url": "./assets/worlds/island_decor/paths/stepping_stones_grey.png"
+ },
+ {
+  "id": "worlds.island_decor.paths.stepping_stones_star",
+  "url": "./assets/worlds/island_decor/paths/stepping_stones_star.png"
+ },
+ {
+  "id": "worlds.island_decor.plants.beanstalk",
+  "url": "./assets/worlds/island_decor/plants/beanstalk.png"
+ },
+ {
+  "id": "worlds.island_decor.plants.fern_glow",
+  "url": "./assets/worlds/island_decor/plants/fern_glow.png"
+ },
+ {
+  "id": "worlds.island_decor.plants.flowers_crystal",
+  "url": "./assets/worlds/island_decor/plants/flowers_crystal.png"
+ },
+ {
+  "id": "worlds.island_decor.plants.flowers_moon",
+  "url": "./assets/worlds/island_decor/plants/flowers_moon.png"
+ },
+ {
+  "id": "worlds.island_decor.plants.flowers_star",
+  "url": "./assets/worlds/island_decor/plants/flowers_star.png"
+ },
+ {
+  "id": "worlds.island_decor.plants.grass_rainbow",
+  "url": "./assets/worlds/island_decor/plants/grass_rainbow.png"
+ },
+ {
+  "id": "worlds.island_decor.play.climbing_dome_glow",
+  "url": "./assets/worlds/island_decor/play/climbing_dome_glow.png"
+ },
+ {
+  "id": "worlds.island_decor.play.sandpit_star",
+  "url": "./assets/worlds/island_decor/play/sandpit_star.png"
+ },
+ {
+  "id": "worlds.island_decor.play.seesaw_stars",
+  "url": "./assets/worlds/island_decor/play/seesaw_stars.png"
+ },
+ {
+  "id": "worlds.island_decor.play.slide_rainbow",
+  "url": "./assets/worlds/island_decor/play/slide_rainbow.png"
+ },
+ {
+  "id": "worlds.island_decor.play.swing_cloud",
+  "url": "./assets/worlds/island_decor/play/swing_cloud.png"
+ },
+ {
+  "id": "worlds.island_decor.play.trampoline_mushroom",
+  "url": "./assets/worlds/island_decor/play/trampoline_mushroom.png"
+ },
+ {
+  "id": "worlds.island_decor.trees.tree_blossom_magic",
+  "url": "./assets/worlds/island_decor/trees/tree_blossom_magic.png"
+ },
+ {
+  "id": "worlds.island_decor.trees.tree_crystal",
+  "url": "./assets/worlds/island_decor/trees/tree_crystal.png"
+ },
+ {
+  "id": "worlds.island_decor.trees.tree_fruit_rainbow",
+  "url": "./assets/worlds/island_decor/trees/tree_fruit_rainbow.png"
+ },
+ {
+  "id": "worlds.island_decor.trees.tree_lanterns",
+  "url": "./assets/worlds/island_decor/trees/tree_lanterns.png"
+ },
+ {
+  "id": "worlds.island_decor.trees.tree_mushroom_giant",
+  "url": "./assets/worlds/island_decor/trees/tree_mushroom_giant.png"
+ },
+ {
+  "id": "worlds.island_decor.trees.tree_star",
+  "url": "./assets/worlds/island_decor/trees/tree_star.png"
  },
  {
   "id": "worlds.island_waterfall",

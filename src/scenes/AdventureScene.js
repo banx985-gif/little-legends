@@ -3,7 +3,7 @@ import { HintController } from '../hints/HintController.js';
 import { drawActivityBackground, drawInstructionPanel, drawToken, drawActivityAmbient } from '../activities/activityDraw.js';
 import { drawCandyButton, drawSpeechBubble, wrapLines } from '../utils/draw.js';
 import { EGG_STATES } from '../rewards/EggSystem.js';
-import { drawArt, characterArt, hatchTheme, worldTheme, dragonForWorld } from '../core/art.js';
+import { drawArt, characterArt, hatchTheme, worldTheme, dragonForWorld, artMap } from '../core/art.js';
 import { HatchSequence } from '../fx/HatchSequence.js';
 import { HoldToLeave } from '../ui/HoldToLeave.js';
 import { ActivityScene } from './ActivityScene.js';
@@ -202,7 +202,15 @@ export class AdventureScene {
     if(this.completedStep||['story','egg'].includes(this.step.kind))this.drawContinue(ctx,this.step.kind==='place'&&this.completedStep?'HOME':'CONTINUE');
   }
 
-  renderStory(ctx){ctx.fillStyle='#ffffffcc';ctx.beginPath();ctx.roundRect(560,360,780,250,70);ctx.fill();ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='900 54px system-ui';ctx.fillText(this.step.title??this.definition.title,950,465);ctx.font='700 32px system-ui';const fallback={space:'Pip is ready for take-off!',town:'Busy Town needs a helper!',rainbow:'Octo needs our help!',animal:'Bella found an animal mystery!',storybook:'Luna has a story for us!',life:'Bella is ready for today!',dino:'Rory needs our help.'}[this.definition.world]??'Let’s help!';const detail=this.step.voice??fallback;const lines=wrapLines(ctx,detail,720,2);lines.forEach((line,i)=>ctx.fillText(line,950,lines.length>1?520+i*42:535,740));} // whole sentence on up to two lines (it used to be cut off with …)
+  renderStory(ctx){ctx.fillStyle='#ffffffcc';ctx.beginPath();ctx.roundRect(560,360,780,250,70);ctx.fill();ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='900 54px system-ui';ctx.fillText(this.step.title??this.definition.title,950,465);ctx.font='700 32px system-ui';const fallback={space:'Pip is ready for take-off!',town:'Busy Town needs a helper!',rainbow:'Octo needs our help!',animal:'Bella found an animal mystery!',storybook:'Luna has a story for us!',life:'Bella is ready for today!',dino:'Rory needs our help.'}[this.definition.world]??'Let’s help!';const detail=this.step.voice??fallback;const lines=wrapLines(ctx,detail,720,2);lines.forEach((line,i)=>ctx.fillText(line,950,lines.length>1?520+i*42:535,740));if(this.stepIndex>=this.definition.steps.length-1)this.drawTrophy(ctx);}
+  // Mission finished (Job 11): a bronze, silver or gold trophy on the star podium, by how much of the world is done.
+  // The world's last mission: the gold trophy on the crystal pedestal under the rainbow arch.
+  drawTrophy(ctx){const t=artMap()?.trophies;if(!t)return;const world=this.definition.world,missions=this.game.adventureEngine?.list?.().filter(a=>a.world===world)??[];if(!missions.length)return;
+    const done=new Set([...(this.game.save?.getProfileState?.()?.adventure?.completed??[]),this.definition.id]),n=missions.filter(m=>done.has(m.id)).length,complete=n>=missions.length;
+    const tier=complete?'gold':n*3>=missions.length*2?'gold':n*3>=missions.length?'silver':'bronze',rise=Math.min(1,(this.t??0)/.5);
+    // The star podium is a little winner's stage: the trophy stands in front of it. The crystal pedestal has a flat top: the trophy sits on it.
+    if(complete){drawArt(ctx,t.arch,950,875,440,330,{anchor:'bottom',alpha:rise});drawArt(ctx,t.pedestal,950,875,200,170,{anchor:'bottom',alpha:rise});drawArt(ctx,t.gold,950,792,120,135,{anchor:'bottom',alpha:rise});}
+    else{drawArt(ctx,t.podium,950,858,290,200,{anchor:'bottom',alpha:rise});drawArt(ctx,t[tier],950,880,125,145,{anchor:'bottom',alpha:rise});}} // whole sentence on up to two lines (it used to be cut off with …)
   drawHintDemonstration(ctx){ActivityScene.prototype.drawHintDemonstration.call(this,ctx);}
   // After two wrong taps the right answer glows softly.
   drawChoiceHint(ctx,x,y,w,h){if(this.stepMisses<MISSES_FOR_HINT||this.completedStep)return;ctx.save();ctx.globalAlpha=.55+Math.sin(this.t*5)*.25;ctx.strokeStyle='#fff7d0';ctx.lineWidth=16;ctx.beginPath();ctx.roundRect(x-14,y-14,w+28,h+28,56);ctx.stroke();ctx.restore();}

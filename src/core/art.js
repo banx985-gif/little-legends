@@ -226,6 +226,7 @@ async function artIdsForScene(game, name, data = {}) {
     const lastOne = game.adventureEngine.list().filter(a => a.world === adventure?.world && a.id !== adventure.id).every(a => done.includes(a.id));
     if (dragon && lastOne && !game.rewards?.isUnlocked?.(dragon.id)) ids.push(...hatchArtIds(hatchTheme(dragon.id, adventure?.world), dragon.id));
     const reward = map.rewards?.[adventure?.reward?.id]; if (reward) ids.push(reward);
+    ids.push(...['bronze', 'silver', 'gold', 'podium', 'arch', 'pedestal'].map(k => map.trophies?.[k])); // the mission-finish trophy
     // The reward egg (for the hatch steps, and so the island celebration has it ready on arrival).
     const rewardIsCreature = adventure?.reward?.type === 'creatures';
     if (rewardIsCreature || (adventure?.steps ?? []).some(step => step.kind === 'egg' || step.kind === 'hatch')) ids.push(...hatchArtIds(hatchTheme(adventure?.reward?.id, adventure?.world), adventure?.reward?.id));

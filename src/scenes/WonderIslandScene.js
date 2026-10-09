@@ -26,11 +26,13 @@ for(let y=450;y<=830;y+=95)for(let x=380;x<=1560;x+=118)if(!(x>780&&x<1140&&y<69
 function overlap(a,b){const w=Math.min(a.x+a.w/2,b.x+b.w/2)-Math.max(a.x-a.w/2,b.x-b.w/2),h=Math.min(a.y+a.h/2,b.y+b.h/2)-Math.max(a.y-a.h/2,b.y-b.h/2);return w>0&&h>0?w*h/(a.w*a.h):0;}
 // Rewards keep the spot the child moved them to. Otherwise, if their usual place is mostly covered by something
 // already on the island, they go to the nearest free spot so a full island doesn't become one pile.
+// The portal and Pip's house are drawn, not objects: rewards never land on them (Job 11: the Story Tree sat in the portal).
+const FIXED_PLACES=[{x:960,y:470,w:300,h:390,fixed:true},{x:1585,y:512,w:370,h:340,fixed:true}];
 function spreadOut(objects,placements){
-  const placed=[];
+  const placed=[...FIXED_PLACES];
   for(const o of objects){
     if(placements[o.id]||o.base){placed.push(o);continue;}
-    if(placed.some(p=>overlap(o,p)>.35)){
+    if(placed.some(p=>overlap(o,p)>(p.fixed?.2:.35))){
       const free=FREE_SPOTS.map(([x,y])=>({x,y,d:Math.hypot(x-o.x,y-o.y)})).filter(c=>!placed.some(p=>overlap({...o,x:c.x,y:c.y},p)>.18)).sort((a,b)=>a.d-b.d)[0];
       if(free){o.x=free.x;o.y=free.y;}
     }
@@ -73,8 +75,8 @@ export class WonderIslandScene {
     for(const reward of this.game.rewards?.list?.()??[]){
       if(known.has(reward.id)||reward.island||!reward.catalog||reward.type==='cosmetics')continue;
       if(!(state?.unlocks?.[reward.type]??[]).includes(reward.id))continue;
-      const [x,y]=CATALOG_SPOTS[spot++%CATALOG_SPOTS.length];
-      this.objects.push({id:reward.id,type:'catalog_item',x,y,w:reward.type==='buildings'?190:140,h:reward.type==='buildings'?170:130,zone:'decoration',name:reward.name,color:reward.color,label:reward.name,...(placements[reward.id]??{})});known.add(reward.id);
+      const [x,y]=CATALOG_SPOTS[spot++%CATALOG_SPOTS.length],big=reward.type==='buildings'||['houses','trees'].includes(reward.decor); // houses and trees stand a bit taller
+      this.objects.push({id:reward.id,type:'catalog_item',x,y,w:big?190:140,h:big?170:130,zone:'decoration',name:reward.name,color:reward.color,label:reward.name,...(placements[reward.id]??{})});known.add(reward.id);
     }
     // Pieces the child built in MOVE THINGS mode.
     const pieces=artMap()?.islandBuild?.pieces??{};

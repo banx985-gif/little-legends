@@ -153,7 +153,10 @@ The game keeps Pip's spoken words or the synth tones there. Recorded voice lines
   - **To make sure Jobs 13–14 didn't slow anything down,** I ran the Job 12 build and this build side by side, Lite mode, CPU 4× slower, twice each.
     - The island draws *faster* now: p95 8–10 ms against 16–39 ms (fewer things on it).
     - The Collection and the world hubs are about the same (13–29 ms against 12–82 ms, all noisy).
-  - **Please run `npm run qa:release -- --only=lite` once with Unity and WSL closed,** and look at the picture-stats overlay on the real tablet. The Job 10 runs on a quiet PC passed with plenty of room.
+  - **Re-run with Unity and WSL closed (10 Oct): PASS, nothing needed fixing.**
+    - Every one of the 20 screens needs at most **6.8 ms** of work per frame (Collection decorations), against the 16.7 ms check line and the 33 ms a 30 FPS frame allows.
+    - No freezes; picture memory at most 88 MB (town hub).
+    - The run just before it was still slow on the first five screens (up to 26 ms) and fast on the other fifteen. Measured on their own, the same screens took 3–8 ms whether the background picture caching was running or not. So it was the PC (Docker's WSL machine was still running, 0.6–0.8 GB free), not the game.
 
 **Android app rebuilt:**
 - `app-android/dist/LittleLegends-debug.apk` (80 MB).

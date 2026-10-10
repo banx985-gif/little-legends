@@ -85,7 +85,7 @@ There are no dead ends: every screen outside a mission has the round home pictur
   - the voice-lines list exists.
 - `npm run standalone` passes. Offline cache **v48**.
 - After Job 13 the full tablet QA play-through was re-run on all 8 worlds. It played every mission, followed the new navigation and saw the next-mission offer; the two findings were fixed. Details are in `docs/JOB13_REPORT.md`.
-- The Lite picture-memory check passes. The Lite frame-time check failed only because the PC was swapping: a side-by-side run shows the island now draws faster than in Job 12. See `docs/JOB13_REPORT.md`.
+- The Lite check passes in full: picture memory at most 88 MB, frame work at most 6.8 ms on every screen with the CPU slowed 4×. See `docs/JOB13_REPORT.md`.
 - The APK is rebuilt with Jobs 13 and 14.
 
 ## What to test on the tablet

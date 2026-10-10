@@ -20,6 +20,12 @@
             android:screenOrientation="sensorLandscape"
             android:exported="true">
 
+            <!-- Android 16 ignores the landscape lock on tablets for apps targeting SDK 36; this opts back in (SDK 36 only,
+                 Android 17 drops it, so the game must one day cope with portrait too). -->
+            <property
+                android:name="android.window.PROPERTY_COMPAT_ALLOW_RESTRICTED_RESIZABILITY"
+                android:value="true" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

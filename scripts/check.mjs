@@ -1146,6 +1146,7 @@ assert.ok(serviceWorkerSource.includes("'./assets/art_manifest.json'")&&serviceW
   const androidManifest = fs.readFileSync(path.join(root, 'app-android/android/app/src/main/AndroidManifest.xml'), 'utf8');
   assert.deepEqual(androidManifest.match(/android:name="android.permission.[A-Z_]+"/g), ['android:name="android.permission.INTERNET"'], 'The Android app asks for nothing beyond INTERNET for the web view (no camera, mic, location, storage)');
   assert.ok(androidManifest.includes('android:allowBackup="false"') && androidManifest.includes('sensorLandscape'), 'Android app: no cloud backup, landscape');
+  assert.match(androidManifest, /PROPERTY_COMPAT_ALLOW_RESTRICTED_RESIZABILITY"\s+android:value="true"/, 'Android app: landscape lock kept on Android 16 tablets');
   assert.ok(fs.readFileSync(path.join(root, 'src/main.js'), 'utf8').startsWith("import './utils/compat.js';"), 'Older-tablet fallbacks load first');
   for (const doc of ['docs/GOOGLE_PLAY_STEPS.md', 'docs/STILL_TO_DRAW.md', 'docs/JOB12_REPORT.md']) assert.ok(fs.existsSync(path.join(root, doc)), `${doc} exists`);
 }

@@ -21,7 +21,16 @@ const args = Object.fromEntries(process.argv.slice(2).map(a => a.replace(/^--/, 
 const HISTORY_ZIP = path.resolve(root, '../../08_BUILD_HISTORY/LITTLE_LEGENDS_BUILD_M0_M29_PLAYABLE_FIX1.zip');
 const WORLDS = ['dino', 'rainbow', 'space', 'animal', 'jungle', 'storybook', 'life', 'town'];
 // Job 12: screens outside the worlds that are heavy on pictures, measured too.
-const EXTRA_SCENES = [['island', {}, 'island'], ['collection', { tab: 'decorations' }, 'collection decor'], ['collection', { tab: 'vehicles' }, 'collection rides'], ['jungleJam', {}, 'jungle jam']];
+// Job 15: an island with 40 things placed by hand all over it, and friends playing on the toys while it is measured.
+const ISLAND_40 = async () => {
+  const g = window.__littleLegends; await g.rewards.ensureLoaded(g.assets);
+  g.audio.unlock?.(); // on a tablet the sound engine starts at the first touch (Who is playing?), not in the middle of play
+  const toys = ['decor_slide_rainbow', 'decor_swing_cloud', 'decor_seesaw_stars', 'decor_trampoline_mushroom', 'decor_bubble_machine', 'decor_sandpit_star'];
+  const rest = g.rewards.list().filter(r => !r.hidden && r.type !== 'cosmetics' && (r.island || r.catalog) && !toys.includes(r.id));
+  const pick = [...toys.map(id => g.rewards.get(id)), ...rest.filter(r => r.type === 'creatures').slice(0, 14), ...rest.filter(r => r.type !== 'creatures').slice(0, 20)].slice(0, 40);
+  let i = 0; for (const r of pick) { await g.save.award(r.type, r.id); const x = 330 + (i % 8) * 180, y = 520 + Math.floor(i / 8) * 85; await g.save.saveIslandPlacement(r.id, { x, y, zone: 'decoration' }); i++; }
+};
+const EXTRA_SCENES = [['island', {}, 'island'], ['collection', { tab: 'decorations' }, 'collection decor'], ['collection', { tab: 'vehicles' }, 'collection rides'], ['jungleJam', {}, 'jungle jam'], ['island', { play: true }, 'island 40 things', ISLAND_40]];
 const LITE_PICTURE_MB = 100; // Job 10 budget for Lite mode
 
 const results = [];
@@ -178,8 +187,10 @@ async function lite(browser, base) {
     const mission = await page.evaluate(async w => { const g = window.__littleLegends; await g.adventureEngine.ensureLoaded(g.assets); return g.adventureEngine.list().find(a => a.world === w && a.steps.some(s => s.kind === 'activity')); }, world);
     const step = mission.steps.findIndex(s => s.kind === 'activity');
     const scenes = [['worldHub', { world }, `${world} hub`], ['adventure', { adventureId: mission.id, step }, `${world} mission`], ...(world === WORLDS.at(-1) ? EXTRA_SCENES : [])];
-    for (const [scene, data, name] of scenes) {
+    for (const [scene, data, name, prep] of scenes) {
+      if (prep) await page.evaluate(prep);
       await goScene(page, scene, data); await sleep(3000);
+      if (data.play) await page.evaluate(() => { const sc = window.__littleLegends.scenes.current, friends = sc.objects.filter(o => sc.isFriend(o)), toys = sc.objects.filter(o => sc.toyGeom && ['decor_slide_rainbow', 'decor_swing_cloud', 'decor_seesaw_stars', 'decor_trampoline_mushroom', 'decor_bubble_machine', 'decor_sandpit_star'].includes(o.id)); window.__playMore = () => toys.forEach((t, i) => { const f = friends[i]; if (f && !f.play) sc.startPlay(f, t); }); window.__playMore(); window.__playTimer = setInterval(window.__playMore, 500); });
       // Headless Chrome's own refresh timer swings wildly (2–140 Hz), so FPS there means nothing. What the game controls is
       // the work per frame (update + draw): Lite mode keeps 30 FPS while that stays well under 33 ms. Freezes > 100 ms count too.
       const m = await page.evaluate(() => new Promise(resolve => {
@@ -188,7 +199,7 @@ async function lite(browser, base) {
         const obs = new PerformanceObserver(list => { for (const e of list.getEntries()) long.push(e.duration); }); obs.observe({ entryTypes: ['longtask'] });
         setTimeout(() => { g.loop.onFrame = onFrame; obs.disconnect(); work.sort((x, y) => x - y); const P = window.__parts ?? []; window.__parts = []; const q = (arr) => { arr.sort((x, y) => x - y); return arr[Math.floor(arr.length * .95)] ?? 0; }; resolve({ updP95: q(P.map(x => x[0])), drawP95: q(P.map(x => x[1])), steps: P.reduce((n, x) => n + x[2], 0) / Math.max(1, P.length), frames: work.length, workP95: work[Math.floor(work.length * .95)] ?? 99, workMax: work.at(-1) ?? 99, longest: Math.max(0, ...long), quality: globalThis.__LL_QUALITY }); }, 5000);
       }));
-      const imageMB = await page.evaluate(() => window.__littleLegends.debugStats?.().imageMB ?? 0);
+      const imageMB = await page.evaluate(() => { clearInterval(window.__playTimer); return window.__littleLegends.debugStats?.().imageMB ?? 0; });
       rows.push({ name, ...m, imageMB });
     }
   }

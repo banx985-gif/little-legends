@@ -77,6 +77,12 @@ export class SceneManager {
     }
   }
 
+  // Job 15: a second finger (pinch), only for scenes that want it.
+  handleSecondPointer(event) {
+    if (this.busy || this.transitionT >= 0.1) return;
+    try { this.current?.handleSecondPointer?.(event); } catch (error) { this.recoverRuntime(error, 'input'); }
+  }
+
   handlePointer(event) {
     if (this.busy || this.transitionT >= 0.1) return;
     try {

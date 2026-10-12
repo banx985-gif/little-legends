@@ -68,7 +68,7 @@ for (const file of jsFiles) execFileSync(process.execPath, ['--check', file], { 
 
 // The installable/offline build must cache every eagerly imported source module.
 const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v50"), 'Service worker cache version should advance with the real-art build');
+assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v51"), 'Service worker cache version should advance with the real-art build');
 for (const file of walk(path.join(root, 'src')).filter(file => file.endsWith('.js'))) {
   const rel = `./${path.relative(root, file).split(path.sep).join('/')}`;
   assert.ok(serviceWorkerSource.includes(`'${rel}'`), `Offline cache must include ${rel}`);
@@ -1253,6 +1253,126 @@ assert.ok(serviceWorkerSource.includes("'./assets/art_manifest.json'")&&serviceW
   assert.ok(fs.readFileSync(path.join(root, 'src/scenes/ParentGateScene.js'), 'utf8').includes('SOUND_CREDITS'), 'Parent Area shows the sound credits');
   assert.ok(fs.readFileSync(path.join(root, 'src/core/Game.js'), 'utf8').includes('MB sound'), 'Picture stats show sound memory');
   assert.ok(fs.existsSync(path.join(root, 'docs/JOB13_REPORT.md')), 'Job 13 report written');
+}
+
+// ---- Job 15: Wonder Island is a free playground — drag anything anywhere, toys to play on, sizes, tidy up ----
+{
+  const IP = await import('../src/island/islandPlay.js');
+  const map15 = JSON.parse(fs.readFileSync(path.join(root, 'data/art_map.json'), 'utf8'));
+  const { depthScale } = await import('../src/scenes/WonderIslandScene.js');
+  const { InputManager } = await import('../src/input/InputManager.js');
+  const mk = async name => { const s = new SaveSystem({ indexedDBRef: null, storage: null }); await s.init(); await s.createProfile({ name, age: 3 }); const g = { save: s, audio: sceneAudio, assets: null, scenes: { last: null, change(n, d) { this.last = { name: n, data: d }; } } }; g.rewards = new RewardSystem(g); g.rewards.setDefinitions(rewardData); return g; };
+  const flush = () => new Promise(r => setTimeout(r, 0));
+  const run = (sc, seconds) => { for (let t = 0; t < seconds; t += 1 / 30) sc.update(1 / 30); };
+  const drag = (sc, o, to, steps = 6, from = { x: o.x, y: o.y }) => { sc.handlePointer({ type: 'down', ...from }); for (let i = 1; i <= steps; i++) sc.handlePointer({ type: 'move', x: from.x + (to.x - from.x) * i / steps, y: from.y + (to.y - from.y) * i / steps }); sc.handlePointer({ type: 'up', ...to }); };
+  const placements = g => g.save.getProfileState().island.placements;
+  const baseOf = o => ({ x: o.x, y: o.y + o.h * o.k / 2 });
+  // Rules for where things may stand.
+  assert.ok(IP.onLand(960, 700) && !IP.onLand(1850, 600) && !IP.onLand(960, 300), 'Land is the island’s sand and grass, not the sea or the sky');
+  const wet = IP.settle(1850, 640, 150, 130); assert.ok(wet.wet && IP.onLand(wet.x, wet.y + 65), 'Dropped in the water: floats back to the nearest land');
+  const off = IP.settle(-300, 1300, 150, 130); assert.ok(IP.onLand(off.x, off.y + 65), 'Dropped off the screen: comes back onto the island');
+  const ov = (a, b) => Math.max(0, Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x)) * Math.max(0, Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y));
+  for (const [x, y] of [[960, 520], [575, 940], [1060, 960], [1500, 950]]) { const s = IP.settle(x, y, 150, 130), box = { x: s.x - 75, y: s.y - 65, w: 150, h: 130 }; for (const r of IP.KEEP_OUT) assert.ok(ov(box, r) <= 0.2 * 150 * 130 + 1, `Dropped on the portal or a big button (${x},${y}): nudged aside`); assert.ok(IP.onLand(s.x, s.y + 65)); }
+  for (const kind of Object.values(IP.TOYS)) assert.ok(IP.PLAYS[kind], `${kind} has a play`);
+  for (const id of ['decor_slide_rainbow', 'decor_swing_cloud', 'decor_seesaw_stars', 'decor_trampoline_mushroom', 'decor_sandpit_star', 'decor_climbing_dome_glow', 'decor_bubble_machine', 'decor_fountain_star', 'decor_wishing_well', 'catalog_beach_beach_ball', 'alphabet_blocks', 'catalog_decor_balloons_bunch', 'catalog_story_train'])
+    assert.ok(rewardData.rewards.some(r => r.id === id) && IP.TOYS[id], `${id} is a toy friends can play with`);
+  assert.ok(map15.island.ball === 'objects.play.beach_ball', 'Wonder Island has a beach ball');
+
+  // 1. Move anything, anywhere: no edit mode, no fixed spots; positions save per child.
+  const g = await mk('Kit'); for (const id of ['baby_trex', 'baby_raptor', 'baby_triceratops']) await g.save.award('creatures', id);
+  for (const id of ['decor_slide_rainbow', 'decor_swing_cloud', 'decor_seesaw_stars', 'decor_trampoline_mushroom']) await g.save.award('decorations', id);
+  const sc = new WonderIslandScene(g); sc.enter({}); run(sc, 0.1);
+  const trex = sc.objects.find(o => o.id === 'baby_trex'), tree = sc.objects.find(o => o.id === 'tree');
+  assert.ok(!sc.placementMode); trex.x = 320; trex.y = 600; trex.k = 0.8; sc.sortByDepth(); drag(sc, trex, { x: 357, y: 611 }); await flush();
+  assert.deepEqual([placements(g).baby_trex.x, placements(g).baby_trex.y], [357, 611], 'A friend dragged with one finger stays exactly where it was let go (no snapping)');
+  assert.deepEqual([trex.x, trex.y], [357, 611], 'The thing stays under the finger while dragged');
+  drag(sc, tree, { x: 1150, y: 700 }); await flush(); assert.deepEqual([placements(g).tree.x, placements(g).tree.y], [1150, 700], 'Island decorations move too');
+  cueLog.length = 0; sc.handlePointer({ type: 'down', x: 1150, y: 700 }); sc.handlePointer({ type: 'up', x: 1150, y: 700 }); assert.equal(sc.interaction, 'tree', 'A quick tap still plays with the thing (no drag)');
+  drag(sc, trex, { x: 1860, y: 620 }); await flush(); assert.ok(cueLog.some(c => c.name === 'splash'), 'Dropped in the water: a splash');
+  assert.ok(IP.onLand(trex.x, baseOf(trex).y), 'and it floats back to land'); assert.equal(placements(g).baby_trex.x, Math.round(trex.x)); run(sc, 1);
+  drag(sc, trex, { x: 960, y: 470 }); await flush(); { const b = { x: trex.x - trex.w * trex.k / 2, y: trex.y - trex.h * trex.k / 2, w: trex.w * trex.k, h: trex.h * trex.k }; assert.ok(ov(b, IP.KEEP_OUT[0]) <= 0.21 * b.w * b.h, 'Dropped on the portal: nudged aside'); }
+  drag(sc, trex, { x: 575, y: 950 }); await flush(); assert.ok(baseOf(trex).y <= IP.KEEP_OUT[1].y + 30, 'Dropped on PLAY: nudged off the button');
+  sc.handlePointer({ type: 'down', x: 575, y: 957 }); sc.handlePointer({ type: 'up', x: 575, y: 957 }); await flush(); assert.equal(g.scenes.last?.name, 'adventure', 'PLAY still works after things were dropped near it'); g.scenes.last = null;
+  const again = new WonderIslandScene(g); again.enter({}); const trex2 = again.objects.find(o => o.id === 'baby_trex'); assert.deepEqual([trex2.x, trex2.y], [placements(g).baby_trex.x, placements(g).baby_trex.y], 'Positions come back next time');
+  const other = await mk('Lou'); const sc3 = new WonderIslandScene(other); sc3.enter({}); assert.ok(!placements(other).tree && sc3.objects.find(o => o.id === 'tree').x === 450, 'Each child has their own island (the default layout stays for others)');
+
+  // 3. Sizes: tap and hold shows + and −; pinch with two fingers; half to double; saved with the position.
+  trex.x = 320; trex.y = 650; trex.k = 0.8; trex.pose = null; sc.sortByDepth();
+  cueLog.length = 0; sc.handlePointer({ type: 'down', x: 320, y: 650 }); run(sc, IP.HOLD_SECONDS + 0.1); sc.handlePointer({ type: 'up', x: 320, y: 650 });
+  assert.equal(sc.sizeButtons?.o, trex, 'Tap and hold: the + and − buttons appear'); assert.ok(cueLog.some(c => c.name === 'pop'), 'with a pop');
+  const [minus, plus] = sc.sizeButtonSpots(); assert.ok(plus.x > minus.x && Math.hypot(plus.x - minus.x, plus.y - minus.y) > 2 * 58, 'Two big round buttons beside it');
+  const tapAt = p => { sc.handlePointer({ type: 'down', x: p.x, y: p.y }); sc.handlePointer({ type: 'up', x: p.x, y: p.y }); };
+  for (let i = 0; i < 6; i++) tapAt(sc.sizeButtonSpots()[1]); await flush(); assert.equal(trex.size, IP.SIZE_MAX, 'Grows up to double size'); assert.equal(placements(g).baby_trex.size, 2, 'Size saves with the position');
+  assert.ok(Math.abs(trex.k - depthScale(trex.y) * 2) < 1e-9);
+  for (let i = 0; i < 12; i++) tapAt(sc.sizeButtonSpots()[0]); await flush(); assert.equal(trex.size, IP.SIZE_MIN, 'Shrinks down to half size'); assert.equal(placements(g).baby_trex.size, 0.5);
+  run(sc, IP.SIZE_BUTTONS_SECONDS + 0.2); assert.equal(sc.sizeButtons, null, 'The buttons go away after a few seconds');
+  sc.handlePointer({ type: 'down', x: 320, y: 650 }); run(sc, IP.HOLD_SECONDS + 0.1); sc.handlePointer({ type: 'up', x: 320, y: 650 }); assert.ok(sc.sizeButtons); tapAt({ x: 1300, y: 300 }); assert.equal(sc.sizeButtons, null, '… or when you tap elsewhere');
+  sc.handlePointer({ type: 'down', x: 320, y: 650 }); sc.handleSecondPointer({ type: 'down', x: 420, y: 650 }); sc.handleSecondPointer({ type: 'move', x: 620, y: 650 }); sc.handleSecondPointer({ type: 'up', x: 620, y: 650 }); sc.handlePointer({ type: 'up', x: 320, y: 650 }); await flush();
+  assert.equal(trex.size, 1.5, 'A two-finger pinch makes it bigger (here ×3 of half size)'); assert.equal(placements(g).baby_trex.size, 1.5);
+  const again2 = new WonderIslandScene(g); again2.enter({}); assert.equal(again2.objects.find(o => o.id === 'baby_trex').size, 1.5, 'Sizes come back next time');
+  // The second finger only reaches scenes that ask for it.
+  { const handlers = {}, canvas = { addEventListener(t, f) { handlers[t] = f; }, setPointerCapture() {}, releasePointerCapture() {} }, im = new InputManager(canvas, { clientToWorld: (x, y, out) => Object.assign(out ?? {}, { x, y }) });
+    const first = [], second = []; im.on(e => first.push(e.type)); im.onSecond(e => second.push(e.type)); const ev = (id, primary, x) => ({ pointerId: id, isPrimary: primary, clientX: x, clientY: 10, pointerType: 'touch', preventDefault() {} });
+    handlers.pointerdown(ev(1, true, 10)); handlers.pointerdown(ev(2, false, 50)); handlers.pointermove(ev(2, false, 80)); handlers.pointerup(ev(2, false, 80)); handlers.pointerup(ev(1, true, 10));
+    assert.deepEqual(first, ['down', 'up'], 'A second finger never reaches the normal handlers'); assert.deepEqual(second, ['down', 'move', 'up'], 'It reaches the pinch listeners'); }
+  trex.size = 1; trex.k = depthScale(trex.y);
+
+  // 2. Dinos play with toys: drop a friend on a toy and it plays, then hops off beside it, on land, with a happy chatter.
+  const friends = ['baby_trex', 'baby_raptor', 'baby_triceratops'].map(id => sc.objects.find(o => o.id === id));
+  for (const [i, id] of ['decor_slide_rainbow', 'decor_swing_cloud', 'decor_trampoline_mushroom'].entries()) {
+    const toy = sc.objects.find(o => o.id === id), f = friends[i]; assert.ok(toy, `${id} is on the island`);
+    f.x = 330 + i * 10; f.y = 560; f.k = kOf(f); sc.sortByDepth(); cueLog.length = 0;
+    drag(sc, f, { x: toy.x, y: toy.y }); await flush();
+    assert.equal(f.play?.toy, toy, `A friend dropped on ${id} plays on it`); assert.ok(cueLog.some(c => c.name === 'chatter'), 'with a happy chatter');
+    run(sc, 1); assert.ok(f.pose && sc.depth(f) > sc.depth(toy), `${id}: the friend is drawn in front of the toy while it plays`);
+    const seen = new Set(); for (let t = 0; t < 7 && f.play; t += 1 / 30) { sc.update(1 / 30); if (f.pose) seen.add(`${Math.round(f.pose.dx)},${Math.round(f.pose.dy)},${(f.pose.rot ?? 0).toFixed(2)}`); }
+    assert.ok(seen.size > 20, `${id}: the friend moves while it plays`); assert.equal(f.play, null, `${id}: the play ends after a few seconds`); await flush();
+    const b = baseOf(f), tb = baseOf(toy); assert.ok(IP.onLand(b.x, b.y), 'It hops off onto land'); assert.ok(Math.hypot(b.x - tb.x, b.y - tb.y) < toy.w * toy.k + f.w * f.k, 'next to the toy');
+    assert.deepEqual([placements(g)[f.id].x, placements(g)[f.id].y], [Math.round(f.x), Math.round(f.y)], 'and stays there');
+  }
+  function kOf(o) { return depthScale(o.y) * (o.size ?? 1); }
+  // Sounds while playing: whoosh down the slide, bounce on the trampoline.
+  { const slide = sc.objects.find(o => o.id === 'decor_slide_rainbow'), f = friends[0]; cueLog.length = 0; assert.ok(sc.startPlay(f, slide)); run(sc, 3); assert.ok(cueLog.some(c => c.name === 'whoosh'), 'The slide whooshes'); run(sc, 5); }
+  { const tr = sc.objects.find(o => o.id === 'decor_trampoline_mushroom'), f = friends[1]; cueLog.length = 0; assert.ok(sc.startPlay(f, tr)); run(sc, 2); assert.ok(cueLog.filter(c => c.name === 'bounce').length >= 2, 'The trampoline bounces'); run(sc, 5); }
+  // Seesaw: two friends go both ways.
+  { const ss = sc.objects.find(o => o.id === 'decor_seesaw_stars'); assert.ok(sc.startPlay(friends[0], ss) && sc.startPlay(friends[1], ss), 'Two friends fit on the seesaw'); assert.ok(!sc.startPlay(friends[2], ss), 'but not three');
+    assert.notEqual(friends[0].play.slot, friends[1].play.slot, 'one on each end'); run(sc, 0.45); const y0 = friends[0].pose.dy, y1 = friends[1].pose.dy; run(sc, 0.3); assert.ok((friends[0].pose.dy - y0) * (friends[1].pose.dy - y1) < 0, 'One goes up while the other goes down'); assert.ok(ss.pose?.rot, 'and the seesaw tilts'); run(sc, 6); }
+  // A toy dropped next to a friend: the friend plays with it too.
+  { const sw = sc.objects.find(o => o.id === 'decor_swing_cloud'), f = friends[2]; f.x = 1300; f.y = 760; f.k = kOf(f); f.play = null; sc.sortByDepth(); drag(sc, sw, { x: 1300, y: 720 - sw.h * sw.k / 2 + 20 }, 6, { x: sw.x, y: sw.y - sw.h * sw.k / 2 + 20 }); /* held by its top: the bunny house stands in front of its middle */ await flush(); assert.equal(f.play?.toy, sw, 'A toy let go by a friend: the friend plays with it'); run(sc, 7); }
+  // Every other toy plays too (watching with bubbles or sparkles, digging, climbing, riding, drumming, stacking, floating).
+  const all = await mk('Max'); for (const id of ['baby_trex']) await all.save.award('creatures', id);
+  for (const id of ['decor_sandpit_star', 'decor_climbing_dome_glow', 'decor_bubble_machine', 'decor_fountain_star', 'decor_wishing_well', 'catalog_decor_balloons_bunch', 'alphabet_blocks']) await all.save.award(rewardData.rewards.find(r => r.id === id).type, id);
+  await all.save.award('vehicles', 'catalog_story_train');
+  const ps = new WonderIslandScene(all); ps.enter({}); run(ps, 0.1); const dino = ps.objects.find(o => o.id === 'baby_trex');
+  for (const id of ['decor_sandpit_star', 'decor_climbing_dome_glow', 'decor_bubble_machine', 'decor_fountain_star', 'decor_wishing_well', 'catalog_decor_balloons_bunch', 'alphabet_blocks', 'catalog_story_train', 'drum']) {
+    const toy = ps.objects.find(o => o.id === id); assert.ok(toy, `${id} is on the island`); assert.ok(ps.startPlay(dino, toy), `${id}: a friend plays with it`);
+    let moved = 0, particles = 0; for (let t = 0; t < 8 && dino.play; t += 1 / 30) { ps.update(1 / 30); if (dino.pose || toy.pose) moved++; particles = Math.max(particles, ps.particles.length); }
+    assert.equal(dino.play, null, `${id}: done after a few seconds`); assert.ok(moved > 30, `${id}: something moves`);
+    if (['decor_sandpit_star', 'decor_bubble_machine', 'decor_fountain_star', 'decor_wishing_well'].includes(id)) assert.ok(particles > 0, `${id}: sand puffs, bubbles or sparkles`);
+    ps.render(fakeCtx); assert.equal(fakeCtx.depth, 0);
+  }
+  // The ball: a friend kicks it, kids flick it; it rolls, stays on the island, and stops.
+  { const ball = ps.objects.find(o => o.id === 'ball'); ball.x = 900; ball.y = 700; ball.k = 1; dino.x = 820; dino.y = 700; dino.k = kOf(dino); ps.sortByDepth();
+    assert.ok(ps.startPlay(dino, ball)); const x0 = ball.x; let maxV = 0; for (let t = 0; t < 8 && (dino.play || ball.vel); t += 1 / 30) { ps.update(1 / 30); maxV = Math.max(maxV, Math.hypot(ball.vel?.x ?? 0, ball.vel?.y ?? 0)); }
+    assert.ok(maxV > 300 && ball.x > x0 + 100, 'A friend kicks the ball and it rolls away'); assert.ok(!ball.vel && IP.onLand(ball.x, ball.y + ball.h * ball.k / 2), 'It stops on the island'); await flush(); assert.equal(placements(all).ball.x, Math.round(ball.x));
+    const from = { x: ball.x, y: ball.y }; ps.handlePointer({ type: 'down', ...from }); for (let i = 1; i <= 4; i++) ps.handlePointer({ type: 'move', x: from.x - i * 60, y: from.y });
+    ps.dragTrail = [{ x: from.x - 180, y: from.y, t: 0 }, { x: from.x - 240, y: from.y, t: 40 }]; ps.handlePointer({ type: 'up', x: from.x - 240, y: from.y }); assert.ok(ball.vel && ball.vel.x < -300, 'A flick sends the ball rolling');
+    run(ps, 8); assert.ok(!ball.vel && IP.onLand(ball.x, ball.y + ball.h * ball.k / 2), 'and it stops on the island'); }
+  // 4. Depth: everything (playing or not) is drawn back to front by where it stands.
+  { const p2 = new WonderIslandScene(g); p2.enter({}); const f = p2.objects.find(o => o.id === 'baby_raptor'), toy = p2.objects.find(o => o.id === 'decor_swing_cloud'); p2.startPlay(f, toy);
+    for (let i = 0; i < 40; i++) { p2.update(1 / 30); const d = p2.objects.map(o => p2.depth(o)); assert.ok(d.every((v, j) => j === 0 || v >= d[j - 1]), 'Drawn back to front every frame, playing or not'); } p2.render(fakeCtx); assert.equal(fakeCtx.depth, 0); p2.showSizeButtons(f); p2.render(fakeCtx); assert.equal(fakeCtx.depth, 0); }
+
+  // 5. Tidy up (Parent Area): back to the starting layout and normal sizes; built pieces and Collection pins stay.
+  await g.save.saveIslandPlacement('catalog_x', { pinned: true }); const pid = await g.save.addIslandPiece(Object.keys(map15.islandBuild.pieces)[0], { x: 900, y: 700, size: 1.5 });
+  const pg = new ParentGateScene(g); pg.enter({ skipGate: true, tab: 'profiles' });
+  await pg.action(pg.controlAt({ x: 1500, y: 820 })); assert.ok(placements(g).baby_trex, 'Tidy up asks once more first');
+  await pg.action(pg.controlAt({ x: 1500, y: 820 })); const tidy = placements(g);
+  assert.ok(!tidy.baby_trex && !tidy.tree, 'Tidy up: everything goes back to its starting spot'); assert.deepEqual(tidy.catalog_x, { pinned: true }, 'Collection pins stay'); assert.deepEqual([tidy[pid].x, tidy[pid].y, tidy[pid].size], [900, 700, undefined], 'Built pieces stay where they are, at normal size');
+  pg.render(fakeCtx); assert.equal(fakeCtx.depth, 0);
+  const tidyIsland = new WonderIslandScene(g); tidyIsland.enter({}); assert.equal(tidyIsland.objects.find(o => o.id === 'tree').x, 450, 'The tidy starting layout is back'); assert.ok(tidyIsland.objects.every(o => o.size === 1));
+  // 6. Cheap tablets: few particles; the Lite speed check covers an island with 40 things.
+  assert.ok(fs.readFileSync(path.join(root, 'scripts/qa-release.mjs'), 'utf8').includes('island 40 things'), 'The Lite speed check includes an island with 40 things');
+  assert.ok(fs.existsSync(path.join(root, 'docs/JOB15_REPORT.md')), 'Job 15 report written');
 }
 
 console.log(`Little Legends M0-M29 qualification implementation check passed (M26/M29 human gates still pending): ${required.length} required files, ${jsFiles.length} JS syntax checks, ${activityEngine.list().length} JSON activities across ${expectedActivityTypes.size} reusable families, ${adventureData.adventures.length} Little Missions, privacy/child-test support, launch FX, save recovery, performance instrumentation and offline PWA verified.`);

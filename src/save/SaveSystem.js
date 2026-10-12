@@ -313,6 +313,18 @@ export class SaveSystem {
     return this.mutateProfileState(state => { state.island.placements[id] = clone(placement); });
   }
 
+  // Job 15 (Parent Area "tidy up"): everything goes back to the tidy starting layout, at its normal size. Things the child
+  // built stay where they are (they have no starting spot); pins from the Collection are kept, so the same things show.
+  async tidyIsland(profileId = this.root.activeProfileId) {
+    return this.mutateProfileState(state => {
+      const built = new Set((state.island.built ?? []).map(b => b.id)), next = {};
+      for (const [id, p] of Object.entries(state.island.placements ?? {})) {
+        if (built.has(id)) { const { size, ...rest } = p ?? {}; next[id] = rest; } else if (p?.pinned) next[id] = { pinned: true };
+      }
+      state.island.placements = next;
+    }, profileId);
+  }
+
   async setPipOutfit(patch = {}) {
     return this.mutateProfileState(state => { state.pip ??= { outfit: { hat:'starter-leaf' } }; state.pip.outfit = { ...(state.pip.outfit ?? {}), ...clone(patch) }; });
   }

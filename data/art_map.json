@@ -1734,6 +1734,7 @@
     "explore": "ui.map_pin_star",
     "collection": "ui.menu.icon_collection",
     "move": "ui.build.move_arrows",
+    "build": "ui.build.shop",
     "star": "ui.icon_star",
     "next": "objects.town.sign_arrow",
     "prev": "objects.town.sign_arrow",

@@ -73,6 +73,7 @@ export class Game {
       if (event.type === 'down' && this.breakReminderVisible) { this.breakReminderVisible = false; this.sessionElapsed = 0; return; }
       this.scenes.handlePointer(event);
     });
+    this.input.onSecond?.(event => this.scenes.handleSecondPointer?.(event));
     window.addEventListener('resize', () => this.viewport.resize(), { passive: true });
     window.addEventListener('orientationchange', () => setTimeout(() => this.viewport.resize(), 80), { passive: true });
     document.addEventListener('visibilitychange', () => {

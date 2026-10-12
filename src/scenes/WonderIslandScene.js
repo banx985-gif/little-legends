@@ -4,6 +4,7 @@ import { wornRewards } from '../characters/Wardrobe.js';
 import { art, artMap, drawArt, lookupArt, fxArt, hatchTheme, worldOfReward } from '../core/art.js';
 import { ISLAND_BUILD_LIMIT } from '../save/SaveSystem.js';
 import { HatchSequence } from '../fx/HatchSequence.js';
+import { SIZE_MIN, SIZE_MAX, SIZE_STEP, HOLD_SECONDS, SIZE_BUTTONS_SECONDS, DRAG_START, FLOAT_SECONDS, HOP_SECONDS, APPROACH_SECONDS, TOYS, PLAYS, toyKind, playsOn, settle, hopOffSpot } from '../island/islandPlay.js';
 
 const CELEBRATE_SECONDS=4.5, HATCH_ART_WAIT=6, HELLO_SECONDS=1.6;
 // Job 14: after a mission's reward, the next one starts by itself unless the child taps home.
@@ -76,11 +77,16 @@ function spreadOut(objects,placements){
 const TRAY={x:16,y:214,w:244,h:830},TRAY_COLS=[78,198],TRAY_TOP=330,TRAY_STEP=100,TRAY_CELL=88;
 function buildPieces(){return Object.entries(artMap()?.islandBuild?.pieces??{});}
 function trayCell(i){return{x:TRAY_COLS[i%2],y:TRAY_TOP+Math.floor(i/2)*TRAY_STEP};}
-function onGrass(o){return o.x>=350&&o.x<=1580&&o.y>=410&&o.y<=820;}
 function overTray(x,y){return x>=TRAY.x&&x<=TRAY.x+TRAY.w&&y>=TRAY.y&&y<=TRAY.y+TRAY.h;}
 
-function contains(o,x,y,extra=25){const k=o.k??1;return x>=o.x-o.w*k/2-extra&&x<=o.x+o.w*k/2+extra&&y>=o.y-o.h*k/2-extra&&y<=o.y+o.h*k/2+extra;}
+// Where a thing is drawn right now (Job 15: playing, floating back or rolling moves the picture, not its saved spot).
+function drawnBox(o){const k=o.k??1,p=o.pose,s=p?.s??1,w=o.w*k*s,h=o.h*k*s,x=o.x+(p?.dx??0),base=o.y+o.h*k/2+(p?.dy??0);return{x:x-w/2,y:base-h,w,h};}
+function contains(o,x,y,extra=25){const b=drawnBox(o);return x>=b.x-extra&&x<=b.x+b.w+extra&&y>=b.y-extra&&y<=b.y+b.h+extra;}
 function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+// Job 15: a thing's scale is its depth on the grass times the size the child gave it (half to double).
+function kFor(o){return (o.base||o.type==='built'?1:depthScale(o.y))*(o.size??1);}
+const smooth=p=>p*p*(3-2*p),arc=p=>4*p*(1-p);
+const SIZE_BUTTON_R=58;
 
 export class WonderIslandScene {
   constructor(game){this.game=game;this.t=0;this.portalPressed=false;this.rainbowPressed=false;this.parentPressed=false;this.modePressed=false;this.collectionPressed=false;this.placementMode=false;this.drag=null;this.trayPressed=null;this.dragOffset={x:0,y:0};this.objects=[];this.pip=null;this.interaction=null;this.interactionT=0;this.celebrateReward=null;}
@@ -106,15 +112,19 @@ export class WonderIslandScene {
     for(const reward of this.game.rewards?.list?.()??[]){
       if(known.has(reward.id)||reward.island||!reward.catalog||reward.type==='cosmetics'||reward.hidden)continue;
       if(!(state?.unlocks?.[reward.type]??[]).includes(reward.id))continue;
-      const [x,y]=CATALOG_SPOTS[spot++%CATALOG_SPOTS.length],big=reward.type==='buildings'||['houses','trees'].includes(reward.decor); // houses and trees stand a bit taller
-      this.objects.push({id:reward.id,type:'catalog_item',x,y,w:big?190:140,h:big?170:130,zone:'decoration',name:reward.name,color:reward.color,label:reward.name,...(placements[reward.id]??{})});known.add(reward.id);
+      const [x,y]=CATALOG_SPOTS[spot++%CATALOG_SPOTS.length],big=reward.type==='buildings'||['houses','trees'].includes(reward.decor),toy=TOYS[reward.id]; // houses and trees stand a bit taller; toys are big enough for a dino to play on (Job 15)
+      const [w,h]=toy==='ball'?[110,110]:toy?[270,245]:big?[190,170]:[140,130];
+      this.objects.push({id:reward.id,type:'catalog_item',x,y,w,h,zone:'decoration',name:reward.name,color:reward.color,label:reward.name,...(placements[reward.id]??{})});known.add(reward.id);
     }
     // Pieces the child built in MOVE THINGS mode.
     const pieces=artMap()?.islandBuild?.pieces??{};
     for(const b of state?.island?.built??[]){const p=pieces[b.piece];if(!p)continue;this.objects.push({id:b.id,type:'built',piece:b.piece,art:p.id,x:960,y:620,w:p.w,h:p.h,ground:Boolean(p.ground),over:Boolean(p.over),zone:'build',...(placements[b.id]??{})});}
     // Back-to-front by depth: things lower on the grass stand in front (taps pick the front one).
     this.objects=this.chooseShown(this.objects,placements,state);
-    spreadOut(this.objects,placements);this.sortByDepth();
+    spreadOut(this.objects,placements);
+    // Job 15: sizes the child chose (saved with the position), and nothing playing, floating or rolling yet.
+    for(const o of this.objects){const s=Number(placements[o.id]?.size);o.size=Number.isFinite(s)?clamp(s,SIZE_MIN,SIZE_MAX):1;o.k=kFor(o);o.play=o.float=o.vel=o.boing=o.pose=null;}
+    this.press=this.pinch=this.sizeButtons=this.drag=null;this.particles=[];this.dragTrail=[];this.sortByDepth();
     this.hatch=null;this.celebrateT=0;this.startCelebration(this.celebrateQueue.shift()??null);
     // A new child's first steps (Job 12): DINO PICNIC glows until the first mission is done, then EXPLORE WORLDS once.
     const done=state?.adventure?.completed??[];this.firstStep=done.length===0?'play':done.length===1?'explore':null;
@@ -156,7 +166,119 @@ export class WonderIslandScene {
     // The celebration clock waits for the egg pictures; if they never arrive, carry on with the banner only.
     this.celebrateClock=(this.celebrateClock??0)+dt;
     if(this.hatch&&!this.hatch.ready&&this.celebrateClock>HATCH_ART_WAIT)this.hatch=null;if(!this.hatch||this.hatch.ready)this.celebrateT+=dt;
-    if(this.celebrateT>=CELEBRATE_SECONDS&&this.celebrateQueue?.length)this.startCelebration(this.celebrateQueue.shift());if(this.hello)this.hello.t-=dt;if(this.interactionT>0){this.interactionT=Math.max(0,this.interactionT-dt);if(this.interactionT===0)this.interaction=null;}}
+    if(this.celebrateT>=CELEBRATE_SECONDS&&this.celebrateQueue?.length)this.startCelebration(this.celebrateQueue.shift());if(this.hello)this.hello.t-=dt;if(this.interactionT>0){this.interactionT=Math.max(0,this.interactionT-dt);if(this.interactionT===0)this.interaction=null;}this.stepPlayground(dt);}
+
+  // ---- Job 15: the island as a playground ----
+  stepPlayground(dt){
+    // Tap and hold a thing: the + and − buttons appear beside it.
+    if(this.press&&!this.press.held&&!this.press.pinched&&!this.placementMode){this.press.t+=dt;if(this.press.t>=HOLD_SECONDS){this.press.held=true;this.showSizeButtons(this.press.o);}}
+    if(this.sizeButtons&&!this.sizePress){this.sizeButtons.t-=dt;if(this.sizeButtons.t<=0||!this.objects.includes(this.sizeButtons.o))this.sizeButtons=null;}
+    let moving=false;
+    for(const o of this.objects)o.pose=null;
+    for(const o of this.objects)if(o.play&&o!==this.drag){this.stepPlay(o,dt);moving=true;}
+    for(const o of this.objects){
+      if(o===this.drag)continue;
+      if(o.vel){this.roll(o,dt);moving=true;}
+      if(o.float){o.float.t+=dt;const q=Math.min(1,o.float.t/FLOAT_SECONDS),p=this.poseOf(o);p.dx+=o.float.dx*(1-smooth(q));p.dy+=o.float.dy*(1-smooth(q))-Math.sin(q*Math.PI*3)*(o.float.wet?10:0)*(1-q);if(q>=1)o.float=null;moving=true;}
+      if(o.boing){o.boing.t+=dt;const q=Math.min(1,o.boing.t/o.boing.dur),p=this.poseOf(o);if(o.boing.hop)p.dy-=arc(q)*.22*o.h*o.k;else{const k=1+.14*Math.sin(Math.PI*q);p.sx*=k;p.sy*=k;}if(q>=1)o.boing=null;moving=true;}
+      if(o.spin&&toyKind(o)==='ball'){const p=this.poseOf(o);p.rot+=o.spin;p.pivotY=0;}
+    }
+    if(moving||this.wasMoving)this.sortByDepth();this.wasMoving=moving;
+    this.stepParticles(dt);
+  }
+  poseOf(o){return o.pose??=({dx:0,dy:0,rot:0,sx:1,sy:1,s:1,pivotY:null,depth:null});}
+  isFriend(o){return this.game.rewards?.get?.(o.id)?.type==='creatures';}
+  // The toy as drawn now (ignoring its own wobble): centre, size and where its bottom edge is.
+  toyGeom(t){const k=t.k??1,W=t.w*k,H=t.h*k;return{cx:t.x,cy:t.y,W,H,base:t.y+H/2};}
+  // Drop a friend on or next to a toy: it plays. Toys take one friend (the seesaw two).
+  toyNear(friend){const b=drawnBox(friend),fx=b.x+b.w/2,fy=b.y+b.h;let best=null,bestD=1e9;
+    for(const t of this.objects){const kind=toyKind(t);if(!kind||t===friend||t===this.drag)continue;const g=this.toyGeom(t),pad=50;
+      if(fx<g.cx-g.W/2-pad||fx>g.cx+g.W/2+pad||fy<g.cy-g.H/2-pad||fy>g.base+pad)continue;
+      if(this.objects.filter(o=>o.play?.toy===t).length>=(kind==='seesaw'?2:1))continue;
+      const mx=b.x+b.w/2,my=b.y+b.h/2,d=Math.hypot((mx-g.cx)/g.W,(my-g.cy)/g.H); // the toy under the friend's middle (where the finger was) wins
+      if(d<bestD){bestD=d;best=t;}}
+    return best;}
+  friendNear(toy){const g=this.toyGeom(toy);let best=null,bestD=1e9;
+    for(const f of this.objects){if(f===toy||f.play||f===this.drag||!this.isFriend(f))continue;const b=drawnBox(f),fx=b.x+b.w/2,fy=b.y+b.h;
+      if(fx<g.cx-g.W/2-50||fx>g.cx+g.W/2+50||fy<g.cy-g.H/2-50||fy>g.base+50)continue;const d=Math.hypot(fx-g.cx,fy-g.base);if(d<bestD){bestD=d;best=f;}}
+    return best;}
+  startPlay(friend,toy){
+    const kind=toyKind(toy);if(!PLAYS[kind]||friend===toy||!this.isFriend(friend))return false;
+    const partners=this.objects.filter(o=>o.play?.toy===toy);if(partners.length>=(kind==='seesaw'?2:1))return false;
+    const b=drawnBox(friend);
+    friend.play={toy,kind,t:-APPROACH_SECONDS,side:b.x+b.w/2<toy.x?-1:1,slot:partners.length?1-partners[0].play.slot:0,from:{x:b.x+b.w/2,y:b.y+b.h},next:PLAYS[kind].sound?.at??null,beat:0,puff:0,kicked:false,hop:null};
+    for(const o of partners){o.play.t=Math.min(o.play.t,0);o.play.next=PLAYS[kind].sound?.at??null;} // a second friend on the seesaw: both start again together
+    this.game.audio?.playCue?.('chatter');return true; // a happy chatter
+  }
+  stepPlay(o,dt){
+    const p=o.play,def=PLAYS[p.kind],toy=p.toy;
+    if(!this.objects.includes(toy)||toy===this.drag){this.landFriend(o);return;}
+    p.t+=dt;const g=this.toyGeom(toy),k=o.k??1,pw=o.w*k,ph=o.h*k,s=playsOn(p.kind)?clamp(.6*g.W/pw,.45,1):1;
+    const two=this.objects.filter(x=>x.play?.toy===toy).length>1,A=globalThis.__LL_REDUCED_MOTION?.5:1;
+    const info={w:pw*s,h:ph*s,side:p.side,slot:p.slot,two,A};
+    let bx,by,rot=0,sx=1,sy=1,scale=s,depth=playsOn(p.kind)?this.depth(toy)+1:null;
+    if(p.hop){p.hop.t+=dt;const q=Math.min(1,p.hop.t/HOP_SECONDS);bx=p.hop.fx+(p.hop.tx-p.hop.fx)*q;by=p.hop.fy+(p.hop.ty-p.hop.fy)*q-arc(q)*.3*ph;scale=p.hop.s+(1-p.hop.s)*q;depth=q<.5?depth:null;
+      if(q>=1){o.x=p.hop.tx;o.y=p.hop.ty-ph/2;o.k=kFor(o);o.play=null;this.savePlacement(o);return;}}
+    else if(p.t<0){const q=1+p.t/APPROACH_SECONDS,r=def.run(0,g,info);bx=p.from.x+(r.bx-p.from.x)*q;by=p.from.y+(r.by-(r.lift??0)-p.from.y)*q-arc(q)*.25*ph;scale=1+(s-1)*q;}
+    else if(p.t<def.dur){const r=def.run(p.t,g,info);bx=r.bx;by=r.by-(r.lift??0);rot=r.rot??0;sx=r.sx??1;sy=r.sy??1;
+      if(r.toy){const tp=this.poseOf(toy);tp.dx+=r.toy.dx??0;tp.dy+=r.toy.dy??0;tp.rot+=r.toy.rot??0;tp.sy*=r.toy.sy??1;if(r.toy.pivot!=null)tp.pivotY=(r.toy.pivot-.5)*toy.h;}
+      const snd=def.sound;if(snd&&p.next!=null&&p.t>=p.next){this.game.audio?.playCue?.(snd.cue,snd.count?{count:p.beat%4+1}:undefined);p.beat++;p.next=snd.every?p.next+snd.every:null;}
+      if(def.puff){p.puff+=dt*def.puff.rate*(globalThis.__LL_QUALITY==='lite'?.5:1);while(p.puff>=1){p.puff--;this.emit(def.puff.kind,g.cx+def.puff.at[0]*g.W,g.cy+def.puff.at[1]*g.H);}}
+      if(def.kickAt!=null&&!p.kicked&&p.t>=def.kickAt){p.kicked=true;toy.vel={x:-p.side*900*A,y:(Math.random()-.5)*260};toy.bumped=new Set([o]);}}
+    else{// done: hop off beside the toy (friends already beside it just settle where they stand)
+      const r=def.run(def.dur,g,info),end=def.beside?settle(r.bx,r.by-ph/2,pw,ph):hopOffSpot(g,{w:pw,h:ph,side:p.side});
+      p.hop={fx:r.bx,fy:r.by-(r.lift??0),tx:end.x,ty:end.y+ph/2,t:0,s};bx=p.hop.fx;by=p.hop.fy;}
+    const pose=this.poseOf(o);pose.dx=bx-o.x;pose.dy=by-o.h*k/2-o.y;pose.rot=rot;pose.sx=sx;pose.sy=sy;pose.s=scale;pose.depth=depth??by;
+  }
+  // Stop playing where it is now (picked up by a finger, or its toy was): it stands on the nearest land.
+  landFriend(o){const b=drawnBox(o),k=o.k??1,spot=settle(b.x+b.w/2,b.y+b.h-o.h*k/2,o.w*k,o.h*k);o.x=spot.x;o.y=spot.y;o.k=kFor(o);o.play=null;o.pose=null;}
+  stopPlayOf(o){if(o.play)this.landFriend(o);for(const f of this.objects)if(f.play?.toy===o){this.landFriend(f);this.savePlacement(f);}}
+  // A kicked or flicked ball rolls, slows down, bounces off the water's edge and the buttons, and bumps friends it passes.
+  roll(o,dt){
+    const f=Math.exp(-1.5*dt),k=o.k??1,r=o.w*k/2;o.x+=o.vel.x*dt;o.y+=o.vel.y*dt;o.vel.x*=f;o.vel.y*=f;o.spin=((o.spin??0)+o.vel.x*dt/Math.max(20,r))%(Math.PI*2);
+    const st=settle(o.x,o.y,o.w*k,o.h*k),nx=st.x-o.x,ny=st.y-o.y,d=Math.hypot(nx,ny);
+    if(d>1){const ux=nx/d,uy=ny/d,vn=o.vel.x*ux+o.vel.y*uy;if(vn<0){o.vel.x-=1.7*vn*ux;o.vel.y-=1.7*vn*uy;}o.x=st.x;o.y=st.y;}
+    o.k=kFor(o);
+    for(const fr of this.objects){if(fr===o||fr.play||fr.boing||fr===this.drag||!this.isFriend(fr)||o.bumped?.has(fr))continue;if(contains(fr,o.x,o.y,-10)){(o.bumped??=new Set()).add(fr);fr.boing={t:0,dur:.45,hop:true};this.game.audio?.playCue?.('bounce');}}
+    if(Math.hypot(o.vel.x,o.vel.y)<25){o.vel=null;o.bumped=null;this.savePlacement(o);}
+  }
+  // Little bits of fun on top: sand puffs, bubbles, sparkles. Few, short-lived, plain shapes (cheap tablets).
+  emit(kind,x,y){const max=globalThis.__LL_QUALITY==='lite'?24:48;if(this.particles.length>=max)return;const r=Math.random;
+    this.particles.push(kind==='sand'?{kind,x,y,vx:(r()-.3)*260,vy:-180-r()*160,life:.6,max:.6,size:6+r()*6}:kind==='bubble'?{kind,x:x+(r()-.5)*40,y,vx:(r()-.5)*40,vy:-90-r()*60,life:1.6,max:1.6,size:10+r()*12}:{kind,x:x+(r()-.5)*90,y:y+(r()-.5)*30,vx:(r()-.5)*50,vy:-60-r()*50,life:1,max:1,size:9+r()*8});}
+  stepParticles(dt){const ps=this.particles;if(!ps?.length)return;for(const p of ps){p.life-=dt;p.x+=p.vx*dt+(p.kind==='bubble'?Math.sin(p.life*6)*20*dt:0);p.y+=p.vy*dt;if(p.kind==='sand')p.vy+=700*dt;}this.particles=ps.filter(p=>p.life>0);}
+  renderParticles(ctx){const ps=this.particles;if(!ps?.length)return;ctx.save();
+    for(const p of ps){const a=Math.max(0,Math.min(1,p.life/p.max*1.5));ctx.globalAlpha=a;
+      if(p.kind==='sand'){ctx.fillStyle='#ecd087';ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();}
+      else if(p.kind==='bubble'){ctx.fillStyle='#d9f3ff66';ctx.strokeStyle='#ffffffdd';ctx.lineWidth=3;ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();ctx.stroke();}
+      else{ctx.fillStyle='#fff3a6';const s=p.size;ctx.beginPath();ctx.moveTo(p.x,p.y-s);ctx.lineTo(p.x+s*.3,p.y-s*.3);ctx.lineTo(p.x+s,p.y);ctx.lineTo(p.x+s*.3,p.y+s*.3);ctx.lineTo(p.x,p.y+s);ctx.lineTo(p.x-s*.3,p.y+s*.3);ctx.lineTo(p.x-s,p.y);ctx.lineTo(p.x-s*.3,p.y-s*.3);ctx.closePath();ctx.fill();}}
+    ctx.restore();}
+  // + and − beside a held thing: big round buttons, no words.
+  showSizeButtons(o){this.sizeButtons={o,t:SIZE_BUTTONS_SECONDS};this.game.audio?.playCue?.('pop');o.boing={t:0,dur:.3};}
+  sizeButtonSpots(){const o=this.sizeButtons?.o;if(!o)return[];const b=drawnBox(o),y=clamp(b.y+b.h/2,170,1000);let l=b.x-SIZE_BUTTON_R-14,r=b.x+b.w+SIZE_BUTTON_R+14;
+    if(l<SIZE_BUTTON_R+10){l=r;r=l+SIZE_BUTTON_R*2+20;}if(r>1910-SIZE_BUTTON_R){r=l;l=r-SIZE_BUTTON_R*2-20;}
+    return[{dir:-1,x:clamp(l,SIZE_BUTTON_R+10,1910-SIZE_BUTTON_R),y},{dir:1,x:clamp(r,SIZE_BUTTON_R+10,1910-SIZE_BUTTON_R),y}];}
+  sizeButtonAt(x,y){return this.sizeButtonSpots().find(c=>(x-c.x)**2+(y-c.y)**2<=(SIZE_BUTTON_R+16)**2)?.dir??null;}
+  renderSizeButtons(ctx){if(!this.sizeButtons)return;const fade=Math.min(1,this.sizeButtons.t/.3);ctx.save();ctx.globalAlpha=fade;
+    for(const c of this.sizeButtonSpots()){const o=this.sizeButtons.o,limit=c.dir>0?o.size>=SIZE_MAX-1e-6:o.size<=SIZE_MIN+1e-6,k=this.sizePress===c.dir?.9:1,R=SIZE_BUTTON_R*k;
+      ctx.fillStyle='#fffdf0';ctx.beginPath();ctx.arc(c.x,c.y,R+8,0,Math.PI*2);ctx.fill();ctx.fillStyle=limit?'#b9b2c4':c.dir>0?'#66bd62':'#4d8ee8';ctx.beginPath();ctx.arc(c.x,c.y,R,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle='#fff';ctx.beginPath();ctx.roundRect(c.x-R*.55,c.y-R*.13,R*1.1,R*.26,R*.13);ctx.fill();if(c.dir>0){ctx.beginPath();ctx.roundRect(c.x-R*.13,c.y-R*.55,R*.26,R*1.1,R*.13);ctx.fill();}}
+    ctx.restore();}
+  async resize(o,dir){const next=clamp(o.size*(dir>0?SIZE_STEP:1/SIZE_STEP),SIZE_MIN,SIZE_MAX);if(Math.abs(next-o.size)<1e-6){this.game.audio?.playCue?.('tap');return;}
+    o.size=Math.abs(next-1)<.02?1:next;o.k=kFor(o);o.boing={t:0,dur:.3};this.sortByDepth();this.game.audio?.playCue?.('pop');await this.savePlacement(o);}
+  // Saved per child: where it stands and how big it is (a pin from the Collection is kept).
+  async savePlacement(o){const old=this.game.save?.getProfileState?.()?.island?.placements?.[o.id];
+    const size=o.size&&Math.abs(o.size-1)>.001?{size:Math.round(o.size*1000)/1000}:{};
+    await this.game.save?.saveIslandPlacement?.(o.id,{x:Math.round(o.x),y:Math.round(o.y),zone:o.zone,...size,...(old?.pinned?{pinned:true}:{})});}
+  // Two fingers on a thing: pinch to make it bigger or smaller.
+  handleSecondPointer(e){
+    const held=this.drag??this.press?.o;
+    if(e.type==='down'&&held&&!this.pinch){const a=this.lastPointer??{x:held.x,y:held.y};this.pinch={o:held,d0:Math.max(30,Math.hypot(e.x-a.x,e.y-a.y)),size0:held.size??1,x:e.x,y:e.y};if(this.press)this.press.pinched=true;return;}
+    if(!this.pinch)return;
+    if(e.type==='move'){this.pinch.x=e.x;this.pinch.y=e.y;this.applyPinch();return;}
+    if(e.type==='up'||e.type==='cancel')this.endPinch();
+  }
+  applyPinch(){const p=this.pinch,a=this.lastPointer;if(!p||!a)return;const d=Math.hypot(p.x-a.x,p.y-a.y);p.o.size=clamp(p.size0*d/p.d0,SIZE_MIN,SIZE_MAX);p.o.k=kFor(p.o);}
+  endPinch(){const p=this.pinch;if(!p)return;this.pinch=null;if(Math.abs((p.o.size??1)-p.size0)>.01){this.game.audio?.playCue?.('pop');this.sortByDepth();if(this.drag!==p.o)this.savePlacement(p.o);}}
 
   drawIsland(ctx){
     ctx.fillStyle='#78dcff';ctx.fillRect(0,0,1920,1080);drawCloud(ctx,150,120,1.05,.75);drawCloud(ctx,1380,150,.8,.68);
@@ -169,13 +291,13 @@ export class WonderIslandScene {
 
   render(ctx){this.renderIsland(ctx);this.renderNextOffer(ctx);}
   renderIsland(ctx){
-    this.drawIsland(ctx);for(const o of this.objects)this.drawObject(ctx,o);this.pip?.render(ctx);this.drawHello(ctx);
-    ctx.fillStyle='#5b3b72';ctx.textAlign='center';ctx.font='900 64px ui-rounded,system-ui';ctx.fillText('Wonder Island',960,95);ctx.fillStyle='#fff';ctx.font='700 30px system-ui';ctx.fillText(this.placementMode?'Move your things anywhere on the grass.':'Tap the island toys — or start an adventure!',960,140);
+    this.drawIsland(ctx);for(const o of this.objects)this.drawObject(ctx,o);this.renderParticles(ctx);this.pip?.render(ctx);this.drawHello(ctx);this.renderSizeButtons(ctx);
+    ctx.fillStyle='#5b3b72';ctx.textAlign='center';ctx.font='900 64px ui-rounded,system-ui';ctx.fillText('Wonder Island',960,95);ctx.fillStyle='#fff';ctx.font='700 30px system-ui';ctx.fillText(this.placementMode?'Build: tap a piece to put it on the island.':'Drag your friends onto the toys!',960,140);
     if(this.firstStep&&!this.placementMode){const r=this.firstStep==='play'?[360,900,430,115]:[810,900,500,115];ctx.save();ctx.globalAlpha=globalThis.__LL_REDUCED_MOTION?.5:.3+.3*(1+Math.sin(this.t*3))/2;ctx.fillStyle='#fff7a0';ctx.beginPath();ctx.roundRect(r[0]-16,r[1]-16,r[2]+32,r[3]+32,70);ctx.fill();ctx.restore();} // the next thing to tap glows softly
     if(this.speechT>0&&!this.placementMode)drawSpeechBubble(ctx,this.speech,110,330,430,112,Math.min(1,this.speechT/.18));
     {const k=this.placementMode?1:nudgeScale(this.t,this.idleT??0);ctx.save();ctx.translate(575,957);ctx.scale(k,k);ctx.translate(-575,-957);drawCandyButton(ctx,360,900,430,115,'PLAY',this.portalPressed,'play');ctx.restore();} // bounces after 5 s with no touch
     drawCandyButton(ctx,810,900,500,115,'EXPLORE WORLDS',this.rainbowPressed,'explore');
-    drawCandyButton(ctx,1330,910,390,95,this.placementMode?'DONE MOVING':'MOVE THINGS',this.modePressed,'move');
+    drawCandyButton(ctx,1330,910,390,95,this.placementMode?'DONE':'BUILD',this.modePressed,'build');
     if(!drawArt(ctx,lookupArt('ui','parent'),90,85,118,118)){ctx.fillStyle='#ffffffdd';ctx.beginPath();ctx.arc(90,85,54,0,Math.PI*2);ctx.fill();ctx.fillStyle='#5b3b72';ctx.font='900 46px system-ui';ctx.fillText('⚙',90,101);}drawCandyButton(ctx,1510,36,330,94,'COLLECTION',this.collectionPressed,'collection');
     if(this.placementMode){ctx.strokeStyle='#fff8';ctx.setLineDash?.([18,16]);ctx.lineWidth=8;ctx.beginPath();ctx.roundRect(300,300,1330,565,70);ctx.stroke();ctx.setLineDash?.([]);this.renderTray(ctx);}
     if(this.hatch?.ready&&this.celebrateT<CELEBRATE_SECONDS){ctx.save();ctx.globalAlpha=Math.min(1,(CELEBRATE_SECONDS-this.celebrateT)/.5)*.7;ctx.fillStyle='#fffdf0';ctx.beginPath();ctx.ellipse(960,620,260,240,0,0,Math.PI*2);ctx.fill();ctx.restore();this.hatch.render(ctx,960,780,340);}
@@ -206,8 +328,10 @@ export class WonderIslandScene {
   async removePiece(o){this.objects=this.objects.filter(x=>x!==o);this.game.audio?.playCue?.('drop');await this.game.save?.removeIslandPiece?.(o.id);}
 
   drawObject(ctx,o){
-    const active=this.interaction===o.id&&this.interactionT>0;ctx.save();ctx.translate(o.x,o.y);if(o.k&&o.k!==1)ctx.scale(o.k,o.k);if(active&&o.type!=='ball')ctx.scale(1+Math.sin(this.t*16)*.04,1+Math.sin(this.t*16)*.04);
-    if(this.placementMode&&this.drag===o){ctx.save();ctx.scale(1,.32);const where=o.type==='built'&&overTray(o.x,o.y)?null:onGrass(o)?'placeOk':'placeBlocked';drawArt(ctx,lookupArt('ui',where),0,(o.h/2-8)/.32,o.w*1.2,o.w*1.2,{alpha:.9});ctx.restore();} // green ring: fine here; red cross: it will hop back onto the grass
+    const active=this.interaction===o.id&&this.interactionT>0,p=o.pose;ctx.save();ctx.translate(o.x+(p?.dx??0),o.y+(p?.dy??0));if(o.k&&o.k!==1)ctx.scale(o.k,o.k);
+    if(p&&(p.rot||p.sx!==1||p.sy!==1||p.s!==1)){const py=p.pivotY??o.h/2;ctx.translate(0,py);if(p.rot)ctx.rotate(p.rot);ctx.scale(p.s*p.sx,p.s*p.sy);ctx.translate(0,-py);} // Job 15: playing — move, tilt, squash (about the feet)
+    if(active&&o.type!=='ball')ctx.scale(1+Math.sin(this.t*16)*.04,1+Math.sin(this.t*16)*.04);
+    if(this.drag===o){ctx.save();ctx.scale(1,.32);const where=this.placementMode&&o.type==='built'&&overTray(o.x,o.y)?null:this.staysHere(o)?'placeOk':'placeBlocked';drawArt(ctx,lookupArt('ui',where),0,(o.h/2-8)/.32,o.w*1.2,o.w*1.2,{alpha:.9});ctx.restore();} // green ring: fine here; red cross: it will hop back onto the grass
     else if(this.placementMode&&!o.ground){ctx.save();ctx.scale(1,.32);drawArt(ctx,lookupArt('ui','placeSpot'),0,(o.h/2-8)/.32,o.w*1.15,o.w*1.15,{alpha:.8,blend:'screen'});ctx.restore();} // soft spot under things you can move
     if(this.drawObjectArt(ctx,o,active)){/* real picture drawn */}else
     if(o.type==='tree'){ctx.fillStyle='#8a5938';ctx.beginPath();ctx.roundRect(-28,-20,56,150,20);ctx.fill();ctx.fillStyle='#5dbb5b';for(const [x,y,r] of [[0,-100,95],[-65,-50,70],[70,-45,72]]){ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();}ctx.fillStyle='#e94d55';for(const [x,y] of [[-55,-70],[30,-115],[75,-35]]){ctx.beginPath();ctx.arc(x,y,15,0,Math.PI*2);ctx.fill();}}
@@ -242,7 +366,7 @@ export class WonderIslandScene {
   }
 
   // A tapped friend says hello in a speech bubble (fixed size: one short word, so the picture is never squashed).
-  drawHello(ctx){const h=this.hello;if(!h||h.t<=0||this.placementMode)return;const o=this.objects.find(x=>x.id===h.id);if(!o)return;const x=clamp(o.x+o.w*.35,180,1740),y=Math.max(150,o.y-o.h/2-55),a=Math.min(1,h.t/.25);
+  drawHello(ctx){const h=this.hello;if(!h||h.t<=0||this.placementMode)return;const o=this.objects.find(x=>x.id===h.id);if(!o)return;const b=drawnBox(o),x=clamp(b.x+b.w*.85,180,1740),y=Math.max(150,b.y-55),a=Math.min(1,h.t/.25);
     if(!drawArt(ctx,lookupArt('ui','speechBubble'),x,y,190,130,{alpha:a}))return;ctx.save();ctx.globalAlpha=a;ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='900 34px system-ui';ctx.fillText(h.text,x+4,y+4,150);ctx.restore();}
   // What a tapped thing sounds like: its animal (Baby T-Rex roars, quietly), a creature voice, a horn for rides…
   tapSound(o){if(o.type==='ball'||o.type==='slide')return 'bounce';if(o.type==='pond')return 'splash';const r=this.game.rewards?.get?.(o.id);if(r?.type==='vehicles')return 'horn';if(r?.type==='creatures'){const pic=lookupArt('rewards',o.id)??o.id;return this.game.audio?.sounds?.animalCue?.(pic)??'creature';}return 'sparkle';}
@@ -256,31 +380,61 @@ export class WonderIslandScene {
 
   objectAt(x,y){return[...this.objects].reverse().find(o=>contains(o,x,y));}
   // Ground tiles lie under everything; doors, windows and roofs sit in front of a wall they are put on.
-  depth(o){return o.ground?-1e4+o.y:(o.y+o.h*(o.k??1)/2)+(o.over?140:0);}
+  depth(o){if(o.pose?.depth!=null)return o.pose.depth;return o.ground?-1e4+o.y:(o.y+o.h*(o.k??1)/2)+(o.over?140:0);}
   sortByDepth(){this.objects.sort((a,b)=>this.depth(a)-this.depth(b));}
   // Name tags show when a thing is tapped, just won, or being moved, so a full island doesn't turn into a wall of labels.
   showTag(o){return (this.placementMode&&this.drag===o)||(this.interaction===o.id&&this.interactionT>0)||this.celebrateReward===o.id;} /* move mode: only the thing being moved (Job 14: tags never pile up) */
-  async finishDrag(o){o.x=clamp(o.x,350,1580);o.y=clamp(o.y,410,820);this.sortByDepth();this.game.fx?.cue?.('place',{x:o.x,y:o.y});await this.game.save?.saveIslandPlacement?.(o.id,{x:o.x,y:o.y,zone:o.zone});}
+  // Job 15: let go anywhere. In the water or off the screen it floats back to the nearest land; on the portal or the big
+  // buttons it is nudged aside. A flicked ball rolls; a friend let go on a toy plays with it (and a toy let go by a friend).
+  staysHere(o){const k=o.k??1,s=settle(o.x,o.y,o.w*k,o.h*k);return Math.hypot(s.x-o.x,s.y-o.y)<3;}
+  async finishDrag(o){
+    const k=o.k??1,spot=settle(o.x,o.y,o.w*k,o.h*k),dx=o.x-spot.x,dy=o.y-spot.y;
+    if(Math.hypot(dx,dy)>3){o.float={dx,dy,t:0,wet:spot.wet};if(spot.wet)this.game.audio?.playCue?.('splash');}
+    o.x=spot.x;o.y=spot.y;o.k=kFor(o);this.sortByDepth();this.game.fx?.cue?.('place',{x:o.x,y:o.y});
+    const v=this.flickVelocity();
+    if(toyKind(o)==='ball'&&v&&Math.hypot(v.x,v.y)>300){const sp=Math.hypot(v.x,v.y),m=Math.min(1,2200/sp);o.vel={x:v.x*m,y:v.y*m};o.bumped=new Set();this.game.audio?.playCue?.('bounce');return;}
+    if(!this.placementMode){if(this.isFriend(o)){const toy=this.toyNear(o);if(toy&&this.startPlay(o,toy)){this.savePlacement(o);return;}}else if(toyKind(o)){const f=this.friendNear(o);if(f)this.startPlay(f,o);}}
+    await this.savePlacement(o);
+  }
+  // How fast the finger was moving when it let go (the last tenth of a second), for flicking the ball.
+  flickVelocity(){const tr=this.dragTrail;if(!tr||tr.length<2)return null;const a=tr[0],b=tr.at(-1),dt=(b.t-a.t)/1000;return dt>0.01?{x:(b.x-a.x)/dt,y:(b.y-a.y)/dt}:null;}
+  trackDrag(x,y){const now=globalThis.performance?.now?.()??Date.now();(this.dragTrail??=[]).push({x,y,t:now});while(this.dragTrail.length>2&&now-this.dragTrail[0].t>100)this.dragTrail.shift();}
+  beginDrag(o,x,y){this.stopPlayOf(o);o.vel=null;o.float=null;o.pose=null;this.drag=o;this.dragOffset.x=x-o.x;this.dragOffset.y=y-o.y;this.dragTrail=[];this.trackDrag(x,y);this.game.audio?.playCue?.('grab');}
   interact(o){this.interaction=o.id;this.interactionT=1.2;const hello=this.helloFor(o);this.hello=hello?{id:o.id,text:hello,t:HELLO_SECONDS}:null;if(o.type==='drum')this.game.audio?.playCue?.('count',{count:2});else this.game.audio?.playCue?.(this.tapSound(o)); /* Job 13: each thing's own sound */if(o.type==='slide')this.pip?.react('bounce',{duration:1.2});if(o.type==='ball')this.pip?.lookAt(o,.8);}
 
   handlePointer(e){
     if(e.type==='down'){this.idleT=0;this.pointed=false;}
+    if(e.type!=='cancel')this.lastPointer={x:e.x,y:e.y};
     if(this.offerShowing()){if(e.type==='up'){if(inCircle(e,OFFER_NEXT)){this.game.audio?.playCue?.('start');const after=this.nextOffer.after;this.nextOffer=null;this.playNext(after);}else if(inCircle(e,OFFER_HOME)){this.nextOffer=null;this.game.audio?.playCue?.('back');}}return;}
     if(this.hatch?.ready&&!this.hatch.finished&&this.celebrateT<CELEBRATE_SECONDS){if(e.type==='up')this.hatch.skip();return;}
     const portal=e.x>=340&&e.x<=800&&e.y>=875&&e.y<=1045;const rainbow=e.x>=790&&e.x<=1330&&e.y>=875&&e.y<=1045;const parent=(e.x-90)**2+(e.y-85)**2<=75**2;const mode=e.x>=1320&&e.x<=1740&&e.y>=885&&e.y<=1045;const collection=e.x>=1490&&e.x<=1860&&e.y>=30&&e.y<=140;
+    const onButton=portal||rainbow||parent||mode||collection;
     if(e.type==='down'){
+      // Job 15: the + and − buttons beside a held thing come first; a tap anywhere else puts them away.
+      if(this.sizeButtons){const dir=this.sizeButtonAt(e.x,e.y);if(dir){this.sizePress=dir;return;}this.sizeButtons=null;}
       this.portalPressed=portal;this.rainbowPressed=rainbow;this.parentPressed=parent;this.modePressed=mode;this.collectionPressed=collection;
       this.trayPressed=this.placementMode&&overTray(e.x,e.y)?this.trayPieceAt(e.x,e.y):null;if(this.trayPressed)return;
-      if(this.placementMode&&!portal&&!rainbow&&!parent&&!mode&&!collection&&!overTray(e.x,e.y)){const o=this.objectAt(e.x,e.y);if(o){this.drag=o;this.dragOffset.x=e.x-o.x;this.dragOffset.y=e.y-o.y;}}
+      if(onButton||(this.placementMode&&overTray(e.x,e.y)))return;
+      const o=this.objectAt(e.x,e.y);if(!o)return;
+      // BUILD mode drags straight away (as before). Otherwise a finger on a thing is a tap, a drag (once it moves) or a hold.
+      if(this.placementMode)this.beginDrag(o,e.x,e.y);else this.press={o,x:e.x,y:e.y,t:0,held:false,pinched:false};
       return;
     }
-    if(e.type==='move'&&this.drag){this.drag.x=e.x-this.dragOffset.x;this.drag.y=e.y-this.dragOffset.y;if(!this.drag.base&&this.drag.type!=='built')this.drag.k=depthScale(this.drag.y);return;}
+    if(e.type==='move'){
+      if(this.sizePress)return;
+      if(this.press&&!this.drag&&Math.hypot(e.x-this.press.x,e.y-this.press.y)>DRAG_START){const {o,x,y}=this.press;this.press=null;this.beginDrag(o,x,y);} /* held from where the finger first touched it */
+      if(this.drag){const o=this.drag;o.x=e.x-this.dragOffset.x;o.y=e.y-this.dragOffset.y;o.k=kFor(o);this.trackDrag(e.x,e.y);if(this.pinch)this.applyPinch();}
+      return;
+    }
     if(e.type==='up'||e.type==='cancel'){
+      if(this.sizePress){const dir=this.sizePress;this.sizePress=null;if(e.type==='up'&&this.sizeButtonAt(e.x,e.y)===dir&&this.sizeButtons){this.sizeButtons.t=SIZE_BUTTONS_SECONDS;this.resize(this.sizeButtons.o,dir);}return;}
       if(this.trayPressed){const key=this.trayPressed;this.trayPressed=null;if(e.type==='up'&&this.trayPieceAt(e.x,e.y)===key)this.addPiece(key);return;}
-      if(this.drag){const o=this.drag;this.drag=null;if(o.type==='built'&&overTray(o.x,o.y)){this.removePiece(o);return;}if(e.type==='up')this.finishDrag(o);return;}
+      if(this.pinch)this.endPinch();
+      if(this.drag){const o=this.drag;this.drag=null;if(this.placementMode&&o.type==='built'&&overTray(o.x,o.y)){this.removePiece(o);return;}this.finishDrag(o);return;}
+      const press=this.press;this.press=null;
       const go=e.type==='up'&&this.portalPressed&&portal,goRainbow=e.type==='up'&&this.rainbowPressed&&rainbow,pg=e.type==='up'&&this.parentPressed&&parent,toggle=e.type==='up'&&this.modePressed&&mode,goCollection=e.type==='up'&&this.collectionPressed&&collection;this.portalPressed=this.rainbowPressed=this.parentPressed=this.modePressed=this.collectionPressed=false;
-      if(go){this.game.audio?.playCue?.('start');this.playNext();return;}if(goRainbow){this.game.audio?.playCue?.('button');this.game.scenes.change('worldSelect');return;}if(goCollection){this.game.audio?.playCue?.('button');this.game.scenes.change('collection');return;}if(pg){this.game.scenes.change('parentGate',{returnTo:'island'});return;}if(toggle){this.placementMode=!this.placementMode;this.game.audio?.playCue?.('button');return;}
-      if(e.type==='up'&&!this.placementMode){const o=this.objectAt(e.x,e.y);if(o)this.interact(o);}
+      if(go){this.game.audio?.playCue?.('start');this.playNext();return;}if(goRainbow){this.game.audio?.playCue?.('button');this.game.scenes.change('worldSelect');return;}if(goCollection){this.game.audio?.playCue?.('button');this.game.scenes.change('collection');return;}if(pg){this.game.scenes.change('parentGate',{returnTo:'island'});return;}if(toggle){this.placementMode=!this.placementMode;this.sizeButtons=null;this.game.audio?.playCue?.('button');return;}
+      if(e.type==='up'&&!this.placementMode&&!press?.held&&!press?.pinched&&!onButton){const o=press?.o??this.objectAt(e.x,e.y);if(o)this.interact(o);}
     }
   }
 }

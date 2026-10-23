@@ -18,5 +18,7 @@
 
     <style name="AppTheme.NoActionBarLaunch" parent="Theme.SplashScreen">
         <item name="android:background">@drawable/splash</item>
+        <!-- Job 16: Android 12+ shows its own opening screen first; give it the studio logo's dark purple -->
+        <item name="windowSplashScreenBackground">#0e0115</item>
     </style>
 </resources>

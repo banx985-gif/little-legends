@@ -1,4 +1,4 @@
-const CACHE = 'little-legends-m29-playable-fix1-art-v51';
+const CACHE = 'little-legends-m29-playable-fix1-art-v52';
 const CORE = [
   './',
   './index.html',
@@ -10,6 +10,7 @@ const CORE = [
   './assets/icons/icon-maskable-512.png',
   './assets/icons/apple-touch-icon.png',
   './assets/art/meadow_picnic_clearing.png',
+  './assets/ui/studio_logo.png',
   './assets/art_manifest.json',
   './data/art_map.json',
   './data/activities.json',

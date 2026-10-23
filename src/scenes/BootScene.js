@@ -1,6 +1,8 @@
 import { artMap, drawArt } from '../core/art.js';
 
 const STARTER_MAX_WAIT = 3.5;
+// Job 16: the Banx Games logo fades in and out on its own dark purple first (a tap skips it); the starter art loads meanwhile.
+const LOGO_TIME = 1.5, LOGO_FADE = 0.35, LOGO_BG = '#0e0115'; // LOGO_BG = the logo picture's own background, so no square edge shows
 
 export class BootScene {
   constructor(game) {
@@ -9,6 +11,8 @@ export class BootScene {
     this.progress = 0;
     this.loaded = false;
     this.changed = false;
+    this.logoT = 0;
+    this.logoDone = false;
   }
 
   enter() {
@@ -19,6 +23,7 @@ export class BootScene {
   async loadStarter() {
     const starter = artMap()?.preload?.starter;
     if (starter?.length && this.game.assets.loadArt) {
+      await this.game.assets.loadArt(['ui.studio_logo']).catch(() => {}); // first, so the logo is up straight away
       await this.game.assets.loadArt(starter, p => { this.progress = p; });
       return;
     }
@@ -28,6 +33,11 @@ export class BootScene {
   }
 
   update(dt) {
+    if (!this.logoDone) {
+      this.logoT += dt;
+      if (this.logoT >= LOGO_TIME) this.logoDone = true;
+      return;
+    }
     this.t += dt;
     if (!this.changed && this.t > 0.65 && (this.loaded || this.t > STARTER_MAX_WAIT)) {
       this.changed = true;
@@ -35,7 +45,21 @@ export class BootScene {
     }
   }
 
+  handlePointer(e) {
+    if (!this.logoDone && e.type === 'down') this.logoDone = true;
+  }
+
+  letterbox() { return this.logoDone ? null : LOGO_BG; }
+
+  renderLogo(ctx) {
+    ctx.fillStyle = LOGO_BG;
+    ctx.fillRect(0, 0, 1920, 1080);
+    const t = this.logoT, alpha = Math.max(0, Math.min(1, t / LOGO_FADE, (LOGO_TIME - t) / LOGO_FADE));
+    if (alpha > 0) drawArt(ctx, artMap()?.ui?.studio_logo, 960, 540, 760, 760, { alpha });
+  }
+
   render(ctx) {
+    if (!this.logoDone) { this.renderLogo(ctx); return; }
     const w = 1920, h = 1080;
     const pulse = 1 + Math.sin(this.t * 4) * 0.025;
     ctx.fillStyle = '#7edcff';

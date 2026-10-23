@@ -21,6 +21,7 @@ const ERROR_LIMIT = 6; // average change per visible pixel (0–255) above which
 function targetLongest(rel) {
   if (rel.startsWith('art/')) return Infinity;                      // full-screen background
   if (rel.startsWith('worlds/backgrounds/')) return 1920;           // full-screen 16:9 scene backgrounds
+  if (rel === 'ui/studio_logo.png') return 680;                     // studio logo: shown big on the opening screen (Job 16)
   if (rel.startsWith('ui/')) return 256;
   if (/^objects\/(letters|letters_lower|numbers)\//.test(rel)) return 384;
   if (rel.startsWith('characters/pip/')) return 680;                // Pip ≤ 410 tall × scale 0.8

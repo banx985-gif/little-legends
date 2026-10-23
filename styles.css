@@ -1,6 +1,6 @@
 :root {
   color-scheme: light;
-  background: #75d8ff;
+  background: #0e0115; /* Job 16: the studio logo's dark purple, so the Android splash runs straight into the logo intro */
   font-family: ui-rounded, "Arial Rounded MT Bold", system-ui, sans-serif;
 }
 
@@ -10,7 +10,7 @@ html, body { overscroll-behavior: none; touch-action: none; }
 body {
   position: fixed;
   inset: 0;
-  background: #75d8ff;
+  background: #0e0115;
   -webkit-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;

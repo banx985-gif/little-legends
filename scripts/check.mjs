@@ -68,7 +68,7 @@ for (const file of jsFiles) execFileSync(process.execPath, ['--check', file], { 
 
 // The installable/offline build must cache every eagerly imported source module.
 const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v51"), 'Service worker cache version should advance with the real-art build');
+assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v52"), 'Service worker cache version should advance with the real-art build');
 for (const file of walk(path.join(root, 'src')).filter(file => file.endsWith('.js'))) {
   const rel = `./${path.relative(root, file).split(path.sep).join('/')}`;
   assert.ok(serviceWorkerSource.includes(`'${rel}'`), `Offline cache must include ${rel}`);
@@ -1355,7 +1355,7 @@ assert.ok(serviceWorkerSource.includes("'./assets/art_manifest.json'")&&serviceW
   { const ball = ps.objects.find(o => o.id === 'ball'); ball.x = 900; ball.y = 700; ball.k = 1; dino.x = 820; dino.y = 700; dino.k = kOf(dino); ps.sortByDepth();
     assert.ok(ps.startPlay(dino, ball)); const x0 = ball.x; let maxV = 0; for (let t = 0; t < 8 && (dino.play || ball.vel); t += 1 / 30) { ps.update(1 / 30); maxV = Math.max(maxV, Math.hypot(ball.vel?.x ?? 0, ball.vel?.y ?? 0)); }
     assert.ok(maxV > 300 && ball.x > x0 + 100, 'A friend kicks the ball and it rolls away'); assert.ok(!ball.vel && IP.onLand(ball.x, ball.y + ball.h * ball.k / 2), 'It stops on the island'); await flush(); assert.equal(placements(all).ball.x, Math.round(ball.x));
-    const from = { x: ball.x, y: ball.y }; ps.handlePointer({ type: 'down', ...from }); for (let i = 1; i <= 4; i++) ps.handlePointer({ type: 'move', x: from.x - i * 60, y: from.y });
+    const from = { x: ball.x, y: ball.y }; for (let o; (o = ps.objectAt(from.x, from.y)) && o !== ball;) o.x += 3000; /* the ball can stop under another toy: move it aside */ ps.handlePointer({ type: 'down', ...from }); for (let i = 1; i <= 4; i++) ps.handlePointer({ type: 'move', x: from.x - i * 60, y: from.y });
     ps.dragTrail = [{ x: from.x - 180, y: from.y, t: 0 }, { x: from.x - 240, y: from.y, t: 40 }]; ps.handlePointer({ type: 'up', x: from.x - 240, y: from.y }); assert.ok(ball.vel && ball.vel.x < -300, 'A flick sends the ball rolling');
     run(ps, 8); assert.ok(!ball.vel && IP.onLand(ball.x, ball.y + ball.h * ball.k / 2), 'and it stops on the island'); }
   // 4. Depth: everything (playing or not) is drawn back to front by where it stands.

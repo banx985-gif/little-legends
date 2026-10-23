@@ -1,30 +1,25 @@
-# CC latest — Job 15B (new PC check)
+# CC latest — Job 16 (studio logo)
 
 - **When:** 2026-10-24
-- **Job:** JOB_15B_NEW_PC_SETUP
-- **Status:** DONE (Android APK build BLOCKED until two installs — see below)
-
-## This PC (D:\Banx Games)
-- Git: OK. HEAD was `2e822ea` (Job 15). No "dubious ownership" warning. `git fetch` and `git push --dry-run` both work — GitHub sign-in is fine.
-- Node: OK — v24.22.1, npm 11.19.1. Copied `node_modules` work; no reinstall needed.
-- `npm run check`: PASS. `npm run standalone`: PASS (8.1 MB, 90 of 972 pictures embedded as before).
-- Counts: `art_manifest.json` lists 972 pictures; `assets/audio/` holds 80 sounds. Both as expected.
-- Chrome: OK. Edge: OK (the QA scripts can use either).
-- Java 21: **MISSING** (only old Java 8 is installed, which can't build the app).
-- Android SDK + adb: **MISSING** (nothing at `%LOCALAPPDATA%\Android\Sdk` or anywhere else on C: or D:).
-- ffmpeg: **MISSING** (optional; only needed when converting new sounds).
+- **Job:** JOB_16_STUDIO_LOGO
+- **Status:** DONE. The APK was not rebuilt because this PC has no Android SDK or Java 21 yet (see Job 15B).
 
 ## What changed
-- No game code changed. Committed the new "write docs/CC_LATEST.md" rule in CLAUDE.md and this file.
-- `local.properties` still points at the laptop's SDK path. It wasn't changed because this PC has no SDK yet. `app-android/build.mjs` rewrites it automatically once the SDK is installed.
+- **Opening logo:** when the game opens, the Banx Games logo fades in and out over 1.5 seconds on dark purple, before the loading screen and Pip. A tap skips it. The game's starter pictures load while the logo is showing, so it adds almost no wait.
+- **Dark purple:** I used the logo picture's own background colour, #0e0115, instead of #120a1f. That way the square edge of the picture doesn't show. The page behind the game and the screen edges on non-16:9 tablets are the same purple while the logo is up.
+- **Android splash** (the picture shown while the app opens): now the full upright Banx Games logo on the same purple, in every size. Android 12+ tablets show their own opening screen first, and that is set to the same purple. The splash pictures total 3.4 MB (the old Pip ones were 2.7 MB).
+- **Parent Area → new CREDITS tab:** the logo at the top, "Little Legends: Magic World — made by Banx Games", then the sound credits (moved there from the DATA tab).
+- **Logo file:** shrunk from 578 KB to 186 KB and still 680×680. It's in `art_manifest.json` (id `ui.studio_logo`; now 973 pictures), the starter set and the offline cache (cache version bumped).
+- **Check fix:** the Job 15 "flick the ball" test failed about 1 run in 3. When the rolling ball stopped under the alphabet blocks, the test grabbed the blocks instead. Only the test was wrong, not the game. It now moves the blocks aside first, and the check passed 6 times out of 6.
+- `scripts/make-icons.cjs` now builds the splash from `Banx Games/_BRAND/banx_games_logo.png`. The app icons are unchanged (still Pip).
 
 ## Not done
-- APK rebuild: can't happen until Java 21 and the Android SDK are installed.
+- APK rebuild: blocked until Android Studio is installed on this PC.
 
 ## What Aaron needs to do
-- Install **Android Studio** (developer.android.com/studio). Open it once and let it download the SDK. That gives the Android SDK, adb and a built-in Java 21, all in the places the build looks.
-- Optional: install ffmpeg (`winget install ffmpeg`), only needed for new sound files.
-- Tell CC when that's done, and it will rebuild the APK.
+- Install Android Studio (see Job 15B) so CC can rebuild the APK.
+- On the tablet, once there's a new APK: check that the logo shows for about 1.5 s and a tap skips it, that the splash is the new logo, and look at Parent Area → CREDITS.
+- Say if you'd rather have #120a1f exactly. It would show a faint square around the logo.
 
 ## Commit
-- See the git log for "Job 15B". Pushed: yes. APK rebuilt: no (blocked).
+- See the git log for "Job 16". Pushed: yes. APK rebuilt: no (blocked).

@@ -2872,6 +2872,10 @@
   "url": "./assets/ui/speech_bubble.png"
  },
  {
+  "id": "ui.studio_logo",
+  "url": "./assets/ui/studio_logo.png"
+ },
+ {
   "id": "ui.worlds.rocket_engine",
   "url": "./assets/ui/worlds/rocket_engine.png"
  },

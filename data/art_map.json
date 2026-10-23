@@ -1781,7 +1781,8 @@
     "speechBubble": "ui.speech_bubble",
     "worldBadge": "ui.menu.icon_badge",
     "rewardPedestal": "rewards.reward_pedestal",
-    "missionStar": "rewards.medals.star_gold"
+    "missionStar": "rewards.medals.star_gold",
+    "studio_logo": "ui.studio_logo"
   },
   "fx": {
     "about": "blend 'screen' = light blend for glows; omitted = normal.",
@@ -1842,6 +1843,7 @@
   "preload": {
     "about": "Art loaded for each scene (plus pictures for the activities inside an adventure, worked out from data). 'starter' stays loaded and is what the one-file test build embeds.",
     "starter": [
+      "ui.studio_logo",
       "art.meadow_picnic_clearing",
       "characters.pip.pip_front",
       "characters.pip.pip_side",

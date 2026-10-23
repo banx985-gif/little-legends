@@ -193,7 +193,7 @@ export class Game {
   render(alpha) {
     const now = globalThis.performance?.now?.() ?? Date.now(); this.fpsFrames++; // frames actually drawn each second
     if (!this.fpsT) this.fpsT = now; else if (now - this.fpsT >= 1000) { this.fps = this.fpsFrames * 1000 / (now - this.fpsT); this.fpsFrames = 0; this.fpsT = now; }
-    this.viewport.clear(this.ctx, '#75d8ff');
+    this.viewport.clear(this.ctx, this.scenes.current?.letterbox?.() ?? '#75d8ff'); // edges outside 16:9 (the logo intro asks for its dark purple)
     this.viewport.begin(this.ctx);
     this.scenes.render(this.ctx, alpha);
     this.fx?.render?.(this.ctx);

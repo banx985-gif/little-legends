@@ -1782,7 +1782,9 @@
     "worldBadge": "ui.menu.icon_badge",
     "rewardPedestal": "rewards.reward_pedestal",
     "missionStar": "rewards.medals.star_gold",
-    "studio_logo": "ui.studio_logo"
+    "studio_logo": "ui.studio_logo",
+    "easel": "objects.art.easel_rainbow",
+    "tab_pictures": "objects.art.palette"
   },
   "fx": {
     "about": "blend 'screen' = light blend for glows; omitted = normal.",
@@ -1888,7 +1890,8 @@
         "rewards.reward_pedestal",
         "ui.speech_bubble",
         "ui.btn_home",
-        "ui.btn_play"
+        "ui.btn_play",
+        "objects.art.easel_rainbow"
       ],
       "worldSelect": [
         "ui.worlds.world_numbers",
@@ -1960,7 +1963,8 @@
         "rewards.eggs.egg_moon",
         "rewards.eggs.egg_jungle",
         "rewards.eggs.egg_forest",
-        "ui.btn_home"
+        "ui.btn_home",
+        "objects.art.palette"
       ],
       "adventure": [
         "objects.dino_egg",
@@ -1981,6 +1985,10 @@
       "activity": [
         "ui.btn_home",
         "ui.btn_play"
+      ],
+      "colouring": [
+        "objects.art.easel_rainbow",
+        "ui.icon_home"
       ]
     }
   },

@@ -4,7 +4,7 @@ import { wornRewards } from '../characters/Wardrobe.js';
 import { art, artMap, drawArt, lookupArt, fxArt, hatchTheme, worldOfReward } from '../core/art.js';
 import { ISLAND_BUILD_LIMIT } from '../save/SaveSystem.js';
 import { HatchSequence } from '../fx/HatchSequence.js';
-import { SIZE_MIN, SIZE_MAX, SIZE_STEP, HOLD_SECONDS, SIZE_BUTTONS_SECONDS, DRAG_START, FLOAT_SECONDS, HOP_SECONDS, APPROACH_SECONDS, TOYS, PLAYS, toyKind, playsOn, settle, hopOffSpot } from '../island/islandPlay.js';
+import { SIZE_MIN, SIZE_MAX, SIZE_STEP, HOLD_SECONDS, SIZE_BUTTONS_SECONDS, DRAG_START, FLOAT_SECONDS, HOP_SECONDS, APPROACH_SECONDS, TOYS, PLAYS, toyKind, playsOn, settle, hopOffSpot, EASEL } from '../island/islandPlay.js';
 
 const CELEBRATE_SECONDS=4.5, HATCH_ART_WAIT=6, HELLO_SECONDS=1.6;
 // Job 14: after a mission's reward, the next one starts by itself unless the child taps home.
@@ -252,6 +252,10 @@ export class WonderIslandScene {
       else if(p.kind==='bubble'){ctx.fillStyle='#d9f3ff66';ctx.strokeStyle='#ffffffdd';ctx.lineWidth=3;ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();ctx.stroke();}
       else{ctx.fillStyle='#fff3a6';const s=p.size;ctx.beginPath();ctx.moveTo(p.x,p.y-s);ctx.lineTo(p.x+s*.3,p.y-s*.3);ctx.lineTo(p.x+s,p.y);ctx.lineTo(p.x+s*.3,p.y+s*.3);ctx.lineTo(p.x,p.y+s);ctx.lineTo(p.x-s*.3,p.y+s*.3);ctx.lineTo(p.x-s,p.y);ctx.lineTo(p.x-s*.3,p.y-s*.3);ctx.closePath();ctx.fill();}}
     ctx.restore();}
+  // Job 17: the colouring easel on the beach (bottom right) opens the colouring studio. It sways a little now and then.
+  drawEasel(ctx){if(this.placementMode)return;const x=EASEL.x+EASEL.w/2,base=EASEL.y+EASEL.h-6,k=this.easelPressed?.92:1,sway=globalThis.__LL_REDUCED_MOTION?0:Math.sin(this.t*1.6)*Math.max(0,Math.sin(this.t*.45))*.05;
+    ctx.save();ctx.translate(x,base);ctx.rotate(sway);ctx.scale(k,k);ctx.fillStyle='#00000022';ctx.beginPath();ctx.ellipse(0,-4,70,14,0,0,Math.PI*2);ctx.fill();
+    if(!drawArt(ctx,lookupArt('ui','easel'),0,0,EASEL.w,EASEL.h-10,{anchor:'bottom'})){ctx.fillStyle='#c98b4c';ctx.fillRect(-60,-170,120,110);ctx.fillStyle='#fff';ctx.fillRect(-50,-160,100,90);}ctx.restore();}
   // + and − beside a held thing: big round buttons, no words.
   showSizeButtons(o){this.sizeButtons={o,t:SIZE_BUTTONS_SECONDS};this.game.audio?.playCue?.('pop');o.boing={t:0,dur:.3};}
   sizeButtonSpots(){const o=this.sizeButtons?.o;if(!o)return[];const b=drawnBox(o),y=clamp(b.y+b.h/2,170,1000);let l=b.x-SIZE_BUTTON_R-14,r=b.x+b.w+SIZE_BUTTON_R+14;
@@ -295,6 +299,7 @@ export class WonderIslandScene {
     ctx.fillStyle='#5b3b72';ctx.textAlign='center';ctx.font='900 64px ui-rounded,system-ui';ctx.fillText('Wonder Island',960,95);ctx.fillStyle='#fff';ctx.font='700 30px system-ui';ctx.fillText(this.placementMode?'Build: tap a piece to put it on the island.':'Drag your friends onto the toys!',960,140);
     if(this.firstStep&&!this.placementMode){const r=this.firstStep==='play'?[360,900,430,115]:[810,900,500,115];ctx.save();ctx.globalAlpha=globalThis.__LL_REDUCED_MOTION?.5:.3+.3*(1+Math.sin(this.t*3))/2;ctx.fillStyle='#fff7a0';ctx.beginPath();ctx.roundRect(r[0]-16,r[1]-16,r[2]+32,r[3]+32,70);ctx.fill();ctx.restore();} // the next thing to tap glows softly
     if(this.speechT>0&&!this.placementMode)drawSpeechBubble(ctx,this.speech,110,330,430,112,Math.min(1,this.speechT/.18));
+    this.drawEasel(ctx);
     {const k=this.placementMode?1:nudgeScale(this.t,this.idleT??0);ctx.save();ctx.translate(575,957);ctx.scale(k,k);ctx.translate(-575,-957);drawCandyButton(ctx,360,900,430,115,'PLAY',this.portalPressed,'play');ctx.restore();} // bounces after 5 s with no touch
     drawCandyButton(ctx,810,900,500,115,'EXPLORE WORLDS',this.rainbowPressed,'explore');
     drawCandyButton(ctx,1330,910,390,95,this.placementMode?'DONE':'BUILD',this.modePressed,'build');
@@ -407,12 +412,12 @@ export class WonderIslandScene {
     if(e.type!=='cancel')this.lastPointer={x:e.x,y:e.y};
     if(this.offerShowing()){if(e.type==='up'){if(inCircle(e,OFFER_NEXT)){this.game.audio?.playCue?.('start');const after=this.nextOffer.after;this.nextOffer=null;this.playNext(after);}else if(inCircle(e,OFFER_HOME)){this.nextOffer=null;this.game.audio?.playCue?.('back');}}return;}
     if(this.hatch?.ready&&!this.hatch.finished&&this.celebrateT<CELEBRATE_SECONDS){if(e.type==='up')this.hatch.skip();return;}
-    const portal=e.x>=340&&e.x<=800&&e.y>=875&&e.y<=1045;const rainbow=e.x>=790&&e.x<=1330&&e.y>=875&&e.y<=1045;const parent=(e.x-90)**2+(e.y-85)**2<=75**2;const mode=e.x>=1320&&e.x<=1740&&e.y>=885&&e.y<=1045;const collection=e.x>=1490&&e.x<=1860&&e.y>=30&&e.y<=140;
-    const onButton=portal||rainbow||parent||mode||collection;
+    const portal=e.x>=340&&e.x<=800&&e.y>=875&&e.y<=1045;const rainbow=e.x>=790&&e.x<=1330&&e.y>=875&&e.y<=1045;const parent=(e.x-90)**2+(e.y-85)**2<=75**2;const mode=e.x>=1320&&e.x<=1740&&e.y>=885&&e.y<=1045;const collection=e.x>=1490&&e.x<=1860&&e.y>=30&&e.y<=140;const easel=!this.placementMode&&e.x>=EASEL.x&&e.x<=EASEL.x+EASEL.w&&e.y>=EASEL.y&&e.y<=EASEL.y+EASEL.h;
+    const onButton=portal||rainbow||parent||mode||collection||easel;
     if(e.type==='down'){
       // Job 15: the + and − buttons beside a held thing come first; a tap anywhere else puts them away.
       if(this.sizeButtons){const dir=this.sizeButtonAt(e.x,e.y);if(dir){this.sizePress=dir;return;}this.sizeButtons=null;}
-      this.portalPressed=portal;this.rainbowPressed=rainbow;this.parentPressed=parent;this.modePressed=mode;this.collectionPressed=collection;
+      this.portalPressed=portal;this.rainbowPressed=rainbow;this.parentPressed=parent;this.modePressed=mode;this.collectionPressed=collection;this.easelPressed=easel;
       this.trayPressed=this.placementMode&&overTray(e.x,e.y)?this.trayPieceAt(e.x,e.y):null;if(this.trayPressed)return;
       if(onButton||(this.placementMode&&overTray(e.x,e.y)))return;
       const o=this.objectAt(e.x,e.y);if(!o)return;
@@ -432,8 +437,8 @@ export class WonderIslandScene {
       if(this.pinch)this.endPinch();
       if(this.drag){const o=this.drag;this.drag=null;if(this.placementMode&&o.type==='built'&&overTray(o.x,o.y)){this.removePiece(o);return;}this.finishDrag(o);return;}
       const press=this.press;this.press=null;
-      const go=e.type==='up'&&this.portalPressed&&portal,goRainbow=e.type==='up'&&this.rainbowPressed&&rainbow,pg=e.type==='up'&&this.parentPressed&&parent,toggle=e.type==='up'&&this.modePressed&&mode,goCollection=e.type==='up'&&this.collectionPressed&&collection;this.portalPressed=this.rainbowPressed=this.parentPressed=this.modePressed=this.collectionPressed=false;
-      if(go){this.game.audio?.playCue?.('start');this.playNext();return;}if(goRainbow){this.game.audio?.playCue?.('button');this.game.scenes.change('worldSelect');return;}if(goCollection){this.game.audio?.playCue?.('button');this.game.scenes.change('collection');return;}if(pg){this.game.scenes.change('parentGate',{returnTo:'island'});return;}if(toggle){this.placementMode=!this.placementMode;this.sizeButtons=null;this.game.audio?.playCue?.('button');return;}
+      const go=e.type==='up'&&this.portalPressed&&portal,goRainbow=e.type==='up'&&this.rainbowPressed&&rainbow,pg=e.type==='up'&&this.parentPressed&&parent,toggle=e.type==='up'&&this.modePressed&&mode,goCollection=e.type==='up'&&this.collectionPressed&&collection,goColouring=e.type==='up'&&this.easelPressed&&easel;this.portalPressed=this.rainbowPressed=this.parentPressed=this.modePressed=this.collectionPressed=this.easelPressed=false;
+      if(go){this.game.audio?.playCue?.('start');this.playNext();return;}if(goRainbow){this.game.audio?.playCue?.('button');this.game.scenes.change('worldSelect');return;}if(goCollection){this.game.audio?.playCue?.('button');this.game.scenes.change('collection');return;}if(goColouring){this.game.audio?.playCue?.('open');this.game.scenes.change('colouring');return;}if(pg){this.game.scenes.change('parentGate',{returnTo:'island'});return;}if(toggle){this.placementMode=!this.placementMode;this.sizeButtons=null;this.game.audio?.playCue?.('button');return;}
       if(e.type==='up'&&!this.placementMode&&!press?.held&&!press?.pinched&&!onButton){const o=press?.o??this.objectAt(e.x,e.y);if(o)this.interact(o);}
     }
   }

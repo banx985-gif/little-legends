@@ -81,6 +81,7 @@ export class Game {
       if (document.hidden) {
         this.suspendCount++;
         this.input?.cancelActive?.();
+        this.scenes.current?.onHidden?.(); // Job 17: e.g. the colouring studio keeps an unsaved picture
         this.audio.suspend();
         this.performanceManager.suspend();
       } else {

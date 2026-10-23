@@ -30,7 +30,8 @@ const ISLAND_40 = async () => {
   const pick = [...toys.map(id => g.rewards.get(id)), ...rest.filter(r => r.type === 'creatures').slice(0, 14), ...rest.filter(r => r.type !== 'creatures').slice(0, 20)].slice(0, 40);
   let i = 0; for (const r of pick) { await g.save.award(r.type, r.id); const x = 330 + (i % 8) * 180, y = 520 + Math.floor(i / 8) * 85; await g.save.saveIslandPlacement(r.id, { x, y, zone: 'decoration' }); i++; }
 };
-const EXTRA_SCENES = [['island', {}, 'island'], ['collection', { tab: 'decorations' }, 'collection decor'], ['collection', { tab: 'vehicles' }, 'collection rides'], ['jungleJam', {}, 'jungle jam'], ['island', { play: true }, 'island 40 things', ISLAND_40]];
+const EXTRA_SCENES = [['island', {}, 'island'], ['collection', { tab: 'decorations' }, 'collection decor'], ['collection', { tab: 'vehicles' }, 'collection rides'], ['jungleJam', {}, 'jungle jam'], ['island', { play: true }, 'island 40 things', ISLAND_40], ['colouring', { page: 'page_44_flower', paint: true }, 'colouring']];
+const FILL_MS = 50; // Job 17: a bucket fill on the Lite check (CPU slowed 4×)
 const LITE_PICTURE_MB = 100; // Job 10 budget for Lite mode
 
 const results = [];
@@ -190,6 +191,9 @@ async function lite(browser, base) {
     for (const [scene, data, name, prep] of scenes) {
       if (prep) await page.evaluate(prep);
       await goScene(page, scene, data); await sleep(3000);
+      // Job 17: a child colouring — a texta line drawn back and forth (one finger move per frame) and a bucket fill every second.
+      if (data.paint) await page.evaluate(() => { const sc = window.__littleLegends.scenes.current; let i = 0; sc.tool = 'texta'; sc.handlePointer({ type: 'down', x: 400, y: 300 });
+        window.__playTimer = setInterval(() => { i++; sc.handlePointer({ type: 'move', x: 400 + (i % 60) * 15, y: 300 + Math.sin(i / 5) * 120 }); if (i % 30 === 0) { sc.handlePointer({ type: 'up', x: 400, y: 300 }); sc.tool = 'bucket'; sc.handlePointer({ type: 'down', x: 960, y: i % 60 ? 340 : 120 }); sc.handlePointer({ type: 'up', x: 960, y: 340 }); sc.tool = 'texta'; sc.handlePointer({ type: 'down', x: 400, y: 300 }); } }, 33); });
       if (data.play) await page.evaluate(() => { const sc = window.__littleLegends.scenes.current, friends = sc.objects.filter(o => sc.isFriend(o)), toys = sc.objects.filter(o => sc.toyGeom && ['decor_slide_rainbow', 'decor_swing_cloud', 'decor_seesaw_stars', 'decor_trampoline_mushroom', 'decor_bubble_machine', 'decor_sandpit_star'].includes(o.id)); window.__playMore = () => toys.forEach((t, i) => { const f = friends[i]; if (f && !f.play) sc.startPlay(f, t); }); window.__playMore(); window.__playTimer = setInterval(window.__playMore, 500); });
       // Headless Chrome's own refresh timer swings wildly (2–140 Hz), so FPS there means nothing. What the game controls is
       // the work per frame (update + draw): Lite mode keeps 30 FPS while that stays well under 33 ms. Freezes > 100 ms count too.
@@ -200,6 +204,11 @@ async function lite(browser, base) {
         setTimeout(() => { g.loop.onFrame = onFrame; obs.disconnect(); work.sort((x, y) => x - y); const P = window.__parts ?? []; window.__parts = []; const q = (arr) => { arr.sort((x, y) => x - y); return arr[Math.floor(arr.length * .95)] ?? 0; }; resolve({ updP95: q(P.map(x => x[0])), drawP95: q(P.map(x => x[1])), steps: P.reduce((n, x) => n + x[2], 0) / Math.max(1, P.length), frames: work.length, workP95: work[Math.floor(work.length * .95)] ?? 99, workMax: work.at(-1) ?? 99, longest: Math.max(0, ...long), quality: globalThis.__LL_QUALITY }); }, 5000);
       }));
       const imageMB = await page.evaluate(() => { clearInterval(window.__playTimer); return window.__littleLegends.debugStats?.().imageMB ?? 0; });
+      if (data.paint) {
+        // The bucket on its own: the flower's middle, a petal and the whole background, each timed (the slowest counts).
+        m.fillMs = await page.evaluate(() => { const sc = window.__littleLegends.scenes.current; sc.handlePointer({ type: 'up', x: 400, y: 300 }); const p = sc.painting; let worst = 0;
+          for (const [x, y, c] of [[960, 400, '#ffd51f'], [960, 160, '#ff7eb9'], [60, 60, '#5cc8f5'], [60, 60, '#7fd14b']]) worst = Math.max(worst, p.fill(x, y, c) ?? 0); return worst; });
+      }
       rows.push({ name, ...m, imageMB });
     }
   }
@@ -209,6 +218,8 @@ async function lite(browser, base) {
   const heaviest = rows.reduce((x, y) => (y.imageMB > x.imageMB ? y : x));
   record('lite-pictures', `Lite mode keeps picture memory within its ${LITE_PICTURE_MB} MB budget`, heaviest.imageMB <= LITE_PICTURE_MB * 1.15, `most ${heaviest.imageMB.toFixed(0)} MB (${heaviest.name}); budget ${LITE_PICTURE_MB} MB, released between screens`);
   const ok = rows.every(r => r.quality === 'lite' && r.frames > 20 && r.workP95 < 16.7 && r.longest < 100) && !errors.length;
+  const fills = rows.filter(r => r.fillMs != null);
+  if (fills.length) record('lite-fill', `Colouring: a bucket fill takes under ${FILL_MS} ms in Lite (CPU slowed 4×)`, fills.every(r => r.fillMs < FILL_MS), `slowest fill ${Math.max(...fills.map(r => r.fillMs)).toFixed(1)} ms (whole background of a 1280×720 page)`);
   record('lite-30fps', 'Lite mode has room for 30 FPS on every world (CPU slowed 4×)', ok, `frame work p95 at most ${worst.workP95.toFixed(1)} ms (${worst.name}) of the 33 ms a 30 FPS frame allows; longest freeze ${Math.round(freeze.longest)} ms (${freeze.name}); ${rows.length} scenes`);
   await context.close();
   return rows;

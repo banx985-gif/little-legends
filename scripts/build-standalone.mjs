@@ -21,7 +21,7 @@ function transform(file){
   return `${JSON.stringify(id)}: function(module, exports, __require){\n${source}\n${assignments}\n//# sourceURL=little-legends:///${id}\n}`;
 }
 const modules=walk(path.join(root,'src')).filter(file=>file.endsWith('.js')).sort().map(transform);
-const embeddedData=Object.fromEntries(['activities.json','adventures.json','rewards.json','art_map.json'].map(name=>[`./data/${name}`,JSON.parse(fs.readFileSync(path.join(root,'data',name),'utf8'))]));
+const embeddedData=Object.fromEntries(['activities.json','adventures.json','rewards.json','art_map.json','colouring.json'].map(name=>[`./data/${name}`,JSON.parse(fs.readFileSync(path.join(root,'data',name),'utf8'))]));
 embeddedData['./assets/art_manifest.json']=JSON.parse(fs.readFileSync(path.join(root,'assets','art_manifest.json'),'utf8'));
 
 // Real art: embed everything if the one-file build stays under ~60 MB, otherwise only the starter set

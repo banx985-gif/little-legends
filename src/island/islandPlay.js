@@ -14,8 +14,9 @@ export const FLOAT_SECONDS = 0.6, HOP_SECONDS = 0.4, APPROACH_SECONDS = 0.35;
 // The island: the sand ellipse drawn by WonderIslandScene (the grass sits inside it). Bases stay on screen.
 export const LAND = { x: 960, y: 850, rx: 820, ry: 330 };
 const BASE_MIN_Y = 525, BASE_MAX_Y = 1070, SIDE = 70;
-// Kept clear: the portal and the PLAY / EXPLORE WORLDS / BUILD buttons.
-export const KEEP_OUT = [{ x: 805, y: 270, w: 310, h: 400 }, { x: 335, y: 872, w: 1415, h: 190 }];
+// Kept clear: the portal, the PLAY / EXPLORE WORLDS / BUILD buttons and the colouring easel (Job 17).
+export const EASEL = { x: 1715, y: 670, w: 175, h: 210 };
+export const KEEP_OUT = [{ x: 805, y: 270, w: 310, h: 400 }, { x: 335, y: 872, w: 1415, h: 190 }, EASEL];
 
 export function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
 export function onLand(x, baseY) {

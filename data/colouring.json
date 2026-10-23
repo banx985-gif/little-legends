@@ -1,0 +1,211 @@
+{
+  "about": "Colouring studio (Job 17). Pages are assets/colouring/<id>.png (black lines on white, 1920x1080); a page whose file is not there yet uses its code-drawn test page (test), or is hidden. free: in the free version (Job 18 adds the lock).",
+  "pages": [
+    {
+      "id": "page_01_pip_wave",
+      "free": true
+    },
+    {
+      "id": "page_02_pip_ball",
+      "free": false
+    },
+    {
+      "id": "page_03_pip_sleep",
+      "free": false
+    },
+    {
+      "id": "page_04_rory",
+      "free": true
+    },
+    {
+      "id": "page_05_bella",
+      "free": false
+    },
+    {
+      "id": "page_06_octo",
+      "free": false
+    },
+    {
+      "id": "page_07_zig",
+      "free": false
+    },
+    {
+      "id": "page_08_luna",
+      "free": false
+    },
+    {
+      "id": "page_09_baby_trex",
+      "free": false
+    },
+    {
+      "id": "page_10_friends_group",
+      "free": false
+    },
+    {
+      "id": "page_11_dino_longneck",
+      "free": false
+    },
+    {
+      "id": "page_12_dino_triceratops",
+      "free": false
+    },
+    {
+      "id": "page_13_dino_stegosaurus",
+      "free": false
+    },
+    {
+      "id": "page_14_dino_flyer",
+      "free": false
+    },
+    {
+      "id": "page_15_dino_egg_hatch",
+      "free": false
+    },
+    {
+      "id": "page_16_dino_volcano",
+      "free": false
+    },
+    {
+      "id": "page_17_cow",
+      "free": true
+    },
+    {
+      "id": "page_18_cat",
+      "free": false
+    },
+    {
+      "id": "page_19_dog",
+      "free": false
+    },
+    {
+      "id": "page_20_pig",
+      "free": false
+    },
+    {
+      "id": "page_21_duck",
+      "free": false
+    },
+    {
+      "id": "page_22_lion",
+      "free": false
+    },
+    {
+      "id": "page_23_elephant",
+      "free": false
+    },
+    {
+      "id": "page_24_turtle_fish",
+      "free": false
+    },
+    {
+      "id": "page_25_bunny",
+      "free": false
+    },
+    {
+      "id": "page_26_owl",
+      "free": false
+    },
+    {
+      "id": "page_27_fire_truck",
+      "free": false
+    },
+    {
+      "id": "page_28_train",
+      "free": false
+    },
+    {
+      "id": "page_29_digger",
+      "free": false
+    },
+    {
+      "id": "page_30_car",
+      "free": true,
+      "test": "car"
+    },
+    {
+      "id": "page_31_rocket",
+      "free": false
+    },
+    {
+      "id": "page_32_boat",
+      "free": false
+    },
+    {
+      "id": "page_33_hot_air_balloon",
+      "free": false
+    },
+    {
+      "id": "page_34_tractor",
+      "free": false
+    },
+    {
+      "id": "page_35_island",
+      "free": false
+    },
+    {
+      "id": "page_36_castle",
+      "free": false
+    },
+    {
+      "id": "page_37_rainbow_house",
+      "free": false,
+      "test": "rainbow_house"
+    },
+    {
+      "id": "page_38_space",
+      "free": false
+    },
+    {
+      "id": "page_39_under_sea",
+      "free": false
+    },
+    {
+      "id": "page_40_farm",
+      "free": false
+    },
+    {
+      "id": "page_41_jungle",
+      "free": false
+    },
+    {
+      "id": "page_42_playground",
+      "free": false
+    },
+    {
+      "id": "page_43_picnic",
+      "free": false
+    },
+    {
+      "id": "page_44_flower",
+      "free": true,
+      "test": "flower"
+    },
+    {
+      "id": "page_45_sun_cloud",
+      "free": true,
+      "test": "sun_cloud"
+    },
+    {
+      "id": "page_46_apple",
+      "free": true,
+      "test": "apple"
+    },
+    {
+      "id": "page_47_ice_cream",
+      "free": false
+    },
+    {
+      "id": "page_48_butterfly",
+      "free": true,
+      "test": "butterfly"
+    },
+    {
+      "id": "page_49_cake",
+      "free": false
+    },
+    {
+      "id": "page_50_teddy",
+      "free": false
+    }
+  ]
+}

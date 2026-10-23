@@ -31,8 +31,19 @@ function blankProfileState() {
     island: { placements: {}, built: [] },
     pip: { outfit: { hat: 'starter-leaf' } },
     adventure: { currentId: null, step: 0, completed: [] },
-    settings: {}
+    settings: {},
+    pictures: [],
+    colouring: { seen: [] }
   };
+}
+
+// Job 17: My Pictures. The child's save keeps only the list ({ id, kind, page, updatedAt }); each picture's thumbnail and
+// data (its painting and stickers) are separate entries, so the main save stays small and quick to write.
+export const PICTURE_LIMIT = 120;
+const pictureKey = (profileId, id, part) => `picture:${profileId}:${id}:${part}`;
+function blobToDataUrl(blob) {
+  if (typeof FileReader !== 'function') return Promise.resolve(null);
+  return new Promise(resolve => { const r = new FileReader(); r.onload = () => resolve(r.result); r.onerror = () => resolve(null); r.readAsDataURL(blob); });
 }
 
 export const ISLAND_BUILD_LIMIT = 30;
@@ -126,6 +137,9 @@ export class SaveSystem {
       state.adventure.step = Math.max(0, Number(state.adventure.step) || 0);
       state.adventure.completed = Array.isArray(state.adventure.completed) ? [...new Set(state.adventure.completed.filter(Boolean))] : [];
       state.settings = state.settings && typeof state.settings === 'object' && !Array.isArray(state.settings) ? state.settings : {};
+      state.pictures = Array.isArray(state.pictures) ? state.pictures.filter(p => typeof p?.id === 'string' && typeof p?.kind === 'string').slice(-PICTURE_LIMIT) : [];
+      state.colouring = state.colouring && typeof state.colouring === 'object' && !Array.isArray(state.colouring) ? state.colouring : {};
+      state.colouring.seen = Array.isArray(state.colouring.seen) ? [...new Set(state.colouring.seen.filter(id => typeof id === 'string'))] : [];
       root.profileStates[profile.id] = state;
     }
     if (root.activeProfileId && !root.profiles.some(profile => profile.id === root.activeProfileId)) root.activeProfileId = null;
@@ -150,6 +164,15 @@ export class SaveSystem {
       const request = this.db.transaction(STORE, 'readonly').objectStore(STORE).get(key);
       request.onsuccess = () => resolve(request.result ?? null);
       request.onerror = () => reject(request.error);
+    });
+  }
+
+  idbDelete(keys) {
+    return new Promise((resolve, reject) => {
+      const tx = this.db.transaction(STORE, 'readwrite'), store = tx.objectStore(STORE);
+      for (const key of keys) store.delete(key);
+      tx.oncomplete = () => resolve(true);
+      tx.onerror = () => reject(tx.error);
     });
   }
 
@@ -329,6 +352,59 @@ export class SaveSystem {
     return this.mutateProfileState(state => { state.pip ??= { outfit: { hat:'starter-leaf' } }; state.pip.outfit = { ...(state.pip.outfit ?? {}), ...clone(patch) }; });
   }
 
+  // ---- Job 17: My Pictures ----
+  listPictures(profileId = this.root.activeProfileId) { return clone(this.root.profileStates[profileId]?.pictures ?? []); }
+  // Stores a picture: meta { id, kind, page }, thumb (data URL), data (any value; Blobs become data URLs without IndexedDB).
+  async savePicture(meta, { thumb = null, data = null } = {}) {
+    if (!this.ready) await this.init();
+    if (!this.root.activeProfileId) await this.ensureGuestProfile();
+    const profileId = this.root.activeProfileId, id = String(meta.id);
+    let stored = true;
+    try {
+      if (this.db) { await this.idbPut(pictureKey(profileId, id, 'thumb'), thumb); await this.idbPut(pictureKey(profileId, id, 'data'), data); }
+      else if (this.storage) {
+        const plain = { ...data };
+        for (const [k, v] of Object.entries(plain)) if (typeof Blob === 'function' && v instanceof Blob) plain[k] = await blobToDataUrl(v);
+        this.storage.setItem(pictureKey(profileId, id, 'thumb'), JSON.stringify(thumb)); this.storage.setItem(pictureKey(profileId, id, 'data'), JSON.stringify(plain));
+      } else { (this.memoryPictures ??= new Map()).set(pictureKey(profileId, id, 'thumb'), thumb).set(pictureKey(profileId, id, 'data'), data); }
+    } catch (error) {
+      stored = false;
+      const quota = error?.name === 'QuotaExceededError' || /quota/i.test(String(error?.message ?? ''));
+      this.recoveryInfo = { ...this.recoveryInfo, lastError: String(error?.message ?? error), quotaLimited: quota || this.recoveryInfo.quotaLimited };
+      console.warn('Little Legends picture not saved.', error);
+    }
+    if (!stored) return false;
+    await this.mutateProfileState(state => {
+      const list = (state.pictures ?? []).filter(p => p.id !== id);
+      list.push({ id, kind: String(meta.kind ?? 'picture'), page: meta.page ?? null, updatedAt: Date.now() });
+      state.pictures = list.slice(-PICTURE_LIMIT);
+    });
+    return true;
+  }
+  // part: 'thumb' or 'data'. null when there is none (or it can't be read).
+  async loadPicture(id, part = 'data', profileId = this.root.activeProfileId) {
+    const key = pictureKey(profileId, id, part);
+    try {
+      if (this.db) return await this.idbGet(key);
+      if (this.storage) { const raw = this.storage.getItem(key); return raw ? JSON.parse(raw) : null; }
+    } catch (error) { console.warn('Little Legends picture not loaded.', error); return null; }
+    return this.memoryPictures?.get(key) ?? null;
+  }
+  async markColouringSeen(pageId) {
+    const seen = this.root.profileStates[this.root.activeProfileId]?.colouring?.seen ?? [];
+    if (seen.includes(pageId)) return;
+    await this.mutateProfileState(state => { state.colouring ??= { seen: [] }; state.colouring.seen = [...new Set([...(state.colouring.seen ?? []), pageId])]; });
+  }
+  async deletePictures(profileIds) {
+    const keys = [];
+    for (const pid of profileIds) for (const p of this.root.profileStates[pid]?.pictures ?? []) keys.push(pictureKey(pid, p.id, 'thumb'), pictureKey(pid, p.id, 'data'));
+    try {
+      if (this.db) await this.idbDelete(keys);
+      else if (this.storage) for (const k of keys) this.storage.removeItem(k);
+      else for (const k of keys) this.memoryPictures?.delete(k);
+    } catch (error) { console.warn('Little Legends pictures not deleted.', error); }
+  }
+
   getSettings() { return clone(this.root.settings); }
   async setSettings(settings) { this.root.settings = { ...this.root.settings, ...clone(settings) }; await this.persist(); return this.getSettings(); }
 
@@ -347,6 +423,7 @@ export class SaveSystem {
   exportData() { return clone(this.root); }
 
   async resetAll() {
+    await this.deletePictures(Object.keys(this.root.profileStates ?? {}));
     this.root = blankRoot();
     await this.persist();
   }

@@ -68,7 +68,7 @@ for (const file of jsFiles) execFileSync(process.execPath, ['--check', file], { 
 
 // The installable/offline build must cache every eagerly imported source module.
 const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v52"), 'Service worker cache version should advance with the real-art build');
+assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v53"), 'Service worker cache version should advance with the real-art build');
 for (const file of walk(path.join(root, 'src')).filter(file => file.endsWith('.js'))) {
   const rel = `./${path.relative(root, file).split(path.sep).join('/')}`;
   assert.ok(serviceWorkerSource.includes(`'${rel}'`), `Offline cache must include ${rel}`);
@@ -1373,6 +1373,107 @@ assert.ok(serviceWorkerSource.includes("'./assets/art_manifest.json'")&&serviceW
   // 6. Cheap tablets: few particles; the Lite speed check covers an island with 40 things.
   assert.ok(fs.readFileSync(path.join(root, 'scripts/qa-release.mjs'), 'utf8').includes('island 40 things'), 'The Lite speed check includes an island with 40 things');
   assert.ok(fs.existsSync(path.join(root, 'docs/JOB15_REPORT.md')), 'Job 15 report written');
+}
+
+// ---- Job 17: colouring studio ----
+{
+  const { pageLayers, Filler, hexRgb } = await import('../src/colouring/fill.js');
+  const { Painting, workSize, UNDO_STEPS } = await import('../src/colouring/Painting.js');
+  const { COLOURS, STAMPS, TEST_PAGES } = await import('../src/colouring/pages.js');
+  const { ColouringScene } = await import('../src/scenes/ColouringScene.js');
+  const flush = () => new Promise(r => setTimeout(r, 5));
+  class PaintCtx extends FakeCanvasContext { drawImage() {} }
+  const ctx17 = new PaintCtx();
+  // A tiny raster canvas for Node: solid fills and real pixel reads/writes (paths and pictures draw nothing).
+  class RasterCtx {
+    constructor(c) { this.c = c; this.fillStyle = '#000'; this.globalAlpha = 1; }
+    rgb() { const h = String(this.fillStyle); return /^#[0-9a-f]{3}$/i.test(h) ? [...h.slice(1)].map(v => parseInt(v + v, 16)) : /^#[0-9a-f]{6}$/i.test(h) ? hexRgb(h) : [0, 0, 0]; }
+    fillRect(x, y, w, h) { const [r, g, b] = this.rgb(), c = this.c; for (let j = Math.max(0, y); j < Math.min(c.height, y + h); j++) for (let i = Math.max(0, x); i < Math.min(c.width, x + w); i++) { const p = (j * c.width + i) * 4; c.data[p] = r; c.data[p + 1] = g; c.data[p + 2] = b; c.data[p + 3] = 255; } }
+    clearRect(x, y, w, h) { const c = this.c; for (let j = y; j < Math.min(c.height, y + h); j++) c.data.fill(0, (j * c.width + x) * 4, (j * c.width + Math.min(c.width, x + w)) * 4); }
+    createImageData(w, h) { return { data: new Uint8ClampedArray(w * h * 4), width: w, height: h }; }
+    getImageData(x, y, w, h) { const out = this.createImageData(w, h), c = this.c; for (let j = 0; j < h; j++) out.data.set(c.data.subarray(((y + j) * c.width + x) * 4, ((y + j) * c.width + x + w) * 4), j * w * 4); return out; }
+    putImageData(img, x, y) { const c = this.c; for (let j = 0; j < img.height; j++) c.data.set(img.data.subarray(j * img.width * 4, (j + 1) * img.width * 4), ((y + j) * c.width + x) * 4); }
+    createRadialGradient() { return { addColorStop() {} }; }
+    save() {} restore() {} scale() {} translate() {} rotate() {} beginPath() {} closePath() {} moveTo() {} lineTo() {} arc() {} ellipse() {} rect() {} roundRect() {} fill() {} stroke() {} clip() {}
+    quadraticCurveTo() {} bezierCurveTo() {} drawImage() {} fillText() {} setLineDash() {}
+  }
+  class RasterCanvas { constructor(w, h) { this.width = w; this.height = h; this.data = new Uint8ClampedArray(w * h * 4); } getContext() { return (this.ctx ??= new RasterCtx(this)); } toDataURL() { return 'data:image/jpeg;base64,AA=='; } }
+  const raster = (w, h) => new RasterCanvas(w, h);
+  const pixel = (p, x, y) => [...p.sctx.getImageData(Math.round(x * p.k), Math.round(y * p.k), 1, 1).data.slice(0, 3)];
+
+  // 1. Lines become walls; a fill stops at them, grows a little into them, and a tap on a line still fills nearby.
+  { const w = 60, h = 40, rgba = new Uint8ClampedArray(w * h * 4).fill(255);
+    for (let x = 10; x <= 50; x++) for (const y of [10, 30]) rgba.fill(0, (y * w + x) * 4, (y * w + x) * 4 + 3);
+    for (let y = 10; y <= 30; y++) for (const x of [10, 50]) rgba.fill(0, (y * w + x) * 4, (y * w + x) * 4 + 3);
+    const { mask, ink } = pageLayers(rgba, w, h); assert.equal(mask[10 * w + 20], 1, 'Black lines are walls'); assert.equal(mask[20 * w + 20], 0); assert.equal(ink[(10 * w + 20) * 4 + 3], 255, 'Lines are drawn on top as black ink'); assert.equal(ink[(20 * w + 20) * 4 + 3], 0);
+    const f = new Filler(mask, w, h), r = f.fill(20, 20); assert.equal(r.count, 39 * 19, 'The bucket fills the shape up to the lines'); assert.deepEqual([r.minX, r.minY, r.maxX, r.maxY], [11, 11, 49, 29]);
+    const out = new Uint8ClampedArray(w * h * 4); f.colour(r, out, 0, 0, w, h, [255, 0, 0]); assert.equal(out[(20 * w + 20) * 4], 255); assert.equal(out[(10 * w + 20) * 4], 255, 'The fill reaches under the soft edge of the line'); assert.equal(out[(5 * w + 20) * 4], 0, 'Outside the shape stays as it was');
+    assert.ok(f.fill(20, 10), 'A tap right on a line fills the space next to it'); assert.ok(f.fill(2, 2).count > 1000, 'Outside is its own region'); }
+
+  // 2. Painting: work size by quality, fill + undo/redo, 20 steps, clear is undoable, stickers are undoable.
+  assert.deepEqual(workSize('lite'), [1280, 720], 'Lite colours at 1280×720'); assert.deepEqual(workSize('high'), [1920, 1080]);
+  { const p = new Painting({ quality: 'lite', canvas: raster }); p.setPage(c => TEST_PAGES.flower(c));
+    const mask = new Uint8Array(p.w * p.h); for (let x = 100; x <= 400; x++) { mask[100 * p.w + x] = 1; mask[300 * p.w + x] = 1; } for (let y = 100; y <= 300; y++) { mask[y * p.w + 100] = 1; mask[y * p.w + 400] = 1; }
+    p.filler = new Filler(mask, p.w, p.h);
+    assert.deepEqual(pixel(p, 300, 300), [255, 255, 255], 'A new page is white');
+    assert.ok(p.fill(300, 300, '#e8323c') >= 0); assert.deepEqual(pixel(p, 300, 300), [232, 50, 60], 'Bucket colours the shape'); assert.deepEqual(pixel(p, 900, 900), [255, 255, 255], 'and nothing outside it');
+    assert.ok(p.dirty && p.canUndo()); p.undo(); assert.deepEqual(pixel(p, 300, 300), [255, 255, 255], 'Undo takes the fill back'); p.redo(); assert.deepEqual(pixel(p, 300, 300), [232, 50, 60], 'Redo puts it back');
+    for (let i = 0; i < 25; i++) p.fill(300, 300, COLOURS[i % 12][1]); assert.equal(p.undoList.length, UNDO_STEPS, 'Undo keeps 20 steps');
+    for (let i = 0; i < 12; i++) p.fill(900, 300, COLOURS[i % 12][1]); assert.ok(p.bytesUsed() <= 32e6 && p.undoList.length < UNDO_STEPS, 'Whole-page steps: fewer kept, inside the Lite memory budget');
+    p.clear(); assert.deepEqual(pixel(p, 300, 300), [255, 255, 255], 'Clear wipes the page'); p.undo(); assert.notDeepEqual(pixel(p, 300, 300), [255, 255, 255], 'and undo brings it back');
+    const before = p.stickers.map(s => ({ ...s })); p.stickers.push({ art: 'creatures.farm.cow', x: 500, y: 500, size: 1 }); p.stickersChanged(before); p.undo(); assert.equal(p.stickers.length, 0, 'Undo takes a sticker off'); p.redo(); assert.equal(p.stickers.length, 1);
+    p.stamp('heart', '#2457d6', 1, 1500, 800); assert.ok(p.canUndo());
+    p.beginStroke('texta', '#222222', 1, 600, 600); p.strokeTo(700, 650); p.endStroke(); p.beginStroke('brush', '#ff8c1a', 2, 600, 600); p.strokeTo(900, 700); p.endStroke(); p.beginStroke('rainbow', '#ff8c1a', 0, 600, 600); p.strokeTo(900, 700); p.endStroke(); p.beginStroke('eraser', '#ff8c1a', 0, 600, 600); p.endStroke();
+    assert.ok(p.bytesUsed() <= 32e6, 'Undo stays inside its Lite memory budget');
+    assert.ok(p.thumbnail(() => {}).startsWith('data:image'), 'A thumbnail for My Pictures'); p.dispose(); assert.equal(p.paint, null, 'Leaving lets the canvases go'); }
+
+  // 3. Pages: 50, the free ones tagged for Job 18, test pages for some until Aaron's pictures arrive.
+  const colouringData = JSON.parse(fs.readFileSync(path.join(root, 'data/colouring.json'), 'utf8'));
+  assert.equal(colouringData.pages.length, 50, '50 colouring pages'); assert.equal(new Set(colouringData.pages.map(p => p.id)).size, 50);
+  assert.deepEqual(colouringData.pages.filter(p => p.free).map(p => p.id.slice(5, 7)), ['01', '04', '17', '30', '44', '45', '46', '48'], 'Free pages tagged');
+  for (const p of colouringData.pages.filter(p => p.test)) assert.ok(TEST_PAGES[p.test], `${p.id} test page drawn`);
+  assert.equal(COLOURS.length, 12, '12 colours'); assert.deepEqual(STAMPS, ['star', 'heart', 'paw', 'dino_foot', 'flower', 'circle']);
+
+  // 4. My Pictures in the save: per child, kept apart from the main save; old saves get an empty list; reset deletes them.
+  const ps = new SaveSystem({ indexedDBRef: null, storage: null }); await ps.init(); const mia = await ps.createProfile({ name: 'Mia', age: 4 });
+  assert.deepEqual(ps.listPictures(), [], 'No pictures yet');
+  assert.ok(await ps.savePicture({ id: 'colour_page_44_flower', kind: 'colouring', page: 'page_44_flower' }, { thumb: 'data:thumb', data: { paint: 'data:paint', stickers: [{ art: 'x', x: 1, y: 2, size: 1 }] } }));
+  assert.equal(ps.listPictures().length, 1); assert.equal(await ps.loadPicture('colour_page_44_flower', 'thumb'), 'data:thumb'); assert.equal((await ps.loadPicture('colour_page_44_flower')).stickers.length, 1);
+  assert.ok(!JSON.stringify(ps.exportData()).includes('data:paint'), 'The painting itself is not inside the main save');
+  await ps.savePicture({ id: 'colour_page_44_flower', kind: 'colouring', page: 'page_44_flower' }, { thumb: 't2', data: {} }); assert.equal(ps.listPictures().length, 1, 'Saving again updates the same picture');
+  await ps.markColouringSeen('page_44_flower'); assert.deepEqual(ps.getProfileState().colouring.seen, ['page_44_flower']);
+  await ps.createProfile({ name: 'Leo', age: 3 }); assert.deepEqual(ps.listPictures(), [], 'Another child has their own pictures'); await ps.selectProfile(mia.id);
+  const old = ps.migrate({ profiles: [{ id: 'p1', name: 'Old' }], profileStates: { p1: { discoveryStars: 3 } } }); assert.deepEqual(old.profileStates.p1.pictures, [], 'Older saves get an empty My Pictures'); assert.deepEqual(old.profileStates.p1.colouring.seen, []);
+  await ps.resetAll(); assert.equal(await ps.loadPicture('colour_page_44_flower', 'thumb', mia.id), null, 'Reset deletes the pictures too');
+
+  // 5. The studio: picker → page (bucket first) → fill, undo, save, home; the island easel and My Pictures open it.
+  const cs = new SaveSystem({ indexedDBRef: null, storage: null }); await cs.init(); await cs.createProfile({ name: 'Ava', age: 3 });
+  const cg = { save: cs, audio: sceneAudio, canvasFactory: raster, assets: { load: async () => colouringData }, scenes: { last: null, current: null, change(name, data) { this.last = { name, data }; } } };
+  const studio = new ColouringScene(cg); cg.scenes.current = studio; await studio.enter({});
+  assert.deepEqual(studio.shown.map(p => p.id), colouringData.pages.filter(p => p.test).map(p => p.id), 'Until the real pages arrive, the test pages show'); studio.render(ctx17); assert.equal(ctx17.depth, 0);
+  const tap = (x, y) => { studio.handlePointer({ type: 'down', x, y }); return studio.handlePointer({ type: 'up', x, y }); };
+  tap(140 + 190, 200 + 107); await flush(); assert.equal(studio.mode, 'paint', 'Tapping a page opens it'); assert.equal(studio.tool, 'bucket', 'The bucket is the first tool');
+  assert.ok(cs.getProfileState().colouring.seen.includes(studio.page.id), 'Opened pages lose their sparkle');
+  cueLog.length = 0; tap(800, 400); assert.ok(studio.painting.canUndo() && cueLog.some(c => c.name === 'pop'), 'A tap with the bucket fills, with a pop');
+  tap(268 + 3 * 125, 985); assert.equal(studio.colour, COLOURS[3][1], 'Tapping a colour dot chooses it');
+  tap(100, 82 + 134); assert.equal(studio.tool, 'texta'); studio.handlePointer({ type: 'down', x: 600, y: 300 }); for (let i = 1; i < 6; i++) studio.handlePointer({ type: 'move', x: 600 + i * 30, y: 300 }); assert.equal(studio.pending.length, 5, 'Finger moves wait for the next frame'); studio.update(1 / 30); assert.equal(studio.pending.length, 0); studio.handlePointer({ type: 'up', x: 750, y: 300 });
+  const steps = studio.painting.undoList.length; tap(1820, 365); assert.equal(studio.painting.undoList.length, steps - 1, 'Undo button');
+  const n0 = studio.painting.undoList.length; studio.handlePointer({ type: 'down', x: 1820, y: 625 }); studio.update(0.5); studio.handlePointer({ type: 'up', x: 1820, y: 625 }); assert.equal(studio.painting.undoList.length, n0, 'A quick tap on the bin does not clear the page');
+  studio.handlePointer({ type: 'down', x: 1820, y: 625 }); studio.update(0.7); studio.update(0.7); studio.handlePointer({ type: 'up', x: 1820, y: 625 }); assert.equal(studio.painting.undoList.length, n0 + 1, 'Holding the bin clears the page (undoable)');
+  tap(100, 82 + 6 * 134); assert.ok(studio.trayOpen, 'The sticker tool opens the sticker tray'); studio.render(ctx17); assert.equal(ctx17.depth, 0);
+  studio.carry = { art: 'creatures.farm.cow', x: 0, y: 0, from: { x: 0, y: 0 }, moved: true }; studio.handlePointer({ type: 'up', x: 1300, y: 500 }); assert.equal(studio.painting.stickers.length, 1, 'A sticker dragged onto the page stays there');
+  const st = studio.painting.stickers[0]; studio.handlePointer({ type: 'down', x: 1300, y: 500 }); studio.update(0.6); assert.ok(studio.sizeButtons, 'Holding a sticker shows + and −'); studio.handlePointer({ type: 'up', x: 1300, y: 500 });
+  const plus = studio.sizeButtonSpots().find(c => c.dir > 0); tap(plus.x, plus.y); assert.ok(st.size > 1, '+ makes the sticker bigger');
+  studio.render(ctx17); assert.equal(ctx17.depth, 0); tap(1820, 82); await flush(); await flush();
+  assert.equal(studio.mode, 'picker', 'Home goes back to the pages'); assert.equal(cs.listPictures().length, 1, 'and saved the picture first'); assert.equal((await cs.loadPicture(cs.listPictures()[0].id)).stickers.length, 1, 'with its sticker');
+  tap(130, 100); await flush(); assert.equal(cg.scenes.last?.name, 'island', 'Home from the pages goes back to the island'); studio.exit();
+  const ig = { save: cs, audio: sceneAudio, scenes: { last: null, change(name, data) { this.last = { name, data }; } } }; const isl = new WonderIslandScene(ig); isl.enter({});
+  isl.handlePointer({ type: 'down', x: 1800, y: 780 }); isl.handlePointer({ type: 'up', x: 1800, y: 780 }); assert.equal(ig.scenes.last?.name, 'colouring', 'The easel on Wonder Island opens the colouring studio'); isl.render(fakeCtx); assert.equal(fakeCtx.depth, 0);
+  const coll = new CollectionScene(ig); coll.enter({ tab: 'pictures' }); coll.render(ctx17); assert.equal(ctx17.depth, 0); coll.handlePointer({ type: 'down', x: 380, y: 380 }); coll.handlePointer({ type: 'up', x: 380, y: 380 }); await flush();
+  assert.deepEqual(ig.scenes.last, { name: 'colouring', data: { page: cs.listPictures()[0].page } }, 'My Pictures re-opens a picture to keep colouring');
+  // 6. Cheap tablets: the Lite speed check paints in the studio and times the bucket; the page list works offline.
+  const qa = fs.readFileSync(path.join(root, 'scripts/qa-release.mjs'), 'utf8'); assert.ok(qa.includes("'colouring'") && qa.includes('lite-fill'), 'The Lite speed check includes the colouring studio and the bucket time');
+  assert.ok(fs.readFileSync(path.join(root, 'sw.js'), 'utf8').includes('./data/colouring.json'), 'Colouring pages list works offline');
 }
 
 console.log(`Little Legends M0-M29 qualification implementation check passed (M26/M29 human gates still pending): ${required.length} required files, ${jsFiles.length} JS syntax checks, ${activityEngine.list().length} JSON activities across ${expectedActivityTypes.size} reusable families, ${adventureData.adventures.length} Little Missions, privacy/child-test support, launch FX, save recovery, performance instrumentation and offline PWA verified.`);

@@ -7,6 +7,7 @@ import { AudioManager } from '../audio/AudioManager.js';
 import { ActivityEngine } from '../activities/ActivityEngine.js';
 import { LearningProfile } from '../learning/LearningProfile.js';
 import { SaveSystem } from '../save/SaveSystem.js';
+import { FullUnlock } from '../store/FullUnlock.js';
 import { AdventureEngine } from '../adventures/AdventureEngine.js';
 import { RewardSystem } from '../rewards/RewardSystem.js';
 import { EggSystem } from '../rewards/EggSystem.js';
@@ -35,6 +36,7 @@ export class Game {
     this.audio = new AudioManager();
     this.learning = new LearningProfile();
     this.save = new SaveSystem();
+    this.unlock = new FullUnlock(this); // Job 18: free to try + one "Unlock everything"
     this.childTest = new ChildTestRecorder({ save:this.save });
     this.releaseQA = new ReleaseQualification({ game:this, save:this.save });
     this.fx = new FeedbackFX();
@@ -86,6 +88,7 @@ export class Game {
         this.performanceManager.suspend();
       } else {
         this.resumeCount++;
+        this.unlock?.refresh?.();
         this.audio.resume();
         this.performanceManager.resume();
         this.viewport.resize();
@@ -97,6 +100,7 @@ export class Game {
 
   async start(initialScene = 'boot', sceneData = {}) {
     await this.save.init();
+    this.unlock.refresh(); // asks Google Play in the background (the saved unlock counts until it answers)
     await this.releaseQA.init();
     await this.rewards.ensureLoaded(this.assets);
     try { await this.assets.loadArtIndex(); } catch (error) { console.warn('Art index unavailable; using drawn placeholders', error); }

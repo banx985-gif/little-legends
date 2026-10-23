@@ -2,6 +2,7 @@ import { drawActivityBackground } from '../activities/activityDraw.js';
 import { drawCandyButton, drawHomeButton, nudgeScale } from '../utils/draw.js';
 import { PipController } from '../characters/PipController.js';
 import { drawArt, lookupArt, artMap, fxArt } from '../core/art.js';
+import { AskGrownUp, drawSleepy } from '../ui/AskGrownUp.js';
 
 // Four cards per row; Pip stands below them.
 const CARD_W=420,CARD_H=210;
@@ -19,11 +20,12 @@ export const WORLDS=[
 
 export class WorldSelectScene{
   constructor(game){this.game=game;this.t=0;this.pressed=null;this.pip=null;this.leaving=null;}
-  enter(){this.game.audio?.startWorldMusic?.('map'); /* Job 13 */this.t=0;this.pressed=null;this.leaving=null;this.pip=new PipController({x:960,y:1010,scale:.6});}
+  enter(){this.game.audio?.startWorldMusic?.('map'); /* Job 13 */this.t=0;this.pressed=null;this.leaving=null;this.pip=new PipController({x:960,y:1010,scale:.6});this.ask=new AskGrownUp(this.game,{pip:this.pip,bubble:{x:1060,y:720}});}
+  open(id){return this.game.unlock?.worldOpen?.(id)??true;} // Job 18: worlds in the full game sleep behind a padlock
   // Choosing a world: Pip turns and steps into a portal, then the world opens (half a second; quicker with reduced motion).
   // The world a child should tap next (where its next mission is); it bounces after 5 s with no touch and Pip points.
   nextWorld(){const done=this.game.save?.getProfileState?.()?.adventure?.completed??[];return this.game.adventureEngine?.next?.(done)?.world??null;}
-  update(dt){this.t+=dt;this.pip?.update(dt);this.idleT=(this.idleT??0)+dt;if(this.idleT>=5&&!this.pointed&&!this.leaving){this.pointed=true;const w=WORLDS.find(x=>x.id===this.nextWorld());if(w)this.pip?.react('point',{duration:1.4,target:{x:w.x+CARD_W/2,y:w.y+CARD_H/2}});}if(this.leaving){this.leaving.t+=dt;if(this.leaving.t>=(globalThis.__LL_REDUCED_MOTION?.15:.5)){const w=this.leaving.world;this.leaving=null;if(w.special)this.game.scenes.change(w.special);else this.game.scenes.change('worldHub',{world:w.id});}}}
+  update(dt){this.t+=dt;this.pip?.update(dt);this.ask?.update(dt);this.idleT=(this.idleT??0)+dt;if(this.idleT>=5&&!this.pointed&&!this.leaving){this.pointed=true;const w=WORLDS.find(x=>x.id===this.nextWorld());if(w)this.pip?.react('point',{duration:1.4,target:{x:w.x+CARD_W/2,y:w.y+CARD_H/2}});}if(this.leaving){this.leaving.t+=dt;if(this.leaving.t>=(globalThis.__LL_REDUCED_MOTION?.15:.5)){const w=this.leaving.world;this.leaving=null;if(w.special)this.game.scenes.change(w.special);else this.game.scenes.change('worldHub',{world:w.id});}}}
   // Every Little Mission in this world finished (the badge on its card).
   worldDone(id){const done=this.game.save?.getProfileState?.()?.adventure?.completed;const list=this.game.adventureEngine?.list?.()?.filter(a=>a.world===id)??[];return Array.isArray(done)&&list.length>0&&list.every(a=>done.includes(a.id));}
   cardAt(x,y){return WORLDS.find(w=>x>=w.x&&x<=w.x+CARD_W&&y>=w.y&&y<=w.y+CARD_H)??null;}
@@ -35,6 +37,7 @@ export class WorldSelectScene{
     if(e.type==='up'){
       const chosen=this.pressed;this.pressed=null;if(chosen==='back'){this.game.audio?.playCue?.('back');this.game.scenes.change('island');return;}
       const world=WORLDS.find(w=>w.id===chosen);if(!world)return;
+      if(!this.open(world.id)){this.ask.show(world.id);return;}
       this.leaving={world,t:0};this.game.audio?.playCue?.('portal');
     }
   }
@@ -44,11 +47,12 @@ export class WorldSelectScene{
     ctx.fillStyle='#fff';ctx.font='700 31px system-ui';ctx.fillText('Pick a place to play and learn!',960,172);
     const nextWorld=this.nextWorld();
     for(const w of WORLDS){
-      ctx.save();if(w.id===nextWorld){const k=nudgeScale(this.t,this.idleT??0);ctx.translate(w.x+CARD_W/2,w.y+CARD_H/2);ctx.scale(k,k);ctx.translate(-w.x-CARD_W/2,-w.y-CARD_H/2);}ctx.fillStyle=this.pressed===w.id?'#fff2a8':'#ffffffdf';ctx.beginPath();ctx.roundRect(w.x,w.y,CARD_W,CARD_H,58);ctx.fill();
+      ctx.save();const bump=this.ask?.bounce(w.id)??1;if(w.id===nextWorld||bump!==1){const k=nudgeScale(this.t,this.idleT??0)*bump;ctx.translate(w.x+CARD_W/2,w.y+CARD_H/2);ctx.scale(k,k);ctx.translate(-w.x-CARD_W/2,-w.y-CARD_H/2);}ctx.fillStyle=this.pressed===w.id?'#fff2a8':'#ffffffdf';ctx.beginPath();ctx.roundRect(w.x,w.y,CARD_W,CARD_H,58);ctx.fill();
       const colours={dino:'#67bd68',rainbow:'#8b69db',animal:'#5fae6c',jungle:'#ee9b48',storybook:'#5d8fdd',life:'#ec7ea2',space:'#4b5bb8',town:'#e9874a'};if(!drawArt(ctx,lookupArt('worlds',w.id),w.x+90,w.y+CARD_H/2,128,128)){ctx.fillStyle=colours[w.id]??'#8b69db';ctx.beginPath();ctx.arc(w.x+90,w.y+CARD_H/2,60,0,Math.PI*2);ctx.fill();
-      ctx.fillStyle='#fff';ctx.font='900 34px system-ui';ctx.fillText(w.icon,w.x+90,w.y+CARD_H/2+12);}ctx.fillStyle='#5a3a73';ctx.font='900 29px system-ui';ctx.fillText(w.title,w.x+290,w.y+92,250);ctx.fillStyle='#756a7f';ctx.font='700 23px system-ui';ctx.fillText(w.id==='jungle'?'Missions + music jam':'Little Missions',w.x+290,w.y+140,250);if(this.worldDone(w.id))drawArt(ctx,lookupArt('ui','worldBadge'),w.x+CARD_W-34,w.y+30,82,82);ctx.restore();
+      ctx.fillStyle='#fff';ctx.font='900 34px system-ui';ctx.fillText(w.icon,w.x+90,w.y+CARD_H/2+12);}ctx.fillStyle='#5a3a73';ctx.font='900 29px system-ui';ctx.fillText(w.title,w.x+290,w.y+92,250);ctx.fillStyle='#756a7f';ctx.font='700 23px system-ui';ctx.fillText(w.id==='jungle'?'Missions + music jam':'Little Missions',w.x+290,w.y+140,250);if(this.worldDone(w.id))drawArt(ctx,lookupArt('ui','worldBadge'),w.x+CARD_W-34,w.y+30,82,82);if(!this.open(w.id))drawSleepy(ctx,w.x,w.y,CARD_W,CARD_H,58,this.t+w.x,lookupArt('ui','lock'));ctx.restore();
     }
     drawHomeButton(ctx,this.pressed==='back');
+    this.ask?.render(ctx);
   }
   // While leaving: the portal opens under Pip and he is seen from behind, walking in.
   renderPip(ctx){

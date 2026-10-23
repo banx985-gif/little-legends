@@ -1,55 +1,56 @@
-# CC latest — Job 17 (colouring studio)
+# CC latest — Job 18 (free to try + one "Unlock everything")
 
 - **When:** 2026-10-24
-- **Job:** JOB_17_COLOURING_GAME
-- **Status:** DONE, using placeholder art. The APK was not rebuilt because this PC still has no Android SDK or Java 21 (see Job 15B).
+- **Job:** JOB_18_FULL_UNLOCK
+- **Status:** PARTLY DONE.
+  - Everything in the game, the docs and the checks is done.
+  - The Android billing code is written but has **not been built or tried**: this PC has no Android SDK or Java 21 (see Job 15B), so no APK could be made.
 
 ## What changed
-- **Way in:** a rainbow easel stands on the beach at the bottom right of Wonder Island. Tap it to open the colouring studio.
-- **Page picker:** big thumbnails, 12 to a screen, with arrows if there are more.
-  - A yellow sparkle marks pages this child hasn't opened yet.
-  - A saved picture shows the child's own colouring on its thumbnail, plus a green tick.
-- **Painting screen:**
-  - **Tools (left):** bucket (picked first when a page opens), texta, soft paintbrush, rainbow brush (the colour changes as you drag), eraser, stamp, sticker.
-  - **Colours (bottom):** 12 colour dots. The chosen one bounces and gets a ring.
-  - **Right side:** home, save (tick), undo, redo, clear, and small/medium/large brush sizes.
-  - **Bucket:** fills the tapped shape up to the black lines, even over earlier paint. Tapping right on a line fills the nearest shape.
-  - **Stamps:** star, heart, paw, dino foot, flower, circle, in the chosen colour.
-  - **Stickers:** a tray of the game's own pictures in 5 groups: animals, characters, food, things, decor. Backgrounds and the rare dragons are left out. Drag one onto the page, or tap it to drop it in the middle. Drag to move; hold for the + and − size buttons, as on the island. Dragging one off the page removes it, and undo brings it back.
-  - **Layers:** paint and stamps go under the black lines; stickers sit on top.
-  - **Undo / redo:** 20 steps. **Clear** needs a 1.2-second hold, with a red ring filling up, so a quick tap does nothing; clearing can also be undone.
-  - **Saving:** home saves by itself and goes back to the pages. The picture is also saved if the tablet is put away mid-picture.
-  - **Sounds:** pop for a fill, a soft swish while drawing, a thunk for stamps, a sticker sound, a sparkle on save.
-- **My Pictures:** a new "MY PICTURES" tab in the Collection lists each child's saved pictures. Tap one to keep colouring it. With none yet, a big easel opens the studio.
-  - Pictures are stored per child, on the tablet only, and kept outside the main save so it stays small.
-  - Older saves load fine and simply start with no pictures. "Reset local data" deletes the pictures too.
-- **Pages:** all 50 are listed in `data/colouring.json`, and the 8 free ones are tagged for Job 18: 01, 04, 17, 30, 44, 45, 46, 48.
-  - Until your pictures arrive, 6 simple code-drawn test pages show: car, rainbow house, flower, sun and cloud, apple, butterfly.
-  - The game looks for each real page file every time the studio opens and swaps it in by itself; no code change is needed. The same goes for the tool art.
-- **Cheap tablets:** Lite colours at 1280×720 (1920×1080 on fast tablets), with one paint layer, the line layer and stickers.
-  - Drawing happens once per frame, undo memory is capped, and everything is freed when you leave the studio.
-  - The colouring screen is now part of the Lite speed check.
+- **What's free:**
+  - Wonder Island (with its playground)
+  - Dino Valley and Rainbow Village
+  - the 8 free colouring pages
+  - the Collection (sticker book, including My Pictures)
+  - Pip's looks in the Collection; the dress-up room itself comes in Job 19
+- **Locked worlds and pages** stay visible, with a lilac "sleepy" veil, a padlock and three little z's.
+  - A child tapping one gets a bounce, and Pip says "Ask a grown-up!" (spoken, plus a speech bubble).
+  - No price and no buy button ever appear on a child screen.
+- **PLAY on the island and the world map** only lead to missions in the free worlds. A locked world can't be opened by any route.
+- **Parent Area → new FULL GAME tab:**
+  - what the full game adds and the price (from Google Play, or "A$4.99" until Play answers);
+  - **UNLOCK EVERYTHING** and **RESTORE PURCHASE** buttons.
+  - Buying first needs a grown-up check: hold a button for 3 seconds, then answer an easy sum written in words ("What is four plus three?"). A wrong answer gives a new sum.
+- **Google Play Billing:** a small plugin inside the app (`BillingPlugin.java`, Play Billing Library 8.0) sells one product, `full_unlock`, as a one-time purchase.
+  - The unlock is stored on the tablet, so it works offline.
+  - It is re-checked with Google Play when the app starts or comes back to the front. A refund puts the tablet back to the free version.
+  - "Reset local data" keeps a bought unlock.
+- **Developer test switch** (debug APK only) in FULL GAME turns the unlock on and off without paying. Release builds never show it.
+- **Web/GitHub Pages and the one-file test build:** I chose **everything unlocked**, because there's no store there.
+  - Add `?locked=1` to the address to preview the free version, e.g. `index.html?locked=1`.
+  - The FULL GAME tab on the web says the full game is on Google Play.
+- **Privacy (version 1.2):** the in-game PRIVACY tab, `privacy.html` and `docs/PRIVACY.md` now say that Google Play checking the unlock is the only internet use, and that it carries nothing about the child. They also list My Pictures.
+- **`docs/GOOGLE_PLAY_STEPS.md`** has a new section on creating the `full_unlock` product in Play Console, licence testers, refunds, the content rating and data-safety answers.
 
 ## Checks
-- `npm run check`: PASS (new colouring tests added). `npm run standalone`: PASS (the test pages work there too).
-- Lite speed check: PASS.
-  - Colouring screen frame work: 1.9 ms of the 33 ms allowed.
-  - Slowest bucket fill: 47.9 ms (filling the whole background, CPU slowed 4×), against the 50 ms target. A normal shape takes about 15–20 ms.
-  - The whole-background fill is close to the limit, so watch it on the Tab A7 Lite.
+- `npm run check`: PASS (new tests: free/locked worlds and pages, Pip's ask, the 3-second hold and the sum, buy/restore/refund/offline, the debug switch, older saves). `npm run standalone`: PASS.
 
 ## Not done
-- APK rebuild: blocked until Android Studio is installed.
-- Free vs paid locking: the free pages are only tagged here. Job 18 adds the lock.
+- **APK build and a real purchase test:** blocked until Android Studio is installed on this PC. The Java billing code still needs a first compile, so expect a small fix-up when the first APK is built.
 
 ## What Aaron needs to do
-- **Draw the pages:** file them as `assets/colouring/page_XX_name.png` (1920×1080, black lines on white, closed shapes). They'll appear by themselves.
-- **Draw the tool art:** file it in `assets/colouring/tools/` with the names from COLOURING_PAGES_TO_DRAW.md. The texta file must be called `tool_texter.png`, as in that list.
-- **Test on the tablet once there's an APK:**
-  - the easel opens the studio;
-  - the bucket fills inside the lines;
-  - holding the bin clears the page, and a quick tap doesn't;
-  - stickers drag, resize and come off the page;
-  - home keeps the picture, and it shows in Collection → MY PICTURES.
+- Install Android Studio (Job 15B), so CC can build the APK and fix anything the compiler finds.
+- In Play Console, after uploading a build with billing:
+  - create the one-time product **`full_unlock`** at A$4.99 and activate it;
+  - set up the payments profile;
+  - add your Google account under **License testing**.
+
+  Full steps are in `docs/GOOGLE_PLAY_STEPS.md`.
+- **On the tablet**, with the debug APK:
+  - locked worlds and colouring pages show the padlock, and tapping one gets "Ask a grown-up!";
+  - Parent Area → FULL GAME → UNLOCK EVERYTHING → the 3-second hold → the sum → Google Play's sheet (as a licence tester);
+  - RESTORE PURCHASE works, and so does the developer switch.
+- **Decide:** keep the web build fully unlocked (my choice), or lock it too? Locking it is a one-line change in `src/store/FullUnlock.js`.
 
 ## Commit
-- See the git log for "Job 17". Pushed: yes. APK rebuilt: no (blocked).
+- See the git log for "Job 18". Pushed: yes. APK rebuilt: no (blocked).

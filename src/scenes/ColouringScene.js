@@ -11,6 +11,7 @@ import { drawArt, lookupArt } from '../core/art.js';
 import { Painting, makeCanvas } from '../colouring/Painting.js';
 import { COLOURS, STAMPS, PAGE_W, PAGE_H, fileImage, fileState, releaseFiles, toolImage, pageUrl, probePage, drawTestPage, drawStampShape } from '../colouring/pages.js';
 import { SIZE_MIN, SIZE_MAX, SIZE_STEP, HOLD_SECONDS, SIZE_BUTTONS_SECONDS, DRAG_START } from '../island/islandPlay.js';
+import { AskGrownUp, drawSleepy } from '../ui/AskGrownUp.js';
 
 const PAGE = { x: 200, y: 24, w: 1520, h: 855 }; // the page on screen (16:9)
 const S = PAGE.w / PAGE_W;
@@ -50,11 +51,12 @@ export class ColouringScene {
   async enter(data = {}) {
     this.game.audio?.startWorldMusic?.('calm');
     this.t = 0; this.mode = 'picker'; this.pressed = null; this.gridPage = 0; this.thumbs = new Map(); this.thumbQueue = null;
-    this.painting = null; this.page = null; this.sparkles = [];
+    this.painting = null; this.page = null; this.sparkles = []; this.ask = new AskGrownUp(this.game);
     this.pages = await this.loadPages();
     this.refreshShown();
     this.findRealPages();
-    if (data.page && this.pages.some(p => p.id === data.page)) await this.open(this.pages.find(p => p.id === data.page));
+    const asked = this.pages.find(p => p.id === data.page);
+    if (asked && this.pageOpen(asked)) await this.open(asked);
   }
 
   exit() { this.closePainting(); this.thumbs = new Map(); releaseFiles(); }
@@ -76,6 +78,7 @@ export class ColouringScene {
   }
   savedPictures() { return new Map((this.game.save?.listPictures?.() ?? []).filter(p => p.kind === 'colouring').map(p => [p.page, p])); }
   seen() { return new Set(this.game.save?.getProfileState?.()?.colouring?.seen ?? []); }
+  pageOpen(page) { return this.game.unlock?.pageOpen?.(page) ?? true; } // Job 18: the rest are in the full game
 
   // ---- thumbnails (only the ones on screen; made one per frame) ----
   thumbFor(page) {
@@ -179,7 +182,7 @@ export class ColouringScene {
 
   // ---- update ----
   update(dt) {
-    this.t += dt;
+    this.t += dt; this.ask?.update(dt);
     for (const s of this.sparkles) { s.life -= dt; s.x += s.vx * dt; s.y += s.vy * dt; s.vy += 300 * dt; }
     this.sparkles = this.sparkles.filter(s => s.life > 0);
     if (this.mode === 'picker') { if (this.thumbQueue) { const q = this.thumbQueue; this.thumbQueue = null; this.makeThumb(q); } return; }
@@ -215,17 +218,19 @@ export class ColouringScene {
     const pages = this.shown ?? [], count = Math.max(1, Math.ceil(pages.length / GRID_PER)); this.gridPage = Math.min(this.gridPage, count - 1);
     const saved = this.savedPictures(), seen = this.seen();
     pages.slice(this.gridPage * GRID_PER, (this.gridPage + 1) * GRID_PER).forEach((page, i) => {
-      const c = gridCell(i), pressed = this.pressed === `page:${page.id}`, k = pressed ? 0.95 : 1;
+      const c = gridCell(i), pressed = this.pressed === `page:${page.id}`, k = (pressed ? 0.95 : 1) * (this.ask?.bounce(page.id) ?? 1), open = this.pageOpen(page);
       ctx.save(); ctx.translate(c.x + c.w / 2, c.y + c.h / 2); ctx.scale(k, k); ctx.translate(-c.x - c.w / 2, -c.y - c.h / 2);
       ctx.fillStyle = '#c99a6b'; ctx.beginPath(); ctx.roundRect(c.x - 6, c.y + 2, c.w + 12, c.h + 12, 26); ctx.fill();
       ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.roundRect(c.x - 10, c.y - 10, c.w + 20, c.h + 20, 26); ctx.fill();
       const thumb = this.thumbFor(page);
       if (thumb) ctx.drawImage(thumb, c.x, c.y, c.w, c.h); else { ctx.fillStyle = '#f2ece4'; ctx.fillRect(c.x, c.y, c.w, c.h); }
       if (saved.has(page.id)) { ctx.fillStyle = '#66bd62'; ctx.beginPath(); ctx.arc(c.x + c.w - 6, c.y + c.h - 6, 30, 0, Math.PI * 2); ctx.fill(); tick(ctx, c.x + c.w - 6, c.y + c.h - 6, 30); }
-      if (!seen.has(page.id)) { const p = 1 + Math.sin(this.t * 5 + i) * 0.15; ctx.fillStyle = '#ffd21f'; star(ctx, c.x + c.w - 8, c.y + 8, 34 * p); ctx.fillStyle = '#fff6b0'; star(ctx, c.x + c.w - 40, c.y + 30, 14 * p); }
+      if (!open) drawSleepy(ctx, c.x - 10, c.y - 10, c.w + 20, c.h + 20, 26, this.t + i, lookupArt('ui', 'lock'));
+      else if (!seen.has(page.id)) { const p = 1 + Math.sin(this.t * 5 + i) * 0.15; ctx.fillStyle = '#ffd21f'; star(ctx, c.x + c.w - 8, c.y + 8, 34 * p); ctx.fillStyle = '#fff6b0'; star(ctx, c.x + c.w - 40, c.y + 30, 14 * p); }
       ctx.restore();
     });
     if (count > 1) for (const d of [-1, 1]) { const a = gridArrow(d), on = d < 0 ? this.gridPage > 0 : this.gridPage < count - 1; ctx.globalAlpha = on ? 1 : 0.35; roundButton(ctx, a, '#fffdf0'); arrow(ctx, a.x, a.y, a.r * 0.6, d); ctx.globalAlpha = 1; }
+    this.ask?.render(ctx);
   }
 
   renderPaint(ctx) {
@@ -393,7 +398,7 @@ export class ColouringScene {
     if (control === 'home') { this.goHome(); return; }
     const pages = Math.max(1, Math.ceil((this.shown?.length ?? 0) / GRID_PER));
     if (control === 'gridPrev' || control === 'gridNext') { const next = Math.max(0, Math.min(pages - 1, this.gridPage + (control === 'gridNext' ? 1 : -1))); if (next !== this.gridPage) { this.gridPage = next; this.thumbs = new Map(); this.game.audio?.playCue?.('page'); } return; }
-    if (control.startsWith('page:')) { const page = this.pages.find(p => p.id === control.slice(5)); if (page) { this.game.audio?.playCue?.('open'); this.open(page); } }
+    if (control.startsWith('page:')) { const page = this.pages.find(p => p.id === control.slice(5)); if (page && !this.pageOpen(page)) { this.ask.show(page.id); return; } if (page) { this.game.audio?.playCue?.('open'); this.open(page); } }
   }
 
   down(e) {

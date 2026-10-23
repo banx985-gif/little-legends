@@ -135,7 +135,7 @@ export class WonderIslandScene {
     if(this.starting)return;this.starting=true;
     const engine=this.game.adventureEngine;await engine?.ensureLoaded?.(this.game.assets);
     const a=this.game.save?.getProfileState?.()?.adventure??{},done=a.completed??[];
-    const resume=!after&&a.currentId&&a.step>0&&!done.includes(a.currentId)&&engine?.get?.(a.currentId)?a.currentId:null;
+    const resume=!after&&a.currentId&&a.step>0&&!done.includes(a.currentId)&&engine?.get?.(a.currentId)&&(this.game.unlock?.worldOpen?.(engine.get(a.currentId).world)??true)?a.currentId:null;
     this.game.scenes.change('adventure',{adventureId:resume??engine?.next?.(done,after)?.id??'rory_dino_picnic'});
   }
   offerShowing(){return Boolean(this.nextOffer)&&!this.celebrateQueue?.length&&(!this.celebrateReward||this.celebrateT>=CELEBRATE_SECONDS);}

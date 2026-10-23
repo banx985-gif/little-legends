@@ -31,7 +31,8 @@ export class AdventureEngine {
   // with everything finished, simply the next mission (so play never stops). No `afterId`: the first unfinished one.
   next(completed = [], afterId = null) {
     const done = new Set(completed);
-    const all = WORLD_ORDER.flatMap(w => this.list().filter(a => a.world === w));
+    // Job 18: only worlds this tablet can play (the free ones until the full game is unlocked).
+    const all = WORLD_ORDER.filter(w => this.game?.unlock?.worldOpen?.(w) ?? true).flatMap(w => this.list().filter(a => a.world === w));
     if (!all.length) return null;
     const at = Math.max(-1, all.findIndex(a => a.id === afterId));
     const ordered = [...all.slice(at + 1), ...all.slice(0, at + 1)];

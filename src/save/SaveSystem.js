@@ -17,7 +17,9 @@ function blankRoot() {
     profileStates: {},
     settings: { master: 0.9, music: 0.55, voice: 1, character: 0.9, ui: 0.85, ambient: 0.55, activity: 0.9, quietMode: false, reducedMotion: false, uiScale: 1, colorSymbols: true, sessionReminder: 20, performanceMode: 'auto' },
     childTestSessions: [],
-    releaseQualification: { version:1, manual:{}, snapshots:[], automated:null, updatedAt:null }
+    releaseQualification: { version:1, manual:{}, snapshots:[], automated:null, updatedAt:null },
+    // Job 18: the one-time "Unlock everything" for this tablet (all children). devUnlock: debug builds only.
+    store: { fullUnlock:false, checkedAt:null, devUnlock:false }
   };
 }
 
@@ -113,6 +115,8 @@ export class SaveSystem {
     root.releaseQualification = root.releaseQualification && typeof root.releaseQualification === 'object' ? root.releaseQualification : blankRoot().releaseQualification;
     root.releaseQualification.manual = root.releaseQualification.manual && typeof root.releaseQualification.manual === 'object' ? root.releaseQualification.manual : {};
     root.releaseQualification.snapshots = Array.isArray(root.releaseQualification.snapshots) ? root.releaseQualification.snapshots.slice(-12) : [];
+    const store = root.store && typeof root.store === 'object' && !Array.isArray(root.store) ? root.store : {};
+    root.store = { fullUnlock: store.fullUnlock === true, checkedAt: Number(store.checkedAt) || null, devUnlock: store.devUnlock === true };
     for (const profile of root.profiles) {
       const defaults = blankProfileState();
       const savedState = root.profileStates[profile.id] ?? {};
@@ -405,6 +409,10 @@ export class SaveSystem {
     } catch (error) { console.warn('Little Legends pictures not deleted.', error); }
   }
 
+  // Job 18: the full unlock (src/store/FullUnlock.js decides; this only keeps it).
+  getStore() { return clone(this.root.store ?? blankRoot().store); }
+  async setStore(patch = {}) { this.root.store = { ...blankRoot().store, ...(this.root.store ?? {}), ...clone(patch) }; await this.persist(); return this.getStore(); }
+
   getSettings() { return clone(this.root.settings); }
   async setSettings(settings) { this.root.settings = { ...this.root.settings, ...clone(settings) }; await this.persist(); return this.getSettings(); }
 
@@ -424,7 +432,9 @@ export class SaveSystem {
 
   async resetAll() {
     await this.deletePictures(Object.keys(this.root.profileStates ?? {}));
+    const store = this.root.store; // a purchase is not personal data, and Google Play would restore it anyway
     this.root = blankRoot();
+    if (store?.fullUnlock) this.root.store.fullUnlock = true;
     await this.persist();
   }
 }

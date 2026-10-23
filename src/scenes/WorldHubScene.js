@@ -18,7 +18,7 @@ const JAM={x:1440,y:915,w:400,h:115};
 
 export class WorldHubScene{
   constructor(game){this.game=game;this.world='dino';this.meta=META.dino;this.missions=[];this.page=0;this.pressed=null;this.pip=null;this.t=0;}
-  async enter(data={}){this.world=data.world??'dino';this.meta=META[this.world]??META.dino;this.page=0;this.pressed=null;this.t=0;this.pip=new PipController({x:185,y:850,scale:.64});await this.game.adventureEngine.ensureLoaded(this.game.assets);this.missions=this.game.adventureEngine.list().filter(a=>a.world===this.world);this.game.audio?.startWorldMusic?.(this.world);}
+  async enter(data={}){if(this.game.unlock&&!this.game.unlock.worldOpen(data.world??'dino')){this.game.scenes.change('worldSelect');return;} /* Job 18: in the full game */this.world=data.world??'dino';this.meta=META[this.world]??META.dino;this.page=0;this.pressed=null;this.t=0;this.pip=new PipController({x:185,y:850,scale:.64});await this.game.adventureEngine.ensureLoaded(this.game.assets);this.missions=this.game.adventureEngine.list().filter(a=>a.world===this.world);this.game.audio?.startWorldMusic?.(this.world);}
   exit(){this.game.audio?.stopWorldMusic?.();}
   // The first unfinished mission on this page bounces after 5 s with no touch, and Pip points at it.
   nextCard(){const done=this.game.save?.getProfileState?.()?.adventure?.completed??[];return this.visible().findIndex(m=>!done.includes(m.id));}

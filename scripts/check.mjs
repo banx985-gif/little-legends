@@ -19,7 +19,7 @@ import { EggSystem, EGG_STATES } from '../src/rewards/EggSystem.js';
 import { AdaptiveDifficulty } from '../src/learning/AdaptiveDifficulty.js';
 import { ActivityScheduler } from '../src/learning/ActivityScheduler.js';
 import { RainbowVillageScene } from '../src/scenes/RainbowVillageScene.js';
-import { WorldSelectScene } from '../src/scenes/WorldSelectScene.js';
+import { WorldSelectScene, WORLDS } from '../src/scenes/WorldSelectScene.js';
 import { WorldHubScene } from '../src/scenes/WorldHubScene.js';
 import { JungleJamScene } from '../src/scenes/JungleJamScene.js';
 import { CollectionScene, DECOR_TABS, decorTab } from '../src/scenes/CollectionScene.js';
@@ -68,7 +68,7 @@ for (const file of jsFiles) execFileSync(process.execPath, ['--check', file], { 
 
 // The installable/offline build must cache every eagerly imported source module.
 const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v53"), 'Service worker cache version should advance with the real-art build');
+assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v54"), 'Service worker cache version should advance with the real-art build');
 for (const file of walk(path.join(root, 'src')).filter(file => file.endsWith('.js'))) {
   const rel = `./${path.relative(root, file).split(path.sep).join('/')}`;
   assert.ok(serviceWorkerSource.includes(`'${rel}'`), `Offline cache must include ${rel}`);
@@ -1474,6 +1474,73 @@ assert.ok(serviceWorkerSource.includes("'./assets/art_manifest.json'")&&serviceW
   // 6. Cheap tablets: the Lite speed check paints in the studio and times the bucket; the page list works offline.
   const qa = fs.readFileSync(path.join(root, 'scripts/qa-release.mjs'), 'utf8'); assert.ok(qa.includes("'colouring'") && qa.includes('lite-fill'), 'The Lite speed check includes the colouring studio and the bucket time');
   assert.ok(fs.readFileSync(path.join(root, 'sw.js'), 'utf8').includes('./data/colouring.json'), 'Colouring pages list works offline');
+}
+
+// ---- Job 18: free to try + one "Unlock everything" ----
+{
+  const { FullUnlock, FREE_WORLDS, makeSum, HOLD_TO_BUY } = await import('../src/store/FullUnlock.js');
+  const { ColouringScene } = await import('../src/scenes/ColouringScene.js');
+  const flush = () => new Promise(r => setTimeout(r, 5));
+  class Ctx18 extends FakeCanvasContext { drawImage() {} }
+  const ctx18 = new Ctx18();
+  const us = new SaveSystem({ indexedDBRef: null, storage: null }); await us.init(); await us.createProfile({ name: 'Zoe', age: 4 });
+  // 1. Web has no store: everything open (?locked=1 previews the free version). The app: Dino Valley and Rainbow Village only.
+  assert.ok(new FullUnlock({ save: us }, { native: false }).isUnlocked(), 'Web build: everything unlocked');
+  assert.ok(!new FullUnlock({ save: us }, { native: false, preview: true }).isUnlocked(), '?locked=1 shows the free version');
+  const u = new FullUnlock({ save: us }, { native: true });
+  assert.deepEqual([...FREE_WORLDS], ['dino', 'rainbow'], 'Free worlds');
+  assert.ok(u.worldOpen('dino') && u.worldOpen('rainbow') && !u.worldOpen('space') && !u.worldOpen('town'), 'Other worlds are in the full game');
+  assert.ok(u.pageOpen({ free: true }) && !u.pageOpen({ free: false }), 'Only the free colouring pages');
+  // Google Play answers: owned -> kept on the tablet (works offline); a refund -> back to free; no answer -> unchanged.
+  let calls = []; u.billing = async (m) => { calls.push(m); return { owned: true, price: 'A$4.99', debug: false }; };
+  assert.ok(await u.refresh(), 'Owned on Google Play: unlocked'); assert.equal(u.price, 'A$4.99'); assert.equal(us.getStore().fullUnlock, true, 'Kept on the tablet');
+  u.billing = async () => { throw new Error('offline'); }; assert.ok(await u.refresh(), 'Offline: the saved unlock still counts');
+  u.billing = async () => ({ owned: false, debug: false }); assert.ok(!(await u.refresh()), 'Refunded: back to the free version');
+  // Debug builds only: the developer switch.
+  await us.setStore({ devUnlock: true }); assert.ok(!u.isUnlocked(), 'The developer switch does nothing in a release build');
+  u.billing = async () => ({ owned: false, debug: true }); await u.refresh(); assert.ok(u.isUnlocked(), 'Debug build: the developer switch unlocks'); await u.setDevUnlock(false); assert.ok(!u.isUnlocked());
+  u.debug = false;
+  // Older saves: no store yet -> free; reset keeps a bought unlock (it is not personal data).
+  assert.deepEqual(us.migrate({ profiles: [] }).store, { fullUnlock: false, checkedAt: null, devUnlock: false }, 'Older saves start in the free version');
+  await us.setStore({ fullUnlock: true }); await us.resetAll(); assert.equal(us.getStore().fullUnlock, true, 'RESET keeps the purchase'); await us.setStore({ fullUnlock: false }); await us.createProfile({ name: 'Zoe', age: 4 });
+  // 2. The grown-up sum is written in words.
+  for (let i = 0; i < 20; i++) { const s = makeSum(); assert.ok(/^What is [a-z]+ plus [a-z]+\?$/.test(s.text) && s.choices.includes(s.answer) && s.choices.length === 4, 'An easy sum in words with four answers'); }
+  // 3. Missions: PLAY and the map only lead to free worlds.
+  const ae = new AdventureEngine({ unlock: u }); ae.setDefinitions(adventureData);
+  for (let i = 0, after = null; i < 30; i++) { const next = ae.next([], after); assert.ok(FREE_WORLDS.has(next.world), 'Next mission is in a free world'); after = next.id; }
+  const wsg = { unlock: u, adventureEngine: ae, save: us, audio: sceneAudio, scenes: { last: null, change(name, data) { this.last = { name, data }; } } };
+  const ws = new WorldSelectScene(wsg); ws.enter(); cueLog.length = 0;
+  const space = WORLDS.find(w => w.id === 'space'); ws.handlePointer({ type: 'down', x: space.x + 50, y: space.y + 50 }); ws.handlePointer({ type: 'up', x: space.x + 50, y: space.y + 50 });
+  assert.ok(ws.ask.showing && !ws.leaving, 'A locked world: Pip says "Ask a grown-up!" and nothing opens'); assert.ok(!cueLog.some(c => /coin|unlock/.test(c.name)));
+  ws.render(ctx18); assert.equal(ctx18.depth, 0);
+  const dino = WORLDS.find(w => w.id === 'dino'); ws.handlePointer({ type: 'down', x: dino.x + 50, y: dino.y + 50 }); ws.handlePointer({ type: 'up', x: dino.x + 50, y: dino.y + 50 }); assert.equal(ws.leaving?.world.id, 'dino', 'Free worlds open as before');
+  const hub = new WorldHubScene(wsg); await hub.enter({ world: 'town' }); assert.equal(wsg.scenes.last?.name, 'worldSelect', 'A locked world hub sends you back to the map');
+  // 4. Colouring: locked pages sleep behind a padlock; tapping one asks for a grown-up.
+  const colouringData = JSON.parse(fs.readFileSync(path.join(root, 'data/colouring.json'), 'utf8'));
+  const cg = { save: us, unlock: u, audio: sceneAudio, assets: { load: async () => colouringData }, scenes: { last: null, current: null, change(name, data) { this.last = { name, data }; } } };
+  const cs = new ColouringScene(cg); cg.scenes.current = cs; await cs.enter({});
+  const house = cs.shown.findIndex(p => p.id === 'page_37_rainbow_house'); assert.ok(house >= 0 && !colouringData.pages.find(p => p.id === 'page_37_rainbow_house').free);
+  const c = { x: 140 + (house % 4) * 420 + 100, y: 200 + Math.floor(house / 4) * 270 + 100 }; cs.handlePointer({ type: 'down', ...c }); cs.handlePointer({ type: 'up', ...c }); await flush();
+  assert.equal(cs.mode, 'picker', 'A locked page does not open'); assert.ok(cs.ask.showing, 'Pip asks for a grown-up'); cs.render(ctx18); assert.equal(ctx18.depth, 0); cs.exit();
+  // 5. Parent Area: FULL GAME shows the price; buying needs the 3-second hold and the sum; RESTORE asks Google Play.
+  calls = []; u.billing = async (m) => { calls.push(m); return { owned: true, debug: false }; };
+  const pg = new ParentGateScene(cg); pg.enter({ skipGate: true, tab: 'store' }); pg.render(ctx18); assert.equal(ctx18.depth, 0);
+  const press = (x, y) => { pg.handlePointer({ type: 'down', x, y }); pg.handlePointer({ type: 'up', x, y }); };
+  press(630, 820); assert.equal(pg.buyCheck?.stage, 'hold', 'UNLOCK EVERYTHING first asks for the grown-up check'); assert.equal(calls.length, 0);
+  pg.handlePointer({ type: 'down', x: 960, y: 600 }); pg.update(1); pg.handlePointer({ type: 'up', x: 960, y: 600 }); assert.equal(pg.buyCheck.stage, 'hold', 'Letting go early starts again');
+  pg.handlePointer({ type: 'down', x: 960, y: 600 }); for (let t = 0; t < HOLD_TO_BUY + 0.2; t += 0.25) pg.update(0.25); pg.handlePointer({ type: 'up', x: 960, y: 600 }); assert.equal(pg.buyCheck.stage, 'sum', 'After 3 seconds: the sum');
+  pg.render(ctx18); assert.equal(ctx18.depth, 0);
+  const sum = pg.buyCheck.sum, wrong = sum.choices.findIndex(n => n !== sum.answer); press(430 + wrong * 280 + 100, 640); assert.ok(pg.buyCheck?.wrong && calls.length === 0, 'A wrong answer buys nothing');
+  const right = pg.buyCheck.sum.choices.indexOf(pg.buyCheck.sum.answer); press(430 + right * 280 + 100, 640); await flush();
+  assert.deepEqual(calls, ['buy'], 'The right answer opens Google Play'); assert.ok(u.isUnlocked(), 'and the purchase unlocks everything'); assert.ok(ae.next([], null), 'missions still work');
+  assert.ok(u.worldOpen('space') && cs.pageOpen({ free: false }), 'Unlocked: every world and page');
+  press(660, 820); await flush(); assert.deepEqual(calls, ['buy', 'status'], 'RESTORE PURCHASE asks Google Play');
+  // 6. Promises and docs.
+  assert.ok(!PRIVACY_GUARANTEES.some(g => /nothing to buy/i.test(g.detail)) && PRIVACY_GUARANTEES.some(g => /Google Play/.test(g.detail)), 'The Parent Area privacy text tells about the one unlock');
+  for (const f of ['privacy.html', 'docs/PRIVACY.md', 'docs/GOOGLE_PLAY_STEPS.md']) assert.ok(/Google Play/.test(fs.readFileSync(path.join(root, f), 'utf8')) && /full_unlock|one-time|Unlock everything/i.test(fs.readFileSync(path.join(root, f), 'utf8')), `${f} explains the unlock`);
+  const plugin = fs.readFileSync(path.join(root, 'app-android/android/app/src/main/java/com/banxgames/littlelegends/BillingPlugin.java'), 'utf8');
+  assert.ok(plugin.includes('"full_unlock"') && plugin.includes('acknowledgePurchase'), 'The Android billing plugin sells full_unlock and acknowledges it');
+  assert.ok(fs.readFileSync(path.join(root, 'app-android/android/app/src/main/java/com/banxgames/littlelegends/MainActivity.java'), 'utf8').includes('registerPlugin(BillingPlugin.class)'));
 }
 
 console.log(`Little Legends M0-M29 qualification implementation check passed (M26/M29 human gates still pending): ${required.length} required files, ${jsFiles.length} JS syntax checks, ${activityEngine.list().length} JSON activities across ${expectedActivityTypes.size} reusable families, ${adventureData.adventures.length} Little Missions, privacy/child-test support, launch FX, save recovery, performance instrumentation and offline PWA verified.`);

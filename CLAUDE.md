@@ -9,3 +9,12 @@
 - Older saves must keep working (see save migration in `src/save/`).
 - You can't write outside this folder. Put any full-size originals in `_masters_pending/` (git-ignored); Cowork moves them into `04_ART/MASTERS_FULL_SIZE/`.
 - TARGET HARDWARE: cheap/older kids' Android tablets (2–3 GB RAM, slow GPU, e.g. Tab A7 Lite, Fire HD 8, Tab A11+) must play smoothly. Every change must keep low-end performance — design for these first.
+
+## END OF EVERY JOB — write docs/CC_LATEST.md (required)
+Aaron no longer screenshots your summary; Cowork reads this file instead. When you finish any job or prompt, OVERWRITE `docs/CC_LATEST.md` (replace it, don't append) with:
+- Date/time, which job, and whether it is DONE, PARTLY DONE or BLOCKED
+- What changed (short, plain English)
+- Anything not done and why
+- What Aaron needs to do (test on the tablet, draw art, decide something). Write "nothing" if there's nothing.
+- Commit id and whether it was pushed / APK rebuilt
+Then commit it with the job.

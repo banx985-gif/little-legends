@@ -1,7 +1,8 @@
 // Job 17: one colouring picture — the child's paint, the page's black lines on top, stickers above both.
 // Built for cheap tablets:
 // - It works at 1280×720 in Lite (1600×900 Balanced, 1920×1080 High): one paint layer, one line layer, and a copy of the
-//   paint kept on the CPU side ("shadow") so a fill or an undo never has to read pixels back from the GPU.
+//   paint's pixels kept on the CPU side (`data`) so a fill or an undo never reads pixels back from the GPU; a fill
+//   colours the copy and sends just its box to the screen.
 // - Undo keeps only the changed box of each step (20 steps), within a memory budget; the oldest steps go first.
 // Everything is in page units (1920×1080) outside this class.
 import { Filler, pageLayers, hexRgb } from './fill.js';
@@ -12,6 +13,8 @@ const UNDO_BYTES = { high: 80e6, balanced: 56e6, lite: 32e6 };
 // Brush sizes (small, medium, large) in page units.
 export const SIZES = { texta: [14, 30, 60], brush: [26, 54, 100], rainbow: [16, 34, 64], eraser: [30, 64, 120], stamp: [110, 170, 250] };
 export function workSize(quality = globalThis.__LL_QUALITY) { return quality === 'lite' ? [1280, 720] : quality === 'balanced' ? [1600, 900] : [1920, 1080]; }
+
+function makeImageData(w, h) { return typeof ImageData === 'function' ? new ImageData(w, h) : { data: new Uint8ClampedArray(w * h * 4), width: w, height: h }; }
 
 export function makeCanvas(w, h) {
   if (typeof document !== 'undefined' && document.createElement) { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; }
@@ -25,7 +28,7 @@ export class Painting {
     this.k = this.w / PAGE_W;
     this.newCanvas = canvas;
     this.paint = canvas(this.w, this.h); this.pctx = this.paint.getContext('2d');
-    this.shadow = canvas(this.w, this.h); this.sctx = this.shadow.getContext('2d', { willReadFrequently: true });
+    this.data = makeImageData(this.w, this.h); this.px = new Uint32Array(this.data.data.buffer);
     this.lines = canvas(this.w, this.h); this.lctx = this.lines.getContext('2d');
     this.budget = UNDO_BYTES[quality] ?? UNDO_BYTES.high;
     this.filler = null;
@@ -36,7 +39,9 @@ export class Painting {
     this.blank();
   }
 
-  blank() { for (const c of [this.pctx, this.sctx]) { c.fillStyle = '#fff'; c.fillRect(0, 0, this.w, this.h); } }
+  blank() { this.pctx.fillStyle = '#fff'; this.pctx.fillRect(0, 0, this.w, this.h); this.px.fill(0xffffffff); }
+  // The paint's colour at a point (page units), from the CPU copy.
+  pixel(x, y) { const i = (Math.round(y * this.k) * this.w + Math.round(x * this.k)) * 4, d = this.data.data; return [d[i], d[i + 1], d[i + 2]]; }
 
   // The page: an <img> (Aaron's picture) or a function that draws it in page units. Reads its lines once.
   setPage(source) {
@@ -51,12 +56,12 @@ export class Painting {
     tmp.width = tmp.height = 0;
     // The first fills on a page are ~3× slower than later ones (the browser hasn't optimised the fill code yet): a few
     // here, while the page is opening, make the child's first tap as quick as the rest. They change no paint.
-    const scratch = new Uint8ClampedArray(16 * 16 * 4);
-    for (let i = 0; i < 3; i++) { const r = this.filler.fill(4 + i, 4); if (r) this.filler.colour(r, scratch, 0, 0, 16, 16, [0, 0, 0]); }
+    // The page is still all white here, so colouring white changes nothing.
+    for (let i = 0; i < 8; i++) { const r = this.filler.fill(4 + (i % 4), 4); if (r) this.filler.colour(r, this.data.data, 0, 0, this.w, this.h, [255, 255, 255]); }
   }
 
   // A saved painting (an <img>) back onto the paint layer.
-  loadPaint(img) { if (!img) return; this.pctx.drawImage(img, 0, 0, this.w, this.h); this.sctx.drawImage(img, 0, 0, this.w, this.h); }
+  loadPaint(img) { if (!img) return; this.pctx.drawImage(img, 0, 0, this.w, this.h); this.data = this.pctx.getImageData(0, 0, this.w, this.h); this.px = new Uint32Array(this.data.data.buffer); }
 
   // ---- history ----
   bytesUsed() { let n = 0; for (const e of [...this.undoList, ...this.redoList]) n += e.before?.data?.length ?? 0; return n; }
@@ -71,22 +76,25 @@ export class Painting {
   swap(from, to) {
     const e = from.pop(); if (!e) return false;
     const back = { ...e };
-    if (e.before) { back.before = this.sctx.getImageData(e.x, e.y, e.w, e.h); this.put(e.before, e.x, e.y); }
+    if (e.before) { back.before = this.copyBox(e); this.pasteBox(e.before, e.x, e.y); this.showBox(e); }
     if (e.stickers) { back.stickers = this.stickers.map(s => ({ ...s })); this.stickers = e.stickers.map(s => ({ ...s })); }
     to.push(back); this.dirty = true;
     return true;
   }
-  put(data, x, y) { this.pctx.putImageData(data, x, y); this.sctx.putImageData(data, x, y); }
+  // The CPU copy: a box out, a box in, and a box of it sent to the screen.
+  copyBox(b) { const out = makeImageData(b.w, b.h), src = this.data.data; for (let j = 0; j < b.h; j++) { const at = ((b.y + j) * this.w + b.x) * 4; out.data.set(src.subarray(at, at + b.w * 4), j * b.w * 4); } return out; }
+  pasteBox(img, x, y) { const dst = this.data.data; for (let j = 0; j < img.height; j++) dst.set(img.data.subarray(j * img.width * 4, (j + 1) * img.width * 4), ((y + j) * this.w + x) * 4); }
+  showBox(b) { this.pctx.putImageData(this.data, 0, 0, b.x, b.y, b.w, b.h); }
   // Box in work pixels, clamped to the canvas; null when empty.
   box(x0, y0, x1, y1) {
     const x = Math.max(0, Math.floor(x0)), y = Math.max(0, Math.floor(y0)), w = Math.min(this.w, Math.ceil(x1)) - x, h = Math.min(this.h, Math.ceil(y1)) - y;
     return w > 0 && h > 0 ? { x, y, w, h } : null;
   }
-  // After drawing into the paint layer: remember the box as it was (from the shadow), then copy the new paint across.
+  // After drawing into the paint layer: remember the box as it was (from the CPU copy), then copy the new paint into it.
   commit(b) {
     if (!b) return;
-    const before = this.sctx.getImageData(b.x, b.y, b.w, b.h);
-    this.sctx.drawImage(this.paint, b.x, b.y, b.w, b.h, b.x, b.y, b.w, b.h);
+    const before = this.copyBox(b);
+    this.pasteBox(this.pctx.getImageData(b.x, b.y, b.w, b.h), b.x, b.y);
     this.push({ ...b, before });
   }
   stickersChanged(before) { this.push({ stickers: before.map(s => ({ ...s })) }); }
@@ -142,10 +150,9 @@ export class Painting {
     const r = this.filler.fill(x * this.k, y * this.k);
     if (!r) return null;
     const b = this.box(r.minX - 2, r.minY - 2, r.maxX + 3, r.maxY + 3);
-    const before = this.sctx.getImageData(b.x, b.y, b.w, b.h);
-    const copy = new Uint8ClampedArray(before.data), after = typeof ImageData === 'function' ? new ImageData(copy, b.w, b.h) : { data: copy, width: b.w, height: b.h };
-    this.filler.colour(r, after.data, b.x, b.y, b.w, b.h, hexRgb(colour));
-    this.put(after, b.x, b.y);
+    const before = this.copyBox(b);
+    this.filler.colour(r, this.data.data, 0, 0, this.w, this.h, hexRgb(colour));
+    this.showBox(b);
     this.push({ ...b, before });
     return (globalThis.performance?.now?.() ?? Date.now()) - t0;
   }
@@ -162,7 +169,7 @@ export class Painting {
   }
 
   clear() {
-    const before = this.sctx.getImageData(0, 0, this.w, this.h), stickers = this.stickers.map(s => ({ ...s }));
+    const before = this.copyBox({ x: 0, y: 0, w: this.w, h: this.h }), stickers = this.stickers.map(s => ({ ...s }));
     this.blank(); this.stickers = [];
     this.push({ x: 0, y: 0, w: this.w, h: this.h, before, stickers });
   }
@@ -187,8 +194,8 @@ export class Painting {
 
   // Leaving the studio: let the big canvases go now rather than whenever the garbage collector gets to them.
   dispose() {
-    for (const c of [this.paint, this.shadow, this.lines]) if (c) { c.width = 0; c.height = 0; }
-    this.paint = this.shadow = this.lines = this.pctx = this.sctx = this.lctx = null;
+    for (const c of [this.paint, this.lines]) if (c) { c.width = 0; c.height = 0; }
+    this.paint = this.lines = this.pctx = this.lctx = this.data = this.px = null;
     this.filler = null; this.undoList = []; this.redoList = []; this.stickers = [];
   }
 }

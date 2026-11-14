@@ -30,7 +30,9 @@ const ISLAND_40 = async () => {
   const pick = [...toys.map(id => g.rewards.get(id)), ...rest.filter(r => r.type === 'creatures').slice(0, 14), ...rest.filter(r => r.type !== 'creatures').slice(0, 20)].slice(0, 40);
   let i = 0; for (const r of pick) { await g.save.award(r.type, r.id); const x = 330 + (i % 8) * 180, y = 520 + Math.floor(i / 8) * 85; await g.save.saveIslandPlacement(r.id, { x, y, zone: 'decoration' }); i++; }
 };
-const EXTRA_SCENES = [['island', {}, 'island'], ['collection', { tab: 'decorations' }, 'collection decor'], ['collection', { tab: 'vehicles' }, 'collection rides'], ['jungleJam', {}, 'jungle jam'], ['island', { play: true }, 'island 40 things', ISLAND_40], ['colouring', { page: 'page_44_flower', paint: true }, 'colouring']];
+const EXTRA_SCENES = [['island', {}, 'island'], ['collection', { tab: 'decorations' }, 'collection decor'], ['collection', { tab: 'vehicles' }, 'collection rides'], ['jungleJam', {}, 'jungle jam'], ['island', { play: true }, 'island 40 things', ISLAND_40], ['colouring', { page: 'page_44_flower', paint: true }, 'colouring'],
+  // Job 19: playgrounds (vehicles driving round the town roads; sea friends swimming; dinos eating and napping).
+  ['playground', { world: 'town' }, 'playground town'], ['playground', { world: 'rainbow' }, 'playground sea'], ['playground', { world: 'dino' }, 'playground dino']];
 const FILL_MS = 50; // Job 17: a bucket fill on the Lite check (CPU slowed 4×)
 const LITE_PICTURE_MB = 100; // Job 10 budget for Lite mode
 

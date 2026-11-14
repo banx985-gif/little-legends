@@ -1784,7 +1784,8 @@
     "missionStar": "rewards.medals.star_gold",
     "studio_logo": "ui.studio_logo",
     "easel": "objects.art.easel_rainbow",
-    "tab_pictures": "objects.art.palette"
+    "tab_pictures": "objects.art.palette",
+    "playground": "worlds.buildings.climbing_dome"
   },
   "fx": {
     "about": "blend 'screen' = light blend for glows; omitted = normal.",

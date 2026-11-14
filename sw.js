@@ -1,4 +1,4 @@
-const CACHE = 'little-legends-m29-playable-fix1-art-v54';
+const CACHE = 'little-legends-m29-playable-fix1-art-v55';
 const CORE = [
   './',
   './index.html',
@@ -56,6 +56,8 @@ const CORE = [
   './src/activities/layout.js',
   './src/island/islandPlay.js',
   './src/colouring/fill.js',
+  './src/playgrounds/playgrounds.js',
+  './src/scenes/PlaygroundScene.js',
   './src/store/FullUnlock.js',
   './src/ui/AskGrownUp.js',
   './src/colouring/pages.js',

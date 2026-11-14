@@ -68,7 +68,7 @@ for (const file of jsFiles) execFileSync(process.execPath, ['--check', file], { 
 
 // The installable/offline build must cache every eagerly imported source module.
 const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v54"), 'Service worker cache version should advance with the real-art build');
+assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v55"), 'Service worker cache version should advance with the real-art build');
 for (const file of walk(path.join(root, 'src')).filter(file => file.endsWith('.js'))) {
   const rel = `./${path.relative(root, file).split(path.sep).join('/')}`;
   assert.ok(serviceWorkerSource.includes(`'${rel}'`), `Offline cache must include ${rel}`);
@@ -1392,14 +1392,14 @@ assert.ok(serviceWorkerSource.includes("'./assets/art_manifest.json'")&&serviceW
     clearRect(x, y, w, h) { const c = this.c; for (let j = y; j < Math.min(c.height, y + h); j++) c.data.fill(0, (j * c.width + x) * 4, (j * c.width + Math.min(c.width, x + w)) * 4); }
     createImageData(w, h) { return { data: new Uint8ClampedArray(w * h * 4), width: w, height: h }; }
     getImageData(x, y, w, h) { const out = this.createImageData(w, h), c = this.c; for (let j = 0; j < h; j++) out.data.set(c.data.subarray(((y + j) * c.width + x) * 4, ((y + j) * c.width + x + w) * 4), j * w * 4); return out; }
-    putImageData(img, x, y) { const c = this.c; for (let j = 0; j < img.height; j++) c.data.set(img.data.subarray(j * img.width * 4, (j + 1) * img.width * 4), ((y + j) * c.width + x) * 4); }
+    putImageData(img, x, y, dx = 0, dy = 0, dw = img.width, dh = img.height) { const c = this.c; for (let j = dy; j < dy + dh; j++) c.data.set(img.data.subarray((j * img.width + dx) * 4, (j * img.width + dx + dw) * 4), ((y + j) * c.width + x + dx) * 4); }
     createRadialGradient() { return { addColorStop() {} }; }
     save() {} restore() {} scale() {} translate() {} rotate() {} beginPath() {} closePath() {} moveTo() {} lineTo() {} arc() {} ellipse() {} rect() {} roundRect() {} fill() {} stroke() {} clip() {}
     quadraticCurveTo() {} bezierCurveTo() {} drawImage() {} fillText() {} setLineDash() {}
   }
   class RasterCanvas { constructor(w, h) { this.width = w; this.height = h; this.data = new Uint8ClampedArray(w * h * 4); } getContext() { return (this.ctx ??= new RasterCtx(this)); } toDataURL() { return 'data:image/jpeg;base64,AA=='; } }
   const raster = (w, h) => new RasterCanvas(w, h);
-  const pixel = (p, x, y) => [...p.sctx.getImageData(Math.round(x * p.k), Math.round(y * p.k), 1, 1).data.slice(0, 3)];
+  const pixel = (p, x, y) => p.pixel(x, y);
 
   // 1. Lines become walls; a fill stops at them, grows a little into them, and a tap on a line still fills nearby.
   { const w = 60, h = 40, rgba = new Uint8ClampedArray(w * h * 4).fill(255);
@@ -1541,6 +1541,54 @@ assert.ok(serviceWorkerSource.includes("'./assets/art_manifest.json'")&&serviceW
   const plugin = fs.readFileSync(path.join(root, 'app-android/android/app/src/main/java/com/banxgames/littlelegends/BillingPlugin.java'), 'utf8');
   assert.ok(plugin.includes('"full_unlock"') && plugin.includes('acknowledgePurchase'), 'The Android billing plugin sells full_unlock and acknowledges it');
   assert.ok(fs.readFileSync(path.join(root, 'app-android/android/app/src/main/java/com/banxgames/littlelegends/MainActivity.java'), 'utf8').includes('registerPlugin(BillingPlugin.class)'));
+}
+
+// ---- Job 19 step 1: playgrounds in five worlds ----
+{
+  const { PlaygroundScene } = await import('../src/scenes/PlaygroundScene.js');
+  const { PLAYGROUNDS } = await import('../src/playgrounds/playgrounds.js');
+  const manifestIds = new Set(JSON.parse(fs.readFileSync(path.join(root, 'assets/art_manifest.json'), 'utf8')).map(e => e.id));
+  assert.deepEqual(Object.keys(PLAYGROUNDS).sort(), ['animal', 'dino', 'rainbow', 'space', 'town'], 'Playgrounds: Dino Valley, the sea (Rainbow Village), Space, Animal Forest, Busy Town');
+  for (const [w, c] of Object.entries(PLAYGROUNDS)) { assert.ok(c.things.length >= 8 && c.things.length <= 16, `${w}: enough things, few enough for cheap tablets`); for (const t of c.things) assert.ok(manifestIds.has(t.art), `${w}/${t.id} uses existing art`); }
+  class Ctx19 extends FakeCanvasContext { drawImage() {} createLinearGradient() { return { addColorStop() {} }; } }
+  const ctx19 = new Ctx19();
+  const ps = new SaveSystem({ indexedDBRef: null, storage: null }); await ps.init(); const kid = await ps.createProfile({ name: 'Max', age: 4 });
+  const pg = { save: ps, audio: sceneAudio, scenes: { last: null, change(name, data) { this.last = { name, data }; } } };
+  const drag = (sc, o, x, y) => { const up = sc.drawn(o).h * 0.6; assert.equal(sc.objectAt(o.x, o.y - up), o, 'grabbing ' + o.id); sc.handlePointer({ type: 'down', x: o.x, y: o.y - up }); sc.handlePointer({ type: 'move', x: x, y: y - up }); sc.handlePointer({ type: 'up', x: x, y: y - up }); };
+  const run = (sc, s) => { for (let t = 0; t < s; t += 1 / 30) sc.update(1 / 30); };
+  // Dino Valley: eat, nap, egg wobble, size buttons, saved per child.
+  const dino = new PlaygroundScene(pg); await dino.enter({ world: 'dino' }); dino.render(ctx19); assert.equal(ctx19.depth, 0);
+  const rory = dino.objects.find(o => o.id === 'rory'), bowl = dino.objects.find(o => o.id === 'bowl'), nest = dino.objects.find(o => o.id === 'nest'), stego = dino.objects.find(o => o.id === 'stego');
+  cueLog.length = 0; dino.handlePointer({ type: 'down', x: rory.x, y: rory.y - 40 }); dino.handlePointer({ type: 'up', x: rory.x, y: rory.y - 40 }); assert.ok(cueLog.some(c => c.name === 'dinoBaby') && rory.anim?.kind === 'bounce', 'Tap a dino: it bounces and makes its sound');
+  drag(dino, rory, bowl.x - 60, bowl.y); assert.equal(rory.anim?.kind, 'eat', 'A dino dropped on the food bowl eats'); run(dino, 3); assert.equal(rory.anim, null, 'then stops');
+  drag(dino, stego, nest.x, nest.y); assert.equal(stego.anim?.kind, 'sleep', 'A dino dropped on a nest naps'); run(dino, 1); dino.render(ctx19); assert.equal(ctx19.depth, 0);
+  dino.handlePointer({ type: 'down', x: bowl.x, y: bowl.y - 30 }); run(dino, 0.6); dino.handlePointer({ type: 'up', x: bowl.x, y: bowl.y - 30 }); assert.ok(dino.sizeButtons, 'Hold: + and − buttons');
+  const plus = dino.sizeButtonSpots().find(c => c.dir > 0); dino.handlePointer({ type: 'down', x: plus.x, y: plus.y }); dino.handlePointer({ type: 'up', x: plus.x, y: plus.y }); assert.ok(bowl.size > 1, '+ makes it bigger');
+  await dino.saving; const saved = ps.getProfileState().playgrounds.dino; assert.equal(saved.rory.x, Math.round(rory.x), 'Where things are is saved'); assert.ok(saved.bowl.size > 1, 'and how big');
+  const again = new PlaygroundScene(pg); await again.enter({ world: 'dino' }); assert.equal(again.objects.find(o => o.id === 'bowl').size, saved.bowl.size, 'Saved layout comes back');
+  const leo = await ps.createProfile({ name: 'Leo', age: 3 }); const fresh = new PlaygroundScene(pg); await fresh.enter({ world: 'dino' }); assert.equal(fresh.objects.find(o => o.id === 'bowl').size, 1, 'Each child has their own playground'); await ps.selectProfile(kid.id);
+  // Busy Town: vehicles on a road drive round and round; tap: horn. Dropped off the road: parked.
+  const town = new PlaygroundScene(pg); await town.enter({ world: 'town' }); const taxi = town.objects.find(o => o.id === 'taxi'), tractor = town.objects.find(o => o.id === 'tractor');
+  assert.ok(taxi.drive && !tractor.drive, 'Vehicles on a road drive; parked ones wait'); const x0 = taxi.x; run(town, 1); assert.ok(Math.abs(taxi.x - x0) > 100, 'and move along it');
+  drag(town, tractor, 600, 790); assert.ok(tractor.drive?.dir === 1 && tractor.y === 790, 'Dropped on a road: it drives'); run(town, 12); assert.ok(tractor.x > -200 && tractor.x < 2100, 'round and round, never lost'); town.render(ctx19); assert.equal(ctx19.depth, 0);
+  // Space: rockets launch and land; planets spin.
+  const space = new PlaygroundScene(pg); await space.enter({ world: 'space' }); const rocket = space.objects.find(o => o.id === 'rocket'), globe = space.objects.find(o => o.id === 'globe');
+  cueLog.length = 0; space.tap(rocket); assert.ok(rocket.anim?.kind === 'launch' && cueLog.some(c => c.name === 'rocket'), 'Tap the rocket: it launches'); run(space, 1.2); assert.ok(space.offset(rocket).dy < -300, 'up it goes'); run(space, 3); assert.equal(rocket.anim, null, 'and lands again');
+  const r0 = globe.rot; space.tap(globe); run(space, 0.5); assert.ok(globe.rot - r0 > 2, 'Tap a planet: it spins'); space.render(ctx19); assert.equal(ctx19.depth, 0);
+  // Animal Forest: an animal dropped at a home goes inside, then comes out again.
+  const forest = new PlaygroundScene(pg); await forest.enter({ world: 'animal' }); const bear = forest.objects.find(o => o.id === 'bear'), den = forest.objects.find(o => o.id === 'den');
+  drag(forest, bear, den.x, den.y); assert.equal(bear.anim?.kind, 'home', 'The bear goes into its den'); run(forest, 1); assert.ok(bear.hidden, 'inside'); forest.render(ctx19); run(forest, 3); assert.ok(!bear.hidden && !bear.anim, 'and comes out again');
+  // The sea: friends swim to and fro and stay in the water.
+  const sea = new PlaygroundScene(pg); await sea.enter({ world: 'rainbow' }); const fish = sea.objects.find(o => o.id === 'fish'); const fx = fish.x; run(sea, 1); assert.notEqual(fish.x, fx, 'Fish swim');
+  for (const o of sea.objects) if (o !== fish && o.kind !== 'prop') o.y = Math.abs(o.y - fish.y) < 260 ? (fish.y < 600 ? 890 : 380) : o.y; /* swimming friends can pass in front of the fish */
+  drag(sea, fish, 900, 1060); assert.ok(fish.y <= PLAYGROUNDS.rainbow.water.bottom, 'Dropped on the sand, a fish goes back in the water'); run(sea, 20); assert.ok(fish.x >= 100 && fish.x <= 1830); sea.render(ctx19); assert.equal(ctx19.depth, 0);
+  // Doors: each world with a playground has a PLAYGROUND button on its map; home goes back to it. Locked worlds: no way in.
+  const hg = { save: ps, audio: sceneAudio, adventureEngine: { ensureLoaded: async () => {}, list: () => [] }, scenes: { last: null, change(name, data) { this.last = { name, data }; } } };
+  const hub = new WorldHubScene(hg); await hub.enter({ world: 'town' }); hub.handlePointer({ type: 'down', x: 1640, y: 970 }); hub.handlePointer({ type: 'up', x: 1640, y: 970 }); assert.deepEqual(hg.scenes.last, { name: 'playground', data: { world: 'town' } }, 'The PLAYGROUND door opens the world playground');
+  const jhub = new WorldHubScene(hg); await jhub.enter({ world: 'jungle' }); assert.ok(!jhub.controlAt(1640, 970) || jhub.controlAt(1640, 970) === 'jam', 'The jungle keeps its Jam button');
+  town.handlePointer({ type: 'down', x: 130, y: 100 }); town.handlePointer({ type: 'up', x: 130, y: 100 }); assert.deepEqual(pg.scenes.last, { name: 'worldHub', data: { world: 'town' } }, 'Home goes back to the world');
+  const lockedGame = { ...pg, unlock: { worldOpen: w => w === 'dino' || w === 'rainbow' } }; const lockedTown = new PlaygroundScene(lockedGame); await lockedTown.enter({ world: 'town' }); assert.equal(pg.scenes.last.name, 'worldSelect', 'A locked world playground can\'t be opened');
+  assert.ok(fs.readFileSync(path.join(root, 'scripts/qa-release.mjs'), 'utf8').includes('playground town'), 'The Lite speed check includes the playgrounds');
 }
 
 console.log(`Little Legends M0-M29 qualification implementation check passed (M26/M29 human gates still pending): ${required.length} required files, ${jsFiles.length} JS syntax checks, ${activityEngine.list().length} JSON activities across ${expectedActivityTypes.size} reusable families, ${adventureData.adventures.length} Little Missions, privacy/child-test support, launch FX, save recovery, performance instrumentation and offline PWA verified.`);

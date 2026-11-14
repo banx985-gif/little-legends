@@ -1,3 +1,4 @@
+import { playgroundFor } from '../playgrounds/playgrounds.js';
 import { drawActivityBackground } from '../activities/activityDraw.js';
 import { drawCandyButton, drawHomeButton, nudgeScale } from '../utils/draw.js';
 import { PipController } from '../characters/PipController.js';
@@ -15,6 +16,8 @@ const META={
 };
 // Jungle: the free music Jam is one tap away from its missions (bottom right, clear of PREV/NEXT).
 const JAM={x:1440,y:915,w:400,h:115};
+// Job 19: the world's playground door (same corner as the Jam; the jungle has no playground).
+const PLAY_DOOR={x:1440,y:915,w:400,h:115};
 
 export class WorldHubScene{
   constructor(game){this.game=game;this.world='dino';this.meta=META.dino;this.missions=[];this.page=0;this.pressed=null;this.pip=null;this.t=0;}
@@ -26,12 +29,12 @@ export class WorldHubScene{
   visible(){return this.missions.slice(this.page*6,this.page*6+6);}
   rect(i){return{x:250+(i%2)*760,y:280+Math.floor(i/2)*220,w:660,h:175};}
   hit(x,y){return this.visible().find((m,i)=>{const r=this.rect(i);return x>=r.x&&x<=r.x+r.w&&y>=r.y&&y<=r.y+r.h;})??null;}
-  controlAt(x,y){if(x>=40&&x<=250&&y>=40&&y<=150)return'back';if(this.meta.jam&&x>=JAM.x&&x<=JAM.x+JAM.w&&y>=JAM.y&&y<=JAM.y+JAM.h)return'jam';if(this.complete()&&x>=30&&x<=230&&y>=270&&y<=660)return'certificate';if(x>=690&&x<=910&&y>=920&&y<=1035&&this.page>0)return'prev';if(x>=1010&&x<=1230&&y>=920&&y<=1035&&(this.page+1)*6<this.missions.length)return'next';return null;}
+  controlAt(x,y){if(x>=40&&x<=250&&y>=40&&y<=150)return'back';if(this.meta.jam&&x>=JAM.x&&x<=JAM.x+JAM.w&&y>=JAM.y&&y<=JAM.y+JAM.h)return'jam';if(playgroundFor(this.world)&&x>=PLAY_DOOR.x&&x<=PLAY_DOOR.x+PLAY_DOOR.w&&y>=PLAY_DOOR.y&&y<=PLAY_DOOR.y+PLAY_DOOR.h)return'playground';if(this.complete()&&x>=30&&x<=230&&y>=270&&y<=660)return'certificate';if(x>=690&&x<=910&&y>=920&&y<=1035&&this.page>0)return'prev';if(x>=1010&&x<=1230&&y>=920&&y<=1035&&(this.page+1)*6<this.missions.length)return'next';return null;}
   handlePointer(e){
     if(e.type==='down'){this.idleT=0;this.pointed=false;}
     if(e.type==='down'){this.pressed=this.hit(e.x,e.y)?.id??this.controlAt(e.x,e.y);return;}
     if(e.type==='move'&&this.pressed){const now=this.hit(e.x,e.y)?.id??this.controlAt(e.x,e.y);if(now!==this.pressed)this.pressed=null;return;}
-    if(e.type==='up'){const chosen=this.pressed;this.pressed=null;if(chosen==='back'){this.game.audio?.playCue?.('back');this.game.scenes.change('island');return;} /* home picture: always back to Wonder Island */ if(chosen==='jam'){this.game.audio?.playCue?.('button');this.game.scenes.change('jungleJam');return;}if(chosen==='certificate'){this.pip?.react('celebrate',{duration:1.6});this.game.audio?.playCue?.('levelUp');return;}if(chosen==='prev'){this.page--;this.game.audio?.playCue?.('page');return;}if(chosen==='next'){this.page++;this.game.audio?.playCue?.('page');return;}if(chosen){this.game.audio?.playCue?.('button');this.game.scenes.change('adventure',{adventureId:chosen});}}
+    if(e.type==='up'){const chosen=this.pressed;this.pressed=null;if(chosen==='back'){this.game.audio?.playCue?.('back');this.game.scenes.change('island');return;} /* home picture: always back to Wonder Island */ if(chosen==='jam'){this.game.audio?.playCue?.('button');this.game.scenes.change('jungleJam');return;}if(chosen==='playground'){this.game.audio?.playCue?.('open');this.game.scenes.change('playground',{world:this.world});return;}if(chosen==='certificate'){this.pip?.react('celebrate',{duration:1.6});this.game.audio?.playCue?.('levelUp');return;}if(chosen==='prev'){this.page--;this.game.audio?.playCue?.('page');return;}if(chosen==='next'){this.page++;this.game.audio?.playCue?.('page');return;}if(chosen){this.game.audio?.playCue?.('button');this.game.scenes.change('adventure',{adventureId:chosen});}}
   }
   // World progress medal by the title: bronze, silver, gold, then the trophy when every mission is done.
   drawMedal(ctx){
@@ -57,6 +60,7 @@ export class WorldHubScene{
       else{ctx.fillStyle='#fff';ctx.font='900 34px system-ui';ctx.fillText(completed?'✓':String(this.page*6+i+1),r.x+78,r.y+r.h/2+12);}ctx.fillStyle='#5a3a73';ctx.textAlign='left';ctx.font='900 30px system-ui';ctx.fillText(m.title,r.x+150,r.y+76);ctx.fillStyle='#746a7e';ctx.font='700 23px system-ui';ctx.fillText(completed?'Play again':'Tap to start',r.x+150,r.y+118);ctx.textAlign='center';ctx.restore();});
     this.drawMedal(ctx);this.drawCertificate(ctx);
     if(this.meta.jam)drawCandyButton(ctx,JAM.x,JAM.y,JAM.w,JAM.h,'JUNGLE JAM',this.pressed==='jam','play');
+    if(playgroundFor(this.world))drawCandyButton(ctx,PLAY_DOOR.x,PLAY_DOOR.y,PLAY_DOOR.w,PLAY_DOOR.h,'PLAYGROUND',this.pressed==='playground','playground');
     drawHomeButton(ctx,this.pressed==='back');
     if(this.page>0)drawCandyButton(ctx,690,920,220,95,'PREV',this.pressed==='prev','prev');if((this.page+1)*6<this.missions.length)drawCandyButton(ctx,1010,920,220,95,'NEXT',this.pressed==='next','next');
     if(!this.missions.length){ctx.fillStyle='#fff';ctx.font='800 38px system-ui';ctx.fillText('More Little Missions are coming!',960,560);}

@@ -141,6 +141,8 @@ export class SaveSystem {
       state.adventure.step = Math.max(0, Number(state.adventure.step) || 0);
       state.adventure.completed = Array.isArray(state.adventure.completed) ? [...new Set(state.adventure.completed.filter(Boolean))] : [];
       state.settings = state.settings && typeof state.settings === 'object' && !Array.isArray(state.settings) ? state.settings : {};
+      // Job 19: playground layouts per world ({ dino: { rory: { x, y, size } } }).
+      state.playgrounds = state.playgrounds && typeof state.playgrounds === 'object' && !Array.isArray(state.playgrounds) ? state.playgrounds : {};
       state.pictures = Array.isArray(state.pictures) ? state.pictures.filter(p => typeof p?.id === 'string' && typeof p?.kind === 'string').slice(-PICTURE_LIMIT) : [];
       state.colouring = state.colouring && typeof state.colouring === 'object' && !Array.isArray(state.colouring) ? state.colouring : {};
       state.colouring.seen = Array.isArray(state.colouring.seen) ? [...new Set(state.colouring.seen.filter(id => typeof id === 'string'))] : [];

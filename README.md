@@ -1,5 +1,16 @@
 # Little Legends: Magic World
 
+## Server decision: NO live server (Studio server standard, 13 Nov 2026; waiting on Aaron to confirm)
+Little Legends is single-player. It has no player-vs-player, leaderboards, live events, friends/chat/gifting or shared world, so it gets **no Supabase project**.
+- **Saves:** on the tablet, per child. No cloud save: on a new tablet the bought unlock comes back with RESTORE PURCHASE, and progress starts fresh (fine for ages 2–5).
+- **Purchases:** Google Play Billing only (one-time `full_unlock`, checked by Google Play, stored on the tablet, works offline). Cheating on one A$4.99 unlock isn't worth a server.
+- **Ads:** none. Aaron decided "no ads" for this kids' game, and it keeps the Google Play Families policy simple. So no AdMob, even though the studio standard allows it.
+- **Notifications** (Job 20) are scheduled on the device, so they need no server either.
+- **Stores:** Google Play first. Apple App Store later: keep the code shared and avoid Android-only shortcuts where an easy shared way exists, but build no iPhone-store features yet.
+- **Billing test mode:** keep a test mode with one switch to go live, plus a build check so a store release can't ship in test mode. The Play Console account is still waiting on Aaron's DUNS number.
+- Don't add any network use, accounts or analytics "just in case". If a future feature needs sharing between players, stop and ask Aaron first.
+
+
 Tablet-first JavaScript + HTML5 Canvas educational adventure game for ages 2–5.
 
 ## Current build

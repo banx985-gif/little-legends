@@ -48,4 +48,9 @@
          app and makes no network requests, so nothing a child does leaves the tablet. allowBackup is off (no cloud copy of saves).
          Removing INTERNET is untested (Job 12): try it on a tablet before doing so. -->
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Job 20: little reminders for the grown-up (egg ready, a surprise waiting), scheduled ON the tablet by
+         @capacitor/local-notifications. Android 13+ asks the grown-up first; the game only asks after the child's first win,
+         behind the grown-up check. Inexact alarms are fine for this, so no SCHEDULE_EXACT_ALARM. Nothing is sent anywhere. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 </manifest>

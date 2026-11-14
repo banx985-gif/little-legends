@@ -7,6 +7,7 @@
 // Cheap tablets: see src/colouring/Painting.js. Drawing happens once per frame (finger points are queued), and the big
 // canvases are let go when the studio closes.
 import { drawHomeButton, HOME_BUTTON } from '../utils/draw.js';
+import { fillScreen, pinX, pinY } from '../render/screen.js';
 import { drawArt, lookupArt } from '../core/art.js';
 import { Painting, makeCanvas } from '../colouring/Painting.js';
 import { COLOURS, STAMPS, PAGE_W, PAGE_H, fileImage, fileState, releaseFiles, toolImage, pageUrl, probePage, drawTestPage, drawStampShape } from '../colouring/pages.js';
@@ -16,10 +17,11 @@ import { AskGrownUp, drawSleepy } from '../ui/AskGrownUp.js';
 const PAGE = { x: 200, y: 24, w: 1520, h: 855 }; // the page on screen (16:9)
 const S = PAGE.w / PAGE_W;
 const TOOLS = [['bucket', 'tool_bucket'], ['texta', 'tool_texter'], ['brush', 'tool_paintbrush'], ['rainbow', 'tool_rainbow_brush'], ['eraser', 'tool_eraser'], ['stamp', 'tool_stamp'], ['sticker', 'tool_sticker']];
-const toolSpot = i => ({ x: 100, y: 82 + i * 134, r: 62 });
-const colourSpot = i => ({ x: 268 + i * 125, y: 985, r: 50 });
-const RIGHT = { home: { x: 1820, y: 82, r: 66 }, save: { x: 1820, y: 225, r: 62 }, undo: { x: 1820, y: 365, r: 54 }, redo: { x: 1820, y: 490, r: 54 }, clear: { x: 1820, y: 625, r: 56 } };
-const sizeSpot = i => ({ x: 1820, y: 765 + i * 100, r: 46 });
+// Job 20: the tool column, the colour row and the right-hand column sit against the safe area's edges on every screen shape.
+const toolSpot = i => ({ x: pinX(100), y: 82 + i * 134, r: 62 });
+const colourSpot = i => ({ x: 268 + i * 125, y: pinY(985), r: 50 });
+const RIGHT = { get home() { return { x: pinX(1820), y: 82, r: 66 }; }, get save() { return { x: pinX(1820), y: 225, r: 62 }; }, get undo() { return { x: pinX(1820), y: 365, r: 54 }; }, get redo() { return { x: pinX(1820), y: 490, r: 54 }; }, get clear() { return { x: pinX(1820), y: 625, r: 56 }; } };
+const sizeSpot = i => ({ x: pinX(1820), y: 765 + i * 100, r: 46 });
 const SIZE_DOTS = [12, 22, 34];
 const SIZED = new Set(['texta', 'brush', 'rainbow', 'eraser', 'stamp']);
 const CLEAR_HOLD = 1.2;
@@ -39,7 +41,7 @@ const trayCell = i => ({ x: 305 + (i % 4) * 190, y: 265 + Math.floor(i / 4) * 19
 const TRAY_PER = 12, trayArrow = d => ({ x: d < 0 ? 330 : 870, y: 805, r: 52 });
 // Page picker grid.
 const GRID_PER = 12, gridCell = i => ({ x: 140 + (i % 4) * 420, y: 200 + Math.floor(i / 4) * 270, w: 380, h: 214 });
-const gridArrow = d => ({ x: d < 0 ? 66 : 1854, y: 520, r: 56 });
+const gridArrow = d => ({ x: pinX(d < 0 ? 66 : 1854), y: 520, r: 56 });
 const inCircle = (e, c, pad = 14) => (e.x - c.x) ** 2 + (e.y - c.y) ** 2 <= (c.r + pad) ** 2;
 const inRect = (e, r) => e.x >= r.x && e.x <= r.x + r.w && e.y >= r.y && e.y <= r.y + r.h;
 const onPage = e => inRect(e, PAGE);
@@ -207,7 +209,7 @@ export class ColouringScene {
 
   // ---- drawing ----
   render(ctx) {
-    ctx.fillStyle = '#fde7c4'; ctx.fillRect(0, 0, 1920, 1080);
+    fillScreen(ctx, '#fde7c4');
     if (this.mode === 'picker') this.renderPicker(ctx); else this.renderPaint(ctx);
     if (this.sparkles.length) { ctx.save(); for (const s of this.sparkles) { ctx.globalAlpha = Math.max(0, s.life / s.max); ctx.fillStyle = '#ffe36b'; star(ctx, s.x, s.y, s.size); } ctx.restore(); }
   }

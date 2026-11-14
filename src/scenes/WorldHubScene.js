@@ -1,6 +1,7 @@
+import { pin, pinY } from '../render/screen.js';
 import { playgroundFor } from '../playgrounds/playgrounds.js';
 import { drawActivityBackground } from '../activities/activityDraw.js';
-import { drawCandyButton, drawHomeButton, nudgeScale } from '../utils/draw.js';
+import { drawCandyButton, drawHomeButton, nudgeScale, onHomeButton } from '../utils/draw.js';
 import { PipController } from '../characters/PipController.js';
 import { drawArt, lookupArt, worldTheme, backgroundArt, art, artMap } from '../core/art.js';
 
@@ -29,7 +30,7 @@ export class WorldHubScene{
   visible(){return this.missions.slice(this.page*6,this.page*6+6);}
   rect(i){return{x:250+(i%2)*760,y:280+Math.floor(i/2)*220,w:660,h:175};}
   hit(x,y){return this.visible().find((m,i)=>{const r=this.rect(i);return x>=r.x&&x<=r.x+r.w&&y>=r.y&&y<=r.y+r.h;})??null;}
-  controlAt(x,y){if(x>=40&&x<=250&&y>=40&&y<=150)return'back';if(this.meta.jam&&x>=JAM.x&&x<=JAM.x+JAM.w&&y>=JAM.y&&y<=JAM.y+JAM.h)return'jam';if(playgroundFor(this.world)&&x>=PLAY_DOOR.x&&x<=PLAY_DOOR.x+PLAY_DOOR.w&&y>=PLAY_DOOR.y&&y<=PLAY_DOOR.y+PLAY_DOOR.h)return'playground';if(this.complete()&&x>=30&&x<=230&&y>=270&&y<=660)return'certificate';if(x>=690&&x<=910&&y>=920&&y<=1035&&this.page>0)return'prev';if(x>=1010&&x<=1230&&y>=920&&y<=1035&&(this.page+1)*6<this.missions.length)return'next';return null;}
+  controlAt(x,y){const J=pin(JAM),D=pin(PLAY_DOOR),by=pinY(920)-920;if(onHomeButton(x,y))return'back';if(this.meta.jam&&x>=J.x&&x<=J.x+J.w&&y>=J.y&&y<=J.y+J.h)return'jam';if(playgroundFor(this.world)&&x>=D.x&&x<=D.x+D.w&&y>=D.y&&y<=D.y+D.h)return'playground';if(this.complete()&&x>=30&&x<=230&&y>=270&&y<=660)return'certificate';if(x>=690&&x<=910&&y>=920+by&&y<=1035+by&&this.page>0)return'prev';if(x>=1010&&x<=1230&&y>=920+by&&y<=1035+by&&(this.page+1)*6<this.missions.length)return'next';return null;}
   handlePointer(e){
     if(e.type==='down'){this.idleT=0;this.pointed=false;}
     if(e.type==='down'){this.pressed=this.hit(e.x,e.y)?.id??this.controlAt(e.x,e.y);return;}
@@ -59,10 +60,10 @@ export class WorldHubScene{
       if(drawArt(ctx,icon,r.x+78,r.y+r.h/2,88,88)){if(completed){ctx.fillStyle='#66bd62';ctx.beginPath();ctx.arc(r.x+118,r.y+r.h/2-40,22,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='900 26px system-ui';ctx.fillText('✓',r.x+118,r.y+r.h/2-31);}}
       else{ctx.fillStyle='#fff';ctx.font='900 34px system-ui';ctx.fillText(completed?'✓':String(this.page*6+i+1),r.x+78,r.y+r.h/2+12);}ctx.fillStyle='#5a3a73';ctx.textAlign='left';ctx.font='900 30px system-ui';ctx.fillText(m.title,r.x+150,r.y+76);ctx.fillStyle='#746a7e';ctx.font='700 23px system-ui';ctx.fillText(completed?'Play again':'Tap to start',r.x+150,r.y+118);ctx.textAlign='center';ctx.restore();});
     this.drawMedal(ctx);this.drawCertificate(ctx);
-    if(this.meta.jam)drawCandyButton(ctx,JAM.x,JAM.y,JAM.w,JAM.h,'JUNGLE JAM',this.pressed==='jam','play');
-    if(playgroundFor(this.world))drawCandyButton(ctx,PLAY_DOOR.x,PLAY_DOOR.y,PLAY_DOOR.w,PLAY_DOOR.h,'PLAYGROUND',this.pressed==='playground','playground');
+    const J=pin(JAM),D=pin(PLAY_DOOR),by=pinY(920)-920;if(this.meta.jam)drawCandyButton(ctx,J.x,J.y,J.w,J.h,'JUNGLE JAM',this.pressed==='jam','play');
+    if(playgroundFor(this.world))drawCandyButton(ctx,D.x,D.y,D.w,D.h,'PLAYGROUND',this.pressed==='playground','playground');
     drawHomeButton(ctx,this.pressed==='back');
-    if(this.page>0)drawCandyButton(ctx,690,920,220,95,'PREV',this.pressed==='prev','prev');if((this.page+1)*6<this.missions.length)drawCandyButton(ctx,1010,920,220,95,'NEXT',this.pressed==='next','next');
+    if(this.page>0)drawCandyButton(ctx,690,920+by,220,95,'PREV',this.pressed==='prev','prev');if((this.page+1)*6<this.missions.length)drawCandyButton(ctx,1010,920+by,220,95,'NEXT',this.pressed==='next','next');
     if(!this.missions.length){ctx.fillStyle='#fff';ctx.font='800 38px system-ui';ctx.fillText('More Little Missions are coming!',960,560);}
   }
 }

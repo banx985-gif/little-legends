@@ -3,16 +3,18 @@
 //   2. Save migration: a save made by an older build (build history zip + the build that is live now)
 //      is loaded by this build, and the child's profile, progress, rewards and island survive.
 //   3. Lite mode holds 30 FPS on every world, with the CPU slowed down 4× to stand in for a weak tablet.
+//   4. Job 20: every screen at five shapes (19.5:9, 16:9, 21:9, 16:10, 4:3) with a fake notch and gesture bar: no bars.
 // Results: docs/qa_shots/release_checks.json (+ screenshots in docs/qa_shots/release/).
 //
 //   npm run qa:release                 all three
-//   npm run qa:release -- --only=offline|migration|lite
+//   npm run qa:release -- --only=offline|migration|lite|shapes
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer-core';
 import { startServer, findChrome, sleep } from './qa-common.mjs';
+import { checkShapes } from './qa-shapes.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(root, 'docs', 'qa_shots');
@@ -238,6 +240,7 @@ async function main() {
     if (!only || only === 'offline') { await offline(browser, server, { slow: false }); await offline(browser, server, { slow: true }); }
     if (!only || only === 'migration') for (const build of extractOldBuilds()) await migration(browser, server, build);
     if (!only || only === 'lite') liteRows = await lite(browser, server.base);
+    if (!only || only === 'shapes') { const r = await checkShapes({ browser, base: server.base }); record('shapes', 'No bars on any screen at 19.5:9, 16:9, 21:9, 16:10 and 4:3 (fake notch + gesture bar)', r.ok, r.ok ? `${r.rows.length} screens, all filled; screenshots in docs/qa_shots/shapes/` : r.failures.slice(0, 4).join(' | ')); }
   } finally { await browser.close(); server.close(); }
   const file = path.join(OUT, 'release_checks.json');
   const previous = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : { results: [] };

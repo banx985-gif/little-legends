@@ -1,5 +1,5 @@
 import { drawActivityBackground } from '../activities/activityDraw.js';
-import { drawCandyButton, drawHomeButton, nudgeScale } from '../utils/draw.js';
+import { drawCandyButton, drawHomeButton, nudgeScale, onHomeButton } from '../utils/draw.js';
 import { PipController } from '../characters/PipController.js';
 import { drawArt, lookupArt, artMap, fxArt } from '../core/art.js';
 import { AskGrownUp, drawSleepy } from '../ui/AskGrownUp.js';
@@ -32,8 +32,8 @@ export class WorldSelectScene{
   handlePointer(e){
     if(this.leaving)return;
     if(e.type==='down'){this.idleT=0;this.pointed=false;}
-    if(e.type==='down'){this.pressed=this.cardAt(e.x,e.y)?.id??(e.x>=40&&e.x<=250&&e.y>=40&&e.y<=150?'back':null);return;}
-    if(e.type==='move'&&this.pressed){const now=this.cardAt(e.x,e.y)?.id??(e.x>=40&&e.x<=250&&e.y>=40&&e.y<=150?'back':null);if(now!==this.pressed)this.pressed=null;return;}
+    if(e.type==='down'){this.pressed=this.cardAt(e.x,e.y)?.id??(onHomeButton(e.x,e.y)?'back':null);return;}
+    if(e.type==='move'&&this.pressed){const now=this.cardAt(e.x,e.y)?.id??(onHomeButton(e.x,e.y)?'back':null);if(now!==this.pressed)this.pressed=null;return;}
     if(e.type==='up'){
       const chosen=this.pressed;this.pressed=null;if(chosen==='back'){this.game.audio?.playCue?.('back');this.game.scenes.change('island');return;}
       const world=WORLDS.find(w=>w.id===chosen);if(!world)return;

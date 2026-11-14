@@ -1,9 +1,11 @@
 import { drawCloud, drawCandyButton, drawSpeechBubble, nudgeScale } from '../utils/draw.js';
+import { pin, pinX, pinY, inRect, fillScreen, visibleRect, safeRect } from '../render/screen.js';
 import { PipController } from '../characters/PipController.js';
 import { wornRewards } from '../characters/Wardrobe.js';
 import { art, artMap, drawArt, lookupArt, fxArt, hatchTheme, worldOfReward } from '../core/art.js';
 import { ISLAND_BUILD_LIMIT } from '../save/SaveSystem.js';
 import { HatchSequence } from '../fx/HatchSequence.js';
+import { NotifyAsk } from '../ui/NotifyAsk.js';
 import { SIZE_MIN, SIZE_MAX, SIZE_STEP, HOLD_SECONDS, SIZE_BUTTONS_SECONDS, DRAG_START, FLOAT_SECONDS, HOP_SECONDS, APPROACH_SECONDS, TOYS, PLAYS, toyKind, playsOn, settle, hopOffSpot, EASEL } from '../island/islandPlay.js';
 
 const CELEBRATE_SECONDS=4.5, HATCH_ART_WAIT=6, HELLO_SECONDS=1.6;
@@ -77,7 +79,9 @@ function spreadOut(objects,placements){
 const TRAY={x:16,y:214,w:244,h:830},TRAY_COLS=[78,198],TRAY_TOP=330,TRAY_STEP=100,TRAY_CELL=88;
 function buildPieces(){return Object.entries(artMap()?.islandBuild?.pieces??{});}
 function trayCell(i){return{x:TRAY_COLS[i%2],y:TRAY_TOP+Math.floor(i/2)*TRAY_STEP};}
-function overTray(x,y){return x>=TRAY.x&&x<=TRAY.x+TRAY.w&&y>=TRAY.y&&y<=TRAY.y+TRAY.h;}
+// Job 20: the BUILD tray sits against the left edge of the safe area on every screen shape.
+const trayDX=()=>safeRect().x;
+function overTray(x,y){x-=trayDX();return x>=TRAY.x&&x<=TRAY.x+TRAY.w&&y>=TRAY.y&&y<=TRAY.y+TRAY.h;}
 
 // Where a thing is drawn right now (Job 15: playing, floating back or rolling moves the picture, not its saved spot).
 function drawnBox(o){const k=o.k??1,p=o.pose,s=p?.s??1,w=o.w*k*s,h=o.h*k*s,x=o.x+(p?.dx??0),base=o.y+o.h*k/2+(p?.dy??0);return{x:x-w/2,y:base-h,w,h};}
@@ -92,7 +96,7 @@ export class WonderIslandScene {
   constructor(game){this.game=game;this.t=0;this.portalPressed=false;this.rainbowPressed=false;this.parentPressed=false;this.modePressed=false;this.collectionPressed=false;this.placementMode=false;this.drag=null;this.trayPressed=null;this.dragOffset={x:0,y:0};this.objects=[];this.pip=null;this.interaction=null;this.interactionT=0;this.celebrateReward=null;}
   enter(data={}){
     this.game.audio?.startWorldMusic?.('island'); // Job 13: island music and the beach
-    this.t=0;this.celebrateReward=null;this.nextOffer=data.fromMission?{after:data.fromMission,t:0}:null;this.celebrateQueue=[data.celebrateReward,...(data.celebrateNext??[])].filter(Boolean);
+    this.t=0;this.notifyAsk=null;this.celebrateReward=null;this.nextOffer=data.fromMission?{after:data.fromMission,t:0}:null;this.celebrateQueue=[...new Set([data.celebrateReward,...(data.celebrateNext??[]),...(this.game.save?.getProfileState?.()?.rewardsWaiting??[])].filter(Boolean))]; /* Job 20: prizes not yet shown come too */if(this.game.save?.getProfileState?.()?.rewardsWaiting?.length)this.game.save.mutateProfileState(st=>{st.rewardsWaiting=[];}).catch(()=>{});
     const state=this.game.save?.getProfileState?.();const placements=state?.island?.placements??{};const looks=this.game.rewards?wornRewards(state?.pip?.outfit,this.game.rewards):[];this.pip=new PipController({x:300,y:760,scale:.72,looks,onVoiceEvent:e=>this.voiceEvent(e)});this.speech='';this.speechT=0;
     const buildings=new Set([...(state?.unlocks?.buildings??[])]),decorations=new Set([...(state?.unlocks?.decorations??[])]),creatures=new Set([...(state?.unlocks?.creatures??[])]);
     this.objects=BASE_OBJECTS.map(o=>({...o,base:true,...(placements[o.id]??{})}));
@@ -138,10 +142,13 @@ export class WonderIslandScene {
     const resume=!after&&a.currentId&&a.step>0&&!done.includes(a.currentId)&&engine?.get?.(a.currentId)&&(this.game.unlock?.worldOpen?.(engine.get(a.currentId).world)??true)?a.currentId:null;
     this.game.scenes.change('adventure',{adventureId:resume??engine?.next?.(done,after)?.id??'rory_dino_picnic'});
   }
-  offerShowing(){return Boolean(this.nextOffer)&&!this.celebrateQueue?.length&&(!this.celebrateReward||this.celebrateT>=CELEBRATE_SECONDS);}
+  // Job 20: after the first win, once the prizes have been shown, Pip asks the grown-up about reminders (before the next mission offer).
+  celebrationsDone(){return !this.celebrateQueue?.length&&(!this.celebrateReward||this.celebrateT>=CELEBRATE_SECONDS);}
+  maybeAsk(){if(!this.notifyAsk&&this.celebrationsDone()&&this.game.notify?.shouldAsk?.())this.notifyAsk=new NotifyAsk(this.game,{pip:this.pip});if(this.notifyAsk&&!this.notifyAsk.active)this.notifyAsk=null;return Boolean(this.notifyAsk);}
+  offerShowing(){return !this.notifyAsk&&Boolean(this.nextOffer)&&!this.celebrateQueue?.length&&(!this.celebrateReward||this.celebrateT>=CELEBRATE_SECONDS);}
   // Two huge picture buttons: home (stay on the island) and next (starts by itself when the ring is full).
   renderNextOffer(ctx){if(!this.offerShowing())return;const p=Math.min(1,this.nextOffer.t/NEXT_OFFER_SECONDS),fade=Math.min(1,this.nextOffer.t/.4);
-    ctx.save();ctx.globalAlpha=fade;ctx.fillStyle='#3d2b5288';ctx.fillRect(0,0,1920,1080);
+    ctx.save();ctx.globalAlpha=fade;fillScreen(ctx,'#3d2b5288');
     for(const [c,id,col] of [[OFFER_HOME,'homeButton','#4d8ee8'],[OFFER_NEXT,'playButton','#66bd62']]){ctx.fillStyle='#fffdf0';ctx.beginPath();ctx.arc(c.x,c.y,c.r+18,0,Math.PI*2);ctx.fill();if(!drawArt(ctx,lookupArt('ui',id),c.x,c.y,c.r*2,c.r*2)){ctx.fillStyle=col;ctx.beginPath();ctx.arc(c.x,c.y,c.r,0,Math.PI*2);ctx.fill();}}
     ctx.strokeStyle='#ffcc3d';ctx.lineWidth=18;ctx.lineCap='round';ctx.beginPath();ctx.arc(OFFER_NEXT.x,OFFER_NEXT.y,OFFER_NEXT.r+18,-Math.PI/2,-Math.PI/2+Math.PI*2*p);ctx.stroke();ctx.restore();}
   voiceEvent(e){if(e.type==='start'){this.speech=e.bubbleText??e.text??'';this.speechT=e.duration??1.5;if(e.text)this.game.audio?.speak?.(e.text);}else this.speechT=0;}
@@ -162,7 +169,7 @@ export class WonderIslandScene {
     this.hatch=won?.type==='creatures'?new HatchSequence({theme:hatchTheme(won.id,won.dragonWorld??worldOfReward(this.game,won.id)),rewardId:won.id}).play():null;
     if(id){this.pip?.react('celebrate',{duration:2});this.game.audio?.playCue?.(won?.rare?'rewardBig':'reward');}
   }
-  update(dt){this.t+=dt;this.idleT=(this.idleT??0)+dt;if(this.idleT>=5&&!this.pointed&&!this.placementMode&&!this.celebrateReward){this.pointed=true;this.pip?.react('point',{duration:1.4,target:{x:575,y:957}});}if(this.offerShowing()){this.nextOffer.t+=dt;if(this.nextOffer.t>=NEXT_OFFER_SECONDS){const after=this.nextOffer.after;this.nextOffer=null;this.playNext(after);}}this.pip?.update(dt);if(this.speechT>0)this.speechT=Math.max(0,this.speechT-dt);this.hatch?.update(dt);
+  update(dt){if(this.maybeAsk()){this.t+=dt;this.notifyAsk.update(dt);this.pip?.update?.(dt);return;}this.t+=dt;this.idleT=(this.idleT??0)+dt;if(this.idleT>=5&&!this.pointed&&!this.placementMode&&!this.celebrateReward){this.pointed=true;this.pip?.react('point',{duration:1.4,target:{x:575,y:957}});}if(this.offerShowing()){this.nextOffer.t+=dt;if(this.nextOffer.t>=NEXT_OFFER_SECONDS){const after=this.nextOffer.after;this.nextOffer=null;this.playNext(after);}}this.pip?.update(dt);if(this.speechT>0)this.speechT=Math.max(0,this.speechT-dt);this.hatch?.update(dt);
     // The celebration clock waits for the egg pictures; if they never arrive, carry on with the banner only.
     this.celebrateClock=(this.celebrateClock??0)+dt;
     if(this.hatch&&!this.hatch.ready&&this.celebrateClock>HATCH_ART_WAIT)this.hatch=null;if(!this.hatch||this.hatch.ready)this.celebrateT+=dt;
@@ -285,25 +292,26 @@ export class WonderIslandScene {
   endPinch(){const p=this.pinch;if(!p)return;this.pinch=null;if(Math.abs((p.o.size??1)-p.size0)>.01){this.game.audio?.playCue?.('pop');this.sortByDepth();if(this.drag!==p.o)this.savePlacement(p.o);}}
 
   drawIsland(ctx){
-    ctx.fillStyle='#78dcff';ctx.fillRect(0,0,1920,1080);drawCloud(ctx,150,120,1.05,.75);drawCloud(ctx,1380,150,.8,.68);
-    ctx.fillStyle='#5fc4eb';ctx.fillRect(0,690,1920,390);ctx.fillStyle='#f6dc83';ctx.beginPath();ctx.ellipse(960,850,820,330,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#76cc61';ctx.beginPath();ctx.ellipse(960,770,720,290,0,0,Math.PI*2);ctx.fill();
+    fillScreen(ctx,'#78dcff');drawCloud(ctx,150,120,1.05,.75);drawCloud(ctx,1380,150,.8,.68);
+    {const v=visibleRect();ctx.fillStyle='#5fc4eb';ctx.fillRect(v.x-2,690,v.w+4,v.y+v.h-688);} /* the sea runs to every edge */ctx.fillStyle='#f6dc83';ctx.beginPath();ctx.ellipse(960,850,820,330,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#76cc61';ctx.beginPath();ctx.ellipse(960,770,720,290,0,0,Math.PI*2);ctx.fill();
     // Pip house
     if(!drawArt(ctx,lookupArt('island','pipHouse'),1585,512,370,340)){ctx.fillStyle='#ffd86e';ctx.beginPath();ctx.roundRect(1450,450,270,225,42);ctx.fill();ctx.fillStyle='#f06c6c';ctx.beginPath();ctx.moveTo(1415,490);ctx.lineTo(1585,350);ctx.lineTo(1755,490);ctx.closePath();ctx.fill();ctx.fillStyle='#8c5a3c';ctx.beginPath();ctx.roundRect(1550,565,70,110,24);ctx.fill();}
     // Adventure portal
     const glow=1+Math.sin(this.t*4)*.05;ctx.save();ctx.translate(960,470);ctx.scale(glow,glow);if(drawArt(ctx,lookupArt('island','portal'),0,0,300,390)){ctx.translate(0,-18);ctx.rotate(this.t*.35);drawArt(ctx,lookupArt('island','portalSwirl'),0,0,150,190,{alpha:.5,blend:'screen'});ctx.restore();return;}ctx.strokeStyle='#7e53e8';ctx.lineWidth=30;ctx.beginPath();ctx.ellipse(0,0,125,165,0,0,Math.PI*2);ctx.stroke();ctx.strokeStyle='#f7d6ff';ctx.lineWidth=13;ctx.beginPath();ctx.ellipse(0,0,92,130,0,0,Math.PI*2);ctx.stroke();ctx.fillStyle='#ad80ff88';ctx.beginPath();ctx.ellipse(0,0,76,116,0,0,Math.PI*2);ctx.fill();ctx.restore();
   }
 
-  render(ctx){this.renderIsland(ctx);this.renderNextOffer(ctx);}
+  render(ctx){this.renderIsland(ctx);this.renderNextOffer(ctx);this.notifyAsk?.render(ctx);}
   renderIsland(ctx){
     this.drawIsland(ctx);for(const o of this.objects)this.drawObject(ctx,o);this.renderParticles(ctx);this.pip?.render(ctx);this.drawHello(ctx);this.renderSizeButtons(ctx);
     ctx.fillStyle='#5b3b72';ctx.textAlign='center';ctx.font='900 64px ui-rounded,system-ui';ctx.fillText('Wonder Island',960,95);ctx.fillStyle='#fff';ctx.font='700 30px system-ui';ctx.fillText(this.placementMode?'Build: tap a piece to put it on the island.':'Drag your friends onto the toys!',960,140);
-    if(this.firstStep&&!this.placementMode){const r=this.firstStep==='play'?[360,900,430,115]:[810,900,500,115];ctx.save();ctx.globalAlpha=globalThis.__LL_REDUCED_MOTION?.5:.3+.3*(1+Math.sin(this.t*3))/2;ctx.fillStyle='#fff7a0';ctx.beginPath();ctx.roundRect(r[0]-16,r[1]-16,r[2]+32,r[3]+32,70);ctx.fill();ctx.restore();} // the next thing to tap glows softly
+    if(this.firstStep&&!this.placementMode){const b=pin(this.firstStep==='play'?{x:360,y:900,w:430,h:115}:{x:810,y:900,w:500,h:115}),r=[b.x,b.y,b.w,b.h];ctx.save();ctx.globalAlpha=globalThis.__LL_REDUCED_MOTION?.5:.3+.3*(1+Math.sin(this.t*3))/2;ctx.fillStyle='#fff7a0';ctx.beginPath();ctx.roundRect(r[0]-16,r[1]-16,r[2]+32,r[3]+32,70);ctx.fill();ctx.restore();} // the next thing to tap glows softly
     if(this.speechT>0&&!this.placementMode)drawSpeechBubble(ctx,this.speech,110,330,430,112,Math.min(1,this.speechT/.18));
     this.drawEasel(ctx);
-    {const k=this.placementMode?1:nudgeScale(this.t,this.idleT??0);ctx.save();ctx.translate(575,957);ctx.scale(k,k);ctx.translate(-575,-957);drawCandyButton(ctx,360,900,430,115,'PLAY',this.portalPressed,'play');ctx.restore();} // bounces after 5 s with no touch
-    drawCandyButton(ctx,810,900,500,115,'EXPLORE WORLDS',this.rainbowPressed,'explore');
-    drawCandyButton(ctx,1330,910,390,95,this.placementMode?'DONE':'BUILD',this.modePressed,'build');
-    if(!drawArt(ctx,lookupArt('ui','parent'),90,85,118,118)){ctx.fillStyle='#ffffffdd';ctx.beginPath();ctx.arc(90,85,54,0,Math.PI*2);ctx.fill();ctx.fillStyle='#5b3b72';ctx.font='900 46px system-ui';ctx.fillText('⚙',90,101);}drawCandyButton(ctx,1510,36,330,94,'COLLECTION',this.collectionPressed,'collection');
+    const PB=pin({x:360,y:900,w:430,h:115}),EB=pin({x:810,y:900,w:500,h:115}),BB=pin({x:1330,y:910,w:390,h:95}),CB=pin({x:1510,y:36,w:330,h:94}),px=pinX(90),py=pinY(85);
+    {const k=this.placementMode?1:nudgeScale(this.t,this.idleT??0),cx=PB.x+PB.w/2,cy=PB.y+57;ctx.save();ctx.translate(cx,cy);ctx.scale(k,k);ctx.translate(-cx,-cy);drawCandyButton(ctx,PB.x,PB.y,PB.w,PB.h,'PLAY',this.portalPressed,'play');ctx.restore();} // bounces after 5 s with no touch
+    drawCandyButton(ctx,EB.x,EB.y,EB.w,EB.h,'EXPLORE WORLDS',this.rainbowPressed,'explore');
+    drawCandyButton(ctx,BB.x,BB.y,BB.w,BB.h,this.placementMode?'DONE':'BUILD',this.modePressed,'build');
+    if(!drawArt(ctx,lookupArt('ui','parent'),px,py,118,118)){ctx.fillStyle='#ffffffdd';ctx.beginPath();ctx.arc(px,py,54,0,Math.PI*2);ctx.fill();ctx.fillStyle='#5b3b72';ctx.font='900 46px system-ui';ctx.fillText('⚙',px,py+16);}drawCandyButton(ctx,CB.x,CB.y,CB.w,CB.h,'COLLECTION',this.collectionPressed,'collection');
     if(this.placementMode){ctx.strokeStyle='#fff8';ctx.setLineDash?.([18,16]);ctx.lineWidth=8;ctx.beginPath();ctx.roundRect(300,300,1330,565,70);ctx.stroke();ctx.setLineDash?.([]);this.renderTray(ctx);}
     if(this.hatch?.ready&&this.celebrateT<CELEBRATE_SECONDS){ctx.save();ctx.globalAlpha=Math.min(1,(CELEBRATE_SECONDS-this.celebrateT)/.5)*.7;ctx.fillStyle='#fffdf0';ctx.beginPath();ctx.ellipse(960,620,260,240,0,0,Math.PI*2);ctx.fill();ctx.restore();this.hatch.render(ctx,960,780,340);}
     // Other wins (decorations, buildings, rides) stand on the reward podium while the banner shows.
@@ -312,7 +320,7 @@ export class WonderIslandScene {
   }
 
   renderTray(ctx){
-    ctx.save();ctx.fillStyle='#fffdf0e6';ctx.beginPath();ctx.roundRect(TRAY.x,TRAY.y,TRAY.w,TRAY.h,40);ctx.fill();
+    ctx.save();ctx.translate(trayDX(),0);ctx.fillStyle='#fffdf0e6';ctx.beginPath();ctx.roundRect(TRAY.x,TRAY.y,TRAY.w,TRAY.h,40);ctx.fill();
     if(!drawArt(ctx,lookupArt('ui','buildShop'),TRAY.x+62,TRAY.y+56,84,84)){ctx.fillStyle='#e9874a';ctx.beginPath();ctx.arc(TRAY.x+62,TRAY.y+56,34,0,Math.PI*2);ctx.fill();}
     ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='900 30px system-ui';ctx.fillText('BUILD',TRAY.x+168,TRAY.y+67);
     const full=this.objects.filter(o=>o.type==='built').length>=ISLAND_BUILD_LIMIT;
@@ -323,7 +331,7 @@ export class WonderIslandScene {
     if(!full){const [gx,gy]=this.nextBuildSpot();drawArt(ctx,lookupArt('ui','ghostHouse'),gx,gy,130,130,{alpha:.35+Math.sin(this.t*3)*.12});}
   }
   nextBuildSpot(){const box=(x,y)=>({x,y,w:200,h:150});return FREE_SPOTS.find(([x,y])=>!this.objects.some(o=>overlap(box(x,y),o)>.04))??FREE_SPOTS.find(([x,y])=>!this.objects.some(o=>!o.ground&&contains(o,x,y,-10)))??[960,640];} // a clear patch of grass, else any spot not under something
-  trayPieceAt(x,y){return buildPieces().find(([,],i)=>{const c=trayCell(i);return Math.abs(x-c.x)<=TRAY_CELL/2+6&&Math.abs(y-c.y)<=TRAY_CELL/2;})?.[0]??null;}
+  trayPieceAt(x,y){x-=trayDX();return buildPieces().find(([,],i)=>{const c=trayCell(i);return Math.abs(x-c.x)<=TRAY_CELL/2+6&&Math.abs(y-c.y)<=TRAY_CELL/2;})?.[0]??null;}
   async addPiece(key){
     const p=artMap()?.islandBuild?.pieces?.[key];if(!p||this.objects.filter(o=>o.type==='built').length>=ISLAND_BUILD_LIMIT)return null;
     const [x,y]=this.nextBuildSpot();const id=await this.game.save?.addIslandPiece?.(key,{x,y,zone:'build'});if(!id)return null;
@@ -408,11 +416,12 @@ export class WonderIslandScene {
   interact(o){this.interaction=o.id;this.interactionT=1.2;const hello=this.helloFor(o);this.hello=hello?{id:o.id,text:hello,t:HELLO_SECONDS}:null;if(o.type==='drum')this.game.audio?.playCue?.('count',{count:2});else this.game.audio?.playCue?.(this.tapSound(o)); /* Job 13: each thing's own sound */if(o.type==='slide')this.pip?.react('bounce',{duration:1.2});if(o.type==='ball')this.pip?.lookAt(o,.8);}
 
   handlePointer(e){
+    if(this.notifyAsk?.active&&this.notifyAsk.handlePointer(e))return;
     if(e.type==='down'){this.idleT=0;this.pointed=false;}
     if(e.type!=='cancel')this.lastPointer={x:e.x,y:e.y};
     if(this.offerShowing()){if(e.type==='up'){if(inCircle(e,OFFER_NEXT)){this.game.audio?.playCue?.('start');const after=this.nextOffer.after;this.nextOffer=null;this.playNext(after);}else if(inCircle(e,OFFER_HOME)){this.nextOffer=null;this.game.audio?.playCue?.('back');}}return;}
     if(this.hatch?.ready&&!this.hatch.finished&&this.celebrateT<CELEBRATE_SECONDS){if(e.type==='up')this.hatch.skip();return;}
-    const portal=e.x>=340&&e.x<=800&&e.y>=875&&e.y<=1045;const rainbow=e.x>=790&&e.x<=1330&&e.y>=875&&e.y<=1045;const parent=(e.x-90)**2+(e.y-85)**2<=75**2;const mode=e.x>=1320&&e.x<=1740&&e.y>=885&&e.y<=1045;const collection=e.x>=1490&&e.x<=1860&&e.y>=30&&e.y<=140;const easel=!this.placementMode&&e.x>=EASEL.x&&e.x<=EASEL.x+EASEL.w&&e.y>=EASEL.y&&e.y<=EASEL.y+EASEL.h;
+    const portal=inRect(e.x,e.y,pin({x:340,y:875,w:460,h:170}));const rainbow=inRect(e.x,e.y,pin({x:790,y:875,w:540,h:170}));const parent=(e.x-pinX(90))**2+(e.y-pinY(85))**2<=75**2;const mode=inRect(e.x,e.y,pin({x:1320,y:885,w:420,h:160}));const collection=inRect(e.x,e.y,pin({x:1490,y:30,w:370,h:110}));const easel=!this.placementMode&&e.x>=EASEL.x&&e.x<=EASEL.x+EASEL.w&&e.y>=EASEL.y&&e.y<=EASEL.y+EASEL.h;
     const onButton=portal||rainbow||parent||mode||collection||easel;
     if(e.type==='down'){
       // Job 15: the + and − buttons beside a held thing come first; a tap anywhere else puts them away.

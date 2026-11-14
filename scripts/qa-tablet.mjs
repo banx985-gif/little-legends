@@ -22,7 +22,13 @@ export const VIEWPORTS = [
   { id: 'ipad_1024x768', width: 1024, height: 768, dpr: 2 },
   { id: 'ipad_1180x820', width: 1180, height: 820, dpr: 2 },
   { id: 'android_1280x800', width: 1280, height: 800, dpr: 1.5 },
-  { id: 'phone_844x390', width: 844, height: 390, dpr: 3 }
+  { id: 'phone_844x390', width: 844, height: 390, dpr: 3 },
+  // Job 20: the five screen shapes (no bars on any): phones 19.5:9 (base), 16:9, 21:9; tablets 16:10, 4:3. CSS pixels at DPR 1.
+  { id: 'shape_19.5x9_2340x1080', width: 2340, height: 1080, dpr: 1 },
+  { id: 'shape_16x9_1920x1080', width: 1920, height: 1080, dpr: 1 },
+  { id: 'shape_21x9_2520x1080', width: 2520, height: 1080, dpr: 1 },
+  { id: 'shape_16x10_2000x1200', width: 2000, height: 1200, dpr: 1 },
+  { id: 'shape_4x3_2048x1536', width: 2048, height: 1536, dpr: 1 }
 ];
 const WORLD_ORDER = ['dino', 'rainbow', 'space', 'animal', 'jungle', 'storybook', 'life', 'town'];
 // Smallest comfortable finger target, in CSS pixels (Apple 44 pt, Android 48 dp). Little fingers: aim for the larger.

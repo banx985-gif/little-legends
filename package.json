@@ -11,6 +11,7 @@
     "qa:release": "node ./scripts/qa-release.mjs",
     "wardrobe:preview": "node ./scripts/wardrobe-preview.mjs",
     "art:unused": "node ./scripts/art-unused.mjs",
-    "voice:lines": "node ./scripts/voice-lines.mjs"
+    "voice:lines": "node ./scripts/voice-lines.mjs",
+    "qa:shapes": "node ./scripts/qa-shapes.mjs"
   }
 }

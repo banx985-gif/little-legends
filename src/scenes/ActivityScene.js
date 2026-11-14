@@ -6,6 +6,7 @@ import { HintController } from '../hints/HintController.js';
 import { HoldToLeave } from '../ui/HoldToLeave.js';
 import { drawArt, lookupArt } from '../core/art.js';
 import { pipSpot } from '../activities/layout.js';
+import { fillScreen } from '../render/screen.js';
 // Finish screen (Job 14): big round home and next buttons; next starts by itself.
 export const AUTO_NEXT_SECONDS = 5;
 const FINISH_BUTTONS = { island: { x: 760, y: 900, r: 95, art: 'homeButton' }, next: { x: 1160, y: 900, r: 120, art: 'playButton' } };
@@ -236,7 +237,7 @@ export class ActivityScene {
 
   render(ctx) {
     if (this.error) {
-      ctx.fillStyle = '#49385d'; ctx.fillRect(0, 0, 1920, 1080);
+      fillScreen(ctx, '#49385d');
       ctx.fillStyle = '#fff'; ctx.textAlign = 'center';
       ctx.font = '900 62px system-ui'; ctx.fillText('Activity could not load', 960, 470);
       ctx.font = '600 32px system-ui'; ctx.fillText('Tap anywhere to go back to Wonder Island.', 960, 540);
@@ -260,7 +261,7 @@ export class ActivityScene {
     const p = clamp(this.completeT / 0.55, 0, 1);
     ctx.save();
     ctx.globalAlpha = p;
-    ctx.fillStyle = '#593f6acc'; ctx.fillRect(0, 0, 1920, 1080);
+    fillScreen(ctx, '#593f6acc');
     const s = 0.5 + easeOutBack(p) * 0.5;
     ctx.translate(960, 475); ctx.scale(s, s);
     ctx.fillStyle = '#fff7d0'; ctx.beginPath(); ctx.arc(0, 0, 250, 0, Math.PI * 2); ctx.fill();

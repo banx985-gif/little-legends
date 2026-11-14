@@ -1,4 +1,5 @@
 import { drawArt, lookupArt } from '../core/art.js';
+import { pinX, pinY } from '../render/screen.js';
 
 // A way out of a mission that a grown-up can find but a toddler won't trigger by accident:
 // the home button in the top-right corner must be held for HOLD_SECONDS. A quick tap only shows
@@ -7,9 +8,13 @@ const HOLD_SECONDS = 1.5;
 
 export class HoldToLeave {
   constructor({ x = 1830, y = 100, r = 62, onLeave = () => {} } = {}) {
-    this.x = x; this.y = y; this.r = r; this.onLeave = onLeave;
+    this.cx = x; this.cy = y; this.r = r; this.onLeave = onLeave;
     this.holding = false; this.hold = 0; this.tipT = 0; this.done = false;
   }
+
+  // Job 20: pinned to the top-right corner of the safe area on every screen shape.
+  get x() { return pinX(this.cx); }
+  get y() { return pinY(this.cy); }
 
   contains(e) { return (e.x - this.x) ** 2 + (e.y - this.y) ** 2 <= (this.r + 18) ** 2; }
 

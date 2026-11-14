@@ -14,6 +14,8 @@ import { CollectionScene } from './scenes/CollectionScene.js';
 import { ColouringScene } from './scenes/ColouringScene.js';
 import { PlaygroundScene } from './scenes/PlaygroundScene.js';
 
+// QA (Job 20): pretend the screen has a notch / gesture bar: ?insets=left,top,right,bottom in CSS pixels, e.g. ?insets=40,0,0,24
+{ const ins = new URLSearchParams(location.search).get('insets'); if (ins) { const [left, top, right, bottom] = ins.split(',').map(Number); globalThis.__LL_FAKE_INSETS = { left, top, right, bottom }; } }
 const canvas = document.querySelector('#game');
 const game = new Game(canvas);
 

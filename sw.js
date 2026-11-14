@@ -1,4 +1,4 @@
-const CACHE = 'little-legends-m29-playable-fix1-art-v55';
+const CACHE = 'little-legends-m29-playable-fix1-art-v56';
 const CORE = [
   './',
   './index.html',
@@ -57,6 +57,9 @@ const CORE = [
   './src/island/islandPlay.js',
   './src/colouring/fill.js',
   './src/playgrounds/playgrounds.js',
+  './src/render/screen.js',
+  './src/notify/Notifications.js',
+  './src/ui/NotifyAsk.js',
   './src/scenes/PlaygroundScene.js',
   './src/store/FullUnlock.js',
   './src/ui/AskGrownUp.js',
@@ -203,4 +206,15 @@ self.addEventListener('fetch', event => {
     caches.open(isArt(event.request.url) ? ART_CACHE : CACHE).then(cache => cache.put(event.request, copy));
     return response;
   }).catch(() => event.request.mode === 'navigate' ? caches.match('./index.html') : Response.error())));
+});
+// Job 20: a tap on a Little Legends notification (web) brings the game to the front on the right screen. Nothing is sent
+// anywhere: the notification was made by this tablet's own browser.
+self.addEventListener('notificationclick', event => {
+  const data = event.notification?.data ?? {};
+  event.notification?.close();
+  event.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
+    const open = list[0];
+    if (open) { open.postMessage({ type: 'notify-tap', kind: data.kind, profileId: data.profileId }); return open.focus?.(); }
+    return self.clients.openWindow?.(`./?notify=${encodeURIComponent(data.kind ?? '')}&child=${encodeURIComponent(data.profileId ?? '')}`);
+  }));
 });

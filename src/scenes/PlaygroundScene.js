@@ -5,6 +5,7 @@
 import { drawActivityBackground } from '../activities/activityDraw.js';
 import { drawHomeButton, HOME_BUTTON } from '../utils/draw.js';
 import { drawArt } from '../core/art.js';
+import { fillScreen, visibleRect } from '../render/screen.js';
 import { PLAYGROUNDS } from '../playgrounds/playgrounds.js';
 import { SIZE_MIN, SIZE_MAX, SIZE_STEP, HOLD_SECONDS, SIZE_BUTTONS_SECONDS, DRAG_START } from '../island/islandPlay.js';
 
@@ -106,7 +107,7 @@ export class PlaygroundScene {
     if (this.sizeButtons && !this.press) { this.sizeButtons.t -= dt; if (this.sizeButtons.t <= 0) this.sizeButtons = null; }
     for (const o of this.objects) {
       if (o === this.drag) continue;
-      if (o.drive) { o.x += o.drive.dir * DRIVE_SPEED * dt; if (o.x > 2080) o.x = -160; if (o.x < -160) o.x = 2080; }
+      if (o.drive) { const v = visibleRect(), a = Math.min(-160, v.x - 160), b = Math.max(2080, v.x + v.w + 160); o.x += o.drive.dir * DRIVE_SPEED * dt; if (o.x > b) o.x = a; if (o.x < a) o.x = b; } // round and round, off one edge of the screen and back on the other
       if (o.swim) { o.x += o.swim.dir * o.swim.speed * dt; if (o.x > 1800) o.swim.dir = -1; if (o.x < 120) o.swim.dir = 1; }
       if (o.kind === 'planet') o.rot += dt * (o.anim?.kind === 'spin' ? 7 : 0.35);
       const a = o.anim; if (!a) continue;
@@ -164,19 +165,21 @@ export class PlaygroundScene {
   }
   drawBackdrop(ctx) {
     if (this.cfg.theme === 'sea') {
-      ctx.fillStyle = '#9fe3ff'; ctx.fillRect(0, 0, 1920, 330);
+      const v = visibleRect(), L = v.x - 2, W = v.w + 4; // Job 20: sky, sea and sand run to every edge of the screen
+      fillScreen(ctx, '#9fe3ff');
       const g = ctx.createLinearGradient ? ctx.createLinearGradient(0, 300, 0, 940) : null;
       if (g) { g.addColorStop(0, '#5cc8f5'); g.addColorStop(1, '#2a7fc9'); ctx.fillStyle = g; } else ctx.fillStyle = '#3f9fe0';
-      ctx.fillRect(0, 300, 1920, 640);
-      ctx.fillStyle = '#ffffff55'; for (let i = 0; i < 12; i++) { const x = (i * 170 + this.t * 30) % 2040 - 60; ctx.beginPath(); ctx.ellipse(x, 312, 60, 10, 0, 0, Math.PI * 2); ctx.fill(); }
-      ctx.fillStyle = '#f2d98b'; ctx.beginPath(); ctx.moveTo(0, 940); ctx.quadraticCurveTo(960, 880, 1920, 940); ctx.lineTo(1920, 1080); ctx.lineTo(0, 1080); ctx.closePath(); ctx.fill();
+      ctx.fillRect(L, 300, W, 640);
+      ctx.fillStyle = '#ffffff55'; for (let i = 0, n = Math.ceil(W / 170) + 1; i < n; i++) { const x = L + (i * 170 + this.t * 30) % (n * 170) - 60; ctx.beginPath(); ctx.ellipse(x, 312, 60, 10, 0, 0, Math.PI * 2); ctx.fill(); }
+      ctx.fillStyle = '#f2d98b'; ctx.beginPath(); ctx.moveTo(L, 940); ctx.quadraticCurveTo(960, 880, L + W, 940); ctx.lineTo(L + W, v.y + v.h + 2); ctx.lineTo(L, v.y + v.h + 2); ctx.closePath(); ctx.fill();
     } else drawActivityBackground(ctx, this.cfg.theme);
     // Drawn worlds: a wider hill than the mission screens have, so there is room to play.
     if (this.cfg.hill) { ctx.fillStyle = this.cfg.hill; ctx.beginPath(); ctx.ellipse(960, 1300, 1900, 780, 0, 0, Math.PI * 2); ctx.fill(); }
     for (const r of this.cfg.roads ?? []) {
       if (r.hidden) continue; // the moon rover just drives across the moon
-      ctx.fillStyle = '#5d5a66'; ctx.fillRect(0, r.top + 20, 1920, r.bottom - r.top - 20);
-      ctx.fillStyle = '#fff3a6'; for (let x = 20; x < 1920; x += 160) ctx.fillRect(x, (r.top + r.bottom) / 2 + 6, 90, 10);
+      const v = visibleRect(); // the roads run to both edges of the screen
+      ctx.fillStyle = '#5d5a66'; ctx.fillRect(v.x - 2, r.top + 20, v.w + 4, r.bottom - r.top - 20);
+      ctx.fillStyle = '#fff3a6'; for (let x = 20 - Math.ceil((20 - v.x) / 160) * 160; x < v.x + v.w; x += 160) ctx.fillRect(x, (r.top + r.bottom) / 2 + 6, 90, 10);
     }
   }
   renderParticles(ctx) {

@@ -68,7 +68,7 @@ for (const file of jsFiles) execFileSync(process.execPath, ['--check', file], { 
 
 // The installable/offline build must cache every eagerly imported source module.
 const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v55"), 'Service worker cache version should advance with the real-art build');
+assert.ok(serviceWorkerSource.includes("little-legends-m29-playable-fix1-art-v56"), 'Service worker cache version should advance with the real-art build');
 for (const file of walk(path.join(root, 'src')).filter(file => file.endsWith('.js'))) {
   const rel = `./${path.relative(root, file).split(path.sep).join('/')}`;
   assert.ok(serviceWorkerSource.includes(`'${rel}'`), `Offline cache must include ${rel}`);
@@ -1144,7 +1144,7 @@ assert.ok(serviceWorkerSource.includes("'./assets/art_manifest.json'")&&serviceW
   for (const icon of webManifest.icons) assert.ok(fs.existsSync(path.join(root, icon.src)), `${icon.src} exists`);
   assert.ok(webManifest.icons.some(i => i.purpose === 'maskable') && webManifest.icons.some(i => i.purpose === 'any'), 'Install icons: normal and maskable');
   const androidManifest = fs.readFileSync(path.join(root, 'app-android/android/app/src/main/AndroidManifest.xml'), 'utf8');
-  assert.deepEqual(androidManifest.match(/android:name="android.permission.[A-Z_]+"/g), ['android:name="android.permission.INTERNET"'], 'The Android app asks for nothing beyond INTERNET for the web view (no camera, mic, location, storage)');
+  assert.deepEqual(androidManifest.match(/android:name="android.permission.[A-Z_]+"/g), ['android:name="android.permission.INTERNET"', 'android:name="android.permission.POST_NOTIFICATIONS"'], 'The Android app asks for nothing beyond INTERNET for the web view and (Job 20) POST_NOTIFICATIONS for reminders made on the tablet (no camera, mic, location, storage, exact alarms)');
   assert.ok(androidManifest.includes('android:allowBackup="false"') && androidManifest.includes('sensorLandscape'), 'Android app: no cloud backup, landscape');
   assert.match(androidManifest, /PROPERTY_COMPAT_ALLOW_RESTRICTED_RESIZABILITY"\s+android:value="true"/, 'Android app: landscape lock kept on Android 16 tablets');
   assert.ok(fs.readFileSync(path.join(root, 'src/main.js'), 'utf8').startsWith("import './utils/compat.js';"), 'Older-tablet fallbacks load first');
@@ -1589,6 +1589,21 @@ assert.ok(serviceWorkerSource.includes("'./assets/art_manifest.json'")&&serviceW
   town.handlePointer({ type: 'down', x: 130, y: 100 }); town.handlePointer({ type: 'up', x: 130, y: 100 }); assert.deepEqual(pg.scenes.last, { name: 'worldHub', data: { world: 'town' } }, 'Home goes back to the world');
   const lockedGame = { ...pg, unlock: { worldOpen: w => w === 'dino' || w === 'rainbow' } }; const lockedTown = new PlaygroundScene(lockedGame); await lockedTown.enter({ world: 'town' }); assert.equal(pg.scenes.last.name, 'worldSelect', 'A locked world playground can\'t be opened');
   assert.ok(fs.readFileSync(path.join(root, 'scripts/qa-release.mjs'), 'utf8').includes('playground town'), 'The Lite speed check includes the playgrounds');
+}
+
+// ---- Job 20: fill every screen (no bars) + notifications with on/off switches ----
+{
+  const { checkJob20 } = await import('./check-job20.mjs');
+  await checkJob20({ root, FakeCanvasContext, sceneAudio });
+  // The real screens, in real Chrome, at the five shapes with a fake notch and gesture bar: no bar on any edge.
+  // (Skipped when Chrome isn't installed, or with LL_SKIP_BROWSER=1; npm run qa:shapes does every screen.)
+  let chrome = null; try { chrome = process.env.LL_SKIP_BROWSER ? null : (await import('./qa-common.mjs')).findChrome(); } catch {}
+  if (chrome) {
+    const { checkShapes, QUICK_SCENES } = await import('./qa-shapes.mjs'); const { startServer } = await import('./qa-common.mjs'); const puppeteer = (await import('puppeteer-core')).default;
+    const server = await startServer(root), browser = await puppeteer.launch({ executablePath: chrome, headless: true, args: ['--mute-audio'] });
+    try { const res = await checkShapes({ browser, base: server.base, scenes: QUICK_SCENES, shots: false, log: () => {} }); assert.ok(res.ok, 'No bars on any screen shape: ' + res.failures.join(' | ')); }
+    finally { await browser.close(); server.close(); }
+  } else console.log('Screen-shape check in Chrome skipped (no Chrome); run npm run qa:shapes on a PC with Chrome.');
 }
 
 console.log(`Little Legends M0-M29 qualification implementation check passed (M26/M29 human gates still pending): ${required.length} required files, ${jsFiles.length} JS syntax checks, ${activityEngine.list().length} JSON activities across ${expectedActivityTypes.size} reusable families, ${adventureData.adventures.length} Little Missions, privacy/child-test support, launch FX, save recovery, performance instrumentation and offline PWA verified.`);

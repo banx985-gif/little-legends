@@ -8,6 +8,7 @@ import { ActivityEngine } from '../activities/ActivityEngine.js';
 import { LearningProfile } from '../learning/LearningProfile.js';
 import { SaveSystem } from '../save/SaveSystem.js';
 import { FullUnlock } from '../store/FullUnlock.js';
+import { Notifications } from '../notify/Notifications.js';
 import { AdventureEngine } from '../adventures/AdventureEngine.js';
 import { RewardSystem } from '../rewards/RewardSystem.js';
 import { EggSystem } from '../rewards/EggSystem.js';
@@ -18,6 +19,7 @@ import { FeedbackFX } from '../fx/FeedbackFX.js';
 import { ChildTestRecorder } from '../testing/ChildTestRecorder.js';
 import { ReleaseQualification } from '../testing/ReleaseQualification.js';
 import { artMap, drawArt } from './art.js';
+import { fillScreen, pinX, pinY } from '../render/screen.js';
 
 export class Game {
   constructor(canvas) {
@@ -37,6 +39,7 @@ export class Game {
     this.learning = new LearningProfile();
     this.save = new SaveSystem();
     this.unlock = new FullUnlock(this); // Job 18: free to try + one "Unlock everything"
+    this.notify = new Notifications(this); // Job 20: reminders made on this tablet (nothing is sent anywhere)
     this.childTest = new ChildTestRecorder({ save:this.save });
     this.releaseQA = new ReleaseQualification({ game:this, save:this.save });
     this.fx = new FeedbackFX();
@@ -77,6 +80,7 @@ export class Game {
     });
     this.input.onSecond?.(event => this.scenes.handleSecondPointer?.(event));
     window.addEventListener('resize', () => this.viewport.resize(), { passive: true });
+    window.addEventListener('pagehide', () => this.notify?.leaving?.()); // closing the game (Job 20)
     window.addEventListener('orientationchange', () => setTimeout(() => this.viewport.resize(), 80), { passive: true });
     document.addEventListener('visibilitychange', () => {
       this.paused = document.hidden;
@@ -85,10 +89,12 @@ export class Game {
         this.input?.cancelActive?.();
         this.scenes.current?.onHidden?.(); // Job 17: e.g. the colouring studio keeps an unsaved picture
         this.audio.suspend();
+        this.notify?.leaving?.(); // Job 20: schedule from the save (at most 2 a day, never at night)
         this.performanceManager.suspend();
       } else {
         this.resumeCount++;
         this.unlock?.refresh?.();
+        this.notify?.opened?.(); // Job 20: clear shown and pending reminders
         this.audio.resume();
         this.performanceManager.resume();
         this.viewport.resize();
@@ -114,6 +120,8 @@ export class Game {
     }
     await this.scenes.change(initialScene, sceneData);
     this.loop.start();
+    await this.notify?.opened?.();
+    await this.notify?.followTap?.(); // opened by tapping a reminder: straight to its screen
   }
 
   applyPerformanceQuality(quality) {
@@ -147,7 +155,7 @@ export class Game {
   renderDebugOverlay(ctx) {
     const s = this.debugStats();
     const lines = [`${s.fps.toFixed(0)} FPS • ${s.quality.toUpperCase()} • ${s.scene}`, `${s.pictures} pictures • ${s.imageMB.toFixed(0)} MB images • ${s.audioMB.toFixed(1)} MB sound`, `canvas ${s.canvas} • DPR ${s.dpr.toFixed(2)} • RAM ${s.deviceMemory ?? '?'} GB`];
-    ctx.save(); ctx.fillStyle = '#000000b8'; ctx.beginPath(); ctx.roundRect(1380, 960, 530, 112, 18); ctx.fill();
+    ctx.save(); ctx.translate(pinX(1380) - 1380, pinY(960) - 960); ctx.fillStyle = '#000000b8'; ctx.beginPath(); ctx.roundRect(1380, 960, 530, 112, 18); ctx.fill();
     ctx.fillStyle = '#b8ffb0'; ctx.font = '700 25px monospace'; ctx.textAlign = 'left';
     lines.forEach((l, i) => ctx.fillText(l, 1396, 994 + i * 33, 500)); ctx.restore();
   }
@@ -203,7 +211,7 @@ export class Game {
     this.scenes.render(this.ctx, alpha);
     this.fx?.render?.(this.ctx);
     if (this.breakReminderVisible) this.renderBreakReminder(this.ctx);
-    if (this.resumeOverlayT>0) { const p=Math.min(1,this.resumeOverlayT/.45); this.ctx.save(); this.ctx.globalAlpha=p*.22; this.ctx.fillStyle='#fff'; this.ctx.fillRect(0,0,1920,1080); this.ctx.restore(); }
+    if (this.resumeOverlayT>0) { const p=Math.min(1,this.resumeOverlayT/.45); this.ctx.save(); this.ctx.globalAlpha=p*.22; fillScreen(this.ctx,'#fff'); this.ctx.restore(); }
     if (this.runtimeNotice && this.runtimeNoticeT>0) this.renderRuntimeNotice(this.ctx);
     if (this.debugOverlay) this.renderDebugOverlay(this.ctx);
   }

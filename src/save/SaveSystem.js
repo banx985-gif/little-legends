@@ -19,8 +19,17 @@ function blankRoot() {
     childTestSessions: [],
     releaseQualification: { version:1, manual:{}, snapshots:[], automated:null, updatedAt:null },
     // Job 18: the one-time "Unlock everything" for this tablet (all children). devUnlock: debug builds only.
-    store: { fullUnlock:false, checkedAt:null, devUnlock:false }
+    store: { fullUnlock:false, checkedAt:null, devUnlock:false },
+    // Job 20: notifications on THIS device. permission: what the system said ('unknown' | 'granted' | 'denied');
+    // asked: the grown-up was asked once (after the first win) and answered; askDue: a first win happened, ask on the island;
+    // sent: when notifications were scheduled to show (for the 2-a-day cap).
+    notify: { permission:'unknown', asked:false, askDue:false, sent:[] }
   };
+}
+
+function migrateNotifyDevice(n) {
+  const v = n && typeof n === 'object' && !Array.isArray(n) ? n : {};
+  return { permission: ['granted', 'denied'].includes(v.permission) ? v.permission : 'unknown', asked: v.asked === true, askDue: v.askDue === true, sent: Array.isArray(v.sent) ? v.sent.filter(Number.isFinite).slice(-20) : [] };
 }
 
 function blankProfileState() {
@@ -35,7 +44,10 @@ function blankProfileState() {
     adventure: { currentId: null, step: 0, completed: [] },
     settings: {},
     pictures: [],
-    colouring: { seen: [] }
+    colouring: { seen: [] },
+    // Job 20: this child's notification switches (main + one per kind) and prizes won but not yet shown on the island.
+    notify: { on: false, egg: true, reward: true, trail: false },
+    rewardsWaiting: []
   };
 }
 
@@ -117,6 +129,7 @@ export class SaveSystem {
     root.releaseQualification.snapshots = Array.isArray(root.releaseQualification.snapshots) ? root.releaseQualification.snapshots.slice(-12) : [];
     const store = root.store && typeof root.store === 'object' && !Array.isArray(root.store) ? root.store : {};
     root.store = { fullUnlock: store.fullUnlock === true, checkedAt: Number(store.checkedAt) || null, devUnlock: store.devUnlock === true };
+    root.notify = migrateNotifyDevice(root.notify);
     for (const profile of root.profiles) {
       const defaults = blankProfileState();
       const savedState = root.profileStates[profile.id] ?? {};
@@ -146,6 +159,11 @@ export class SaveSystem {
       state.pictures = Array.isArray(state.pictures) ? state.pictures.filter(p => typeof p?.id === 'string' && typeof p?.kind === 'string').slice(-PICTURE_LIMIT) : [];
       state.colouring = state.colouring && typeof state.colouring === 'object' && !Array.isArray(state.colouring) ? state.colouring : {};
       state.colouring.seen = Array.isArray(state.colouring.seen) ? [...new Set(state.colouring.seen.filter(id => typeof id === 'string'))] : [];
+      // Job 20: older saves get the defaults: the main switch is on only once this device has permission; kinds on (the
+      // trail kind stays off until the Adventure Trail exists).
+      const n = savedState.notify && typeof savedState.notify === 'object' && !Array.isArray(savedState.notify) ? savedState.notify : {};
+      state.notify = { on: typeof n.on === 'boolean' ? n.on : root.notify.permission === 'granted', egg: n.egg !== false, reward: n.reward !== false, trail: n.trail === true };
+      state.rewardsWaiting = Array.isArray(state.rewardsWaiting) ? [...new Set(state.rewardsWaiting.filter(id => typeof id === 'string'))].slice(-10) : [];
       root.profileStates[profile.id] = state;
     }
     if (root.activeProfileId && !root.profiles.some(profile => profile.id === root.activeProfileId)) root.activeProfileId = null;
@@ -246,6 +264,7 @@ export class SaveSystem {
     this.root.profiles.push(profile);
     this.root.profileStates[id] = blankProfileState();
     this.root.profileStates[id].pip.outfit.hat = pipHat;
+    this.root.profileStates[id].notify.on = this.root.notify?.permission === 'granted'; // Job 20: on once this device has permission
     this.root.activeProfileId = id;
     await this.persist();
     return clone(profile);
@@ -414,6 +433,12 @@ export class SaveSystem {
   // Job 18: the full unlock (src/store/FullUnlock.js decides; this only keeps it).
   getStore() { return clone(this.root.store ?? blankRoot().store); }
   async setStore(patch = {}) { this.root.store = { ...blankRoot().store, ...(this.root.store ?? {}), ...clone(patch) }; await this.persist(); return this.getStore(); }
+
+  // Job 20: notifications (src/notify/Notifications.js decides; this only keeps them).
+  getNotifyDevice() { return clone(this.root.notify ?? migrateNotifyDevice(null)); }
+  async setNotifyDevice(patch = {}) { this.root.notify = migrateNotifyDevice({ ...(this.root.notify ?? {}), ...clone(patch) }); await this.persist(); return this.getNotifyDevice(); }
+  getNotify(profileId = this.root.activeProfileId) { return clone(this.root.profileStates[profileId]?.notify ?? blankProfileState().notify); }
+  async setNotify(patch = {}, profileId = this.root.activeProfileId) { if (!profileId || !this.root.profileStates[profileId]) return null; return (await this.mutateProfileState(state => { state.notify = { ...blankProfileState().notify, ...(state.notify ?? {}), ...clone(patch) }; }, profileId)).notify; }
 
   getSettings() { return clone(this.root.settings); }
   async setSettings(settings) { this.root.settings = { ...this.root.settings, ...clone(settings) }; await this.persist(); return this.getSettings(); }

@@ -127,6 +127,10 @@ export class AdventureScene {
     const dragon=this.earnedDragon();
     if(dragon&&!this.game.rewards.isUnlocked(dragon.id)){await this.game.rewards.award(dragon.id);this.dragonAwarded=dragon.id;}
     const celebrate=[rewardId,this.lookAwarded,dragon?.id].filter(Boolean);
+    // Job 20: prizes won but not yet shown on the island (if the game closes first, the island shows them next time, and a
+    // grown-up can get a 'surprise waiting' reminder). And after the first win on this device, Pip asks about reminders.
+    if(celebrate.length)await this.game.save?.mutateProfileState?.(st=>{st.rewardsWaiting=[...new Set([...(st.rewardsWaiting??[]),...celebrate])].slice(-10);});
+    await this.game.notify?.firstWin?.();
     this.game.scenes.change('island',{celebrateReward:celebrate[0]??null,celebrateNext:celebrate.slice(1),fromMission:this.definition.id});
   }
 

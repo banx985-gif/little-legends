@@ -1,4 +1,5 @@
 import { artMap, drawArt } from '../core/art.js';
+import { fillScreen } from '../render/screen.js';
 
 const STARTER_MAX_WAIT = 3.5;
 // Job 16: the Banx Games logo fades in and out on its own dark purple first (a tap skips it); the starter art loads meanwhile.
@@ -52,8 +53,7 @@ export class BootScene {
   letterbox() { return this.logoDone ? null : LOGO_BG; }
 
   renderLogo(ctx) {
-    ctx.fillStyle = LOGO_BG;
-    ctx.fillRect(0, 0, 1920, 1080);
+    fillScreen(ctx, LOGO_BG);
     const t = this.logoT, alpha = Math.max(0, Math.min(1, t / LOGO_FADE, (LOGO_TIME - t) / LOGO_FADE));
     if (alpha > 0) drawArt(ctx, artMap()?.ui?.studio_logo, 960, 540, 760, 760, { alpha });
   }
@@ -62,8 +62,7 @@ export class BootScene {
     if (!this.logoDone) { this.renderLogo(ctx); return; }
     const w = 1920, h = 1080;
     const pulse = 1 + Math.sin(this.t * 4) * 0.025;
-    ctx.fillStyle = '#7edcff';
-    ctx.fillRect(0, 0, w, h);
+    fillScreen(ctx, '#7edcff');
     ctx.save();
     ctx.translate(w / 2, 440);
     ctx.scale(pulse, pulse);

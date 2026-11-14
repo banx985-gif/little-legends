@@ -1,10 +1,12 @@
-# Little Legends: privacy (version 1.2)
+# Little Legends: privacy (version 1.3)
 
 The public policy page is `privacy.html` in the game folder. On the live site it is at
 https://banx985-gif.github.io/little-legends/privacy.html, which is the link to give Google Play.
 The Parent Area → PRIVACY tab (`src/privacy/PrivacyPolicy.js`) says the same thing; keep the two in step.
 
 **Everything about the child stays on the tablet.** The only network use is Google Play Billing in the Android app, checking the one-time "Unlock everything" (Job 18). It sends nothing about the child.
+
+**Reminders (Job 20)** are made on the tablet itself (Android: Capacitor Local Notifications; web: the browser's own notifications while the game is open). Nothing is sent anywhere and there is no push server. They are off until a grown-up says yes after the child's first win (behind the 3-second grown-up hold), at most 2 a day, never 22:00–08:00, with a main switch and one per kind in Parent Area → Settings.
 
 ## What is kept on the tablet
 - **Child profiles:** first name or nickname, age 2–5, language, favourite colour.
@@ -13,7 +15,7 @@ The Parent Area → PRIVACY tab (`src/privacy/PrivacyPolicy.js`) says the same t
 - **My Pictures (Job 17):** the child's colouring, saved as pictures in IndexedDB on the tablet.
 - **Full-game unlock (Job 18):** whether this tablet has the full game. Google Play keeps the purchase with the grown-up's Google account.
 - **Learning record:** which skills were practised, right/try-again counts and hints. It is used only to pick the next activity and for the grown-up learning page.
-- **Family settings:** volumes, quiet mode, motion, text size, colour symbols, break reminder, picture quality.
+- **Family settings:** volumes, quiet mode, motion, text size, colour symbols, break reminder, picture quality, reminder switches (per child) and whether this device allows notifications.
 - **Grown-up tools (only if used):** TEST-tab session notes and the RELEASE checklist.
 - **Game files:** pictures and code kept for offline play, with no personal data.
 
@@ -35,6 +37,7 @@ Email, photos, voice, location, contacts, device or advertising IDs, usage analy
 ## Technical notes
 - The Android app (`app-android/`) asks for INTERNET (Android's web view needs it for the built-in pages, and Google Play Billing uses it) and Google Play's BILLING permission, which the billing library adds. The game itself makes no other network requests.
 - Billing: `src/store/FullUnlock.js` and `BillingPlugin.java` talk only to Google Play on the tablet (product `full_unlock`). There is no server of ours. The result (owned or not) is kept on the tablet, so the unlock works offline. It is re-checked when the app starts or comes back to the front.
+- Android also asks for POST_NOTIFICATIONS (Android 13+) for the optional reminders. They are scheduled on the device with inexact alarms (no SCHEDULE_EXACT_ALARM) and send nothing.
 - `allowBackup` is off, so Android doesn’t copy saves to the cloud.
 - The web version is loaded from GitHub Pages like any website, but the game itself makes no network requests apart from fetching its own files. It has no store, so everything is unlocked there.
 - Parents can export or delete everything in Parent Area → DATA.

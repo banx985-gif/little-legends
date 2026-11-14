@@ -1,27 +1,28 @@
 import { artMap, drawArt, lookupArt } from '../core/art.js';
 import { drawCloud, drawCandyButton } from '../utils/draw.js';
 import { LearningProfile } from '../learning/LearningProfile.js';
+import { fillScreen, drawCovered, pin } from '../render/screen.js';
+const backBtn=()=>pin({x:55,y:45,w:220,h:90}); // Job 20: top-left corner of the safe area
 
 const COLORS={purple:'#8b69db',blue:'#4d8ee8',red:'#e95f6a',yellow:'#f2c94c'};
 
 export class ProfileSelectScene {
   constructor(game){this.game=game;this.t=0;this.pressed=null;this.creation=null;this.returnTo=null;}
-  enter(data={}){this.game.audio?.startWorldMusic?.('menu'); /* Job 13 */this.t=0;this.pressed=null;this.creation=null;this.returnTo=data.returnTo??null;}
+  enter(data={}){this.game.audio?.startWorldMusic?.('menu'); /* Job 13 */this.t=0;this.pressed=null;this.creation=null;this.returnTo=data.returnTo??null;this.then=data.then??null; /* Job 20: a tapped notification goes on to its screen once the child is picked */}
   update(dt){this.t+=dt;}
 
   profiles(){return this.game.save?.listProfiles?.()??[];}
   cardRect(i){return{x:260+i%2*720,y:330+Math.floor(i/2)*270,w:600,h:210};}
 
   render(ctx){
-    ctx.fillStyle='#7edcff';ctx.fillRect(0,0,1920,1080);drawCloud(ctx,160,140,1.1,.82);drawCloud(ctx,1500,160,.9,.72);
-    ctx.fillStyle='#76c95e';ctx.beginPath();ctx.ellipse(960,1090,1200,330,0,0,Math.PI*2);ctx.fill();
+    fillScreen(ctx,'#7edcff');drawCovered(ctx,c=>{drawCloud(c,160,140,1.1,.82);drawCloud(c,1500,160,.9,.72);c.fillStyle='#76c95e';c.beginPath();c.ellipse(960,1090,1200,330,0,0,Math.PI*2);c.fill();});
     ctx.fillStyle='#5a3a73';ctx.textAlign='center';ctx.font='900 78px ui-rounded,system-ui';ctx.fillText('Who is playing?',960,150);
     ctx.fillStyle='#fff';ctx.font='700 34px system-ui';ctx.fillText('Each Little Legend keeps their own learning and island.',960,205);
     if(this.creation){this.renderCreation(ctx);return;}
     const profiles=this.profiles();
     profiles.forEach((p,i)=>this.drawProfileCard(ctx,p,i));
     if(profiles.length<4){const r=this.cardRect(profiles.length);drawCandyButton(ctx,r.x,r.y,r.w,r.h,'+ NEW LEGEND',this.pressed==='new');}
-    if(this.returnTo)drawCandyButton(ctx,55,45,220,90,'BACK',false,'back');
+    if(this.returnTo){const b=backBtn();drawCandyButton(ctx,b.x,b.y,b.w,b.h,'BACK',false,'back');}
   }
 
   drawProfileCard(ctx,p,i){
@@ -62,8 +63,8 @@ export class ProfileSelectScene {
       if(e.x>=990&&e.x<=1330&&e.y>=825&&e.y<=930){const p=await this.game.save.createProfile(this.creation);this.game.learning=new LearningProfile();this.creation=null;await this.game.activateProfile(p.id);this.game.scenes.change(this.returnTo??'island',this.returnTo==='parentGate'?{skipGate:true,tab:'profiles',returnTo:'island'}:undefined);return;}
       return;
     }
-    if(this.returnTo&&e.x>=55&&e.x<=275&&e.y>=45&&e.y<=135){this.game.scenes.change(this.returnTo,this.returnTo==='parentGate'?{skipGate:true,tab:'profiles',returnTo:'island'}:undefined);return;}
-    const i=this.hitProfile(e);if(i>=0){const p=this.profiles()[i];await this.game.activateProfile(p.id);this.game.scenes.change(this.returnTo??'island',this.returnTo==='parentGate'?{skipGate:true,tab:'profiles',returnTo:'island'}:undefined);return;}
+    if(this.returnTo&&e.x>=backBtn().x&&e.x<=backBtn().x+220&&e.y>=backBtn().y&&e.y<=backBtn().y+90){this.game.scenes.change(this.returnTo,this.returnTo==='parentGate'?{skipGate:true,tab:'profiles',returnTo:'island'}:undefined);return;}
+    const i=this.hitProfile(e);if(i>=0){const p=this.profiles()[i];await this.game.activateProfile(p.id);if(this.then){const t=this.then;this.then=null;this.game.scenes.change(t.scene==='adventure'&&!this.game.save?.getProfileState?.()?.adventure?.currentId?'island':t.scene,t.scene==='adventure'?{adventureId:this.game.save.getProfileState().adventure.currentId,step:this.game.save.getProfileState().adventure.step??0}:t.data);return;}this.game.scenes.change(this.returnTo??'island',this.returnTo==='parentGate'?{skipGate:true,tab:'profiles',returnTo:'island'}:undefined);return;}
     if(this.profiles().length<4){const r=this.cardRect(this.profiles().length);if(e.x>=r.x&&e.x<=r.x+r.w&&e.y>=r.y&&e.y<=r.y+r.h)this.beginCreate();}
   }
 }

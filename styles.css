@@ -15,13 +15,8 @@ body {
   user-select: none;
   -webkit-touch-callout: none;
 }
-#app {
-  padding:
-    env(safe-area-inset-top)
-    env(safe-area-inset-right)
-    env(safe-area-inset-bottom)
-    env(safe-area-inset-left);
-}
+/* Job 20: no padding here. The canvas runs under the notch and the gesture bar; the game reads the safe-area insets
+   itself (src/render/CanvasViewport.js) and keeps only its buttons and words out of them. */
 #game {
   display: block;
   width: 100%;

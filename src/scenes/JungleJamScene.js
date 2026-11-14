@@ -1,5 +1,5 @@
 import { drawActivityBackground, drawToken } from '../activities/activityDraw.js';
-import { drawCandyButton, drawHomeButton, nudgeScale } from '../utils/draw.js';
+import { drawCandyButton, drawHomeButton, nudgeScale, onHomeButton } from '../utils/draw.js';
 import { artMap, drawArt, lookupArt, hatchArtIds, hatchTheme } from '../core/art.js';
 import { PipController } from '../characters/PipController.js';
 
@@ -51,7 +51,7 @@ export class JungleJamScene{
   handlePointer(e){
     if(e.type==='down'){
       for(let i=0;i<MODES.length;i++)if(inRect(e.x,e.y,this.modeRect(i))){this.modePressed=MODES[i][0];return;}
-      if(e.x>=40&&e.x<=250&&e.y>=40&&e.y<=150){this.modePressed='back';return;}
+      if(onHomeButton(e.x,e.y)){this.modePressed='back';return;}
       if(this.mode!=='free'&&this.handleLearningTap(e))return;
       const p=this.performerAt(e.x,e.y);if(p)this.beginDrag(p,e);return;
     }

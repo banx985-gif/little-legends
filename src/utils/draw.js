@@ -1,4 +1,5 @@
 import { drawArt, lookupArt, artMap } from '../core/art.js';
+import { pinX, pinY } from '../render/screen.js';
 
 export function roundedRect(ctx, x, y, w, h, r) {
   const rr = Math.min(r, w / 2, h / 2);
@@ -80,14 +81,16 @@ export function drawSpeechBubble(ctx, text, x, y, w = 440, h = 112, alpha = 1) {
 
 // Job 14: the big round home picture (no words) in the top-left of every screen outside a mission.
 // Tapped anywhere in x 40–250, y 40–150 (the old BACK button's area). Falls back to the candy BACK button.
-export const HOME_BUTTON = { x: 130, y: 100, r: 72 };
+// Job 20: it sits in the top-left corner of the safe area on every screen shape (x and y move with the screen).
+export const HOME_BUTTON = { get x() { return pinX(130); }, get y() { return pinY(100); }, r: 72 };
+export function onHomeButton(x, y) { const dx = pinX(130) - 130, dy = pinY(100) - 100; return x >= 40 + dx && x <= 250 + dx && y >= 40 + dy && y <= 150 + dy; }
 export function drawHomeButton(ctx, pressed = false) {
   const { x, y, r } = HOME_BUTTON, s = pressed ? 0.92 : 1;
   ctx.save(); ctx.translate(x, y); ctx.scale(s, s);
   ctx.fillStyle = '#fffdf0'; ctx.beginPath(); ctx.arc(0, 0, r + 10, 0, Math.PI * 2); ctx.fill();
   const ok = drawArt(ctx, lookupArt('ui', 'homeButton'), 0, 0, r * 2, r * 2);
   ctx.restore();
-  if (!ok) drawCandyButton(ctx, 40, 40, 210, 100, 'HOME', pressed, 'home');
+  if (!ok) drawCandyButton(ctx, x - 90, y - 60, 210, 100, 'HOME', pressed, 'home');
 }
 // A gentle "tap me" bounce scale for the thing a child should tap next (still when motion is reduced).
 export function nudgeScale(t, idle, after = 5) { return idle >= after && !globalThis.__LL_REDUCED_MOTION ? 1 + Math.abs(Math.sin(t * 5)) * 0.06 : 1; }

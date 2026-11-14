@@ -96,6 +96,7 @@ The app sells one thing: a one-time (non-consumable) product. Set it up once in 
   - The purchase is handled by Google Play itself. Google's guidance is that data handled by Google Play Billing for a purchase does not have to be declared by the app, because the app doesn't collect it. The app only keeps "unlocked: yes/no" on the tablet.
   - If the form asks about **Purchase history**, the honest answer is that the app doesn't collect it: it only asks Google Play whether this account owns the unlock, and that answer stays on the device.
   - "Is all of the user data encrypted in transit?" doesn't apply when nothing is sent.
+  - Reminders (Job 20) are **local notifications** made on the tablet; they send nothing and use no push service (no Firebase), so they add nothing to Data safety. Play shows the POST_NOTIFICATIONS permission; no SCHEDULE_EXACT_ALARM is used.
   - Deletion: data lives only on the device. Uninstalling, or Parent Area → DATA → RESET, removes it.
 - **Government apps / financial features / health:** No.
 - **Teacher Approved** (optional, later): Google may review kids' apps for the "Teacher Approved" badge. There's nothing to apply for; keep the app in the Families programme.

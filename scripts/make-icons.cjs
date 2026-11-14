@@ -38,7 +38,23 @@ async function splash(w, h) {
     .composite([{ input: logo, left: Math.round((w - cw) / 2), top: Math.round((h - ch) / 2) }]).png({ palette: true, quality: 95, effort: 10, compressionLevel: 9, dither: 1.0 }); // palette PNG: a fraction of the size
 }
 
+// Job 20: Android notification icon (status bar): Pip's outline in plain white, from the same picture (no new art).
+// 24 dp at each density, Pip filling 22 dp of it. Android tints it itself.
+async function notifyIcons(res) {
+  const densities = { mdpi: 1, hdpi: 1.5, xhdpi: 2, xxhdpi: 3, xxxhdpi: 4 };
+  for (const [d, k] of Object.entries(densities)) {
+    const size = Math.round(24 * k), inner = Math.round(22 * k), dir = path.join(res, `drawable-${d}`);
+    fs.mkdirSync(dir, { recursive: true });
+    const pip = await sharp(PIP).resize(inner, inner, { fit: 'inside' }).toBuffer(), m = await sharp(pip).metadata();
+    const fill = Buffer.from(`<svg width="${m.width}" height="${m.height}" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#fff"/></svg>`);
+    const white = await sharp(pip).composite([{ input: fill, blend: 'in' }]).png().toBuffer();
+    await sharp({ create: { width: size, height: size, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
+      .composite([{ input: white, left: Math.round((size - m.width) / 2), top: Math.round((size - m.height) / 2) }]).png().toFile(path.join(dir, 'ic_stat_notify.png'));
+  }
+}
+
 async function main() {
+  if (process.argv.includes('--notify-only')) { await notifyIcons(path.join(root, 'app-android/android/app/src/main/res')); console.log('Notification icons written.'); return; }
   const out = (p) => { fs.mkdirSync(path.dirname(p), { recursive: true }); return p; };
   // Web / home-screen install: "any" icons are rounded; "maskable" ones are full-bleed with Pip inside the safe circle.
   await (await icon(192)).toFile(out(path.join(root, 'assets/icons/icon-192.png')));
@@ -64,6 +80,7 @@ async function main() {
       .composite([{ input: Buffer.from(`<svg width="${fg}" height="${fg}" xmlns="http://www.w3.org/2000/svg"><circle cx="${fg / 2}" cy="${fg / 2}" r="${fg * 0.33}" fill="${CREAM}"/></svg>`) },
         { input: pip, left: Math.round((fg - m.width) / 2), top: Math.round((fg - m.height) / 2) }]).png().toFile(path.join(dir, 'ic_launcher_foreground.png'));
   }
+  await notifyIcons(res);
   if (!fs.existsSync(LOGO)) { console.log(`Splash pictures left as they are: no studio logo at ${LOGO}`); return; }
   for (const dir of fs.readdirSync(res).filter(d => d.startsWith('drawable'))) {
     const file = path.join(res, dir, 'splash.png');

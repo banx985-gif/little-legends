@@ -1,5 +1,6 @@
 import { drawCloud } from '../utils/draw.js';
 import { art, artMap, drawArt, drawFullScreen, tokenArt, characterArt, fxArt, ambientArt, backgroundArt, thingArt } from '../core/art.js';
+import { drawCovered } from '../render/screen.js';
 
 export const PALETTE = Object.freeze({
   red: '#e94d55',
@@ -20,7 +21,7 @@ export function resolveColor(value, fallback = '#8b69db') {
 // Every activity draws its background first. Job 14: a scene can hand over a drawing (Pip) that goes right after the
 // background, so all the things to tap are drawn on top of the characters (globalThis.__LL_UNDER_ITEMS, used once).
 export function drawActivityBackground(ctx, theme = 'meadow') {
-  drawBackgroundOnly(ctx, theme);
+  drawCovered(ctx, c => drawBackgroundOnly(c, theme)); // Job 20: scaled up to cover the whole screen, edges trimmed
   const under = globalThis.__LL_UNDER_ITEMS;
   if (under) { globalThis.__LL_UNDER_ITEMS = null; under(ctx); }
 }

@@ -8,6 +8,7 @@ export const PRIVACY_GUARANTEES = Object.freeze([
   { id:'no-links', title:'No links out of the game', detail:'Child play contains no links, web pages or app stores. Grown-up tools are behind the Parent Gate.' },
   { id:'no-chat', title:'No chat or public profile', detail:'Children cannot message anyone, share anything or appear anywhere public.' },
   { id:'no-sensors', title:'No camera, microphone or location', detail:'The game never asks for them. Spoken words use the tablet’s own speech voice.' },
+  { id:'reminders', title:'Reminders are made on this tablet', detail:'Optional reminders for the grown-up (egg ready, a surprise waiting) are scheduled by the tablet itself. Nothing is sent anywhere: no push server, no accounts. Off until a grown-up says yes; switches in Parent Area → Settings.' },
   { id:'purchases', title:'One optional unlock, for grown-ups', detail:'Free to try. One payment through Google Play unlocks everything, only in the Parent Area after a grown-up check. No coins, no ads, no repeat buying; children never see a price.' }
 ]);
 
@@ -19,12 +20,12 @@ export const STORED_DATA = Object.freeze([
   { id:'pictures', title:'My Pictures', detail:'the child’s own colouring pages, as pictures on this tablet only' },
   { id:'unlock', title:'Full-game unlock', detail:'whether this tablet has the full game (Google Play keeps the purchase with the grown-up’s Google account)' },
   { id:'learning', title:'Learning record', detail:'which skills were practised, right/try-again counts and hints, used only to pick the next activity' },
-  { id:'settings', title:'Family settings', detail:'volumes, quiet mode, motion, text size, colour symbols, break reminder, picture quality' },
+  { id:'settings', title:'Family settings', detail:'volumes, quiet mode, motion, text size, colour symbols, break reminder, picture quality, reminder switches' },
   { id:'grown-up', title:'Grown-up tools (only if used)', detail:'test-session notes and the release checklist from the TEST and RELEASE tabs' },
   { id:'files', title:'Game files', detail:'the game’s own pictures and code, kept so it works offline (no personal data)' }
 ]);
 
 export const NOT_COLLECTED = 'Never collected: email, photos, voice, location, contacts, device IDs, usage analytics.';
 
-export const PRIVACY_POLICY_VERSION = '1.2';
+export const PRIVACY_POLICY_VERSION = '1.3';
 export function privacySummary(){ return PRIVACY_GUARANTEES.map(item => ({...item})); }

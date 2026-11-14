@@ -1,4 +1,5 @@
 import { prepareSceneArt, settleSceneArt } from './art.js';
+import { fillScreen } from '../render/screen.js';
 
 export class SceneManager {
   constructor(game) {
@@ -73,7 +74,7 @@ export class SceneManager {
     catch (error) { this.recoverRuntime(error, 'render'); }
     const fade = this.busy ? 0.88 : this.transitionT > 0 ? Math.min(0.72, this.transitionT / Math.max(0.01, this.transitionDuration) * 0.72) : 0;
     if (fade > 0) {
-      ctx.save(); ctx.globalAlpha = fade; ctx.fillStyle = '#5a3a73'; ctx.fillRect(0,0,1920,1080); ctx.restore();
+      ctx.save(); ctx.globalAlpha = fade; fillScreen(ctx, '#5a3a73'); ctx.restore();
     }
   }
 

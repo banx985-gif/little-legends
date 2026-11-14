@@ -60,6 +60,7 @@ const CORE = [
   './src/render/screen.js',
   './src/notify/Notifications.js',
   './src/ui/NotifyAsk.js',
+  './src/scenes/DressUpScene.js',
   './src/scenes/PlaygroundScene.js',
   './src/store/FullUnlock.js',
   './src/ui/AskGrownUp.js',

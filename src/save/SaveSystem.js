@@ -163,6 +163,8 @@ export class SaveSystem {
       // trail kind stays off until the Adventure Trail exists).
       const n = savedState.notify && typeof savedState.notify === 'object' && !Array.isArray(savedState.notify) ? savedState.notify : {};
       state.notify = { on: typeof n.on === 'boolean' ? n.on : root.notify.permission === 'granted', egg: n.egg !== false, reward: n.reward !== false, trail: n.trail === true };
+      // Job 19: the dress-up room's own outfit ({ worn: { slot: lookId } }); it doesn't change the looks Pip wears elsewhere.
+      state.dressUp = { worn: state.dressUp?.worn && typeof state.dressUp.worn === 'object' && !Array.isArray(state.dressUp.worn) ? Object.fromEntries(Object.entries(state.dressUp.worn).filter(([k, v]) => typeof v === 'string')) : {} };
       state.rewardsWaiting = Array.isArray(state.rewardsWaiting) ? [...new Set(state.rewardsWaiting.filter(id => typeof id === 'string'))].slice(-10) : [];
       root.profileStates[profile.id] = state;
     }

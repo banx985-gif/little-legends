@@ -34,7 +34,9 @@ const ISLAND_40 = async () => {
 };
 const EXTRA_SCENES = [['island', {}, 'island'], ['collection', { tab: 'decorations' }, 'collection decor'], ['collection', { tab: 'vehicles' }, 'collection rides'], ['jungleJam', {}, 'jungle jam'], ['island', { play: true }, 'island 40 things', ISLAND_40], ['colouring', { page: 'page_44_flower', paint: true }, 'colouring'],
   // Job 19: playgrounds (vehicles driving round the town roads; sea friends swimming; dinos eating and napping).
-  ['playground', { world: 'town' }, 'playground town'], ['playground', { world: 'rainbow' }, 'playground sea'], ['playground', { world: 'dino' }, 'playground dino']];
+  ['playground', { world: 'town' }, 'playground town'], ['playground', { world: 'rainbow' }, 'playground sea'], ['playground', { world: 'dino' }, 'playground dino'],
+  // Job 19 step 2+: the new screens.
+  ['dressUp', {}, 'dress up']];
 const FILL_MS = 50; // Job 17: a bucket fill on the Lite check (CPU slowed 4×)
 const LITE_PICTURE_MB = 100; // Job 10 budget for Lite mode
 

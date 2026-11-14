@@ -1591,6 +1591,9 @@ assert.ok(serviceWorkerSource.includes("'./assets/art_manifest.json'")&&serviceW
   assert.ok(fs.readFileSync(path.join(root, 'scripts/qa-release.mjs'), 'utf8').includes('playground town'), 'The Lite speed check includes the playgrounds');
 }
 
+// ---- Job 19 steps 2–9 (dress-up room, scene maker, trail, big-kid levels, bedtime stories, song mode, free vs paid) ----
+{ const { checkJob19 } = await import('./check-job19.mjs'); await checkJob19({ root, FakeCanvasContext, sceneAudio }); }
+
 // ---- Job 20: fill every screen (no bars) + notifications with on/off switches ----
 {
   const { checkJob20 } = await import('./check-job20.mjs');
@@ -1603,7 +1606,7 @@ assert.ok(serviceWorkerSource.includes("'./assets/art_manifest.json'")&&serviceW
     const server = await startServer(root), browser = await puppeteer.launch({ executablePath: chrome, headless: true, args: ['--mute-audio'] });
     try { const res = await checkShapes({ browser, base: server.base, scenes: QUICK_SCENES, shots: false, log: () => {} }); assert.ok(res.ok, 'No bars on any screen shape: ' + res.failures.join(' | ')); }
     finally { await browser.close(); server.close(); }
-  } else console.log('Screen-shape check in Chrome skipped (no Chrome); run npm run qa:shapes on a PC with Chrome.');
+  } else console.log('Screen-shape check in Chrome skipped (no Chrome, or LL_SKIP_BROWSER set); run npm run qa:shapes on a PC with Chrome.');
 }
 
 console.log(`Little Legends M0-M29 qualification implementation check passed (M26/M29 human gates still pending): ${required.length} required files, ${jsFiles.length} JS syntax checks, ${activityEngine.list().length} JSON activities across ${expectedActivityTypes.size} reusable families, ${adventureData.adventures.length} Little Missions, privacy/child-test support, launch FX, save recovery, performance instrumentation and offline PWA verified.`);

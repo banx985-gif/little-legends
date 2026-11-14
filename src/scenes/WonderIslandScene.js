@@ -419,6 +419,8 @@ export class WonderIslandScene {
     if(this.notifyAsk?.active&&this.notifyAsk.handlePointer(e))return;
     if(e.type==='down'){this.idleT=0;this.pointed=false;}
     if(e.type!=='cancel')this.lastPointer={x:e.x,y:e.y};
+    // Job 19: Pip's house opens his dress-up room (a tap on the house, not on a thing standing in front of it).
+    if(!this.placementMode&&!this.press&&!this.drag&&!this.offerShowing()&&!(this.hatch?.ready&&!this.hatch.finished)){const inHouse=e.x>=1430&&e.x<=1745&&e.y>=360&&e.y<=680&&!this.objectAt(e.x,e.y);if(e.type==='down'&&inHouse){this.housePressed=true;return;}if(this.housePressed){if(e.type==='move')return;this.housePressed=false;if(e.type==='up'&&inHouse){this.game.audio?.playCue?.('open');this.game.scenes.change('dressUp');}return;}}
     if(this.offerShowing()){if(e.type==='up'){if(inCircle(e,OFFER_NEXT)){this.game.audio?.playCue?.('start');const after=this.nextOffer.after;this.nextOffer=null;this.playNext(after);}else if(inCircle(e,OFFER_HOME)){this.nextOffer=null;this.game.audio?.playCue?.('back');}}return;}
     if(this.hatch?.ready&&!this.hatch.finished&&this.celebrateT<CELEBRATE_SECONDS){if(e.type==='up')this.hatch.skip();return;}
     const portal=inRect(e.x,e.y,pin({x:340,y:875,w:460,h:170}));const rainbow=inRect(e.x,e.y,pin({x:790,y:875,w:540,h:170}));const parent=(e.x-pinX(90))**2+(e.y-pinY(85))**2<=75**2;const mode=inRect(e.x,e.y,pin({x:1320,y:885,w:420,h:160}));const collection=inRect(e.x,e.y,pin({x:1490,y:30,w:370,h:110}));const easel=!this.placementMode&&e.x>=EASEL.x&&e.x<=EASEL.x+EASEL.w&&e.y>=EASEL.y&&e.y<=EASEL.y+EASEL.h;

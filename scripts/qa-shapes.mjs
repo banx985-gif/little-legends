@@ -33,7 +33,8 @@ export const ALL_SCENES = [
   ['collection', {}, 'collection'], ['colouring', {}, 'colouring pages'], ['colouring', { page: 'page_44_flower' }, 'colouring paint'],
   ['parentGate', {}, 'parent gate'], ['parentGate', { skipGate: true, tab: 'settings', returnTo: 'island' }, 'parent settings'],
   ['playground', { world: 'town' }, 'playground town'], ['playground', { world: 'rainbow' }, 'playground sea'], ['playground', { world: 'dino' }, 'playground dino'],
-  ['playground', { world: 'space' }, 'playground space'], ['playground', { world: 'animal' }, 'playground forest']
+  ['playground', { world: 'space' }, 'playground space'], ['playground', { world: 'animal' }, 'playground forest'],
+  ['dressUp', {}, 'dress up']
 ];
 export const QUICK_SCENES = ALL_SCENES.filter(([, , n]) => ['logo', 'island', 'mission', 'colouring paint', 'playground sea'].includes(n));
 

@@ -13,6 +13,7 @@ import { JungleJamScene } from './scenes/JungleJamScene.js';
 import { CollectionScene } from './scenes/CollectionScene.js';
 import { ColouringScene } from './scenes/ColouringScene.js';
 import { PlaygroundScene } from './scenes/PlaygroundScene.js';
+import { DressUpScene } from './scenes/DressUpScene.js';
 
 // QA (Job 20): pretend the screen has a notch / gesture bar: ?insets=left,top,right,bottom in CSS pixels, e.g. ?insets=40,0,0,24
 { const ins = new URLSearchParams(location.search).get('insets'); if (ins) { const [left, top, right, bottom] = ins.split(',').map(Number); globalThis.__LL_FAKE_INSETS = { left, top, right, bottom }; } }
@@ -32,6 +33,7 @@ game.scenes.register('jungleJam', game => new JungleJamScene(game));
 game.scenes.register('collection', game => new CollectionScene(game));
 game.scenes.register('colouring', game => new ColouringScene(game));
 game.scenes.register('playground', game => new PlaygroundScene(game));
+game.scenes.register('dressUp', game => new DressUpScene(game));
 
 
 window.addEventListener('error', event => game.reportRuntimeError?.(event.error ?? new Error(event.message || 'Window error'), 'window:error'));
@@ -39,7 +41,7 @@ window.addEventListener('unhandledrejection', event => game.reportRuntimeError?.
 
 const params = new URLSearchParams(location.search);
 const requestedScene = params.get('scene');
-const initialScene = ['profile', 'island', 'activity', 'parentGate', 'adventure', 'rainbowVillage', 'worldSelect', 'worldHub', 'jungleJam', 'collection', 'colouring', 'playground'].includes(requestedScene) ? requestedScene : 'boot';
+const initialScene = ['profile', 'island', 'activity', 'parentGate', 'adventure', 'rainbowVillage', 'worldSelect', 'worldHub', 'jungleJam', 'collection', 'colouring', 'playground', 'dressUp'].includes(requestedScene) ? requestedScene : 'boot';
 // Testing shortcut: ?scene=worldHub&world=space, ?scene=activity&activityId=space_build_rocket, ?scene=adventure&adventureId=… (&step=2)
 const sceneData = {};
 for (const key of ['world', 'activityId', 'adventureId', 'tab', 'celebrateReward', 'page']) if (params.get(key)) sceneData[key] = params.get(key);

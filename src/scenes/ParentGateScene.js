@@ -11,7 +11,7 @@ const backBtn=()=>pin({x:35,y:30,w:190,h:82}); // Job 20: top-left corner of the
 const TABS=[['dashboard','LEARNING'],['settings','SETTINGS'],['profiles','PROFILES'],['test','TEST'],['release','RELEASE'],['data','DATA'],['privacy','PRIVACY'],['store','FULL GAME'],['credits','CREDITS']];
 const TAB_LAYOUT={startX:240,step:174,w:162}; // 9 tabs between BACK and the parent picture
 // Job 18: FULL GAME tab — what the one payment unlocks, buy (after the grown-up check), restore.
-const GETS=['All 8 worlds: Space Station, Animal Forest, Jungle Jam, Luna’s Storybook, Bella’s Day and Busy Town join the free two','All 50 colouring pages (8 are free)','The full dress-up wardrobe, and the extras still to come','Everything added to Little Legends later','Paid once. No coins, no ads, no subscriptions, nothing else to buy.'];
+const GETS=['All 8 worlds and their playgrounds: Space Station, Animal Forest, Jungle Jam, Luna’s Storybook, Bella’s Day and Busy Town join the free two','All 50 colouring pages (8 are free) and Pip’s full dress-up wardrobe','Bedtime stories, Jungle Jam songs, and the Bigger challenge for 4–5 year olds','Everything added to Little Legends later','Paid once. No coins, no ads, no subscriptions, nothing else to buy.'];
 const BUY_BTN={x:330,y:770,w:600,h:100},RESTORE_BTN={x:990,y:770,w:600,h:100},DEV_TOGGLE={x:560,y:895,w:800};
 const HOLD_BTN={x:960,y:600,r:150},sumBtn=i=>({x:430+i*280,y:560,w:220,h:170}),CHECK_CLOSE={x:1700,y:200,r:60};
 const RELEASE_PAGE_SIZE=5;

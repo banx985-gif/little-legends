@@ -20,6 +20,7 @@ function inRect(x,y,r){return x>=r.x&&x<=r.x+r.w&&y>=r.y&&y<=r.y+r.h;}
 export class JungleJamScene{
   constructor(game){this.game=game;this.t=0;this.pip=null;this.performers=[];this.slots=[];this.drag=null;this.offset={x:0,y:0};this.mode='free';this.tempo='slow';this.loudness=.65;this.beatT=0;this.beat=0;this.goal='fast';this.soundGoal='percussion';this.rhythmTaps=[];this.demoFlash=0;this.modePressed=null;}
   enter(data={}){
+    if(this.game.unlock&&!this.game.unlock.worldOpen?.('jungle')){this.game.scenes.change('worldSelect');return;} // Job 19: a song card can't open the full-game Jam in the free version
     this.t=0;this.pip=new PipController({x:1790,y:1030,scale:.5}); /* bottom-right corner, clear of the band (Job 14) */ this.performers=PERFORMERS.map((p,i)=>({...p,x:250+i*300,y:890,homeX:250+i*300,homeY:890,placed:false,slot:null,size:126}));
     this.slots=Array.from({length:5},(_,i)=>({id:`slot-${i}`,x:390+i*285,y:555,w:220,h:250,role:null}));this.drag=null;this.mode='free';this.beatT=0;this.beat=0;this.game.audio?.stopWorldMusic?.();this.game.audio?.startJam?.(); /* Job 13: the recorded band stems, looping in step */
     this.songs=new SongRecorder(this); /* Job 19: record ~20 s of the band, play it back, keep it as a song card */if(data.song)this.songs.load(data.song).then(ok=>{if(ok)this.songs.play();});

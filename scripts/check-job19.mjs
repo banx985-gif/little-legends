@@ -230,6 +230,32 @@ export async function checkJob19({ root, FakeCanvasContext, sceneAudio }) {
       assert.ok(fs.readFileSync(path.join(root, 'src/scenes/CollectionScene.js'), 'utf8').includes("change('jungleJam',{song:p.id})"), 'My Pictures → the song');
       assert.ok(CollectionScene);
     }
+    // ---- Step 8: free vs paid, all in one place ----
+    {
+      const FREE = new Set(['dino', 'rainbow']);
+      const freeUnlock = { isUnlocked: () => false, worldOpen: w => !w || FREE.has(w), pageOpen: p => Boolean(p?.free) };
+      const fg = { ...game, unlock: freeUnlock, audio: { ...audio, startJam() {}, stopJam() {}, speak: () => true, stopSpeech() {} }, adventureEngine: { ensureLoaded: async () => {}, list: () => JSON.parse(fs.readFileSync(path.join(root, 'data/adventures.json'), 'utf8')).adventures, get: () => null } };
+      const go = async (Scene, data = {}) => { fg.scenes.last = null; const s = new Scene(fg); await s.enter(data); return [s, fg.scenes.last?.name ?? null]; };
+      const { PlaygroundScene } = await import('../src/scenes/PlaygroundScene.js');
+      const { DressUpScene } = await import('../src/scenes/DressUpScene.js');
+      const { SceneMakerScene } = await import('../src/scenes/SceneMakerScene.js');
+      const { BedtimeScene } = await import('../src/scenes/BedtimeScene.js');
+      const { JungleJamScene } = await import('../src/scenes/JungleJamScene.js');
+      const { pickTrail } = await import('../src/trail/AdventureTrail.js');
+      const { bigKidOn } = await import('../src/learning/BigKid.js');
+      // Free: playgrounds in the free worlds, dress-up basics, the sticker book, the trail (free worlds).
+      assert.equal((await go(PlaygroundScene, { world: 'dino' }))[1], null, 'Free: Dino Valley playground'); assert.equal((await go(PlaygroundScene, { world: 'rainbow' }))[1], null, 'Free: the sea playground');
+      assert.equal((await go(PlaygroundScene, { world: 'space' }))[1], 'worldSelect', 'Full game: Space playground');
+      const [room] = await go(DressUpScene); assert.ok(room.looks().some(r => room.open(r)) && room.looks().some(r => !room.open(r)), 'Free: dress-up basics, full wardrobe in the unlock');
+      assert.equal((await go(SceneMakerScene))[1], null, 'Free: the sticker book scene maker');
+      const trail = pickTrail(fg.adventureEngine.list(), { day: '2026-11-14', profileId: 'x', open: freeUnlock.worldOpen }); assert.ok(trail.length === 3 && trail.every(id => FREE.has(fg.adventureEngine.list().find(a => a.id === id).world)), 'Free: the trail uses free worlds only');
+      // Full game only: big-kid levels, bedtime stories, song mode (Jungle Jam).
+      assert.equal(bigKidOn(fg), false, 'Full game: Bigger challenge');
+      assert.equal((await go(BedtimeScene))[1], 'worldSelect', 'Full game: bedtime stories');
+      assert.equal((await go(JungleJamScene, { song: 'song_x' }))[1], 'worldSelect', 'Full game: Jungle Jam songs (even from a song card)');
+      // The FULL GAME tab says what the unlock adds.
+      const pgSrc = fs.readFileSync(path.join(root, 'src/scenes/ParentGateScene.js'), 'utf8'); for (const w of ['playgrounds', 'wardrobe', 'Bedtime stories', 'Jungle Jam songs', 'Bigger challenge']) assert.ok(pgSrc.includes(w), `FULL GAME lists ${w}`);
+    }
   } finally {
     globalThis.__LL_ASSETS = oldAssets;
   }

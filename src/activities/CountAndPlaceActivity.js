@@ -18,7 +18,7 @@ function countSkill(value) {
 
 export class CountAndPlaceActivity extends DragBaseActivity {
   start(){
-    const count=Math.max(1,Math.min(10,Number(this.definition.targetCount??3)));
+    const count=Math.max(1,Math.min(20,Number(this.definition.targetCount??3))); // Job 19: up to 20 with the bigger challenge (counting on)
     this.startingCount=Math.max(0,Math.min(count-1,Number(this.definition.startingCount??0)));
     const starts=this.definition.positions?.length?this.definition.positions:DEFAULT_STARTS;
     this.tokens=Array.from({length:count},(_,i)=>{
@@ -38,8 +38,8 @@ export class CountAndPlaceActivity extends DragBaseActivity {
   accepts(){return true;}
   skillsForToken(){return [countSkill(this.count+1),...(this.definition.startingCount?['ADDITION_PREP']:[])];}
   placeInBasket(token,index){
-    const cols=5; const row=Math.floor(index/cols),col=index%cols;
-    const x=this.target.x-118+col*58+(row%2?25:0),y=this.target.y-48+row*82;
+    const big=(this.definition.targetCount??0)>10,cols=big?7:5,dx=big?40:58,dy=big?54:82; const row=Math.floor(index/cols),col=index%cols; // 20 fit in the basket too
+    const x=this.target.x-(big?128:118)+col*dx+(row%2?(big?18:25):0),y=this.target.y-(big?62:48)+row*dy;
     this.snapToken(token,x,y); token.scale=.76;
   }
   countDetail(){return Array.from({length:this.count},(_,i)=>i+1).join(' • ');}

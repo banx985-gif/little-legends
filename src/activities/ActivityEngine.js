@@ -1,3 +1,4 @@
+import { bigKidOn, harder } from '../learning/BigKid.js';
 import { DragToTargetActivity } from './DragToTargetActivity.js';
 import { CountAndPlaceActivity } from './CountAndPlaceActivity.js';
 import { MatchPairsActivity } from './MatchPairsActivity.js';
@@ -106,7 +107,8 @@ export class ActivityEngine {
     const definition = this.definitions.get(id);
     if (!definition) throw new Error(`Unknown activity: ${id}`);
     const dynamic = this.resolveDynamic(definition);
-    const resolved = this.game?.adaptive?.apply ? this.game.adaptive.apply(dynamic, this.game.learning) : dynamic;
+    const adapted = this.game?.adaptive?.apply ? this.game.adaptive.apply(dynamic, this.game.learning) : dynamic;
+    const resolved = bigKidOn(this.game) ? harder(adapted) : adapted; // Job 19: the bigger challenge (Parent Area, ages 4–5)
     const ActivityClass = this.types.get(resolved.type);
     if (!ActivityClass) throw new Error(`Unknown activity type: ${definition.type}`);
     return new ActivityClass({ game: this.game, host, definition: resolved });

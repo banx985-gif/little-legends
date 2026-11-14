@@ -143,6 +143,38 @@ export async function checkJob19({ root, FakeCanvasContext, sceneAudio }) {
       // Old saves: no trail yet.
       const old = JSON.parse(JSON.stringify(save.root)); delete old.profileStates[kid.id].trail; assert.equal(save.migrate(old).profileStates[kid.id].trail, null);
     }
+    // ---- Step 5: big-kid levels ("Bigger challenge") ----
+    {
+      const { harder, bigKidOn } = await import('../src/learning/BigKid.js');
+      const { ActivityEngine } = await import('../src/activities/ActivityEngine.js');
+      const { ParentGateScene } = await import('../src/scenes/ParentGateScene.js');
+      const defs = JSON.parse(fs.readFileSync(path.join(root, 'data/activities.json'), 'utf8')).activities, def = id => defs.find(d => d.id === id);
+      // Counting on, up to 20.
+      const c3 = harder(def('feed_bunny_3')); assert.deepEqual([c3.targetCount, c3.startingCount], [8, 5], 'Count 3 → count on from 5 to 8');
+      const c10 = harder(def('m16_count_10')); assert.deepEqual([c10.targetCount, c10.startingCount], [20, 10], 'Count 10 → count to 20');
+      assert.ok(defs.filter(d => d.type === 'CountAndPlace').every(d => harder(d).targetCount <= 20), 'Never past 20');
+      // Letters → words; patterns → 3 steps; more things to choose from.
+      const w = harder(def('m19_letters_1')); assert.ok(w.objects.every(o => o.kind === 'word' && o.firstSound && o.label.startsWith(o.firstSound) || o.firstSound === 'X'), 'Letters become words'); assert.deepEqual(w.targets[0], { firstSound: 'A' });
+      const pt = harder(def('m13_pattern_complete')); assert.equal(pt.sequence.length, 5); assert.equal(new Set(pt.sequence.map(s => s.color)).size, 3, '3-step pattern'); assert.equal(pt.choices.find(c => c.correct).color, pt.sequence[2].color);
+      const tp = harder(def('tap_red_apple')); assert.equal(tp.objects.length, def('tap_red_apple').objects.length + 2, 'Two more things to choose from');
+      assert.equal(harder(c3), c3, 'Only once');
+      // The real activities run with the harder settings.
+      const kidGame = { save, learning: null, adaptive: null, unlock: null };
+      const engine = new ActivityEngine(kidGame); engine.setDefinitions({ activities: defs });
+      const host = { pip: null, game: kidGame }; let act = engine.create('m16_count_10', host); assert.equal(act.definition.targetCount, 10, 'Switch off: as before');
+      const profile = save.getActiveProfile(); assert.ok(profile.age >= 4);
+      await save.mutateProfileState(st => { st.settings.bigKid = true; }); assert.equal(bigKidOn(kidGame), true);
+      act = engine.create('m16_count_10', host); act.start?.(); assert.equal(act.definition.targetCount, 20); assert.equal(act.tokens.length, 20, '20 to count'); assert.equal(act.count, 10, '10 already in the basket');
+      for (const id of ['m19_letters_1', 'm13_pattern_complete', 'tap_red_apple', 'feed_bunny_3']) { const a = engine.create(id, host); a.start?.(); a.render(new FakeCanvasContext()); }
+      // Full game only; ages 4–5 only.
+      assert.equal(bigKidOn({ ...kidGame, unlock: { isUnlocked: () => false } }), false, 'Free version: off');
+      const young = await save.createProfile({ name: 'Tia', age: 3 }); await save.mutateProfileState(st => { st.settings.bigKid = true; }); assert.equal(bigKidOn(kidGame), false, 'Under 4: off'); await save.selectProfile(kid.id);
+      // The Parent Area switch (PROFILES tab), per child.
+      const pg = new ParentGateScene({ ...game, learning: { getDashboard: () => ({ skills: [] }) }, audio: { ...audio, getSettings: () => ({}) } }); pg.enter({ skipGate: true, tab: 'profiles' }); pg.render(new FakeCanvasContext());
+      tap(pg, 900, 700); await tick(); await tick(); assert.equal(save.getProfileState().settings.bigKid, false, 'Switch off from the Parent Area');
+      tap(pg, 900, 700); await tick(); await tick(); assert.equal(save.getProfileState().settings.bigKid, true, 'and on again');
+      assert.equal(save.getProfileState(young.id).settings.bigKid, true, 'Each child has their own switch');
+    }
   } finally {
     globalThis.__LL_ASSETS = oldAssets;
   }

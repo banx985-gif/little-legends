@@ -1,38 +1,27 @@
-# CC latest — Job 19 step 4 (Adventure Trail with the explorer boy)
+# CC latest — Job 19 step 5 (big-kid levels: "Bigger challenge")
 
 - **When:** 2026-11-14
-- **Job:** JOB_19_MORE_GAME step 4 (run step 3 of NEXT_CC_ORDER). Done earlier today: Job 19 steps 1–3 and Job 20.
+- **Job:** JOB_19_MORE_GAME step 5 (run step 3 of NEXT_CC_ORDER). Done earlier today: Job 19 steps 1–4 and Job 20.
 - **Status:** DONE (web). Not tried on a tablet yet.
 
 ## What changed
-- **New: the Adventure Trail.** A **TRAIL** button on Wonder Island, under COLLECTION, opens it.
-- **The trail:**
-  - Each day each child gets a trail of **3 short Little Missions from 3 different worlds** (missions of 6 steps or fewer).
-  - Missions the child hasn't finished come first.
-  - The trail stays the same all day, and there's a new one tomorrow.
-- **The explorer boy is the guide.** He reads his map at the start of the path and says where the next stop is ("First stop: Luna's Storybook!"). He points at the chest when all 3 stamps are in, and cheers when it's open. I used his own pictures only. He has no name in the art bible, so the game just calls him the explorer; tell me if he should have a name.
-- **The map:** a dotted path over the meadow, with 3 stops showing each world's picture and the mission's name. The next stop bounces.
-  - Tap a stop to play that mission.
-  - When it's done, the game comes straight back to the map and a red **stamp** drops onto that stop.
-  - After the third stamp, the **treasure chest** at the end bounces. Tap it: **+3 Discovery Stars**, once a day.
-- **Prizes from the missions themselves** (friends, looks, dragons) aren't lost. They show on Wonder Island the next time the child goes there.
-- **Free version:** the trail uses only the free worlds (Dino Valley and Rainbow Village). A world can then come up twice.
-- **"Daily trail" reminder (from Job 20) now works:**
-  - It is switched on like the other kinds, once, for every child.
-  - A grown-up who switches it off keeps it off.
-  - It says "Today's Adventure Trail is ready! 🗺️" at about 9:30 am the next day, within the 2-a-day cap.
-  - Tapping it opens the trail.
-- **Art check:** the explorer's pictures used to be listed as "role not decided"; they are now in use. All 973 pictures are now used except 8 left out on purpose.
-- Built to the Job 20 rules. No bars at any of the five screen shapes (24 screens × 5 shapes).
+- **New switch:** Parent Area → PROFILES → **Bigger challenge** for the child playing now. It's saved per child.
+  - It only works for ages 4–5. For a younger child it is greyed out and says why.
+  - It's part of the full game. In the free version it is greyed out and points to the FULL GAME tab.
+- **With it on, the same missions get harder:**
+  - **Counting to 20:** the child counts on from a bigger number. For example, "Count to 20!" with 10 already in the basket, or "count on from 5 to 8". The child still drags as many as before, so it isn't longer, just bigger numbers. Up to 20 fit neatly in the basket.
+  - **Letters to words:** "Find letter A" becomes "Which word starts with A?" with word cards (Apple, Ball, Cat, Dog, Egg…). The cards are the game's existing word cards; no new art.
+  - **3-step patterns:** red, blue, red, …? becomes red, blue, yellow, red, blue, …?
+  - **More items:** "tap the …" activities get two extra things to choose from.
+- The usual adjusting of difficulty to each child (Job 10) still runs first; the bigger challenge goes on top.
 
 ## Not done
 - Nothing for this step.
 
 ## What Aaron needs to do
-- On the tablet: Wonder Island → TRAIL. Play the first stop and see the stamp land. Finish all 3 and open the chest. Look again tomorrow for a new trail.
-- Decide whether the explorer boy should have a name.
+- For a child aged 4–5, switch on **Bigger challenge** (Parent Area → PROFILES), then play a counting mission, a Storybook letters mission and a Rainbow pattern.
 
 ## Checks / commit
-- `npm run check`: PASS (new tests: 3 different worlds, short missions, same all day / new tomorrow, free worlds only, stamps, chest once a day, back to the map after a mission, the reminder, old saves). `npm run standalone`: PASS. `npm run qa:shapes`: no bars.
-- Lite speed check: still needs re-running on a quiet PC (see the step 3 note: another program was using this PC's CPU).
-- Commit: see `git log` ("Job 19 step 4"). Pushed. No APK (Android Studio / Java 21 still missing).
+- `npm run check`: PASS (new tests: count-on numbers and the 20 cap, letters to words, 3-step patterns, extra items, the real activities running at 20, free version and under-4 off, the Parent Area switch per child). `npm run standalone`: PASS.
+- Lite speed check: still needs re-running on a quiet PC (another program was using this PC's CPU earlier today).
+- Commit: see `git log` ("Job 19 step 5"). Pushed. No APK (Android Studio / Java 21 still missing).

@@ -67,6 +67,7 @@ const CORE = [
   './src/learning/BigKid.js',
   './src/scenes/BedtimeScene.js',
   './src/stories/bedtime.js',
+  './src/jam/SongRecorder.js',
   './src/scenes/PlaygroundScene.js',
   './src/store/FullUnlock.js',
   './src/ui/AskGrownUp.js',

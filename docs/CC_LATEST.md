@@ -1,32 +1,25 @@
-# CC latest — Job 19 step 6 (bedtime stories)
+# CC latest — Job 19 step 7 (Jungle Jam song mode)
 
 - **When:** 2026-11-14
-- **Job:** JOB_19_MORE_GAME step 6 (run step 3 of NEXT_CC_ORDER). Done earlier today: Job 19 steps 1–5 and Job 20.
+- **Job:** JOB_19_MORE_GAME step 7 (run step 3 of NEXT_CC_ORDER). Done earlier today: Job 19 steps 1–6 and Job 20.
 - **Status:** DONE (web). Not tried on a tablet yet.
 
 ## What changed
-- **New: bedtime stories.** Luna's Storybook world map → **BEDTIME** (the bottom-right door).
-- **A shelf of 3 short, calm stories**, 6–7 pages each, all ending with "Goodnight, … Goodnight, little one.":
-  - **Pip Says Goodnight:** the moon, the stars, the bunny, Rory.
-  - **Octo's Quiet Sea:** fish, seahorse, turtle.
-  - **The Forest Falls Asleep:** Owl, Squirrel, Hedgehog, Bear.
-- **The pictures:** every page is made from pictures already in the game; nothing new is drawn. The Storybook world has no illustrated story pages of its own, so I wrote these stories around the characters and night-time pictures we have (sleepy moon, moon lamp, stars, beds, homes).
-- **Read aloud page by page**, slowly and softly. It uses a recorded line when one exists, otherwise the tablet's own voice.
-  - Each page turns by itself 2.5 seconds after it has been read.
-  - If the tablet has no voice, pages still turn after a reading-length pause.
-- **Calm music**, a dark night sky with twinkling stars, and the screen getting darker as the story goes on. The Goodnight page stays and dims right down.
-- **Grown-up controls:** small arrows turn pages by hand. Home goes back to the shelf, then to the Storybook world.
-- **Full game only,** like the Storybook world itself.
-- Built to the Job 20 rules. No bars at any of the five screen shapes (26 screens × 5 shapes).
+- **Jungle Jam → FREE JAM** now has three round buttons on the right edge:
+  - **Record** (a red dot): records about 20 seconds of the child putting band friends on and off the stage. The time runs round the button, and it stops by itself at 20 seconds (or tap it again).
+  - **Play** (a green triangle): the band is put back as it was when recording started, then each friend comes on or goes off exactly when they did. Hands off while it plays, so a stray tap doesn't spoil it. Tap again to stop.
+  - **Keep** (a tick): saves it to Collection → MY PICTURES as a **song card** (a little picture of the band and music notes). Tapping the card later opens Jungle Jam and plays the song.
+- The song itself is tiny: who was on the stage, and when. No sound is recorded, so there's no microphone and nothing private.
+- Part of the full game, because Jungle Jam is a full-game world.
+- Built to the Job 20 rules. The buttons sit on the safe area's right edge, clear of the stage at every screen shape.
 
 ## Not done
-- **Recorded voice lines** for the stories: they use the device voice until recordings exist. The new lines can be added to `docs/VOICE_LINES.csv` with `npm run voice:lines` when Aaron records them.
+- Nothing for this step.
 
 ## What Aaron needs to do
-- On the tablet (full game): Storybook → BEDTIME. Play a story with the sound on and check the voice speed and the page timing.
-- If you'd like the stories in your own voice, say so and I'll add the lines to the recording list.
+- On the tablet (full game): Jungle Jam → record a song, play it back, keep it, then find the card in MY PICTURES and tap it.
 
 ## Checks / commit
-- `npm run check`: PASS (new tests: every picture exists, each story ends with Goodnight, read aloud slowly, auto-turn after reading, turns even with no voice, Goodnight stays and dims, grown-up arrows, home, full game only, the BEDTIME door). `npm run standalone`: PASS. `npm run qa:shapes`: no bars.
+- `npm run check`: PASS (new tests: record, every band change kept with its timing, stops at 20 s, playback order and timing, hands off while playing, it ends, song card saved, card plays the song). `npm run standalone`: PASS. `npm run qa:shapes`: no bars.
 - Lite speed check: still needs re-running on a quiet PC.
-- Commit: see `git log` ("Job 19 step 6"). Pushed. No APK (Android Studio / Java 21 still missing).
+- Commit: see `git log` ("Job 19 step 7"). Pushed. No APK (Android Studio / Java 21 still missing).

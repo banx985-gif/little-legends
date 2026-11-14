@@ -2,6 +2,7 @@ import { drawActivityBackground, drawToken } from '../activities/activityDraw.js
 import { drawCandyButton, drawHomeButton, nudgeScale, onHomeButton } from '../utils/draw.js';
 import { artMap, drawArt, lookupArt, hatchArtIds, hatchTheme } from '../core/art.js';
 import { PipController } from '../characters/PipController.js';
+import { SongRecorder } from '../jam/SongRecorder.js';
 
 // Music Dragon (rare): earned once the child has got each of the four music games right at least once.
 const DRAGON_ID='dragon_music',DRAGON_SKILLS=['FAST_SLOW','LOUD_QUIET','RHYTHM','SOUND_RECOGNITION'];
@@ -18,10 +19,15 @@ function inRect(x,y,r){return x>=r.x&&x<=r.x+r.w&&y>=r.y&&y<=r.y+r.h;}
 
 export class JungleJamScene{
   constructor(game){this.game=game;this.t=0;this.pip=null;this.performers=[];this.slots=[];this.drag=null;this.offset={x:0,y:0};this.mode='free';this.tempo='slow';this.loudness=.65;this.beatT=0;this.beat=0;this.goal='fast';this.soundGoal='percussion';this.rhythmTaps=[];this.demoFlash=0;this.modePressed=null;}
-  enter(){
+  enter(data={}){
     this.t=0;this.pip=new PipController({x:1790,y:1030,scale:.5}); /* bottom-right corner, clear of the band (Job 14) */ this.performers=PERFORMERS.map((p,i)=>({...p,x:250+i*300,y:890,homeX:250+i*300,homeY:890,placed:false,slot:null,size:126}));
     this.slots=Array.from({length:5},(_,i)=>({id:`slot-${i}`,x:390+i*285,y:555,w:220,h:250,role:null}));this.drag=null;this.mode='free';this.beatT=0;this.beat=0;this.game.audio?.stopWorldMusic?.();this.game.audio?.startJam?.(); /* Job 13: the recorded band stems, looping in step */
+    this.songs=new SongRecorder(this); /* Job 19: record ~20 s of the band, play it back, keep it as a song card */if(data.song)this.songs.load(data.song).then(ok=>{if(ok)this.songs.play();});
   }
+  // Job 19 song mode: which friend stands in each stage slot, and putting the band back that way.
+  arrangement(){return this.slots.map((_,i)=>this.performers.find(p=>p.placed&&p.slot===i)?.role??null);}
+  applyArrangement(band=[]){for(const p of this.performers){const i=band.indexOf(p.role);if(i>=0){const s=this.slots[i];p.x=s.x;p.y=s.y;p.slot=i;p.placed=true;}else{p.x=p.homeX;p.y=p.homeY;p.slot=null;p.placed=false;}}this.slots.forEach((s,i)=>{s.role=band[i]??null;});}
+  setTempo(t){if(t!=='fast'&&t!=='slow')return;this.tempo=t;this.game.audio?.setJamTempo?.(t==='fast');}
   exit(){this.game.audio?.stopWorldMusic?.();this.game.audio?.stopJam?.();}
   record(skills,outcome='success'){this.game.learning?.recordResponse?.({activityId:`jungle_jam_${this.mode}`,skillIds:skills,outcome});if(this.game.save?.saveLearning&&this.game.learning?.snapshot)this.game.save.saveLearning(this.game.learning.snapshot());if(outcome==='success')this.checkDragon();}
   checkDragon(){
@@ -35,11 +41,11 @@ export class JungleJamScene{
   slotAt(x,y){return this.slots.find(s=>inRect(x,y,{x:s.x-s.w/2,y:s.y-s.h/2,w:s.w,h:s.h}))??null;}
   setMode(mode){this.mode=mode;this.game.audio?.playCue?.('button');this.rhythmTaps=[];this.goal=this.goal==='fast'?'slow':'fast';this.soundGoal=PERFORMERS[(this.beat+1)%PERFORMERS.length].role;this.pip?.react('wave',{duration:.8});}
   update(dt){
-    this.t+=dt;this.pip?.update(dt);this.demoFlash=Math.max(0,this.demoFlash-dt);const interval=this.tempo==='fast'?.36:.72;this.beatT+=dt;
+    this.t+=dt;this.pip?.update(dt);this.songs?.update(dt);this.demoFlash=Math.max(0,this.demoFlash-dt);const interval=this.tempo==='fast'?.36:.72;this.beatT+=dt;
     while(this.beatT>=interval){this.beatT-=interval;this.beat++;this.demoFlash=.11;for(const p of this.performers.filter(p=>p.placed))this.game.audio?.playJamStem?.(p.role,this.beat,this.loudness);}
   }
-  beginDrag(p,e){this.drag=p;this.offset.x=p.x-e.x;this.offset.y=p.y-e.y;p.placed=false;if(p.slot!=null)this.slots[p.slot].role=null;p.slot=null;this.game.audio?.playCue?.('grab');}
-  finishDrag(p){const slot=this.slotAt(p.x,p.y);if(slot){const index=this.slots.indexOf(slot);const occupant=this.performers.find(q=>q!==p&&q.slot===index);if(occupant){occupant.placed=false;occupant.slot=null;occupant.x=occupant.homeX;occupant.y=occupant.homeY;}p.x=slot.x;p.y=slot.y;p.slot=index;p.placed=true;slot.role=p.role;this.game.audio?.playJamStem?.(p.role,this.beat,this.loudness);this.game.audio?.playCue?.('correct');}else{p.x=p.homeX;p.y=p.homeY;p.placed=false;p.slot=null;}}
+  beginDrag(p,e){this.drag=p;this.offset.x=p.x-e.x;this.offset.y=p.y-e.y;const was=p.placed;p.placed=false;if(p.slot!=null)this.slots[p.slot].role=null;p.slot=null;this.game.audio?.playCue?.('grab');if(was)this.songs?.changed();}
+  finishDrag(p){const slot=this.slotAt(p.x,p.y);if(slot){const index=this.slots.indexOf(slot);const occupant=this.performers.find(q=>q!==p&&q.slot===index);if(occupant){occupant.placed=false;occupant.slot=null;occupant.x=occupant.homeX;occupant.y=occupant.homeY;}p.x=slot.x;p.y=slot.y;p.slot=index;p.placed=true;slot.role=p.role;this.game.audio?.playJamStem?.(p.role,this.beat,this.loudness);this.game.audio?.playCue?.('correct');this.songs?.changed();}else{p.x=p.homeX;p.y=p.homeY;p.placed=false;p.slot=null;}}
   handleLearningTap(e){
     const fast={x:620,y:720,w:280,h:110},slow={x:1020,y:720,w:280,h:110};
     if(this.mode==='tempo'&&(inRect(e.x,e.y,fast)||inRect(e.x,e.y,slow))){const choice=inRect(e.x,e.y,fast)?'fast':'slow';this.tempo=choice;this.game.audio?.setJamTempo?.(choice==='fast');if(choice===this.goal){this.record(['FAST_SLOW']);this.game.audio?.playCue?.('correct');this.goal=this.goal==='fast'?'slow':'fast';}else{this.record(['FAST_SLOW'],'incorrect');this.game.audio?.playCue?.('incorrect');}return true;}
@@ -49,6 +55,8 @@ export class JungleJamScene{
     return false;
   }
   handlePointer(e){
+    if(this.mode==='free'&&!this.drag&&this.songs?.handlePointer(e))return; // Job 19: record / play / keep
+    if(this.songs?.busy&&e.type==='down'&&!onHomeButton(e.x,e.y))return; // the band plays the song: hands off until it ends
     if(e.type==='down'){
       for(let i=0;i<MODES.length;i++)if(inRect(e.x,e.y,this.modeRect(i))){this.modePressed=MODES[i][0];return;}
       if(onHomeButton(e.x,e.y)){this.modePressed='back';return;}
@@ -76,6 +84,7 @@ export class JungleJamScene{
     if(this.mode==='sound'){ctx.fillStyle='#fff';ctx.font='900 31px system-ui';ctx.fillText(`Which friend makes the ${this.soundGoal.toUpperCase()} sound?`,960,745);}
     if(this.mode==='free'){ctx.fillStyle='#fff';ctx.font='800 27px system-ui';ctx.fillText(this.performers.some(p=>p.placed)?'Move friends around and make your own song!':'Drag a friend onto the stage!',960,745);}
     if(this.dragonWon){ctx.fillStyle='#fffdf0ee';ctx.beginPath();ctx.roundRect(1300,30,580,130,50);ctx.fill();drawArt(ctx,lookupArt('rewards',this.dragonWon),1370,95,110,110);ctx.fillStyle='#5a3a73';ctx.textAlign='left';ctx.font='900 30px system-ui';ctx.fillText('A rare Music Dragon egg!',1435,88);ctx.font='700 22px system-ui';ctx.fillText('Tap BACK to hatch it on the island',1435,125);ctx.textAlign='center';}
+    if(this.mode==='free')this.songs?.render(ctx);
     drawHomeButton(ctx,this.modePressed==='back');
   }
 }

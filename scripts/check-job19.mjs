@@ -200,6 +200,36 @@ export async function checkJob19({ root, FakeCanvasContext, sceneAudio }) {
       const { WorldHubScene } = await import('../src/scenes/WorldHubScene.js');
       const hub = new WorldHubScene({ ...bg, adventureEngine: { ensureLoaded: async () => {}, list: () => [] } }); await hub.enter({ world: 'storybook' }); tap(hub, 1640, 970); assert.equal(bg.scenes.last.name, 'bedtime', 'Storybook → BEDTIME');
     }
+    // ---- Step 7: Jungle Jam song mode ----
+    {
+      const { JungleJamScene } = await import('../src/scenes/JungleJamScene.js');
+      const { SONG_SECONDS, SONG_BUTTONS } = await import('../src/jam/SongRecorder.js');
+      const jg = { ...game, audio: { ...audio, startJam() {}, stopJam() {}, playJamStem() {}, setJamTempo() {} }, learning: null };
+      const jam = new JungleJamScene(jg); jam.enter(); jam.update(0.1); jam.render(new FakeCanvasContext());
+      const drag = (p, s) => { jam.handlePointer({ type: 'down', x: p.x, y: p.y }); jam.handlePointer({ type: 'move', x: s.x, y: s.y }); jam.handlePointer({ type: 'up', x: s.x, y: s.y }); };
+      const press = c => { jam.handlePointer({ type: 'down', x: c.x, y: c.y }); jam.handlePointer({ type: 'up', x: c.x, y: c.y }); };
+      press(SONG_BUTTONS.rec()); assert.ok(jam.songs.rec, 'REC starts recording');
+      jam.update(1); drag(jam.performers[0], jam.slots[0]); jam.update(2); drag(jam.performers[1], jam.slots[2]); jam.update(1.5);
+      drag({ x: jam.slots[0].x, y: jam.slots[0].y }, { x: 300, y: 1000 }); // Tiko off the stage again
+      assert.equal(jam.songs.rec.events.length, 3, 'Every band change is recorded');
+      for (let i = 0; i < SONG_SECONDS * 10; i++) jam.update(0.1); assert.ok(!jam.songs.rec && jam.songs.song, `Stops by itself after ${SONG_SECONDS} s`);
+      const song = jam.songs.song; assert.ok(song.events[0].t > 0.9 && song.events[0].t < 1.2, 'with the timing');
+      // Playback: the band is put back as it started, then changes when it did.
+      drag(jam.performers[3], jam.slots[4]); press(SONG_BUTTONS.play()); assert.ok(jam.songs.busy, 'PLAY');
+      assert.deepEqual(jam.arrangement(), song.start, 'Starts as the recording started');
+      jam.update(1.2); assert.equal(jam.arrangement()[0], 'percussion', 'Tiko comes on at about 1 s');
+      jam.update(2.2); assert.equal(jam.arrangement()[2], 'bass', 'then Bo');
+      jam.handlePointer({ type: 'down', x: jam.performers[2].x, y: jam.performers[2].y }); assert.equal(jam.drag, null, 'Hands off while it plays');
+      for (let i = 0; i < SONG_SECONDS * 10; i++) jam.update(0.1); assert.ok(!jam.songs.busy, 'and it ends');
+      jam.render(new FakeCanvasContext());
+      // Keep it: a song card in MY PICTURES; tapping it plays it again.
+      press(SONG_BUTTONS.save()); await tick(); await tick(); await tick();
+      const card = save.listPictures().find(p => p.kind === 'song'); assert.ok(card, 'Song card in My Pictures'); assert.ok(jam.songs.saved);
+      const again = new JungleJamScene(jg); again.enter({ song: card.id }); await tick(); await tick(); assert.ok(again.songs.busy, 'A song card plays the song');
+      const { CollectionScene } = await import('../src/scenes/CollectionScene.js');
+      assert.ok(fs.readFileSync(path.join(root, 'src/scenes/CollectionScene.js'), 'utf8').includes("change('jungleJam',{song:p.id})"), 'My Pictures → the song');
+      assert.ok(CollectionScene);
+    }
   } finally {
     globalThis.__LL_ASSETS = oldAssets;
   }

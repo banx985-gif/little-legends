@@ -1,36 +1,79 @@
-# CC latest — Job 19 step 8 (free vs paid)
+# CC latest — NEXT_CC_ORDER run finished (Job 19 step 1 → Job 20 → Job 19 steps 2–9)
 
 - **When:** 2026-11-14
-- **Job:** JOB_19_MORE_GAME step 8 (run step 3 of NEXT_CC_ORDER). Done earlier today: Job 19 steps 1–7 and Job 20.
-- **Status:** DONE (web). Not tried on a tablet yet.
+- **Status:** the whole run is DONE on the web. The Android parts are written but **not built or tried** (no Android Studio / Java 21 on this PC).
+- One commit per step, all pushed:
 
-## What changed
-- **Checked every new Job 19 feature against the Job 18 "free to try + one unlock" rules**, with one test that runs them all in the free version:
-
-| Feature | Free version | Full game |
+| Step | Commit | What |
 | --- | --- | --- |
-| Playgrounds | Dino Valley and the sea (the free worlds) | all five |
-| Dress-up room | the basics (first 3 of each kind + anything earned) | full wardrobe |
-| Sticker book / scene maker | yes | yes |
-| Adventure Trail | yes, missions from the free worlds only | all worlds |
-| Bigger challenge | off (the switch says "full game") | on per child, ages 4–5 |
-| Bedtime stories | no (Storybook is a full-game world) | yes |
-| Jungle Jam songs | no (Jungle Jam is a full-game world) | yes |
+| Job 19.1 | 0007760 | Playgrounds in 5 worlds (finished the uncommitted 24 Oct work; colouring fill speed-up) |
+| Job 20 | e3ec379 | No black bars on any screen shape + notifications with on/off switches |
+| Job 19.2 | 35c2bf9 | Pip's dress-up room (mirror, camera → My Pictures) |
+| Job 19.3 | bb9dd05 | Sticker book scene maker |
+| Job 19.4 | 564fa46 | Adventure Trail with the explorer boy |
+| Job 19.5 | a46de46 | Bigger challenge for ages 4–5 |
+| Job 19.6 | b71f4b5 | Bedtime stories |
+| Job 19.7 | 98902ce | Jungle Jam song mode |
+| Job 19.8 | cad3265 | Free vs paid for every new feature |
+| Job 19.9 | this commit | Lite speed check of every new screen |
 
-- **Fix:** a song card in MY PICTURES could have opened Jungle Jam in the free version, for example after a refund. Jungle Jam now checks the unlock itself, like the other full-game screens.
-- **Parent Area → FULL GAME** now lists what the unlock adds:
-  - every world and its playground;
-  - all 50 colouring pages and Pip's full wardrobe;
-  - bedtime stories, Jungle Jam songs and the Bigger challenge.
-- As before, children never see a price. Locked things show the sleepy padlock and Pip's "Ask a grown-up!".
+## Step 9 — cheap tablets first
+- Every new screen is in the Lite speed check (`npm run qa:release -- --only=lite`, Lite mode, CPU slowed 4×): the dress-up room, the scene maker (and its background picker), the trail, both bedtime screens, and three playgrounds. All of them are also in the no-bars check (`npm run qa:shapes`).
+- **Frame work per screen** (the 30 FPS target is under 16.7 ms):
 
-## Not done
-- Nothing for this step.
+| Screen | ms |
+| --- | --- |
+| dress up | 7.9 |
+| scene maker | 4.2 |
+| background picker | 5.4 |
+| trail | 6.8 |
+| bedtime | 5.2–5.6 |
+| playgrounds | 2.8–11.0 |
+| jungle jam | 7.0 |
+
+- **Picture memory:** PASS. The most was 99 MB (scene maker) against the 100 MB budget.
+- **Speed-ups made along the way:**
+  - the dress-up room loads one kind of look at a time (it was 110 MB);
+  - the background picker uses small copies, one full-size background at a time (it was 140 MB);
+  - the scene maker caps a scene at 30 things.
+- **The overall Lite check still says FAIL, and I believe this PC is the cause, not the game.** Other programs from a different project ("canvas management series" soak tests and "goalworks" tests) kept the CPU at 96–97% all afternoon. Older screens I didn't touch slowed down by the same amount: town hub 20 ms, island 18 ms, and the colouring fill 80 ms (it was 15 ms this morning on a quiet PC). The first Lite run today, before those programs started, passed everything. **Please re-run it on a quiet PC.**
+
+## The whole run in plain words
+- **Playgrounds** in Dino Valley, the sea, Space, Animal Forest and Busy Town: drag, hold to size, things react. A PLAYGROUND door on each world map.
+- **No black bars on any screen shape** (sideways phones 16:9 / 19.5:9 / 21:9, tablets 16:10 / 4:3):
+  - the play area is always whole, inside the notch and gesture-bar safe area;
+  - backgrounds stretch to the edges;
+  - buttons sit at the screen's safe edges;
+  - Android draws edge to edge.
+- **Notifications** ("Egg ready", "Reward waiting", "Daily trail"):
+  - at most 2 a day, never 10 pm – 8 am;
+  - asked only after the first win, behind the 3-second grown-up hold;
+  - a main switch plus one per kind in Parent Area → Settings → SWITCHES;
+  - made on the tablet, so nothing is sent anywhere (the privacy policy is now version 1.3).
+- **Dress-up room** (tap Pip's house, or Collection → LOOKS → DRESS UP), with a mirror and a camera.
+- **Make a scene** (Collection → MY PICTURES → MAKE A SCENE).
+- **Adventure Trail** (island → TRAIL): 3 missions a day, stamps, a treasure chest.
+- **Bigger challenge** (Parent Area → PROFILES): count to 20, letters to words, 3-step patterns.
+- **Bedtime stories** (Storybook → BEDTIME): 3 calm read-aloud stories that end with Goodnight.
+- **Jungle Jam songs:** record, play back, keep as a song card.
+
+## Not done / untested
+- **Android (needs Android Studio + Java 21):** edge-to-edge drawing, the notification plugin and its permission prompt, the white notification icon, tap-to-open. The billing from Job 18 is still unbuilt too. Expect small fix-ups at the first APK build.
+- **Recorded voice lines** for the bedtime stories: they use the device voice for now.
+- **The Lite speed check** on a quiet PC (see above).
 
 ## What Aaron needs to do
-- Open the web game with `?locked=1` (the free version) and check the table above.
+1. Re-run `npm run qa:release -- --only=lite` when nothing else is running on the PC.
+2. **Web, now, on a phone held sideways and on a tablet:**
+   - no bars anywhere;
+   - try each new screen: playgrounds, Pip's house, MAKE A SCENE, TRAIL, Bigger challenge, BEDTIME, Jam songs;
+   - add `?locked=1` to check the free version.
+3. **Decide:**
+   - does the explorer boy get a name?
+   - do you want to record the bedtime stories in your own voice?
+4. Install Android Studio + Java 21 so the APK can be built and the Android parts tried.
 
-## Checks / commit
-- `npm run check`: PASS (new free-vs-paid test covering every row above). `npm run standalone`: PASS.
-- Lite speed check: step 9 next.
-- Commit: see `git log` ("Job 19 step 8"). Pushed. No APK (Android Studio / Java 21 still missing).
+## Checks
+- `npm run check`: PASS. It now includes the Job 20 tests, all the Job 19 step tests, and a quick real-Chrome no-bars run.
+- `npm run standalone`: PASS.
+- `npm run qa:shapes`: 26 screens × 5 shapes, no bars.

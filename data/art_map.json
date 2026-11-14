@@ -1786,7 +1786,8 @@
     "easel": "objects.art.easel_rainbow",
     "tab_pictures": "objects.art.palette",
     "playground": "worlds.buildings.climbing_dome",
-    "trail": "characters.explorer.explorer_face_happy"
+    "trail": "characters.explorer.explorer_face_happy",
+    "bedtime": "objects.literacy.moon_sleepy_pedestal"
   },
   "fx": {
     "about": "blend 'screen' = light blend for glows; omitted = normal.",

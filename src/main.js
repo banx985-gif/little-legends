@@ -16,6 +16,7 @@ import { PlaygroundScene } from './scenes/PlaygroundScene.js';
 import { DressUpScene } from './scenes/DressUpScene.js';
 import { SceneMakerScene } from './scenes/SceneMakerScene.js';
 import { TrailScene } from './scenes/TrailScene.js';
+import { BedtimeScene } from './scenes/BedtimeScene.js';
 
 // QA (Job 20): pretend the screen has a notch / gesture bar: ?insets=left,top,right,bottom in CSS pixels, e.g. ?insets=40,0,0,24
 { const ins = new URLSearchParams(location.search).get('insets'); if (ins) { const [left, top, right, bottom] = ins.split(',').map(Number); globalThis.__LL_FAKE_INSETS = { left, top, right, bottom }; } }
@@ -38,6 +39,7 @@ game.scenes.register('playground', game => new PlaygroundScene(game));
 game.scenes.register('dressUp', game => new DressUpScene(game));
 game.scenes.register('sceneMaker', game => new SceneMakerScene(game));
 game.scenes.register('trail', game => new TrailScene(game));
+game.scenes.register('bedtime', game => new BedtimeScene(game));
 
 
 window.addEventListener('error', event => game.reportRuntimeError?.(event.error ?? new Error(event.message || 'Window error'), 'window:error'));
@@ -45,7 +47,7 @@ window.addEventListener('unhandledrejection', event => game.reportRuntimeError?.
 
 const params = new URLSearchParams(location.search);
 const requestedScene = params.get('scene');
-const initialScene = ['profile', 'island', 'activity', 'parentGate', 'adventure', 'rainbowVillage', 'worldSelect', 'worldHub', 'jungleJam', 'collection', 'colouring', 'playground', 'dressUp', 'sceneMaker', 'trail'].includes(requestedScene) ? requestedScene : 'boot';
+const initialScene = ['profile', 'island', 'activity', 'parentGate', 'adventure', 'rainbowVillage', 'worldSelect', 'worldHub', 'jungleJam', 'collection', 'colouring', 'playground', 'dressUp', 'sceneMaker', 'trail', 'bedtime'].includes(requestedScene) ? requestedScene : 'boot';
 // Testing shortcut: ?scene=worldHub&world=space, ?scene=activity&activityId=space_build_rocket, ?scene=adventure&adventureId=… (&step=2)
 const sceneData = {};
 for (const key of ['world', 'activityId', 'adventureId', 'tab', 'celebrateReward', 'page']) if (params.get(key)) sceneData[key] = params.get(key);

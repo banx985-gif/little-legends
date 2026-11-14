@@ -34,7 +34,7 @@ export const ALL_SCENES = [
   ['parentGate', {}, 'parent gate'], ['parentGate', { skipGate: true, tab: 'settings', returnTo: 'island' }, 'parent settings'],
   ['playground', { world: 'town' }, 'playground town'], ['playground', { world: 'rainbow' }, 'playground sea'], ['playground', { world: 'dino' }, 'playground dino'],
   ['playground', { world: 'space' }, 'playground space'], ['playground', { world: 'animal' }, 'playground forest'],
-  ['dressUp', {}, 'dress up'], ['sceneMaker', { bg: 'worlds.backgrounds.town.bg_town_bakery' }, 'scene maker'], ['sceneMaker', {}, 'scene backgrounds'], ['trail', {}, 'trail']
+  ['dressUp', {}, 'dress up'], ['sceneMaker', { bg: 'worlds.backgrounds.town.bg_town_bakery' }, 'scene maker'], ['sceneMaker', {}, 'scene backgrounds'], ['trail', {}, 'trail'], ['bedtime', {}, 'bedtime shelf'], ['bedtime', { story: 'moon_and_pip' }, 'bedtime story']
 ];
 export const QUICK_SCENES = ALL_SCENES.filter(([, , n]) => ['logo', 'island', 'mission', 'colouring paint', 'playground sea'].includes(n));
 

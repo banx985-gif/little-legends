@@ -1,27 +1,32 @@
-# CC latest — Job 19 step 5 (big-kid levels: "Bigger challenge")
+# CC latest — Job 19 step 6 (bedtime stories)
 
 - **When:** 2026-11-14
-- **Job:** JOB_19_MORE_GAME step 5 (run step 3 of NEXT_CC_ORDER). Done earlier today: Job 19 steps 1–4 and Job 20.
+- **Job:** JOB_19_MORE_GAME step 6 (run step 3 of NEXT_CC_ORDER). Done earlier today: Job 19 steps 1–5 and Job 20.
 - **Status:** DONE (web). Not tried on a tablet yet.
 
 ## What changed
-- **New switch:** Parent Area → PROFILES → **Bigger challenge** for the child playing now. It's saved per child.
-  - It only works for ages 4–5. For a younger child it is greyed out and says why.
-  - It's part of the full game. In the free version it is greyed out and points to the FULL GAME tab.
-- **With it on, the same missions get harder:**
-  - **Counting to 20:** the child counts on from a bigger number. For example, "Count to 20!" with 10 already in the basket, or "count on from 5 to 8". The child still drags as many as before, so it isn't longer, just bigger numbers. Up to 20 fit neatly in the basket.
-  - **Letters to words:** "Find letter A" becomes "Which word starts with A?" with word cards (Apple, Ball, Cat, Dog, Egg…). The cards are the game's existing word cards; no new art.
-  - **3-step patterns:** red, blue, red, …? becomes red, blue, yellow, red, blue, …?
-  - **More items:** "tap the …" activities get two extra things to choose from.
-- The usual adjusting of difficulty to each child (Job 10) still runs first; the bigger challenge goes on top.
+- **New: bedtime stories.** Luna's Storybook world map → **BEDTIME** (the bottom-right door).
+- **A shelf of 3 short, calm stories**, 6–7 pages each, all ending with "Goodnight, … Goodnight, little one.":
+  - **Pip Says Goodnight:** the moon, the stars, the bunny, Rory.
+  - **Octo's Quiet Sea:** fish, seahorse, turtle.
+  - **The Forest Falls Asleep:** Owl, Squirrel, Hedgehog, Bear.
+- **The pictures:** every page is made from pictures already in the game; nothing new is drawn. The Storybook world has no illustrated story pages of its own, so I wrote these stories around the characters and night-time pictures we have (sleepy moon, moon lamp, stars, beds, homes).
+- **Read aloud page by page**, slowly and softly. It uses a recorded line when one exists, otherwise the tablet's own voice.
+  - Each page turns by itself 2.5 seconds after it has been read.
+  - If the tablet has no voice, pages still turn after a reading-length pause.
+- **Calm music**, a dark night sky with twinkling stars, and the screen getting darker as the story goes on. The Goodnight page stays and dims right down.
+- **Grown-up controls:** small arrows turn pages by hand. Home goes back to the shelf, then to the Storybook world.
+- **Full game only,** like the Storybook world itself.
+- Built to the Job 20 rules. No bars at any of the five screen shapes (26 screens × 5 shapes).
 
 ## Not done
-- Nothing for this step.
+- **Recorded voice lines** for the stories: they use the device voice until recordings exist. The new lines can be added to `docs/VOICE_LINES.csv` with `npm run voice:lines` when Aaron records them.
 
 ## What Aaron needs to do
-- For a child aged 4–5, switch on **Bigger challenge** (Parent Area → PROFILES), then play a counting mission, a Storybook letters mission and a Rainbow pattern.
+- On the tablet (full game): Storybook → BEDTIME. Play a story with the sound on and check the voice speed and the page timing.
+- If you'd like the stories in your own voice, say so and I'll add the lines to the recording list.
 
 ## Checks / commit
-- `npm run check`: PASS (new tests: count-on numbers and the 20 cap, letters to words, 3-step patterns, extra items, the real activities running at 20, free version and under-4 off, the Parent Area switch per child). `npm run standalone`: PASS.
-- Lite speed check: still needs re-running on a quiet PC (another program was using this PC's CPU earlier today).
-- Commit: see `git log` ("Job 19 step 5"). Pushed. No APK (Android Studio / Java 21 still missing).
+- `npm run check`: PASS (new tests: every picture exists, each story ends with Goodnight, read aloud slowly, auto-turn after reading, turns even with no voice, Goodnight stays and dims, grown-up arrows, home, full game only, the BEDTIME door). `npm run standalone`: PASS. `npm run qa:shapes`: no bars.
+- Lite speed check: still needs re-running on a quiet PC.
+- Commit: see `git log` ("Job 19 step 6"). Pushed. No APK (Android Studio / Java 21 still missing).

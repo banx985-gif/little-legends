@@ -175,6 +175,31 @@ export async function checkJob19({ root, FakeCanvasContext, sceneAudio }) {
       tap(pg, 900, 700); await tick(); await tick(); assert.equal(save.getProfileState().settings.bigKid, true, 'and on again');
       assert.equal(save.getProfileState(young.id).settings.bigKid, true, 'Each child has their own switch');
     }
+    // ---- Step 6: bedtime stories ----
+    {
+      const { STORIES, storyArtIds } = await import('../src/stories/bedtime.js');
+      const { BedtimeScene } = await import('../src/scenes/BedtimeScene.js');
+      assert.ok(STORIES.length >= 3, 'A shelf of stories');
+      for (const s of STORIES) { for (const id of storyArtIds(s)) assert.ok(manifestIds.has(id), `${s.id}: ${id} is existing art`); assert.ok(s.pages.at(-1).goodnight && /Goodnight/.test(s.pages.at(-1).text), `${s.id} ends with Goodnight`); }
+      const spoken = []; let finish = null;
+      const bAudio = { ...audio, speak: (text, o) => { spoken.push({ text, o }); finish = o.onEnd; return true; }, stopSpeech: () => { finish = null; } };
+      const bg = { ...game, audio: bAudio, unlock: null };
+      const bed = new BedtimeScene(bg); bed.enter(); bed.update(0.1); bed.render(new FakeCanvasContext());
+      tap(bed, 480, 560); assert.equal(bed.story?.id, STORIES[0].id, 'Tap a book: the story opens');
+      for (let i = 0; i < 10; i++) bed.update(0.1); assert.equal(spoken.at(-1)?.text, STORIES[0].pages[0].text, 'Page 1 is read aloud'); assert.ok(spoken.at(-1).o.rate < 0.9, 'slowly');
+      finish(); for (let i = 0; i < 20; i++) bed.update(0.1); assert.equal(bed.page, 0, 'Time to look at the page after it is read');
+      for (let i = 0; i < 10; i++) bed.update(0.1); assert.equal(bed.page, 1, 'Then the page turns by itself');
+      // No voice heard (a tablet without one): the pages still turn.
+      for (let i = 0; i < 1500 && bed.page < STORIES[0].pages.length - 1; i++) bed.update(0.1);
+      assert.equal(bed.page, STORIES[0].pages.length - 1, 'All the way to Goodnight, even with no voice'); bed.render(new FakeCanvasContext());
+      for (let i = 0; i < 200; i++) bed.update(0.1); assert.equal(bed.page, STORIES[0].pages.length - 1, 'Goodnight stays'); assert.ok(bed.dim >= 0.5, 'and the screen gets dark');
+      tap(bed, 110, 960); assert.equal(bed.page, STORIES[0].pages.length - 2, 'A grown-up can turn back');
+      tap(bed, 130, 100); assert.equal(bed.story, null, 'Home: back to the shelf'); tap(bed, 130, 100); assert.deepEqual(bg.scenes.last, { name: 'worldHub', data: { world: 'storybook' } });
+      // The full game only; the way in is the Storybook world's BEDTIME door.
+      const locked = new BedtimeScene({ ...bg, unlock: { isUnlocked: () => false } }); locked.enter(); assert.equal(bg.scenes.last.name, 'worldSelect', 'Free version: no bedtime stories');
+      const { WorldHubScene } = await import('../src/scenes/WorldHubScene.js');
+      const hub = new WorldHubScene({ ...bg, adventureEngine: { ensureLoaded: async () => {}, list: () => [] } }); await hub.enter({ world: 'storybook' }); tap(hub, 1640, 970); assert.equal(bg.scenes.last.name, 'bedtime', 'Storybook → BEDTIME');
+    }
   } finally {
     globalThis.__LL_ASSETS = oldAssets;
   }

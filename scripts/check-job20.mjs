@@ -84,7 +84,8 @@ export async function checkJob20({ root, FakeCanvasContext, sceneAudio }) {
   const old2 = JSON.parse(JSON.stringify(old)); old2.notify = { permission: 'granted' };
   const migrated = save.migrate(old);
   assert.deepEqual(migrated.notify, { permission: 'unknown', asked: false, askDue: false, sent: [] }, 'Older saves: the device has not been asked');
-  assert.deepEqual(migrated.profileStates[kid.id].notify, { on: false, egg: true, reward: true, trail: false }, 'Older saves: main switch off, kinds on (trail off until the trail exists)');
+  assert.deepEqual(migrated.profileStates[kid.id].notify, { on: false, egg: true, reward: true, trail: true, trailOffered: true }, 'Older saves: main switch off, kinds on (the trail kind too, now the Adventure Trail exists)');
+  { const o3 = JSON.parse(JSON.stringify(old2)); o3.profileStates[kid.id].notify = { on: true, egg: true, reward: true, trail: false, trailOffered: true }; assert.equal(save.migrate(o3).profileStates[kid.id].notify.trail, false, 'A grown-up who switched the trail off keeps it off'); }
   assert.equal(save.migrate(old2).profileStates[kid.id].notify.on, true, 'Main switch on once this device has permission');
 
   // A fake device notifier (records what it was asked to do).

@@ -11,7 +11,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 // Delivered but deliberately not in the game yet (see docs/JOB10_REPORT.md).
 export const KEEP_UNUSED = [
-  [/^characters\.explorer\./, 'Explorer boy: his role in the game is not decided yet'],
+  // Job 19: the explorer boy is now the Adventure Trail guide (src/scenes/TrailScene.js), so his pictures are used.
   [/^characters\.pip\.pip_part_(amulet|foot|paw|tail)$/, 'Pip rig parts: for a future jointed Pip, the game uses the whole-pose pictures'],
   [/^worlds\.scenes\./, 'Small scene cards: the game uses the full-screen backgrounds instead']
 ];

@@ -29,7 +29,8 @@ export class AdventureScene {
   async enter(data={}) {
     this.t=0; this.pip=new PipController({x:230,y:760,scale:0.72,onVoiceEvent:e=>this.voiceEvent(e)});
     // Grown-up way out (hold the home button). Progress is saved at every step, so the mission resumes where it stopped.
-    this.leave=new HoldToLeave({onLeave:()=>this.game.scenes.change('worldHub',{world:this.definition?.world??'dino'})});
+    this.fromTrail=Boolean(data.trail); // Job 19: played from the Adventure Trail: back to the trail map, with a stamp
+    this.leave=new HoldToLeave({onLeave:()=>this.fromTrail?this.game.scenes.change('trail'):this.game.scenes.change('worldHub',{world:this.definition?.world??'dino'})});
     await this.game.activityEngine.ensureLoaded(this.game.assets);
     await this.game.adventureEngine.ensureLoaded(this.game.assets);
     const id=data.adventureId??'rory_dino_picnic';
@@ -131,6 +132,7 @@ export class AdventureScene {
     // grown-up can get a 'surprise waiting' reminder). And after the first win on this device, Pip asks about reminders.
     if(celebrate.length)await this.game.save?.mutateProfileState?.(st=>{st.rewardsWaiting=[...new Set([...(st.rewardsWaiting??[]),...celebrate])].slice(-10);});
     await this.game.notify?.firstWin?.();
+    if(this.fromTrail&&this.game.trail){await this.game.trail.stamp(this.definition.id);this.game.scenes.change('trail',{stamped:this.definition.id});return;} // the prizes wait on the island (rewardsWaiting)
     this.game.scenes.change('island',{celebrateReward:celebrate[0]??null,celebrateNext:celebrate.slice(1),fromMission:this.definition.id});
   }
 

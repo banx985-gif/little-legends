@@ -99,6 +99,50 @@ export async function checkJob19({ root, FakeCanvasContext, sceneAudio }) {
       col.handlePointer({ type: 'down', x: 1650, y: 935 }); col.handlePointer({ type: 'up', x: 1650, y: 935 }); assert.equal(scenes.last?.name, 'sceneMaker', 'MY PICTURES → MAKE A SCENE (free version too)');
       tap(again, 1830, 100); assert.deepEqual(scenes.last, { name: 'collection', data: { tab: 'pictures' } }, 'Home: back to My Pictures');
     }
+    // ---- Step 4: the Adventure Trail ----
+    {
+      const { AdventureTrail, pickTrail, dayKey, TRAIL_PRIZE_STARS, SHORT_STEPS } = await import('../src/trail/AdventureTrail.js');
+      const { TrailScene, STOPS, CHEST } = await import('../src/scenes/TrailScene.js');
+      const { AdventureEngine } = await import('../src/adventures/AdventureEngine.js');
+      const adventures = JSON.parse(fs.readFileSync(path.join(root, 'data/adventures.json'), 'utf8')).adventures;
+      // Today's 3: short, from 3 different worlds, the same all day, a different trail on another day / for another child.
+      const a = pickTrail(adventures, { day: '2026-11-14', profileId: 'p1' }), byId = id => adventures.find(x => x.id === id);
+      assert.equal(a.length, 3); assert.equal(new Set(a.map(id => byId(id).world)).size, 3, '3 different worlds'); assert.ok(a.every(id => byId(id).steps.length <= SHORT_STEPS), 'short missions');
+      assert.deepEqual(pickTrail(adventures, { day: '2026-11-14', profileId: 'p1' }), a, 'Same trail all day');
+      assert.notDeepEqual(pickTrail(adventures, { day: '2026-11-15', profileId: 'p1' }), a, 'A new trail tomorrow');
+      // Free version: only free worlds.
+      const free = pickTrail(adventures, { day: '2026-11-14', profileId: 'p1', open: w => w === 'dino' || w === 'rainbow' });
+      assert.equal(free.length, 3); assert.ok(free.every(id => ['dino', 'rainbow'].includes(byId(id).world)), 'Free version: free worlds only');
+      // Unfinished missions first.
+      const most = adventures.filter(x => x.steps.length <= SHORT_STEPS).map(x => x.id).filter(id => id !== 'dino_dino_lunch');
+      const fresh = pickTrail(adventures, { day: '2026-11-14', profileId: 'p1', completed: most.filter(id => byId(id).world !== 'dino') });
+      assert.ok(fresh.length === 3, 'Still 3 when most are done');
+      // The scene: stops, a stamp after each mission (from the mission itself), the chest after three.
+      const engine = new AdventureEngine({ assets: null }); engine.setDefinitions?.({ adventures }) ?? (engine.adventures = adventures);
+      const tg = { ...game, adventureEngine: { ensureLoaded: async () => {}, list: () => adventures, get: id => byId(id) ?? null, next: () => null }, unlock: null };
+      tg.trail = new AdventureTrail(tg);
+      const ts = new TrailScene(tg); await ts.enter(); ts.update(0.1); ts.render(new FakeCanvasContext());
+      const trail = save.getProfileState().trail; assert.equal(trail.day, dayKey()); assert.equal(trail.missions.length, 3, 'Saved for the child');
+      tap(ts, STOPS[0].x, STOPS[0].y); assert.deepEqual(tg.scenes.last, { name: 'adventure', data: { adventureId: trail.missions[0], trail: true } }, 'A stop opens its mission (from the trail)');
+      const before = save.getProfileState().discoveryStars;
+      tap(ts, CHEST.x, CHEST.y); await tick(); assert.equal(save.getProfileState().discoveryStars, before, 'Chest stays shut before 3 stamps');
+      for (const id of trail.missions) await tg.trail.stamp(id);
+      await tg.trail.stamp(trail.missions[0]); assert.equal(save.getProfileState().trail.done.length, 3, 'One stamp per stop');
+      const ts2 = new TrailScene(tg); await ts2.enter({ stamped: trail.missions[2] }); ts2.update(0.2); ts2.render(new FakeCanvasContext()); assert.ok(ts2.complete());
+      ts2.pressed = 'chest'; await ts2.handlePointer({ type: 'up', x: CHEST.x, y: CHEST.y });
+      assert.equal(save.getProfileState().discoveryStars, before + TRAIL_PRIZE_STARS, `The chest: +${TRAIL_PRIZE_STARS} stars`); assert.equal(save.getProfileState().trail.total, 1);
+      ts2.pressed = 'chest'; await ts2.handlePointer({ type: 'up', x: CHEST.x, y: CHEST.y }); assert.equal(save.getProfileState().discoveryStars, before + TRAIL_PRIZE_STARS, 'Once a day');
+      ts2.update(1); ts2.render(new FakeCanvasContext());
+      // A mission played from the trail goes back to the trail map with its stamp.
+      const src = fs.readFileSync(path.join(root, 'src/scenes/AdventureScene.js'), 'utf8'); assert.ok(src.includes("this.game.scenes.change('trail',{stamped:this.definition.id})"), 'Mission → back to the trail with a stamp');
+      // The trail reminder is now real; the island has a TRAIL button.
+      assert.equal(tg.trail.readyToday(), true);
+      assert.ok(fs.readFileSync(path.join(root, 'src/scenes/WonderIslandScene.js'), 'utf8').includes("change('trail')"), 'Island → TRAIL');
+      for (const pose of ['explorer_read_map', 'explorer_point', 'explorer_cheer']) assert.ok(manifestIds.has(`characters.explorer.${pose}`), `explorer ${pose}`);
+      tap(ts2, 130, 100); assert.equal(tg.scenes.last.name, 'island', 'Home: the island');
+      // Old saves: no trail yet.
+      const old = JSON.parse(JSON.stringify(save.root)); delete old.profileStates[kid.id].trail; assert.equal(save.migrate(old).profileStates[kid.id].trail, null);
+    }
   } finally {
     globalThis.__LL_ASSETS = oldAssets;
   }

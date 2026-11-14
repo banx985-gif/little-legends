@@ -36,7 +36,7 @@ const EXTRA_SCENES = [['island', {}, 'island'], ['collection', { tab: 'decoratio
   // Job 19: playgrounds (vehicles driving round the town roads; sea friends swimming; dinos eating and napping).
   ['playground', { world: 'town' }, 'playground town'], ['playground', { world: 'rainbow' }, 'playground sea'], ['playground', { world: 'dino' }, 'playground dino'],
   // Job 19 step 2+: the new screens.
-  ['dressUp', {}, 'dress up'], ['sceneMaker', { bg: 'worlds.backgrounds.town.bg_town_bakery' }, 'scene maker'], ['sceneMaker', {}, 'scene backgrounds']];
+  ['dressUp', {}, 'dress up'], ['sceneMaker', { bg: 'worlds.backgrounds.town.bg_town_bakery' }, 'scene maker'], ['sceneMaker', {}, 'scene backgrounds'], ['trail', {}, 'trail']];
 const FILL_MS = 50; // Job 17: a bucket fill on the Lite check (CPU slowed 4×)
 const LITE_PICTURE_MB = 100; // Job 10 budget for Lite mode
 

@@ -9,6 +9,7 @@ import { LearningProfile } from '../learning/LearningProfile.js';
 import { SaveSystem } from '../save/SaveSystem.js';
 import { FullUnlock } from '../store/FullUnlock.js';
 import { Notifications } from '../notify/Notifications.js';
+import { AdventureTrail } from '../trail/AdventureTrail.js';
 import { AdventureEngine } from '../adventures/AdventureEngine.js';
 import { RewardSystem } from '../rewards/RewardSystem.js';
 import { EggSystem } from '../rewards/EggSystem.js';
@@ -39,6 +40,7 @@ export class Game {
     this.learning = new LearningProfile();
     this.save = new SaveSystem();
     this.unlock = new FullUnlock(this); // Job 18: free to try + one "Unlock everything"
+    this.trail = new AdventureTrail(this); // Job 19: today's trail of 3 missions with the explorer
     this.notify = new Notifications(this); // Job 20: reminders made on this tablet (nothing is sent anywhere)
     this.childTest = new ChildTestRecorder({ save:this.save });
     this.releaseQA = new ReleaseQualification({ game:this, save:this.save });

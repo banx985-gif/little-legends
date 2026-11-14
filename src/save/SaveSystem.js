@@ -46,7 +46,8 @@ function blankProfileState() {
     pictures: [],
     colouring: { seen: [] },
     // Job 20: this child's notification switches (main + one per kind) and prizes won but not yet shown on the island.
-    notify: { on: false, egg: true, reward: true, trail: false },
+    notify: { on: false, egg: true, reward: true, trail: true, trailOffered: true },
+    trail: null, // Job 19: today's Adventure Trail
     rewardsWaiting: []
   };
 }
@@ -162,7 +163,10 @@ export class SaveSystem {
       // Job 20: older saves get the defaults: the main switch is on only once this device has permission; kinds on (the
       // trail kind stays off until the Adventure Trail exists).
       const n = savedState.notify && typeof savedState.notify === 'object' && !Array.isArray(savedState.notify) ? savedState.notify : {};
-      state.notify = { on: typeof n.on === 'boolean' ? n.on : root.notify.permission === 'granted', egg: n.egg !== false, reward: n.reward !== false, trail: n.trail === true };
+      // Job 19: the Adventure Trail now exists, so the trail reminder is offered once (on, like the other kinds); after that the grown-up's choice stays.
+      state.notify = { on: typeof n.on === 'boolean' ? n.on : root.notify.permission === 'granted', egg: n.egg !== false, reward: n.reward !== false, trail: n.trailOffered ? n.trail === true : true, trailOffered: true };
+      const tr = state.trail && typeof state.trail === 'object' && !Array.isArray(state.trail) ? state.trail : null;
+      state.trail = tr && typeof tr.day === 'string' && Array.isArray(tr.missions) ? { day: tr.day, missions: tr.missions.filter(id => typeof id === 'string').slice(0, 3), done: Array.isArray(tr.done) ? tr.done.filter(id => typeof id === 'string') : [], prized: tr.prized === true, total: Math.max(0, Number(tr.total) || 0) } : null;
       // Job 19: the dress-up room's own outfit ({ worn: { slot: lookId } }); it doesn't change the looks Pip wears elsewhere.
       state.dressUp = { worn: state.dressUp?.worn && typeof state.dressUp.worn === 'object' && !Array.isArray(state.dressUp.worn) ? Object.fromEntries(Object.entries(state.dressUp.worn).filter(([k, v]) => typeof v === 'string')) : {} };
       state.rewardsWaiting = Array.isArray(state.rewardsWaiting) ? [...new Set(state.rewardsWaiting.filter(id => typeof id === 'string'))].slice(-10) : [];

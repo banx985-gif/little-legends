@@ -1070,7 +1070,7 @@ assert.ok(serviceWorkerSource.includes("'./assets/art_manifest.json'")&&serviceW
   const manifest12 = new Set(JSON.parse(fs.readFileSync(path.join(root, 'assets/art_manifest.json'), 'utf8')).map(e => e.id));
   const unused12 = findUnusedArt(root);
   assert.equal(unused12.unused.length, 0, `Every delivered picture is used (art:unused): ${unused12.unused.map(u => u.id).join(', ')}`);
-  assert.equal(new Set(unused12.kept.map(k => k.why)).size, 3, 'Only the explorer boy, Pip rig parts and small scene cards are left out');
+  assert.equal(new Set(unused12.kept.map(k => k.why)).size, 2, 'Only Pip rig parts and small scene cards are left out (Job 19: the explorer boy is the trail guide)');
   // Every world: 8+ Little Missions, a world prize (its dragon, or Bella's Golden Star), a picture on every mission card.
   const g12 = { rewards: new RewardSystem({}) }; g12.rewards.setDefinitions(rewardData);
   for (const world of ['dino', 'rainbow', 'space', 'animal', 'jungle', 'storybook', 'life', 'town']) {

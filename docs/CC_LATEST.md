@@ -1,40 +1,38 @@
-# CC latest — Job 19 step 3 (sticker book / scene maker)
+# CC latest — Job 19 step 4 (Adventure Trail with the explorer boy)
 
 - **When:** 2026-11-14
-- **Job:** JOB_19_MORE_GAME step 3 (run step 3 of NEXT_CC_ORDER). Before this today: Job 19 step 1, Job 20, Job 19 step 2.
+- **Job:** JOB_19_MORE_GAME step 4 (run step 3 of NEXT_CC_ORDER). Done earlier today: Job 19 steps 1–3 and Job 20.
 - **Status:** DONE (web). Not tried on a tablet yet.
 
 ## What changed
-- **New: Make a scene.** Way in: Collection → MY PICTURES → **MAKE A SCENE**. Tapping a saved scene there opens it again.
-  1. Pick a background: 15 picture backgrounds (meadow, space rooms, town) plus 7 drawn worlds (dino, forest, rainbow, jungle, storybook, Bella's day, space).
-  2. Then play:
-     - The sticker tray (the same groups as the colouring studio: animals, characters, food, things, decor) sits on the left.
-     - Tap a sticker and it drops in the middle; drag one and it lands where the finger lets go.
-     - Drag things around. Tap one for its + and − size buttons.
-     - Drag one to the bin, or off the picture, to take it away.
-  3. The tick button saves it to MY PICTURES. Leaving saves it too. Opening it again keeps the same picture rather than making a copy.
-  4. The landscape button picks a different background.
-- Free in every version, as the job says.
-- **Cheap tablets:**
-  - At most 30 things in a scene.
-  - The background picker shows small copies, made once and one at a time. Each full-size background is let go again straight after. (The first try drew 12 full-size backgrounds every frame: too heavy, and some didn't show.)
-- **Dress-up room (step 2) memory fix:** it now loads only the kind of look on show (plus what Pip wears), not the whole wardrobe at once.
-- Built to the Job 20 rules: tray on the left edge, home / save / background / bin on the right edge, the picture centred in its own 16:9 shape. No bars at any of the five screen shapes.
-
-## Speed check (Lite, CPU slowed 4×) — needs a re-run
-- **Picture memory:** PASS. The scene maker peaked at 99 MB (budget 100). The dress-up room went from 110 MB to within budget.
-- **Frame time and the colouring fill:** these failed on this run, but the numbers are not trustworthy. Another program on this PC (a different project's test, `tests/goalworks/m20.test.mjs`, running since 5:17 pm) was keeping the CPU at 97%.
-  - Screens I didn't change got slower too: the Collection went from about 12 to 27.5 ms, and the colouring fill went from 14.8 to 70 ms.
-  - The first run today, before that program started, passed everything.
-  - Re-run `npm run qa:release -- --only=lite` on a quiet PC.
+- **New: the Adventure Trail.** A **TRAIL** button on Wonder Island, under COLLECTION, opens it.
+- **The trail:**
+  - Each day each child gets a trail of **3 short Little Missions from 3 different worlds** (missions of 6 steps or fewer).
+  - Missions the child hasn't finished come first.
+  - The trail stays the same all day, and there's a new one tomorrow.
+- **The explorer boy is the guide.** He reads his map at the start of the path and says where the next stop is ("First stop: Luna's Storybook!"). He points at the chest when all 3 stamps are in, and cheers when it's open. I used his own pictures only. He has no name in the art bible, so the game just calls him the explorer; tell me if he should have a name.
+- **The map:** a dotted path over the meadow, with 3 stops showing each world's picture and the mission's name. The next stop bounces.
+  - Tap a stop to play that mission.
+  - When it's done, the game comes straight back to the map and a red **stamp** drops onto that stop.
+  - After the third stamp, the **treasure chest** at the end bounces. Tap it: **+3 Discovery Stars**, once a day.
+- **Prizes from the missions themselves** (friends, looks, dragons) aren't lost. They show on Wonder Island the next time the child goes there.
+- **Free version:** the trail uses only the free worlds (Dino Valley and Rainbow Village). A world can then come up twice.
+- **"Daily trail" reminder (from Job 20) now works:**
+  - It is switched on like the other kinds, once, for every child.
+  - A grown-up who switches it off keeps it off.
+  - It says "Today's Adventure Trail is ready! 🗺️" at about 9:30 am the next day, within the 2-a-day cap.
+  - Tapping it opens the trail.
+- **Art check:** the explorer's pictures used to be listed as "role not decided"; they are now in use. All 973 pictures are now used except 8 left out on purpose.
+- Built to the Job 20 rules. No bars at any of the five screen shapes (24 screens × 5 shapes).
 
 ## Not done
-- Nothing else for this step.
+- Nothing for this step.
 
 ## What Aaron needs to do
-- On the tablet: Collection → MY PICTURES → MAKE A SCENE. Build a scene, save it, then reopen it from My Pictures.
-- Re-run the Lite speed check when the PC is quiet.
+- On the tablet: Wonder Island → TRAIL. Play the first stop and see the stamp land. Finish all 3 and open the chest. Look again tomorrow for a new trail.
+- Decide whether the explorer boy should have a name.
 
 ## Checks / commit
-- `npm run check`: PASS (new tests: pick a background, tap and drag stickers in, move, size, bin, the 30-thing cap, save, reopen, leaving keeps changes, free version, the ways in). `npm run standalone`: PASS. `npm run qa:shapes`: no bars.
-- Commit: see `git log` ("Job 19 step 3"). Pushed. No APK (Android Studio / Java 21 still missing).
+- `npm run check`: PASS (new tests: 3 different worlds, short missions, same all day / new tomorrow, free worlds only, stamps, chest once a day, back to the map after a mission, the reminder, old saves). `npm run standalone`: PASS. `npm run qa:shapes`: no bars.
+- Lite speed check: still needs re-running on a quiet PC (see the step 3 note: another program was using this PC's CPU).
+- Commit: see `git log` ("Job 19 step 4"). Pushed. No APK (Android Studio / Java 21 still missing).

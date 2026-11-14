@@ -63,6 +63,42 @@ export async function checkJob19({ root, FakeCanvasContext, sceneAudio }) {
       // Older saves get an empty dress-up outfit.
       const old = JSON.parse(JSON.stringify(save.root)); delete old.profileStates[kid.id].dressUp; assert.deepEqual(save.migrate(old).profileStates[kid.id].dressUp, { worn: {} });
     }
+    // ---- Step 3: sticker book / scene maker ----
+    {
+      const { SceneMakerScene, MAX_THINGS, DRAWN_BACKGROUNDS } = await import('../src/scenes/SceneMakerScene.js');
+      const sm = new SceneMakerScene(game); await sm.enter(); assert.equal(sm.mode, 'pick', 'Starts with the backgrounds');
+      const bgs = sm.backgrounds(); assert.ok(bgs.length >= 20 && bgs.filter(b => !b.startsWith('theme:')).every(b => manifestIds.has(b)), 'Picture backgrounds and the drawn worlds');
+      sm.render(new FakeCanvasContext());
+      tap(sm, 170 + 180, 210 + 100); assert.equal(sm.mode, 'make', 'Tap a background: making'); assert.equal(sm.bg, bgs[0]);
+      sm.render(new FakeCanvasContext());
+      // Tap a sticker: it drops in the middle; drag one onto the picture: it lands where it was dropped.
+      const cell = i => ({ x: 24 + 215 + (i % 2) * 140, y: 130 + Math.floor(i / 2) * 150 });
+      tap(sm, cell(0).x, cell(0).y); assert.equal(sm.items.length, 1, 'Tap a sticker: it goes in');
+      sm.handlePointer({ type: 'down', ...cell(1) }); sm.handlePointer({ type: 'move', x: 900, y: 500 }); sm.handlePointer({ type: 'move', x: 1300, y: 600 }); sm.handlePointer({ type: 'up', x: 1300, y: 600 });
+      assert.equal(sm.items.length, 2); const placed = sm.items[1]; assert.ok(Math.abs(placed.x - (1300 - 470) / (1280 / 1920)) < 2, 'Dropped where the finger let go');
+      assert.ok(sm.trayItems().every(id => manifestIds.has(id)) && sm.trayItems().length > 8, 'The colouring studio\'s sticker groups');
+      // Move it, size it, bin it.
+      const at = it => { const b = sm.box(it); return { x: 470 + it.x * (1280 / 1920), y: 70 + (b.y + b.h / 2) * (1280 / 1920) }; };
+      let p = at(placed); sm.handlePointer({ type: 'down', ...p }); sm.handlePointer({ type: 'move', x: p.x - 200, y: p.y }); sm.handlePointer({ type: 'up', x: p.x - 200, y: p.y }); assert.ok(placed.x < 1245 - 250, 'Dragged: it moves');
+      p = at(placed); tap(sm, p.x, p.y); assert.equal(sm.selected, placed, 'Tap it: + and − show');
+      const plus = sm.sizeSpots().find(s => s.dir > 0); tap(sm, plus.x, plus.y); assert.ok(placed.size > 1, '+ makes it bigger');
+      p = at(placed); sm.handlePointer({ type: 'down', ...p }); sm.handlePointer({ type: 'move', x: 1830, y: 650 }); sm.handlePointer({ type: 'up', x: 1830, y: 700 }); assert.equal(sm.items.length, 1, 'Dropped in the bin: gone');
+      // A cap on things for cheap tablets.
+      for (let i = 0; i < MAX_THINGS + 5; i++) sm.add(sm.trayItems()[0], { x: 900, y: 500 }); assert.equal(sm.items.length, MAX_THINGS, `At most ${MAX_THINGS} things`);
+      sm.items = sm.items.slice(0, 3); sm.render(new FakeCanvasContext());
+      // Saved to MY PICTURES and opened again from there.
+      const id = await sm.savePicture(); assert.ok(save.listPictures().some(x => x.id === id && x.kind === 'scene'), 'Saved to My Pictures');
+      const again = new SceneMakerScene(game); await again.enter({ picture: id }); assert.equal(again.mode, 'make'); assert.equal(again.bg, bgs[0]); assert.equal(again.items.length, 3, 'Opened again, everything still there');
+      again.items.pop(); again.dirty = true; again.exit(); await new Promise(r => setTimeout(r, 0)); const reopened = await save.loadPicture(id, 'data'); assert.equal(reopened.items.length, 2, 'Leaving keeps the changes');
+      assert.equal(save.listPictures().filter(x => x.id === id).length, 1, 'Same picture, not a copy');
+      // A drawn world as the background.
+      const drawn = new SceneMakerScene(game); await drawn.enter({ bg: DRAWN_BACKGROUNDS[1] }); drawn.add(drawn.trayItems()[0], { x: 900, y: 500 }); drawn.render(new FakeCanvasContext());
+      // Free in every version; ways in: Collection MY PICTURES → MAKE A SCENE, or tap a saved scene.
+      const { CollectionScene } = await import('../src/scenes/CollectionScene.js');
+      const col = new CollectionScene({ ...game, unlock: { isUnlocked: () => false, worldOpen: () => false, pageOpen: () => false } }); await col.enter?.({ tab: 'pictures' }); col.tab = 'pictures'; scenes.last = null;
+      col.handlePointer({ type: 'down', x: 1650, y: 935 }); col.handlePointer({ type: 'up', x: 1650, y: 935 }); assert.equal(scenes.last?.name, 'sceneMaker', 'MY PICTURES → MAKE A SCENE (free version too)');
+      tap(again, 1830, 100); assert.deepEqual(scenes.last, { name: 'collection', data: { tab: 'pictures' } }, 'Home: back to My Pictures');
+    }
   } finally {
     globalThis.__LL_ASSETS = oldAssets;
   }

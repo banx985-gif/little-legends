@@ -40,8 +40,11 @@ export class DressUpScene {
     this.outfit = { worn: { ...(this.game.save?.getProfileState?.()?.dressUp?.worn ?? {}) } };
     this.pip = new PipController({ x: PIP.x, y: PIP.y, scale: PIP.scale, looks: this.wearing() });
     this.mirrorPip = new PipController({ x: 0, y: 0, scale: 0.92, looks: this.wearing() });
-    this.game.assets?.loadArt?.(this.looks().map(r => lookArt(r.id)).filter(Boolean));
+    this.loadTab();
   }
+
+  // Cheap tablets: only the open kind's pictures (and what Pip wears) are loaded, not the whole wardrobe at once.
+  loadTab() { const ids = [...this.tabLooks(), ...this.wearing()].map(r => lookArt(r.id)); for (let i = 0; i < LOOK_TABS.length; i++) ids.push(lookArt(this.tabLooks(i)[0]?.id)); this.game.assets?.loadArt?.([...new Set(ids.filter(Boolean))]); }
 
   // ---- the looks ----
   looks() { return (this.game.rewards?.list?.() ?? []).filter(r => r.type === 'cosmetics' && !r.hidden && lookArt(r.id)); }
@@ -183,7 +186,7 @@ export class DressUpScene {
     if (pressed === 'camera') { this.takePhoto(); return; }
     if (pressed === 'clear') { this.clearAll(); return; }
     if (pressed === 'pip') { this.pip.react?.('celebrate', { duration: 1.2 }); this.game.audio?.playCue?.('bounce'); return; }
-    if (pressed.startsWith('tab:')) { this.tab = Number(pressed.slice(4)); this.page = 0; this.game.audio?.playCue?.('tab'); return; }
+    if (pressed.startsWith('tab:')) { this.tab = Number(pressed.slice(4)); this.page = 0; this.loadTab(); this.game.audio?.playCue?.('tab'); return; }
     if (pressed.startsWith('arrow:')) { const pages = Math.ceil(this.tabLooks().length / PER_PAGE); this.page = Math.max(0, Math.min(pages - 1, this.page + Number(pressed.slice(6)))); this.game.audio?.playCue?.('page'); }
   }
 }

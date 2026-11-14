@@ -29,7 +29,7 @@ const STAMP_PANEL = { x: 200, y: 24, w: 160, h: 855 }, stampSpot = i => ({ x: 28
 const STICKER_BOX = 220; // page units across for a sticker of size 1
 // The sticker tray: picture groups from the art manifest (no backgrounds, no rare dragons).
 const TRAY = { x: 200, y: 24, w: 800, h: 855 };
-const TRAY_GROUPS = [
+export const TRAY_GROUPS = [ // Job 19: the scene maker uses the same sticker groups
   ['animals', ['creatures.'], ['creatures.dragons.']],
   ['characters', ['characters.pip.', 'characters.explorer.'], ['_face_']],
   ['food', ['objects.food.', 'objects.picnic.'], []],

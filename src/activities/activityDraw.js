@@ -26,7 +26,8 @@ export function drawActivityBackground(ctx, theme = 'meadow') {
   if (under) { globalThis.__LL_UNDER_ITEMS = null; under(ctx); }
 }
 
-function drawBackgroundOnly(ctx, theme = 'meadow') {
+// Job 19: also used by the scene maker to draw a world's background into its picture.
+export function drawBackgroundOnly(ctx, theme = 'meadow') {
   const meadowArt = art('art.meadow_picnic_clearing') ?? globalThis.__LL_ASSETS?.get?.('meadow-picnic-bg');
   if (theme === 'meadow' && meadowArt?.width) { drawFullScreen(ctx, meadowArt); return; }
   const scene = art(backgroundArt(theme));
